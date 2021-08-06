@@ -14,10 +14,6 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import java.util.*
 
-const val secret = "secret"
-const val issuer = "http://0.0.0.0:8080/"
-const val audience = "http://0.0.0.0:8080/hello"
-
 fun Application.configureAuthRouting() {
     routing {
         authenticate("auth-oauth-discord") {
@@ -25,6 +21,10 @@ fun Application.configureAuthRouting() {
                 // redirects to authorize url
             }
             get("/callback") {
+                val secret = environment.config.property("jwt.secret").getString()
+                val issuer = environment.config.property("jwt.issuer").getString()
+                val audience = environment.config.property("jwt.audience").getString()
+
                 val token = JWT.create()
                     .withAudience(audience)
                     .withIssuer(issuer)
@@ -40,7 +40,7 @@ fun Application.configureAuthRouting() {
     }
 }
 
-fun Application.module() {
+fun Application.authModule() {
     install(Authentication) {
         oauth("auth-oauth-discord") {
             urlProvider = { "http://localhost:8080/callback" }
@@ -58,6 +58,10 @@ fun Application.module() {
             client = httpClient
         }
         jwt("auth-jwt") {
+            val secret = environment.config.property("jwt.secret").getString()
+            val issuer = environment.config.property("jwt.issuer").getString()
+            val audience = environment.config.property("jwt.audience").getString()
+
             verifier(JWT
                 .require(Algorithm.HMAC256(secret))
                 .withAudience(audience)
