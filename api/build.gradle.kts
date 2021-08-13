@@ -5,6 +5,7 @@ val logback_version: String by project
 plugins {
     application
     kotlin("jvm") version "1.5.21"
+    kotlin("plugin.serialization") version "1.5.21"
 }
 
 group = "com.gmtkgamejam"
@@ -21,6 +22,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("io.ktor:ktor-auth:$ktor_version")
+    implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
