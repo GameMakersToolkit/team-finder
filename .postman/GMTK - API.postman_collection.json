@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "f33fe709-5d26-4b3f-a287-b5bb90d34d6a",
+		"name": "GMTK - API",
+		"description": "The Team Finder API handles the creation, management and administration of Teams within the project.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "List Teams",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/teams",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"teams"
+							]
+						},
+						"description": "Get a list of all teams.\n\nTODO: limiting, pagination, filtering etc."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Team",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsetMask\": 255,\n    \"languages\": \"TestValue\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/teams",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"teams"
+							]
+						},
+						"description": "Create a new Team"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Team",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_ADDRESS}}/teams/{{TEAM_ID}}",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"teams",
+								"{{TEAM_ID}}"
+							]
+						},
+						"description": "Get a specific team by internal ID. Currently used for development purposes only."
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Team",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_ADDRESS}}/teams/mine",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"teams",
+								"mine"
+							]
+						},
+						"description": "A less exploitable reference for a logged-in user to view their own Team.\n\nUsed when showing the Manage Team page, to populate form fields."
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Team",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author\": \"TestValue2\",\n    \"authorId\": \"TestValue2\",\n    \"description\": \"TestValue2\",\n    \"skillsetMask\": 254,\n    \"languages\": \"TestValue2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/teams/mine",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"teams",
+								"mine"
+							]
+						},
+						"description": "Update a Team with the details a participant is able to change."
+					},
+					"response": []
+				},
+				{
+					"name": "Report Team",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/teams/report",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"teams",
+								"report"
+							]
+						},
+						"description": "Report a Team as breaking site rules."
+					},
+					"response": []
+				}
+			],
+			"description": "The /teams resource handles everything for the concept of a \"Team\" - an entity which groups a set of participants together. A Team advertises itself as \"Looking for Skills\" from jam participants."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_ADDRESS",
+			"value": "0.0.0.0:8080"
+		},
+		{
+			"key": "TEAM_ID",
+			"value": "1"
+		}
+	]
+}
