@@ -50,8 +50,8 @@ fun Application.authModule() {
                     authorizeUrl = "https://discord.com/api/oauth2/authorize",
                     accessTokenUrl = "https://discord.com/api/oauth2/token",
                     requestMethod = HttpMethod.Post,
-                    clientId = System.getenv("DISCORD_CLIENT_ID"),
-                    clientSecret = System.getenv("DISCORD_CLIENT_SECRET"),
+                    clientId = environment.config.property("secrets.discord.client.id").getString(),
+                    clientSecret = environment.config.property("secrets.discord.client.secret").getString(),
                     defaultScopes = listOf("identify")
                 )
             }
