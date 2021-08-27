@@ -5,6 +5,7 @@ import com.gmtkgamejam.plugins.configureRouting
 import com.gmtkgamejam.plugins.configureTeamRouting
 import io.ktor.application.*
 import io.ktor.features.*
+import io.ktor.http.*
 import io.ktor.serialization.*
 import kotlinx.serialization.json.Json
 
@@ -16,6 +17,13 @@ fun Application.module() {
             prettyPrint = true
             isLenient = true
         })
+        // FIXME: Only suppress CORS until we can easily sort it
+        install(CORS)
+        {
+            method(HttpMethod.Options)
+            header(HttpHeaders.XForwardedProto)
+            anyHost()
+        }
     }
 
     configureRouting()
