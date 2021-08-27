@@ -1,0 +1,196 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "",
+      "variables": {}
+    }
+  ],
+  "info": {
+    "version": "f33fe709-5d26-4b3f-a287-b5bb90d34d6a",
+    "title": "GMTK - API",
+    "description": "The Team Finder API handles the creation, management and administration of Teams within the project.",
+    "termsOfService": "",
+    "contact": {},
+    "license": {
+      "name": ""
+    }
+  },
+  "paths": {
+    "/teams": {
+      "get": {
+        "summary": "List Teams",
+        "description": "Get a list of all teams.\n\nTODO: limiting, pagination, filtering etc.",
+        "operationId": "ListTeams",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "tags": [
+          "Teams"
+        ]
+      },
+      "post": {
+        "summary": "Create Team",
+        "description": "Create a new Team",
+        "operationId": "CreateTeam",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "requestBody": {
+          "description": "Create a new Team",
+          "required": true,
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string",
+                "example": {
+                  "author": "TestValue",
+                  "authorId": "TestValue",
+                  "description": "TestValue",
+                  "skillsetMask": 255,
+                  "languages": "TestValue"
+                }
+              },
+              "example": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsetMask\": 255,\n    \"languages\": \"TestValue\"\n}"
+            }
+          }
+        },
+        "tags": [
+          "Teams"
+        ]
+      }
+    },
+    "/teams/{TEAM_ID}": {
+      "get": {
+        "summary": "Get Specific Team",
+        "description": "Get a specific team by internal ID. Currently used for development purposes only.",
+        "operationId": "GetSpecificTeam",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TEAM_ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "tags": [
+          "Teams"
+        ]
+      }
+    },
+    "/teams/mine": {
+      "get": {
+        "summary": "Get My Team",
+        "description": "A less exploitable reference for a logged-in user to view their own Team.\n\nUsed when showing the Manage Team page, to populate form fields.",
+        "operationId": "GetMyTeam",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "tags": [
+          "Teams"
+        ]
+      },
+      "put": {
+        "summary": "Update My Team",
+        "description": "Update a Team with the details a participant is able to change.",
+        "operationId": "UpdateMyTeam",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "requestBody": {
+          "description": "Update a Team with the details a participant is able to change.",
+          "required": true,
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string",
+                "example": {
+                  "author": "TestValue2",
+                  "authorId": "TestValue2",
+                  "description": "TestValue2",
+                  "skillsetMask": 254,
+                  "languages": "TestValue2"
+                }
+              },
+              "example": "{\n    \"author\": \"TestValue2\",\n    \"authorId\": \"TestValue2\",\n    \"description\": \"TestValue2\",\n    \"skillsetMask\": 254,\n    \"languages\": \"TestValue2\"\n}"
+            }
+          }
+        },
+        "tags": [
+          "Teams"
+        ]
+      }
+    },
+    "/teams/report": {
+      "post": {
+        "summary": "Report Team",
+        "description": "Report a Team as breaking site rules.",
+        "operationId": "ReportTeam",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "requestBody": {
+          "description": "Report a Team as breaking site rules.",
+          "required": true,
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string",
+                "example": {}
+              },
+              "example": "{\n\n}"
+            }
+          }
+        },
+        "tags": [
+          "Teams"
+        ]
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "TEAM_ID": {
+        "name": "TEAM_ID",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "schema": {
+          "type": "string",
+          "example": "TEAM_ID"
+        }
+      }
+    }
+  },
+  "security": [],
+  "tags": [],
+  "externalDocs": {
+    "url": "",
+    "description": ""
+  },
+  "warnings": []
+}
