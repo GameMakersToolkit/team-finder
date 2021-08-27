@@ -19,4 +19,21 @@ data class Team (
     var deletedAt: String?,
 
     var reportCount: Int
-)
+) {
+    companion object {
+        fun fromCreateDto(dto: TeamCreateDto): Team {
+            return Team(
+                99999,
+                dto.author,
+                dto.authorId,
+                dto.description,
+                dto.skillsetMask,
+                dto.languages,
+                "CREATED",
+                "UPDATED",
+                "DELETED",
+                0
+            )
+        }
+    }
+}
