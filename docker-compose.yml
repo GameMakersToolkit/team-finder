@@ -7,3 +7,5 @@ services:
     restart: on-failure
     ports:
       - "8080:8080"
+    env_file:
+      - ./.env
