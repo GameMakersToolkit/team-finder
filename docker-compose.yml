@@ -9,3 +9,10 @@ services:
       - "8080:8080"
     env_file:
       - ./api/.env
+
+  ui:
+    container_name: team-finder-ui
+    build: ./ui
+    restart: on-failure
+    ports:
+      - "3000:3000"
