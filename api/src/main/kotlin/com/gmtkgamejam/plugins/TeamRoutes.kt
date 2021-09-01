@@ -2,6 +2,7 @@ package com.gmtkgamejam.plugins;
 
 import com.gmtkgamejam.models.Team
 import com.gmtkgamejam.models.TeamCreateDto
+import com.gmtkgamejam.services.TeamService
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
@@ -23,8 +24,12 @@ fun Application.configureTeamRouting() {
             post {
                 val data = call.receive<TeamCreateDto>()
                 val team: Team = Team.fromCreateDto(data)
+
                 teams.add(team)
-                call.respond(teams)
+                val service = TeamService()
+                service.doThing(team)
+
+                call.respond(team)
             }
             get("{id}") {
                 val id = call.parameters["id"]!!.toInt()
