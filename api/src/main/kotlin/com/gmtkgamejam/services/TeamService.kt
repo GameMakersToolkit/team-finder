@@ -5,7 +5,10 @@ import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.litote.kmongo.eq
+import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollection
+import org.litote.kmongo.updateOne
 
 class TeamService : KoinComponent {
 
@@ -17,8 +20,24 @@ class TeamService : KoinComponent {
         val database = client.getDatabase("teams")
         col = database.getCollection()
     }
-    fun doThing(team: Team) {
+    fun createTeam(team: Team) {
         col.insertOne(team)
+    }
+
+    fun getTeams(): List<Team> {
+        return col.find().toList()
+    }
+
+    fun getTeam(id: Long) : Team? {
+        return col.findOne(Team::id eq id)
+    }
+
+    fun updateTeam(team: Team) {
+        col.updateOne(Team::id eq team.id, team)
+    }
+
+    fun deleteTeam(team: Team) {
+        col.deleteOne(Team::id eq team.id)
     }
 
 }

@@ -10,6 +10,7 @@ import io.ktor.http.*
 import io.ktor.serialization.*
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
+import org.koin.environmentProperties
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -29,6 +30,7 @@ fun Application.module() {
     }
 
     startKoin {
+        environmentProperties()
         modules(DatabaseModule)
     }
 

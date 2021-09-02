@@ -2,6 +2,8 @@ package com.gmtkgamejam.plugins;
 
 import com.gmtkgamejam.models.Team
 import com.gmtkgamejam.models.TeamCreateDto
+import com.gmtkgamejam.models.TeamDeleteDto
+import com.gmtkgamejam.models.TeamReportDto
 import com.gmtkgamejam.services.TeamService
 import io.ktor.application.*
 import io.ktor.http.*
@@ -10,40 +12,43 @@ import io.ktor.response.*
 import io.ktor.routing.*
 
 fun Application.configureTeamRouting() {
-    val teams = mutableListOf(
-        Team(1, "Dotwo", "1", "Test Team 1", 255, "en", "2021-08-13 14:51:00", "2021-08-13 14:51:00", "2021-08-13 14:51:01",  0),
-        Team(2, "Slam", "2", "Test Team 2", 255, "en", "2021-08-13 14:51:01", "2021-08-13 14:51:01", "",  0),
-        Team(3, "Brysen", "3", "Test Team 3", 255, "en", "2021-08-13 14:51:02", "2021-08-13 14:51:02", "",  0),
-        Team(4, "Dotwo", "1", "Test Team 4", 255, "en", "2021-08-13 14:51:03", "2021-08-13 14:51:03", "",  0),
-    )
+    val service = TeamService()
+
     routing {
         route("/teams") {
             get {
-                call.respond(teams)
+                call.respond(service.getTeams())
             }
             post {
                 val data = call.receive<TeamCreateDto>()
-                val team: Team = Team.fromCreateDto(data)
+                val team = Team.fromCreateDto(data)
 
-                teams.add(team)
-                val service = TeamService()
-                service.doThing(team)
-
+                service.createTeam(team)
                 call.respond(team)
             }
             get("{id}") {
-                val id = call.parameters["id"]!!.toInt()
-                call.respond(teams[id - 1])
+                val id = call.parameters["id"]!!.toLong()
+                val team = service.getTeam(id)
+
+                if (team == null) {
+                    call.respondText("Team not found", status = HttpStatusCode.NotFound)
+                }
+
+                call.respond(team!!)
             }
 
             route("/mine") {
                 get {
-                    call.respond(teams[0])
+                    // TODO: Pull ID from auth payload when set up
+                    val team = service.getTeam(1)
+                    call.respond(team!!)
                 }
 
                 put {
                     val data = call.receive<TeamCreateDto>()
-                    val team = teams[0]
+                    // TODO: Pull ID from auth payload when set up
+                    val team = service.getTeam(1)!!
+
                     // FIXME: Don't just brute force update all given fields
                     team.author = data.author.ifEmpty { team.author }
                     team.authorId = data.authorId.ifEmpty { team.authorId }
@@ -51,12 +56,20 @@ fun Application.configureTeamRouting() {
                     team.skillsetMask = data.skillsetMask
                     team.languages = data.languages.ifEmpty { team.languages }
 
-                    teams[0] = team
-                    call.respond(teams[0])
+                    service.updateTeam(team)
+                    call.respond(team)
                 }
 
                 delete {
-                    teams.removeAt(0)
+                    // TODO: Manage user team, not just any ID
+                    val data = call.receive<TeamDeleteDto>()
+                    val team = service.getTeam(data.teamId)
+
+                    if (team == null) {
+                        call.respondText("Team not found", status = HttpStatusCode.NotFound)
+                    }
+
+                    service.deleteTeam(team!!)
                     call.respondText("Team deleted", status = HttpStatusCode.OK)
                 }
             }
@@ -64,8 +77,16 @@ fun Application.configureTeamRouting() {
             route("/report")
             {
                 post {
-                    teams[0].reportCount++
-                    call.respondText("Report received", status = HttpStatusCode.OK)
+                    val data = call.receive<TeamReportDto>()
+                    val team = service.getTeam(data.teamId)
+
+                    if (team == null) {
+                        call.respondText("Team not found", status = HttpStatusCode.NotFound)
+                    }
+
+                    team!!.reportCount++
+                    service.updateTeam(team)
+                    call.respond(team)
                 }
             }
         }

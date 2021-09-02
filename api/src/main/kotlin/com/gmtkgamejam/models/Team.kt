@@ -23,16 +23,16 @@ data class Team (
     companion object {
         fun fromCreateDto(dto: TeamCreateDto): Team {
             return Team(
-                99999,
-                dto.author,
-                dto.authorId,
-                dto.description,
-                dto.skillsetMask,
-                dto.languages,
-                "CREATED",
-                "UPDATED",
-                "DELETED",
-                0
+                id = 99999,
+                author = dto.author,
+                authorId = dto.authorId,
+                description = dto.description,
+                skillsetMask = dto.skillsetMask,
+                languages = dto.languages,
+                createdAt = "CREATED",
+                updatedAt = "UPDATED",
+                deletedAt = "DELETED",
+                reportCount = 0
             )
         }
     }
