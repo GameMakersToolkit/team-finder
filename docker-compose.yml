@@ -19,6 +19,11 @@ services:
     ports:
       - "27017:27017"
 
+  db-seed:
+    build: ./db/seed
+    links:
+      - db
+
   db-viewer:
     image: mongo-express
     restart: always
