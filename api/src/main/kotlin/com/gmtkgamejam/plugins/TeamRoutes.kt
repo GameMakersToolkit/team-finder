@@ -1,5 +1,6 @@
 package com.gmtkgamejam.plugins;
 
+import com.gmtkgamejam.models.Skills
 import com.gmtkgamejam.models.Team
 import com.gmtkgamejam.models.TeamCreateDto
 import io.ktor.application.*
@@ -10,10 +11,10 @@ import io.ktor.routing.*
 
 fun Application.configureTeamRouting() {
     val teams = mutableListOf(
-        Team(1, "Dotwo", "1", "Test Team 1", 255, "en", "2021-08-13 14:51:00", "2021-08-13 14:51:00", "2021-08-13 14:51:01",  0),
-        Team(2, "Slam", "2", "Test Team 2", 255, "en", "2021-08-13 14:51:01", "2021-08-13 14:51:01", "",  0),
-        Team(3, "Brysen", "3", "Test Team 3", 255, "en", "2021-08-13 14:51:02", "2021-08-13 14:51:02", "",  0),
-        Team(4, "Dotwo", "1", "Test Team 4", 255, "en", "2021-08-13 14:51:03", "2021-08-13 14:51:03", "",  0),
+        Team(1, "Dotwo", "1", "Test Team 1", 255, Skills.fromBitwiseId(255), "en", "2021-08-13 14:51:00", "2021-08-13 14:51:00", "2021-08-13 14:51:01",  0),
+        Team(2, "Slam", "2", "Test Team 2", 255, Skills.fromBitwiseId(255), "en", "2021-08-13 14:51:01", "2021-08-13 14:51:01", "",  0),
+        Team(3, "Brysen", "3", "Test Team 3", 255, Skills.fromBitwiseId(255), "en", "2021-08-13 14:51:02", "2021-08-13 14:51:02", "",  0),
+        Team(4, "Dotwo", "1", "Test Team 4", 255, Skills.fromBitwiseId(255), "en", "2021-08-13 14:51:03", "2021-08-13 14:51:03", "",  0),
     )
     routing {
         route("/teams") {
