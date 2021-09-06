@@ -7,7 +7,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
-import org.litote.kmongo.getCollection
+import org.litote.kmongo.getCollectionOfName
 import org.litote.kmongo.updateOne
 
 class TeamService : KoinComponent {
@@ -17,8 +17,8 @@ class TeamService : KoinComponent {
     private val col: MongoCollection<Team>
 
     init {
-        val database = client.getDatabase("teams")
-        col = database.getCollection()
+        val database = client.getDatabase("team-finder")
+        col = database.getCollectionOfName("teams")
     }
     fun createTeam(team: Team) {
         col.insertOne(team)
