@@ -19,6 +19,7 @@ fun Application.configureTeamRouting() {
             get {
                 call.respond(service.getTeams())
             }
+
             post {
                 val data = call.receive<TeamCreateDto>()
                 val team = Team.fromCreateDto(data)
@@ -26,51 +27,50 @@ fun Application.configureTeamRouting() {
                 service.createTeam(team)
                 call.respond(team)
             }
+
             get("{id}") {
-                val id = call.parameters["id"]!!.toLong()
-                val team = service.getTeam(id)
-
-                if (team == null) {
-                    call.respondText("Team not found", status = HttpStatusCode.NotFound)
-                }
-
-                call.respond(team!!)
+                val team = call.parameters["id"]?.toLong()?.let { service.getTeam(it) }
+                team?.let { call.respond(it) }
+                call.respondText("Team not found", status = HttpStatusCode.NotFound)
             }
 
             route("/mine") {
                 get {
                     // TODO: Pull ID from auth payload when set up
-                    val team = service.getTeam(1)
-                    call.respond(team!!)
+                    service.getTeam(1)?.let { call.respond(it) }
+                    call.respondText("Team not found", status = HttpStatusCode.NotFound)
                 }
 
                 put {
                     val data = call.receive<TeamCreateDto>()
                     // TODO: Pull ID from auth payload when set up
-                    val team = service.getTeam(1)!!
+                    service.getTeam(1)?.let {
+                        // FIXME: Don't just brute force update all given fields
+                        it.author = data.author.ifEmpty { it.author }
+                        it.authorId = data.authorId.ifEmpty { it.authorId }
+                        it.description = data.description.ifEmpty { it.description }
+                        it.skillsetMask = data.skillsetMask
+                        it.languages = data.languages.ifEmpty { it.languages }
 
-                    // FIXME: Don't just brute force update all given fields
-                    team.author = data.author.ifEmpty { team.author }
-                    team.authorId = data.authorId.ifEmpty { team.authorId }
-                    team.description = data.description.ifEmpty { team.description }
-                    team.skillsetMask = data.skillsetMask
-                    team.languages = data.languages.ifEmpty { team.languages }
+                        service.updateTeam(it)
+                        call.respond(it)
+                    }
 
-                    service.updateTeam(team)
-                    call.respond(team)
+                    // TODO: Replace BadRequest with contextual response
+                    call.respondText("Could not update team", status = HttpStatusCode.BadRequest)
                 }
 
                 delete {
                     // TODO: Manage user team, not just any ID
                     val data = call.receive<TeamDeleteDto>()
-                    val team = service.getTeam(data.teamId)
 
-                    if (team == null) {
-                        call.respondText("Team not found", status = HttpStatusCode.NotFound)
+                    service.getTeam(data.teamId)?.let {
+                        service.deleteTeam(it)
+                        call.respondText("Team deleted", status = HttpStatusCode.OK)
                     }
 
-                    service.deleteTeam(team!!)
-                    call.respondText("Team deleted", status = HttpStatusCode.OK)
+                    // TODO: Replace BadRequest with contextual response
+                    call.respondText("Could not delete team", status = HttpStatusCode.BadRequest)
                 }
             }
 
@@ -78,15 +78,14 @@ fun Application.configureTeamRouting() {
             {
                 post {
                     val data = call.receive<TeamReportDto>()
-                    val team = service.getTeam(data.teamId)
 
-                    if (team == null) {
-                        call.respondText("Team not found", status = HttpStatusCode.NotFound)
+                    service.getTeam(data.teamId)?.let {
+                        it.reportCount++
+                        service.updateTeam(it)
+                        call.respond(it)
                     }
 
-                    team!!.reportCount++
-                    service.updateTeam(team)
-                    call.respond(team)
+                    call.respondText("Team not found", status = HttpStatusCode.NotFound)
                 }
             }
         }
