@@ -1,5 +1,6 @@
 package com.gmtkgamejam.plugins;
 
+import com.gmtkgamejam.models.Skills
 import com.gmtkgamejam.models.Team
 import com.gmtkgamejam.models.TeamCreateDto
 import com.gmtkgamejam.models.TeamDeleteDto
@@ -12,6 +13,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 
 fun Application.configureTeamRouting() {
+
     val service = TeamService()
 
     routing {

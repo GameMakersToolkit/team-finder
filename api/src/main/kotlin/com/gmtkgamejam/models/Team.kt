@@ -9,7 +9,9 @@ data class Team (
     var author: String,
     var authorId: String,
     var description: String,
+
     var skillsetMask: Int,
+    var skills: List<Skills>,
 
     var languages: String,
 
@@ -20,6 +22,7 @@ data class Team (
 
     var reportCount: Int
 ) {
+
     companion object {
         fun fromCreateDto(dto: TeamCreateDto): Team {
             return Team(
@@ -28,6 +31,7 @@ data class Team (
                 dto.authorId,
                 dto.description,
                 dto.skillsetMask,
+                Skills.fromBitwiseId(dto.skillsetMask),
                 dto.languages,
                 "CREATED",
                 "UPDATED",
