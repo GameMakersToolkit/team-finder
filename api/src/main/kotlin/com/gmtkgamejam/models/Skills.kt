@@ -1,8 +1,8 @@
 package com.gmtkgamejam.models
 
 enum class Skills(val bitwiseId: Int) {
-    `2D_ART`(1),
-    `3D_ART`(2),
+    ART_2D(1),
+    ART_3D(2),
     CODE(4),
     DESIGN_PRODUCTION(8),
     SOUND_MUSIC(16),
