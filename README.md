@@ -14,8 +14,9 @@ Run the apps with the following environment variables, set in the IDE/on the com
 
 * DISCORD_CLIENT_ID={get client ID}
 * DISCORD_CLIENT_SECRET={get client secret}
-  
-Update the values to be as seen on our app page: https://discord.com/developers/teams
+
+If you have access to the Team Finder app in Discord, the ID/secret are [here](https://discord.com/developers/teams).
+If not, message Dotwo to get access.
 
 ### Docker
 
