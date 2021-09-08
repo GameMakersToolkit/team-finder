@@ -34,7 +34,9 @@ fun Application.configureAuthRouting() {
 
                 val principal: OAuthAccessTokenResponse.OAuth2? = call.principal()
                 println(principal)
-                call.respondRedirect("/hello?token=$token")
+
+                val redirectTarget = environment.config.property("ui.host").getString()
+                call.respondRedirect("$redirectTarget/login/authorized?token=$token")
             }
         }
     }
