@@ -20,7 +20,7 @@ Update the values to be as seen on our app page: https://discord.com/developers/
 ### Docker
 
 #### API
-* Copy the file `api/.env.example` to a new file called `api/.env`
+* Copy the file `.env.example` to a new file called `.env`
 ** Update the values to be as seen on our app page: https://discord.com/developers/teams
 * Navigate to the root of the project
 * Run `docker compose up -d`
