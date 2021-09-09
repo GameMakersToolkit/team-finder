@@ -128,13 +128,41 @@
 					"response": []
 				},
 				{
+					"name": "Delete My Team",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"teamId\": 99999\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/teams/mine",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"teams",
+								"mine"
+							]
+						},
+						"description": "Update a Team with the details a participant is able to change."
+					},
+					"response": []
+				},
+				{
 					"name": "Report Team",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n}",
+							"raw": "{\n    \"teamId\": 99999\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -157,6 +185,106 @@
 				}
 			],
 			"description": "The /teams resource handles everything for the concept of a \"Team\" - an entity which groups a set of participants together. A Team advertises itself as \"Looking for Skills\" from jam participants."
+		},
+		{
+			"name": "Discord",
+			"item": [
+				{
+					"name": "User Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ ACCESS_TOKEN }}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://discordapp.com/api/users/@me",
+							"protocol": "https",
+							"host": [
+								"discordapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"@me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Guilds Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ ACCESS_TOKEN }}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://discordapp.com/api/users/@me/guilds",
+							"protocol": "https",
+							"host": [
+								"discordapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"@me",
+								"guilds"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "UserInfo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_ADDRESS}}/userinfo",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"userinfo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -187,6 +315,14 @@
 		{
 			"key": "TEAM_ID",
 			"value": "1"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "access-token-here"
+		},
+		{
+			"key": "JWT",
+			"value": "jwt-here"
 		}
 	]
 }
