@@ -2,15 +2,20 @@ package com.gmtkgamejam.plugins
 
 import com.gmtkgamejam.models.DiscordGuildInfo
 import com.gmtkgamejam.models.DiscordUserInfo
+import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
 fun Application.configureRouting() {
+
+    val service = AuthService()
+
     routing {
         get("/") {
             call.respondText("Hello World!")
@@ -28,28 +33,35 @@ fun Application.configureRouting() {
                 val userInfo = "https://discordapp.com/api/users/@me"
                 val guildInfo = "https://discordapp.com/api/users/@me/guilds"
 
-                // TODO: Retrieve from JWT auth
-                val accessToken = "7XMJFt9Wg8eqYfA8ubMmJBbZD08UCA"
+                // TODO: This is definitely not how this works
+                val jwt = call.request.header("Authorization")!!.substring(7)
+                service.getOAuthPrincipal(jwt)?.let {
 
-                val client = httpClient
-                val user: DiscordUserInfo = client.get(userInfo) {
-                    headers {
-                        append(HttpHeaders.Accept, "application/json")
-                        append(HttpHeaders.Authorization, "Bearer $accessToken")
+                    // TODO: If tokens are expired
+                    val accessToken = it.accessToken
+
+                    val client = httpClient
+                    val user: DiscordUserInfo = client.get(userInfo) {
+                        headers {
+                            append(HttpHeaders.Accept, "application/json")
+                            append(HttpHeaders.Authorization, "Bearer $accessToken")
+                        }
                     }
+
+                    val guilds: Array<DiscordGuildInfo> = client.get(guildInfo) {
+                        headers {
+                            append(HttpHeaders.Accept, "application/json")
+                            append(HttpHeaders.Authorization, "Bearer $accessToken")
+                        }
+                    }
+
+                    user.is_in_guild = guilds.any { guild -> guild.id == "248204508960653312" }
+
+                    client.close()
+                    call.respond(user)
                 }
 
-                val guilds: Array<DiscordGuildInfo> = client.get(guildInfo) {
-                    headers {
-                        append(HttpHeaders.Accept, "application/json")
-                        append(HttpHeaders.Authorization, "Bearer $accessToken")
-                    }
-                }
-
-                 user.is_in_guild = guilds.any { guild -> guild.id == "248204508960653312" }
-
-                client.close()
-                call.respond(user)
+                call.respondText("Couldn't load token set from DB", status = HttpStatusCode.NotFound)
             }
         }
     }
