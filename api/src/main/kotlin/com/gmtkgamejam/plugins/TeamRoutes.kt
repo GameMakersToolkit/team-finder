@@ -1,6 +1,5 @@
 package com.gmtkgamejam.plugins;
 
-import com.gmtkgamejam.models.Skills
 import com.gmtkgamejam.models.Team
 import com.gmtkgamejam.models.TeamCreateDto
 import com.gmtkgamejam.models.TeamDeleteDto
@@ -32,14 +31,14 @@ fun Application.configureTeamRouting() {
 
             get("{id}") {
                 val team = call.parameters["id"]?.toLong()?.let { service.getTeam(it) }
-                team?.let { call.respond(it) }
+                team?.let { return@get call.respond(it) }
                 call.respondText("Team not found", status = HttpStatusCode.NotFound)
             }
 
             route("/mine") {
                 get {
                     // TODO: Pull ID from auth payload when set up
-                    service.getTeam(1)?.let { call.respond(it) }
+                    service.getTeam(1)?.let { return@get call.respond(it) }
                     call.respondText("Team not found", status = HttpStatusCode.NotFound)
                 }
 
@@ -55,7 +54,7 @@ fun Application.configureTeamRouting() {
                         it.languages = data.languages.ifEmpty { it.languages }
 
                         service.updateTeam(it)
-                        call.respond(it)
+                        return@put call.respond(it)
                     }
 
                     // TODO: Replace BadRequest with contextual response
@@ -68,7 +67,7 @@ fun Application.configureTeamRouting() {
 
                     service.getTeam(data.teamId)?.let {
                         service.deleteTeam(it)
-                        call.respondText("Team deleted", status = HttpStatusCode.OK)
+                        return@delete call.respondText("Team deleted", status = HttpStatusCode.OK)
                     }
 
                     // TODO: Replace BadRequest with contextual response
@@ -84,7 +83,7 @@ fun Application.configureTeamRouting() {
                     service.getTeam(data.teamId)?.let {
                         it.reportCount++
                         service.updateTeam(it)
-                        call.respond(it)
+                        return@post call.respond(it)
                     }
 
                     call.respondText("Team not found", status = HttpStatusCode.NotFound)
