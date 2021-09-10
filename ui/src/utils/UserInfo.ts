@@ -1,4 +1,7 @@
 export type UserInfo = {
-  avatar: string | undefined,
-  username: string | undefined
+  id: string,
+  username: string,
+  avatar: string,
+  discriminator: string,
+  is_in_guild: boolean,
 };

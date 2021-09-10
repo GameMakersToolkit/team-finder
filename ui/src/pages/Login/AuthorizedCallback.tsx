@@ -1,13 +1,7 @@
 import * as React from "react";
-import jwtDecode from "jwt-decode";
 import { PageHeader } from "../../components/PageHeader";
 import { useLocation } from "react-router-dom";
-import { UserInfo } from "../../utils/UserInfo";
-
-interface AssumedTokenType {
-  aud: string;
-  sub: string;
-}
+import { makeApiRequest } from "../../utils/ApiRequest";
 
 export const AuthorizedCallback: React.FC = () => {
     const query = new URLSearchParams(useLocation().search)
@@ -19,20 +13,21 @@ export const AuthorizedCallback: React.FC = () => {
       </>)
     }
 
-    const rawUserData = jwtDecode(token) as AssumedTokenType;
-
-    // .sub and .aud shouldn't be long-lived, as this is a misuse of claims
-    // Expect these to change before long
-    const userInfo: UserInfo = {
-      avatar:   rawUserData.aud,
-      username: rawUserData.sub
-    };
-
     localStorage.setItem("token", token)
-    localStorage.setItem("userData", JSON.stringify(userInfo))
 
-    // Redirect to homepage, we don't need to stay here!
-    window.location.replace("/register");
+    getUserInfo().then(async res => {
+        // TODO: Actually cast data, instead of capture everything
+        const userInfo = await res.json()
+        localStorage.setItem("userData", JSON.stringify(userInfo))
 
-    return null
+        // Redirect to homepage, we don't need to stay here!
+        return window.location.replace("/register");
+    })
+
+    // I don't understand React enough to not need to do this
+    return (<p>Please wait...</p>)
 }
+
+export const getUserInfo = async (): Promise<Response> => {
+    return await makeApiRequest("/userinfo", "GET")
+};

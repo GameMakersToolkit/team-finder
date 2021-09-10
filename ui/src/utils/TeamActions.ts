@@ -1,4 +1,5 @@
 import {FormData} from "../pages/Register/Register";
+import { makeApiRequest } from "./ApiRequest";
 
 export interface TeamDto {
   description: string;
@@ -68,33 +69,3 @@ const teamFromForm = (formData: FormData): TeamDto => {
     skillsetMask: formData.skillsets.reduce((a, b) => a + b, 0),
   };
 };
-
-/**
- * Horrific general API request method
- * @param path
- * @param method
- * @param body
- */
-const makeApiRequest = async (path: string, method: string, body: TeamDto | undefined = undefined) => {
-  const token = localStorage.getItem("token");
-
-  const options: RequestInit = {
-    method: method,
-    mode: "cors",
-    headers: {
-      "Authorization": "Bearer " + token,
-      "Content-Type": "application/json",
-    }
-  };
-  
-  if (body) {
-    options['body'] = JSON.stringify(body);
-  }
-  
-  const res = await fetch(`${import.meta.env.VITE_API_URL}${path}`, options);
-  if(!res.ok) {
-    if(res.status == 401) window.location.replace(`${import.meta.env.VITE_API_URL}/oauth2/authorization/discord`);
-    else throw new Error(`${res.status} ${res.statusText}: ${await res.text()}`);
-  }
-  return res;
-}
