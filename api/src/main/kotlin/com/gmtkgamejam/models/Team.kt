@@ -11,7 +11,7 @@ data class Team (
     var description: String,
 
     var skillsetMask: Int,
-    var skills: List<Skills>,
+    var skills: List<Skills>?,
 
     var languages: String,
 
