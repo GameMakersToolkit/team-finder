@@ -1,4 +1,5 @@
 import {FormData} from "../pages/Register/Register";
+import { loginUrl } from "../pages/Login/Login";
 
 export interface TeamDto {
   description: string;
@@ -93,7 +94,7 @@ const makeApiRequest = async (path: string, method: string, body: TeamDto | unde
   
   const res = await fetch(`${import.meta.env.VITE_API_URL}${path}`, options);
   if(!res.ok) {
-    if(res.status == 401) window.location.replace(`${import.meta.env.VITE_API_URL}/oauth2/authorization/discord`);
+    if(res.status == 401) window.location.replace(`${loginUrl}`);
     else throw new Error(`${res.status} ${res.statusText}: ${await res.text()}`);
   }
   return res;

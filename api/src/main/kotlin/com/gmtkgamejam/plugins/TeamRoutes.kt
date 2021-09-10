@@ -1,7 +1,11 @@
 package com.gmtkgamejam.plugins;
 
+import com.gmtkgamejam.models.Skills
 import com.gmtkgamejam.models.Team
 import com.gmtkgamejam.models.TeamCreateDto
+import com.gmtkgamejam.models.TeamDeleteDto
+import com.gmtkgamejam.models.TeamReportDto
+import com.gmtkgamejam.services.TeamService
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
@@ -9,58 +13,81 @@ import io.ktor.response.*
 import io.ktor.routing.*
 
 fun Application.configureTeamRouting() {
-    val teams = mutableListOf(
-        Team(1, "Dotwo", "1", "Test Team 1", 255, "en", "2021-08-13 14:51:00", "2021-08-13 14:51:00", "2021-08-13 14:51:01",  0),
-        Team(2, "Slam", "2", "Test Team 2", 255, "en", "2021-08-13 14:51:01", "2021-08-13 14:51:01", "",  0),
-        Team(3, "Brysen", "3", "Test Team 3", 255, "en", "2021-08-13 14:51:02", "2021-08-13 14:51:02", "",  0),
-        Team(4, "Dotwo", "1", "Test Team 4", 255, "en", "2021-08-13 14:51:03", "2021-08-13 14:51:03", "",  0),
-    )
+
+    val service = TeamService()
+
     routing {
         route("/teams") {
             get {
-                call.respond(teams)
+                call.respond(service.getTeams())
             }
+
             post {
                 val data = call.receive<TeamCreateDto>()
-                val team: Team = Team.fromCreateDto(data)
-                teams.add(team)
-                call.respond(teams)
+                val team = Team.fromCreateDto(data)
+
+                service.createTeam(team)
+                call.respond(team)
             }
+
             get("{id}") {
-                val id = call.parameters["id"]!!.toInt()
-                call.respond(teams[id - 1])
+                val team = call.parameters["id"]?.toLong()?.let { service.getTeam(it) }
+                team?.let { call.respond(it) }
+                call.respondText("Team not found", status = HttpStatusCode.NotFound)
             }
 
             route("/mine") {
                 get {
-                    call.respond(teams[0])
+                    // TODO: Pull ID from auth payload when set up
+                    service.getTeam(1)?.let { call.respond(it) }
+                    call.respondText("Team not found", status = HttpStatusCode.NotFound)
                 }
 
                 put {
                     val data = call.receive<TeamCreateDto>()
-                    val team = teams[0]
-                    // FIXME: Don't just brute force update all given fields
-                    team.author = data.author.ifEmpty { team.author }
-                    team.authorId = data.authorId.ifEmpty { team.authorId }
-                    team.description = data.description.ifEmpty { team.description }
-                    team.skillsetMask = data.skillsetMask
-                    team.languages = data.languages.ifEmpty { team.languages }
+                    // TODO: Pull ID from auth payload when set up
+                    service.getTeam(1)?.let {
+                        // FIXME: Don't just brute force update all given fields
+                        it.author = data.author.ifEmpty { it.author }
+                        it.authorId = data.authorId.ifEmpty { it.authorId }
+                        it.description = data.description.ifEmpty { it.description }
+                        it.skillsetMask = data.skillsetMask
+                        it.languages = data.languages.ifEmpty { it.languages }
 
-                    teams[0] = team
-                    call.respond(teams[0])
+                        service.updateTeam(it)
+                        call.respond(it)
+                    }
+
+                    // TODO: Replace BadRequest with contextual response
+                    call.respondText("Could not update team", status = HttpStatusCode.BadRequest)
                 }
 
                 delete {
-                    teams.removeAt(0)
-                    call.respondText("Team deleted", status = HttpStatusCode.OK)
+                    // TODO: Manage user team, not just any ID
+                    val data = call.receive<TeamDeleteDto>()
+
+                    service.getTeam(data.teamId)?.let {
+                        service.deleteTeam(it)
+                        call.respondText("Team deleted", status = HttpStatusCode.OK)
+                    }
+
+                    // TODO: Replace BadRequest with contextual response
+                    call.respondText("Could not delete team", status = HttpStatusCode.BadRequest)
                 }
             }
 
             route("/report")
             {
                 post {
-                    teams[0].reportCount++
-                    call.respondText("Report received", status = HttpStatusCode.OK)
+                    val data = call.receive<TeamReportDto>()
+
+                    service.getTeam(data.teamId)?.let {
+                        it.reportCount++
+                        service.updateTeam(it)
+                        call.respond(it)
+                    }
+
+                    call.respondText("Team not found", status = HttpStatusCode.NotFound)
                 }
             }
         }
