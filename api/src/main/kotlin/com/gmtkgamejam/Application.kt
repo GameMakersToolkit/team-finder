@@ -24,7 +24,13 @@ fun Application.module() {
         install(CORS)
         {
             method(HttpMethod.Options)
+
             header(HttpHeaders.XForwardedProto)
+            header(HttpHeaders.Authorization)
+            header(HttpHeaders.ContentType)
+            header(HttpHeaders.AccessControlAllowHeaders)
+            header(HttpHeaders.AccessControlAllowOrigin)
+
             anyHost()
         }
     }
