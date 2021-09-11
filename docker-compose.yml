@@ -18,6 +18,9 @@ services:
       - "3000:3000"
     env_file:
       - ./.env
+    volumes:
+      - ./ui:/app
+      - /app/node_modules
 
   db:
     image: mongo
