@@ -2,6 +2,8 @@ package com.gmtkgamejam.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.gmtkgamejam.models.AuthTokenSet
+import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
@@ -15,6 +17,9 @@ import io.ktor.routing.*
 import java.util.*
 
 fun Application.configureAuthRouting() {
+
+    val service = AuthService()
+
     routing {
         authenticate("auth-oauth-discord") {
             get("/login") {
@@ -32,11 +37,13 @@ fun Application.configureAuthRouting() {
                     .withExpiresAt(Date(System.currentTimeMillis() + 60000))
                     .sign(Algorithm.HMAC256(secret))
 
-                val principal: OAuthAccessTokenResponse.OAuth2? = call.principal()
-                println(principal)
+                call.principal<OAuthAccessTokenResponse.OAuth2>()?.let {
+                    val tokenSet = AuthTokenSet(token, it.accessToken, it.tokenType, System.currentTimeMillis() + it.expiresIn, it.refreshToken)
+                    service.storeTokens(tokenSet)
 
-                val redirectTarget = environment.config.property("ui.host").getString()
-                call.respondRedirect("$redirectTarget/login/authorized?token=$token")
+                    val redirectTarget = environment.config.property("ui.host").getString()
+                    call.respondRedirect("$redirectTarget/login/authorized?token=$token")
+                }
             }
         }
     }

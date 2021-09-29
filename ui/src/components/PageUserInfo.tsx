@@ -9,7 +9,14 @@ import { matchifFunc } from "../utils/match";
 import { loginUrl } from "../pages/Login/Login";
 
 
-let userInfo: UserInfo = {avatar: undefined, username: undefined};
+let userInfo: UserInfo = {
+    id: "undefined",
+    username: "undefined",
+    avatar: "undefined",
+    discriminator: "undefined",
+    is_in_guild: false,
+};
+
 let storedUserData = null;
 
 
@@ -23,7 +30,13 @@ export const PageUserInfo: React.FC = () => (
     { isUserLoggedIn() ? (
         storedUserData = localStorage.getItem("userData"),
         userInfo = JSON.parse(storedUserData || '{}'),
-        <LoggedInUserInfoPanel avatar={userInfo.avatar} username={userInfo.username} />
+        <LoggedInUserInfoPanel
+            avatar={userInfo.avatar}
+            discriminator={userInfo.discriminator}
+            id={userInfo.id}
+            is_in_guild={userInfo.is_in_guild}
+            username={userInfo.username}
+        />
       ) : (
         <LoggedOutUserInfoPanel />
       )

@@ -3,7 +3,12 @@
   "servers": [
     {
       "url": "http://localhost:8080",
-      "description": "",
+      "description": "Local app",
+      "variables": {}
+    },
+    {
+      "url": "https://discordapp.com/",
+      "description": "Discord API for Discord OAuth user info",
       "variables": {}
     }
   ],
@@ -139,6 +144,21 @@
         "tags": [
           "Teams"
         ]
+      },
+      "delete": {
+        "summary": "Delete My Team",
+        "description": "Update a Team with the details a participant is able to change.",
+        "operationId": "DeleteMyTeam",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "tags": [
+          "Teams"
+        ]
       }
     },
     "/teams/report": {
@@ -160,14 +180,64 @@
             "text/plain": {
               "schema": {
                 "type": "string",
-                "example": {}
+                "example": {
+                  "teamId": 99999
+                }
               },
-              "example": "{\n\n}"
+              "example": "{\n    \"teamId\": 99999\n}"
             }
           }
         },
         "tags": [
           "Teams"
+        ]
+      }
+    },
+    "/api/users/@me": {
+      "get": {
+        "summary": "User Info",
+        "operationId": "UserInfo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "tags": [
+          "Discord"
+        ]
+      }
+    },
+    "/api/users/@me/guilds": {
+      "get": {
+        "summary": "User Guilds Info",
+        "operationId": "UserGuildsInfo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "tags": [
+          "Discord"
+        ]
+      }
+    },
+    "/userinfo": {
+      "get": {
+        "summary": "UserInfo",
+        "operationId": "UserInfo0",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "tags": [
+          "Users"
         ]
       }
     }
@@ -184,9 +254,19 @@
           "example": "TEAM_ID"
         }
       }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
     }
   },
-  "security": [],
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
   "tags": [],
   "externalDocs": {
     "url": "",
