@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { SkillsetSVG } from "./SkillsetSVG";
 import { getSkillsets } from "../utils/Skillsets";
 import { matchifFunc } from "../utils/match";
+import { loginUrl } from "../pages/Login/Login";
 
 
 let userInfo: UserInfo = {
@@ -75,7 +76,7 @@ const LoggedInUserInfoPanel: React.FC<UserInfo> = ({avatar, username}) => {
 
 const LoggedOutUserInfoPanel: React.FC = () => (
   <>
-    <a href={`${import.meta.env.VITE_API_URL}/oauth2/authorization/discord`} className="inline-block text-white text-3xl mt-8 mb-2 w-auto hover:underline">Log In{"\n"}With Discord</a>
+    <a href={`${loginUrl}`} className="inline-block text-white text-3xl mt-8 mb-2 w-auto hover:underline">Log In{"\n"}With Discord</a>
     <div className="text-white">if you want to register a Team</div>
   </>
 )

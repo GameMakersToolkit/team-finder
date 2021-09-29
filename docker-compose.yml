@@ -10,6 +10,18 @@ services:
     env_file:
       - ./.env
 
+  ui:
+    container_name: team-finder-ui
+    build: ./ui
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./ui:/app
+      - /app/node_modules
+
   db:
     image: mongo
     restart: always

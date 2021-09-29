@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export const loginUrl = `${import.meta.env.VITE_API_URL}/oauth2/authorization/discord`
+export const loginUrl = `${import.meta.env.VITE_API_URL}/login`
 
 export const Login: React.FC = () => {
 
