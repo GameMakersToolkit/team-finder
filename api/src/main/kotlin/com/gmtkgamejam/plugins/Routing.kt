@@ -15,6 +15,8 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 
 fun Application.configureRouting() {
 
@@ -44,36 +46,34 @@ fun Application.configureRouting() {
                     // TODO: If tokens are expired
                     val accessToken = it.accessToken
 
-                    // TODO: Remove duplicate clients
-                    // HttpClient duplicated to avoid [kotlinx.coroutines.JobCancellationException: Parent job is Completed]
-                    // caused by reusing a HttpClient that has finished Job execution
-
-                    val client1 = HttpClient(CIO) {
+                    val client = HttpClient(CIO) {
                         install(JsonFeature) {
                             serializer = KotlinxSerializer()
                         }
                     }
 
-                    val user: DiscordUserInfo = client1.get(userInfo) {
-                        headers {
-                            append(HttpHeaders.Accept, "application/json")
-                            append(HttpHeaders.Authorization, "Bearer $accessToken")
+                    val userRequest: Deferred<DiscordUserInfo> = async {
+                        client.get(userInfo) {
+                            headers {
+                                append(HttpHeaders.Accept, "application/json")
+                                append(HttpHeaders.Authorization, "Bearer $accessToken")
+                            }
                         }
                     }
-                    client1.close()
 
-                    val client2 = HttpClient(CIO) {
-                        install(JsonFeature) {
-                            serializer = KotlinxSerializer()
+                    val guildsRequest: Deferred<Array<DiscordGuildInfo>> = async {
+                        client.get(guildInfo) {
+                            headers {
+                                append(HttpHeaders.Accept, "application/json")
+                                append(HttpHeaders.Authorization, "Bearer $accessToken")
+                            }
                         }
                     }
-                    val guilds: Array<DiscordGuildInfo> = client2.get(guildInfo) {
-                        headers {
-                            append(HttpHeaders.Accept, "application/json")
-                            append(HttpHeaders.Authorization, "Bearer $accessToken")
-                        }
-                    }
-                    client2.close()
+
+                    val user = userRequest.await()
+                    val guilds = guildsRequest.await()
+
+                    client.close()
 
                     user.is_in_guild = guilds.any { guild -> guild.id == "248204508960653312" }
 
