@@ -20,7 +20,6 @@ services:
       - ./.env
     volumes:
       - ./ui:/app
-      - /app/node_modules
 
   db:
     image: mongo
