@@ -1,13 +1,14 @@
 package com.gmtkgamejam
 
-import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
-import kotlin.test.*
-import io.ktor.server.testing.*
-import com.gmtkgamejam.plugins.*
+import org.junit.Test
+import kotlin.test.assertEquals
 
-class ApplicationTest {
+internal class ApplicationTest {
+
+    @Test
+    fun dummyTest() {
+        val expected = 42
+        assertEquals(expected, 42)
+    }
+
 }
