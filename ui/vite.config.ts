@@ -5,6 +5,10 @@ import visualizer from "rollup-plugin-visualizer";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
+    server: {
+      host: '0.0.0.0',
+      port: 3000,
+    },
     plugins: [reactRefresh()],
     build: {
       sourcemap: mode === "production",
