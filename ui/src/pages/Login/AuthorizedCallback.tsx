@@ -25,7 +25,10 @@ export const AuthorizedCallback: React.FC = () => {
     // Expect these to change before long
     const userInfo: UserInfo = {
       avatar:   rawUserData.aud,
-      username: rawUserData.sub
+      username: rawUserData.sub,
+      id: "here-for-linting-test",
+      discriminator: "here-for-linting-test",
+      is_in_guild: false
     };
 
     localStorage.setItem("token", token)
