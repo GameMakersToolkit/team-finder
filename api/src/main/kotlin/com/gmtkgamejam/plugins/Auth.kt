@@ -52,7 +52,7 @@ fun Application.configureAuthRouting() {
 fun Application.authModule() {
     install(Authentication) {
         oauth("auth-oauth-discord") {
-            urlProvider = { "http://localhost:8080/callback" }
+            urlProvider = { environment.config.property("api.host").getString() + "/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "discord",
