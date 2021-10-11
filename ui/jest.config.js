@@ -17,5 +17,5 @@ module.exports = {
   testEnvironment: "jsdom",
 
   // Files to run before every test suite
-  setupFiles: ["<rootDir>/src/setupTests.ts"],
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 };

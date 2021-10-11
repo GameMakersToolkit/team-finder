@@ -12,7 +12,15 @@ export function createTestContext(
   options?: TestContextOptions,
   overrides: Partial<TestContext> = {}
 ): TestContext {
-  const queryClient = overrides.queryClient ?? new QueryClient();
+  const queryClient =
+    overrides.queryClient ??
+    new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+        },
+      },
+    });
   return {
     queryClient,
   };
