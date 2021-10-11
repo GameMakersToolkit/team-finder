@@ -1,8 +1,11 @@
 import * as React from "react";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { Home } from "./Home";
 import { renderWithContext } from "../../test-utils/renderWithContext";
 
-test("renders", () => {
+test("renders", async () => {
   renderWithContext(<Home />);
+  expect(
+    await screen.findByText(/Looking for a team to do the jam with?/)
+  ).not.toBe(null);
 });
