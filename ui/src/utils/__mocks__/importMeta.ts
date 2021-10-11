@@ -1,7 +1,5 @@
-export function importMeta(): unknown {
+export function importMetaEnv(): unknown {
   return {
-    env: {
-      VITE_API_URL: "https://testapi/",
-    },
+    VITE_API_URL: "https://testapi/",
   };
 }

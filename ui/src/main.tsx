@@ -8,13 +8,13 @@ import { Routes } from "./Routes";
 import { PageNavigator } from "./components/PageNavigator";
 import { PageContainer } from "./components/PageContainer";
 import { StatusMessenger } from "./components/StatusMessenger";
-import { importMeta } from "./utils/importMeta";
+import { importMetaEnv } from "./utils/importMeta";
 
 import "tailwindcss/tailwind.css";
 import "./index.css";
 
 
-if (importMeta().env.PROD) {
+if (importMetaEnv().PROD) {
   import('./utils/init-sentry');
 }
 

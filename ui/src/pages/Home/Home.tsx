@@ -6,7 +6,7 @@ import { SkillsetSelector } from "../../components/SkillsetSelector";
 import { ReactSVG } from "react-svg";
 import { MultiSelect } from "../../components/MultiSelect";
 import { languageSelectIndex } from "../../components/LanguageSelector";
-import { importMeta } from "../../utils/importMeta";
+import { importMetaEnv } from "../../utils/importMeta";
 
 const getTeamsList = (
   queryParams: {
@@ -17,7 +17,7 @@ const getTeamsList = (
     page: number;
   }
 ): Promise<Array<Record<string, unknown>>> => {
-  const url = new URL(`${importMeta().env.VITE_API_URL}/teams`);
+  const url = new URL(`${importMetaEnv().VITE_API_URL}/teams`);
 
   for(const [k, v] of Object.entries(queryParams)) url.searchParams.append(k, v.toString());
 
