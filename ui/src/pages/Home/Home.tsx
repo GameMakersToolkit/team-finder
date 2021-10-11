@@ -51,7 +51,7 @@ const TeamList: React.FC = () => {
   const tryUpdateQuery = (query: string) => {
     clearTimeout(querySearchTimeout.current);
 
-    querySearchTimeout.current = setTimeout(() => updateQuery(query), 250) // 250ms
+    querySearchTimeout.current = window.setTimeout(() => updateQuery(query), 250) // 250ms
   }
 
   const skillsetMask = selectedSkillsets.reduce((a, b) => a + b, 0);
