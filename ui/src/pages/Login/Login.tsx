@@ -1,6 +1,7 @@
 import * as React from "react";
+import { importMeta } from "../../utils/importMeta";
 
-export const loginUrl = `${import.meta.env.VITE_API_URL}/login`
+export const loginUrl = `${importMeta().env.VITE_API_URL}/login`
 
 export const Login: React.FC = () => {
 
