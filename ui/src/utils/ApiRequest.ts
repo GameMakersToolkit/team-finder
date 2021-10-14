@@ -1,4 +1,5 @@
 import {loginUrl} from "../pages/Login/Login";
+import { importMetaEnv } from "./importMeta";
 import {TeamDto} from "./TeamActions";
 
 /**
@@ -23,7 +24,7 @@ export const makeApiRequest = async (path: string, method: string, body: TeamDto
         options['body'] = JSON.stringify(body);
     }
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}${path}`, options);
+    const res = await fetch(`${importMetaEnv().VITE_API_URL}${path}`, options);
     if(!res.ok) {
         if(res.status == 401) window.location.replace(`${loginUrl}`);
         else throw new Error(`${res.status} ${res.statusText}: ${await res.text()}`);

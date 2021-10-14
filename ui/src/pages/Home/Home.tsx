@@ -6,6 +6,7 @@ import { SkillsetSelector } from "../../components/SkillsetSelector";
 import { ReactSVG } from "react-svg";
 import { MultiSelect } from "../../components/MultiSelect";
 import { languageSelectIndex } from "../../components/LanguageSelector";
+import { importMetaEnv } from "../../utils/importMeta";
 
 const getTeamsList = (
   queryParams: {
@@ -16,7 +17,7 @@ const getTeamsList = (
     page: number;
   }
 ): Promise<Array<Record<string, unknown>>> => {
-  const url = new URL(`${import.meta.env.VITE_API_URL}/teams`);
+  const url = new URL(`${importMetaEnv().VITE_API_URL}/teams`);
 
   for(const [k, v] of Object.entries(queryParams)) url.searchParams.append(k, v.toString());
 
@@ -50,7 +51,7 @@ const TeamList: React.FC = () => {
   const tryUpdateQuery = (query: string) => {
     clearTimeout(querySearchTimeout.current);
 
-    querySearchTimeout.current = setTimeout(() => updateQuery(query), 250) // 250ms
+    querySearchTimeout.current = window.setTimeout(() => updateQuery(query), 250) // 250ms
   }
 
   const skillsetMask = selectedSkillsets.reduce((a, b) => a + b, 0);
