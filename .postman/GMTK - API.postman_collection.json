@@ -7,10 +7,10 @@
 	},
 	"item": [
 		{
-			"name": "Teams",
+			"name": "Posts",
 			"item": [
 				{
-					"name": "List Teams",
+					"name": "List Posts",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -22,12 +22,12 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{API_ADDRESS}}/teams",
+							"raw": "{{API_ADDRESS}}/posts",
 							"host": [
 								"{{API_ADDRESS}}"
 							],
 							"path": [
-								"teams"
+								"posts"
 							]
 						},
 						"description": "Get a list of all teams.\n\nTODO: limiting, pagination, filtering etc."
@@ -35,13 +35,13 @@
 					"response": []
 				},
 				{
-					"name": "Create Team",
+					"name": "Create Post",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsetMask\": 255,\n    \"languages\": \"TestValue\"\n}",
+							"raw": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessedMask\": 255,\n    \"skillsSoughtMask\": 255,\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -49,12 +49,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_ADDRESS}}/teams",
+							"raw": "{{API_ADDRESS}}/posts",
 							"host": [
 								"{{API_ADDRESS}}"
 							],
 							"path": [
-								"teams"
+								"posts"
 							]
 						},
 						"description": "Create a new Team"
@@ -62,17 +62,17 @@
 					"response": []
 				},
 				{
-					"name": "Get Specific Team",
+					"name": "Get Specific Post",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{API_ADDRESS}}/teams/{{TEAM_ID}}",
+							"raw": "{{API_ADDRESS}}/posts/{{TEAM_ID}}",
 							"host": [
 								"{{API_ADDRESS}}"
 							],
 							"path": [
-								"teams",
+								"posts",
 								"{{TEAM_ID}}"
 							]
 						},
@@ -81,17 +81,17 @@
 					"response": []
 				},
 				{
-					"name": "Get My Team",
+					"name": "Get My Post",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{API_ADDRESS}}/teams/mine",
+							"raw": "{{API_ADDRESS}}/post/mine",
 							"host": [
 								"{{API_ADDRESS}}"
 							],
 							"path": [
-								"teams",
+								"post",
 								"mine"
 							]
 						},
@@ -100,7 +100,7 @@
 					"response": []
 				},
 				{
-					"name": "Update My Team",
+					"name": "Update My Post",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -114,12 +114,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_ADDRESS}}/teams/mine",
+							"raw": "{{API_ADDRESS}}/posts/mine",
 							"host": [
 								"{{API_ADDRESS}}"
 							],
 							"path": [
-								"teams",
+								"posts",
 								"mine"
 							]
 						},
@@ -128,7 +128,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete My Team",
+					"name": "Delete My Post",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -142,12 +142,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_ADDRESS}}/teams/mine",
+							"raw": "{{API_ADDRESS}}/posts/mine",
 							"host": [
 								"{{API_ADDRESS}}"
 							],
 							"path": [
-								"teams",
+								"posts",
 								"mine"
 							]
 						},
@@ -156,7 +156,7 @@
 					"response": []
 				},
 				{
-					"name": "Report Team",
+					"name": "Report Post",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -170,12 +170,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_ADDRESS}}/teams/report",
+							"raw": "{{API_ADDRESS}}/posts/report",
 							"host": [
 								"{{API_ADDRESS}}"
 							],
 							"path": [
-								"teams",
+								"posts",
 								"report"
 							]
 						},
@@ -315,14 +315,6 @@
 		{
 			"key": "TEAM_ID",
 			"value": "1"
-		},
-		{
-			"key": "ACCESS_TOKEN",
-			"value": "access-token-here"
-		},
-		{
-			"key": "JWT",
-			"value": "jwt-here"
 		}
 	]
 }
