@@ -2,8 +2,8 @@ package com.gmtkgamejam
 
 import com.gmtkgamejam.koin.DatabaseModule
 import com.gmtkgamejam.plugins.configureAuthRouting
+import com.gmtkgamejam.plugins.configurePostRouting
 import com.gmtkgamejam.plugins.configureRouting
-import com.gmtkgamejam.plugins.configureTeamRouting
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -42,5 +42,5 @@ fun Application.module() {
 
     configureRouting()
     configureAuthRouting()
-    configureTeamRouting()
+    configurePostRouting()
 }

@@ -2,13 +2,8 @@
   "openapi": "3.0.0",
   "servers": [
     {
-      "url": "http://localhost:8080",
-      "description": "Local app",
-      "variables": {}
-    },
-    {
-      "url": "https://discordapp.com/",
-      "description": "Discord API for Discord OAuth user info",
+      "url": "https://discordapp.com",
+      "description": "",
       "variables": {}
     }
   ],
@@ -23,11 +18,11 @@
     }
   },
   "paths": {
-    "/teams": {
+    "/posts": {
       "get": {
-        "summary": "List Teams",
+        "summary": "List Posts",
         "description": "Get a list of all teams.\n\nTODO: limiting, pagination, filtering etc.",
-        "operationId": "ListTeams",
+        "operationId": "ListPosts",
         "parameters": [],
         "responses": {
           "200": {
@@ -36,13 +31,13 @@
           }
         },
         "tags": [
-          "Teams"
+          "Posts"
         ]
       },
       "post": {
-        "summary": "Create Team",
+        "summary": "Create Post",
         "description": "Create a new Team",
-        "operationId": "CreateTeam",
+        "operationId": "CreatePost",
         "parameters": [],
         "responses": {
           "200": {
@@ -61,24 +56,29 @@
                   "author": "TestValue",
                   "authorId": "TestValue",
                   "description": "TestValue",
-                  "skillsetMask": 255,
-                  "languages": "TestValue"
+                  "skillsPossessedMask": 255,
+                  "skillsSoughtMask": 255,
+                  "timezoneStr": "UTC",
+                  "languages": [
+                    "en",
+                    "jp"
+                  ]
                 }
               },
-              "example": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsetMask\": 255,\n    \"languages\": \"TestValue\"\n}"
+              "example": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessedMask\": 255,\n    \"skillsSoughtMask\": 255,\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}"
             }
           }
         },
         "tags": [
-          "Teams"
+          "Posts"
         ]
       }
     },
-    "/teams/{TEAM_ID}": {
+    "/posts/{TEAM_ID}": {
       "get": {
-        "summary": "Get Specific Team",
+        "summary": "Get Specific Post",
         "description": "Get a specific team by internal ID. Currently used for development purposes only.",
-        "operationId": "GetSpecificTeam",
+        "operationId": "GetSpecificPost",
         "parameters": [
           {
             "$ref": "#/components/parameters/TEAM_ID"
@@ -91,15 +91,15 @@
           }
         },
         "tags": [
-          "Teams"
+          "Posts"
         ]
       }
     },
-    "/teams/mine": {
+    "/post/mine": {
       "get": {
-        "summary": "Get My Team",
+        "summary": "Get My Post",
         "description": "A less exploitable reference for a logged-in user to view their own Team.\n\nUsed when showing the Manage Team page, to populate form fields.",
-        "operationId": "GetMyTeam",
+        "operationId": "GetMyPost",
         "parameters": [],
         "responses": {
           "200": {
@@ -108,13 +108,15 @@
           }
         },
         "tags": [
-          "Teams"
+          "Posts"
         ]
-      },
+      }
+    },
+    "/posts/mine": {
       "put": {
-        "summary": "Update My Team",
+        "summary": "Update My Post",
         "description": "Update a Team with the details a participant is able to change.",
-        "operationId": "UpdateMyTeam",
+        "operationId": "UpdateMyPost",
         "parameters": [],
         "responses": {
           "200": {
@@ -142,13 +144,13 @@
           }
         },
         "tags": [
-          "Teams"
+          "Posts"
         ]
       },
       "delete": {
-        "summary": "Delete My Team",
+        "summary": "Delete My Post",
         "description": "Update a Team with the details a participant is able to change.",
-        "operationId": "DeleteMyTeam",
+        "operationId": "DeleteMyPost",
         "parameters": [],
         "responses": {
           "200": {
@@ -157,15 +159,15 @@
           }
         },
         "tags": [
-          "Teams"
+          "Posts"
         ]
       }
     },
-    "/teams/report": {
+    "/posts/report": {
       "post": {
-        "summary": "Report Team",
+        "summary": "Report Post",
         "description": "Report a Team as breaking site rules.",
-        "operationId": "ReportTeam",
+        "operationId": "ReportPost",
         "parameters": [],
         "responses": {
           "200": {
@@ -189,7 +191,7 @@
           }
         },
         "tags": [
-          "Teams"
+          "Posts"
         ]
       }
     },
@@ -263,6 +265,12 @@
     }
   },
   "security": [
+    {
+      "bearer": []
+    },
+    {
+      "bearer": []
+    },
     {
       "bearer": []
     }
