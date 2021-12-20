@@ -5,7 +5,7 @@ const transparent = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAAL
 const Spacer = () => <img src={transparent} width={512} height={512} alt="" />;
 
 interface Props extends Omit<ReactSVGProps, "ref"> {
-  skillsetId: number;
+  skillsetId: string;
 }
 export const SkillsetSVG: React.FC<Props> = ({ skillsetId, ...props }) => (
   <ReactSVG {...props} src={`/SkillsetIcons/${skillsetId}.svg`} loading={Spacer} fallback={Spacer} />

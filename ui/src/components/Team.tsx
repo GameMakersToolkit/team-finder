@@ -15,7 +15,10 @@ export class TeamData {
   authorId: string;
   description: string;
   languages: string[];
-  skills: Array<Skillset>;
+  skillPossessed: Array<Skillset>;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  skillsSought: Array<Skillset>;
   updatedAt: Date;
   id: number;
   reportCount: number;
@@ -23,14 +26,16 @@ export class TeamData {
     this.author = teamJSON.author as string;
     this.authorId = teamJSON.authorId as string;
     this.description = teamJSON.description as string;
-    this.languages = (teamJSON.languages as string).split(",");
+    this.languages = teamJSON.languages as string[];
     this.reportCount = teamJSON.reportCount as number;
 
     const updatedAt = teamJSON.updatedAt as string;
     // to make sure browsers assume UTC, weird string additions
     this.updatedAt = new Date(updatedAt.replace(" ", "T")+"Z");
 
-    this.skills = getSkillsets(teamJSON.skillsetMask as number);
+    // TODO: Include this.skillsSought
+    this.skillPossessed = getSkillsets(teamJSON.skillsPossessed);
+
     this.id = teamJSON.id as number;
   }
 }
@@ -38,7 +43,7 @@ export class TeamData {
 export const Team: React.FC<{team:TeamData}> = ({team}) => {
   const [hasClickedBtn, changeHasClicked] = React.useState(false);
 
-  const skillIcons = team.skills.map((r) => (
+  const skillIcons = team.skillPossessed.map((r) => (
     <SkillsetSVG
       skillsetId={r.id}
       key={r.id}

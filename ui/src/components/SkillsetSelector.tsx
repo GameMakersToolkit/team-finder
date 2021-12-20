@@ -4,8 +4,8 @@ import { skillsets as allSkillsets } from "../utils/Skillsets";
 import { SkillsetSVG } from "./SkillsetSVG";
 
 interface Props {
-  selectedSkillsets: number[];
-  onChange: (newValue: number[]) => void;
+  selectedSkillsets: string[];
+  onChange: (newValue: string[]) => void;
   className?: string;
   disabled?: boolean;
 }
@@ -15,7 +15,7 @@ export const SkillsetSelector: React.FC<Props> = ({
   className = "",
   disabled,
 }) => {
-  const toggleSelected = (skillId: number) => {
+  const toggleSelected = (skillId: string) => {
     if (selectedSkillsets.includes(skillId))
       onChange(selectedSkillsets.filter((id) => id != skillId));
     else onChange([...selectedSkillsets, skillId]);

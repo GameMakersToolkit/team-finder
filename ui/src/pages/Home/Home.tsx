@@ -17,7 +17,7 @@ const getTeamsList = (
     page: number;
   }
 ): Promise<Array<Record<string, unknown>>> => {
-  const url = new URL(`${importMetaEnv().VITE_API_URL}/teams`);
+  const url = new URL(`${importMetaEnv().VITE_API_URL}/posts`);
 
   for(const [k, v] of Object.entries(queryParams)) url.searchParams.append(k, v.toString());
 

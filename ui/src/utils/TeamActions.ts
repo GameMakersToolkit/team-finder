@@ -9,26 +9,26 @@ export interface TeamDto {
 
 export const createTeam = async (formData: FormData): Promise<TeamDto> => {
   const team = teamFromForm(formData);
-  await makeApiRequest("/teams", "POST", team);
+  await makeApiRequest("/posts", "POST", team);
   return team;
 };
 
 export const getTeam = async (): Promise<TeamDto | null> => {
-  return (await makeApiRequest("/teams/mine", "GET")).json();
+  return (await makeApiRequest("/posts/mine", "GET")).json();
 };
 
 export const updateTeam = async (formData: FormData): Promise<TeamDto> => {
   const team = teamFromForm(formData);
-  await makeApiRequest("/teams/mine", "PUT", team);
+  await makeApiRequest("/posts/mine", "PUT", team);
   return team;
 };
 
 export const deleteTeam = async (): Promise<Response> => {
-  return makeApiRequest("/teams/mine", "DELETE");
+  return makeApiRequest("/posts/mine", "DELETE");
 };
 
 export const reportTeam = async (teamId: string): Promise<Response> => {
-  return await makeApiRequest(`/teams/report?teamId=${teamId}`, "POST");
+  return await makeApiRequest(`/posts/report?teamId=${teamId}`, "POST");
 };
 
 /* Admin actions - refactor out of here later! */
