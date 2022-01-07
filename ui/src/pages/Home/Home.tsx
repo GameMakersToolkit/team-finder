@@ -11,9 +11,9 @@ import { importMetaEnv } from "../../utils/importMeta";
 const getTeamsList = (
   queryParams: {
     order: "asc" | "desc" | "random";
-    query: string;
+    description: string;
     languages: string;
-    skillsetMask: number;
+    skillsetMask: string;
     page: number;
   }
 ): Promise<Array<Record<string, unknown>>> => {
@@ -45,24 +45,25 @@ const TeamList: React.FC = () => {
   const [selectedSkillsets, setSelectedSkillsets] = useState<number[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [order, updateOrder] = useState<orderVals>("desc");
-  const [query, updateQuery] = useState<string>("");
+  const [description, updateDescription] = useState<string>("");
 
   const querySearchTimeout = React.useRef<number | undefined>(undefined);
-  const tryUpdateQuery = (query: string) => {
+  const tryUpdateQuery = (description: string) => {
     clearTimeout(querySearchTimeout.current);
 
-    querySearchTimeout.current = window.setTimeout(() => updateQuery(query), 250) // 250ms
+    description = description.replace(" ", ",");
+    querySearchTimeout.current = window.setTimeout(() => updateDescription(description), 250) // 250ms
   }
 
-  const skillsetMask = selectedSkillsets.reduce((a, b) => a + b, 0);
+  const skillsetMask = selectedSkillsets.join(",");
   const languages = selectedLanguages.join(",");
 
   const {
     isLoading: initalLoad,
     isFetchingNextPage, isError, data, fetchNextPage
-  } = useInfiniteQuery(["Teams", skillsetMask, order, languages, query],
+  } = useInfiniteQuery(["Teams", skillsetMask, order, languages, description],
     async ({pageParam: page = 1}) => 
-      ( await getTeamsList({ skillsetMask, order, query, languages, page }) ).map((t) => new TeamData(t)),
+      ( await getTeamsList({ skillsetMask, order, description, languages, page }) ).map((t) => new TeamData(t)),
     {
       getNextPageParam: (lastPage, allPages) => lastPage.length < pageSize ? undefined : allPages.length + 1
     }

@@ -7,6 +7,10 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import org.litote.kmongo.and
+import org.litote.kmongo.contains
+import org.litote.kmongo.eq
+import org.litote.kmongo.regex
 
 fun Application.configurePostRouting() {
 
@@ -15,7 +19,33 @@ fun Application.configurePostRouting() {
     routing {
         route("/posts") {
             get {
-                call.respond(service.getPosts())
+                val params = call.parameters
+
+                // All Posts found should be active
+                // TODO: Handle deleted posts differently for admins (if at all)
+                val filters = mutableListOf(PostItem::deletedAt eq null)
+
+                params["description"]?.split(',')
+                    // The regex is the easiest way to check if a description contains a given substring
+                    ?.map { PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE) }
+                    ?.let ( filters::addAll )
+
+                params["skillsPossessed"]?.split(',')
+                    ?.map ( Skills::fromString )
+                    ?.map { PostItem::skillsPossessed contains it }
+                    ?.let ( filters::addAll )
+
+                params["skillsSought"]?.split(',')
+                    ?.map ( Skills::fromString )
+                    ?.map { PostItem::skillsSought contains it }
+                    ?.let ( filters::addAll )
+
+                params["languages"]?.split(',')
+                    ?.map { PostItem::languages contains it }
+                    ?.let ( filters::addAll )
+
+                val combinedFilter = and(filters) // One and() call combines all filters into a single bool query
+                call.respond(service.getPosts(combinedFilter))
             }
 
             post {
@@ -27,8 +57,8 @@ fun Application.configurePostRouting() {
             }
 
             get("{id}") {
-                val Post = call.parameters["id"]?.toLong()?.let { service.getPost(it) }
-                Post?.let { return@get call.respond(it) }
+                val post: PostItem? = call.parameters["id"]?.toLong()?.let { service.getPost(it) }
+                post?.let { return@get call.respond(it) }
                 call.respondText("Post not found", status = HttpStatusCode.NotFound)
             }
 
