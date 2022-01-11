@@ -3,6 +3,7 @@ package com.gmtkgamejam.services
 import com.gmtkgamejam.models.PostItem
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
+import org.bson.conversions.Bson
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.litote.kmongo.eq
@@ -24,8 +25,8 @@ class PostService : KoinComponent {
         col.insertOne(postItem)
     }
 
-    fun getPosts(): List<PostItem> {
-        return col.find().toList()
+    fun getPosts(filter: Bson): List<PostItem> {
+        return col.find(filter).toList()
     }
 
     fun getPost(id: Long) : PostItem? {
