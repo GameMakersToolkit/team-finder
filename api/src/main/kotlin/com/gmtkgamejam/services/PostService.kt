@@ -25,8 +25,8 @@ class PostService : KoinComponent {
         col.insertOne(postItem)
     }
 
-    fun getPosts(filter: Bson): List<PostItem> {
-        return col.find(filter).toList()
+    fun getPosts(filter: Bson, sort: Bson): List<PostItem> {
+        return col.find(filter).sort(sort).toList()
     }
 
     fun getPost(id: Long) : PostItem? {
