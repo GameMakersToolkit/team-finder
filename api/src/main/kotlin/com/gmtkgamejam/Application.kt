@@ -1,6 +1,7 @@
 package com.gmtkgamejam
 
 import com.gmtkgamejam.koin.DatabaseModule
+import com.gmtkgamejam.plugins.configureAdminRouting
 import com.gmtkgamejam.plugins.configureAuthRouting
 import com.gmtkgamejam.plugins.configurePostRouting
 import com.gmtkgamejam.plugins.configureRouting
@@ -42,5 +43,6 @@ fun Application.module() {
 
     configureRouting()
     configureAuthRouting()
+    configureAdminRouting()
     configurePostRouting()
 }
