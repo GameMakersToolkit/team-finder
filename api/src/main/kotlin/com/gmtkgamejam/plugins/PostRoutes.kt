@@ -42,8 +42,9 @@ fun Application.configurePostRouting() {
                     ?.map { PostItem::languages contains it }
                     ?.let ( filters::addAll )
 
+                // Sorting
                 // TODO: Error handling
-                val sortByFieldName = params["sortBy"].toString()
+                val sortByFieldName = params["sortBy"] ?: "id"
                 val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
                 val sort = when(params["sortDir"].toString()) {
                     "asc" ->    ascending(sortByField)
@@ -51,8 +52,11 @@ fun Application.configurePostRouting() {
                     else ->     ascending(sortByField)
                 }
 
+                // Pagination
+                val page = params["page"]?.toInt() ?: 1
+
                 val combinedFilter = and(filters) // One and() call combines all filters into a single bool query
-                call.respond(service.getPosts(combinedFilter, sort))
+                call.respond(service.getPosts(combinedFilter, sort, page))
             }
 
             post {
