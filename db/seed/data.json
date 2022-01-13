@@ -24,6 +24,7 @@
       "TEAM_LEAD",
       "OTHER"
     ],
+    "availability": "PART_TIME",
     "timezoneStr": "UTC",
     "languages": [
       "en"
@@ -52,6 +53,7 @@
       "SOUND_MUSIC",
       "TESTING_SUPPORT"
     ],
+    "availability": "FULL_TIME",
     "timezoneStr": "UTC",
     "languages": [
       "en",
@@ -76,6 +78,7 @@
       "ART_2D",
       "OTHER"
     ],
+    "availability": "MINIMAL",
     "timezoneStr": "UTC",
     "languages": [
       "en"
@@ -103,6 +106,7 @@
       "TESTING_SUPPORT",
       "OTHER"
     ],
+    "availability": "FULL_TIME",
     "timezoneStr": "UTC",
     "languages": [
       "en"
@@ -130,6 +134,7 @@
       "TESTING_SUPPORT",
       "OTHER"
     ],
+    "availability": "PART_TIME",
     "timezoneStr": "UTC",
     "languages": [
       "en"

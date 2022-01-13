@@ -13,6 +13,7 @@ data class PostItemUpdateDto (
     var description: String?,
     var skillsPossessedMask: Int?,
     var skillsSoughtMask: Int?,
+    var availability: Availability?,
     var timezoneStr: String?,
     var languages: String?,
 )

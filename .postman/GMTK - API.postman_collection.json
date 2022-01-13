@@ -41,7 +41,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessedMask\": 255,\n    \"skillsSoughtMask\": 255,\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}",
+							"raw": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessedMask\": 255,\n    \"skillsSoughtMask\": 255,\n    \"availability\": \"PART_TIME\",\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -197,7 +197,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{ ACCESS_TOKEN }}",
+									"value": "{{ACCESS_TOKEN}}",
 									"type": "string"
 								}
 							]
@@ -228,7 +228,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{ ACCESS_TOKEN }}",
+									"value": "{{ACCESS_TOKEN}}",
 									"type": "string"
 								}
 							]

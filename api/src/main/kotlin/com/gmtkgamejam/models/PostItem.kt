@@ -14,6 +14,7 @@ data class PostItem (
     var skillsSought: List<Skills>?,
 
     // var preferredTools: List<Tools>?,
+    var availability: Availability,
     var timezoneStr: String,
     var languages: List<String>,
 
@@ -34,6 +35,7 @@ data class PostItem (
                 dto.description,
                 Skills.fromBitwiseId(dto.skillsPossessedMask),
                 Skills.fromBitwiseId(dto.skillsSoughtMask),
+                dto.availability,
                 dto.timezoneStr,
                 dto.languages,
                 0,
