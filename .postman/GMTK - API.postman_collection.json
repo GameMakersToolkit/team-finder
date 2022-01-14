@@ -7,6 +7,85 @@
 	},
 	"item": [
 		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "List Reported Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_ADDRESS}}/admin/reports",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"admin",
+								"reports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clear Reports",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"teamId\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/admin/reports/clear",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"admin",
+								"reports",
+								"clear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Team",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"teamId\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/admin/reports/clear",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"admin",
+								"reports",
+								"clear"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Posts",
 			"item": [
 				{
@@ -28,6 +107,43 @@
 							],
 							"path": [
 								"posts"
+							],
+							"query": [
+								{
+									"key": "description",
+									"value": "moderator",
+									"disabled": true
+								},
+								{
+									"key": "skillsPossessed",
+									"value": "ART_3D,SOUND_MUSIC",
+									"disabled": true
+								},
+								{
+									"key": "skillsSought",
+									"value": "ART_2D,CODE",
+									"disabled": true
+								},
+								{
+									"key": "languages",
+									"value": "ja",
+									"disabled": true
+								},
+								{
+									"key": "availability",
+									"value": "part_time,full_time,minimal",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "sortDir",
+									"value": "desc",
+									"disabled": true
+								}
 							]
 						},
 						"description": "Get a list of all teams.\n\nTODO: limiting, pagination, filtering etc."

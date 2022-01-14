@@ -12,6 +12,5 @@ enum class Skills(val bitwiseId: Int) {
 
     companion object {
         fun fromBitwiseId(id: Int): List<Skills> = values().filter { s -> (id and s.bitwiseId == s.bitwiseId) }
-        fun fromString(name: String) = values().find { s -> name == s.toString() }
     }
 }

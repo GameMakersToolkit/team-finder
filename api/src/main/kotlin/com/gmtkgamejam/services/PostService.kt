@@ -25,9 +25,14 @@ class PostService : KoinComponent {
         col.insertOne(postItem)
     }
 
+    // Un-paginated version should be used for Admin endpoints
+    fun getPosts(filter: Bson, sort: Bson): List<PostItem> {
+        return col.find(filter).sort(sort).toList()
+    }
+
     fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem> {
         // TODO: Set to high value (config?) when running with more Posts in DB
-        val pageSize = 2
+        val pageSize = 20
         return col.find(filter).sort(sort).skip((page - 1) * pageSize).limit(pageSize).toList()
     }
 
