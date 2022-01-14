@@ -9,6 +9,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import org.litote.kmongo.descending
 import org.litote.kmongo.gt
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -18,10 +19,12 @@ fun Application.configureAdminRouting() {
     val service = PostService()
 
     routing {
+        // TODO: Implement Admin account authentication
+        // authenticate("auth-admin") {
         route("/admin") {
             route("/reports") {
                 get {
-                    call.respond(service.getPosts(PostItem::reportCount gt 0))
+                    call.respond(service.getPosts(PostItem::reportCount gt 0, descending(PostItem::reportCount)))
                 }
                 post("/clear") {
                     val data = call.receive<ReportedUsersClearDto>()
@@ -47,5 +50,6 @@ fun Application.configureAdminRouting() {
                 }
             }
         }
+        // }
     }
 }

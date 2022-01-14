@@ -1,5 +1,6 @@
 package com.gmtkgamejam.plugins;
 
+import com.gmtkgamejam.enumFromStringSafe
 import com.gmtkgamejam.models.*
 import com.gmtkgamejam.services.PostService
 import io.ktor.application.*
@@ -24,27 +25,34 @@ fun Application.configurePostRouting() {
                 val filters = mutableListOf(PostItem::deletedAt eq null)
 
                 params["description"]?.split(',')
-                    ?.filter { it != "" } // Filter out empty `&description=`
+                    ?.filter ( String::isNotBlank ) // Filter out empty `&description=`
                     // The regex is the easiest way to check if a description contains a given substring
                     ?.map { PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE) }
                     ?.let ( filters::addAll )
 
                 params["skillsPossessed"]?.split(',')
-                    ?.filter { it != "" } // Filter out empty `&skillsPossessed=`
-                    ?.map ( Skills::fromString )
+                    ?.filter ( String::isNotBlank ) // Filter out empty `&skillsPossessed=`
+                    ?.mapNotNull { enumFromStringSafe<Skills>(it) }
                     ?.map { PostItem::skillsPossessed contains it }
                     ?.let ( filters::addAll )
 
                 params["skillsSought"]?.split(',')
-                    ?.filter { it != "" } // Filter out empty `&skillsSought=`
-                    ?.map ( Skills::fromString )
+                    ?.filter ( String::isNotBlank ) // Filter out empty `&skillsSought=`
+                    ?.mapNotNull { enumFromStringSafe<Skills>(it) }
                     ?.map { PostItem::skillsSought contains it }
                     ?.let ( filters::addAll )
 
                 params["languages"]?.split(',')
-                    ?.filter { it != "" } // Filter out empty `&languages=`
+                    ?.filter ( String::isNotBlank ) // Filter out empty `&languages=`
                     ?.map { PostItem::languages contains it }
                     ?.let ( filters::addAll )
+
+                params["availability"]?.split(',')
+                    ?.filter ( String::isNotBlank ) // Filter out empty `&availability=`
+                    ?.mapNotNull { enumFromStringSafe<Availability>(it) }
+                    ?.map { PostItem::availability eq it }
+                    // Availabilities are mutually exclusive, so treat it as inclusion search
+                    ?.let { filters.add(or(it)) }
 
                 // Sorting
                 // TODO: Error handling

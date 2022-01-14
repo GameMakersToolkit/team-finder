@@ -18,12 +18,80 @@
     }
   },
   "paths": {
+    "/admin/reports": {
+      "get": {
+        "summary": "List Reported Posts",
+        "operationId": "ListReportedPosts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/admin/reports/clear": {
+      "post": {
+        "summary": "Clear Reports",
+        "operationId": "ClearReports",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string",
+                "example": {
+                  "teamId": 3
+                }
+              },
+              "example": "{\n    \"teamId\": 3\n}"
+            }
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
     "/posts": {
       "get": {
         "summary": "List Posts",
         "description": "Get a list of all teams.\n\nTODO: limiting, pagination, filtering etc.",
         "operationId": "ListPosts",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/description"
+          },
+          {
+            "$ref": "#/components/parameters/skillsPossessed"
+          },
+          {
+            "$ref": "#/components/parameters/skillsSought"
+          },
+          {
+            "$ref": "#/components/parameters/languages"
+          },
+          {
+            "$ref": "#/components/parameters/availability"
+          },
+          {
+            "$ref": "#/components/parameters/sortBy"
+          },
+          {
+            "$ref": "#/components/parameters/sortDir"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -247,6 +315,76 @@
   },
   "components": {
     "parameters": {
+      "description": {
+        "name": "description",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": {
+          "type": "string",
+          "example": "moderator"
+        }
+      },
+      "skillsPossessed": {
+        "name": "skillsPossessed",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": {
+          "type": "string",
+          "example": "ART_3D,SOUND_MUSIC"
+        }
+      },
+      "skillsSought": {
+        "name": "skillsSought",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": {
+          "type": "string",
+          "example": "ART_2D,CODE"
+        }
+      },
+      "languages": {
+        "name": "languages",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": {
+          "type": "string",
+          "example": "ja"
+        }
+      },
+      "availability": {
+        "name": "availability",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": {
+          "type": "string",
+          "example": "part_time,full_time,minimal"
+        }
+      },
+      "sortBy": {
+        "name": "sortBy",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": {
+          "type": "string",
+          "example": "createdAt"
+        }
+      },
+      "sortDir": {
+        "name": "sortDir",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": {
+          "type": "string",
+          "example": "desc"
+        }
+      },
       "TEAM_ID": {
         "name": "TEAM_ID",
         "in": "path",
@@ -281,5 +419,7 @@
     "url": "",
     "description": ""
   },
-  "warnings": []
+  "warnings": [
+    "Two GET or two POST methods for the same path are not allowed in OpenAPI specification : post{{API_ADDRESS}}/admin/reports/clear"
+  ]
 }
