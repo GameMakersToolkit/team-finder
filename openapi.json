@@ -58,6 +58,7 @@
                   "description": "TestValue",
                   "skillsPossessedMask": 255,
                   "skillsSoughtMask": 255,
+                  "availability": "PART_TIME",
                   "timezoneStr": "UTC",
                   "languages": [
                     "en",
@@ -65,7 +66,7 @@
                   ]
                 }
               },
-              "example": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessedMask\": 255,\n    \"skillsSoughtMask\": 255,\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}"
+              "example": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessedMask\": 255,\n    \"skillsSoughtMask\": 255,\n    \"availability\": \"PART_TIME\",\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}"
             }
           }
         },
