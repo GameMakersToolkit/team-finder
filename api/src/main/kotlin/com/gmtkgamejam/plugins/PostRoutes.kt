@@ -7,10 +7,8 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import org.litote.kmongo.and
-import org.litote.kmongo.contains
-import org.litote.kmongo.eq
-import org.litote.kmongo.regex
+import org.litote.kmongo.*
+import kotlin.reflect.full.memberProperties
 
 fun Application.configurePostRouting() {
 
@@ -44,8 +42,21 @@ fun Application.configurePostRouting() {
                     ?.map { PostItem::languages contains it }
                     ?.let ( filters::addAll )
 
+                // Sorting
+                // TODO: Error handling
+                val sortByFieldName = params["sortBy"] ?: "id"
+                val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
+                val sort = when(params["sortDir"].toString()) {
+                    "asc" ->    ascending(sortByField)
+                    "desc" ->   descending(sortByField)
+                    else ->     ascending(sortByField)
+                }
+
+                // Pagination
+                val page = params["page"]?.toInt() ?: 1
+
                 val combinedFilter = and(filters) // One and() call combines all filters into a single bool query
-                call.respond(service.getPosts(combinedFilter))
+                call.respond(service.getPosts(combinedFilter, sort, page))
             }
 
             post {
