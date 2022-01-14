@@ -26,21 +26,25 @@ fun Application.configurePostRouting() {
                 val filters = mutableListOf(PostItem::deletedAt eq null)
 
                 params["description"]?.split(',')
+                    ?.filter { it != "" } // Filter out empty `&description=`
                     // The regex is the easiest way to check if a description contains a given substring
                     ?.map { PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE) }
                     ?.let ( filters::addAll )
 
                 params["skillsPossessed"]?.split(',')
+                    ?.filter { it != "" } // Filter out empty `&skillsPossessed=`
                     ?.map ( Skills::fromString )
                     ?.map { PostItem::skillsPossessed contains it }
                     ?.let ( filters::addAll )
 
                 params["skillsSought"]?.split(',')
+                    ?.filter { it != "" } // Filter out empty `&skillsSought=`
                     ?.map ( Skills::fromString )
                     ?.map { PostItem::skillsSought contains it }
                     ?.let ( filters::addAll )
 
                 params["languages"]?.split(',')
+                    ?.filter { it != "" } // Filter out empty `&languages=`
                     ?.map { PostItem::languages contains it }
                     ?.let ( filters::addAll )
 
