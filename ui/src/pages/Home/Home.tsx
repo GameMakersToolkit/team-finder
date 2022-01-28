@@ -13,7 +13,8 @@ const getTeamsList = (
     order: "asc" | "desc" | "random";
     description: string;
     languages: string;
-    skillsetMask: string;
+    skillsPossessed: string;
+    skillsSought: string;
     page: number;
   }
 ): Promise<Array<Record<string, unknown>>> => {
@@ -42,7 +43,8 @@ export const Home: React.FC = () => {
 type orderVals = "desc" | "asc" | "random";
 
 const TeamList: React.FC = () => {
-  const [selectedSkillsets, setSelectedSkillsets] = useState<number[]>([]);
+  const [selectedSkillsPossessed, setSelectedSkillsPossessed] = useState<string[]>([]);
+  const [selectedSkillsSought, setSelectedSkillsSought] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [order, updateOrder] = useState<orderVals>("desc");
   const [description, updateDescription] = useState<string>("");
@@ -55,15 +57,16 @@ const TeamList: React.FC = () => {
     querySearchTimeout.current = window.setTimeout(() => updateDescription(description), 250) // 250ms
   }
 
-  const skillsetMask = selectedSkillsets.join(",");
+  const skillsPossessed = selectedSkillsPossessed.join(",");
+  const skillsSought = selectedSkillsSought.join(",");
   const languages = selectedLanguages.join(",");
 
   const {
     isLoading: initalLoad,
     isFetchingNextPage, isError, data, fetchNextPage
-  } = useInfiniteQuery(["Teams", skillsetMask, order, languages, description],
+  } = useInfiniteQuery(["Teams", skillsPossessed, skillsSought, order, languages, description],
     async ({pageParam: page = 1}) => 
-      ( await getTeamsList({ skillsetMask, order, description, languages, page }) ).map((t) => new TeamData(t)),
+      ( await getTeamsList({ skillsPossessed, skillsSought, order, description, languages, page }) ).map((t) => new TeamData(t)),
     {
       getNextPageParam: (lastPage, allPages) => lastPage.length < pageSize ? undefined : allPages.length + 1
     }
@@ -108,8 +111,16 @@ const TeamList: React.FC = () => {
         Filter by what skills you can offer:
       </PageHeader>
       <SkillsetSelector
-        selectedSkillsets={selectedSkillsets}
-        onChange={setSelectedSkillsets}
+        selectedSkillsets={selectedSkillsPossessed}
+        onChange={setSelectedSkillsPossessed}
+      />
+
+      <PageHeader>
+        Filter by what skills you are looking for:
+      </PageHeader>
+      <SkillsetSelector
+        selectedSkillsets={selectedSkillsSought}
+        onChange={setSelectedSkillsSought}
       />
 
       <div className="flex flex-row mt-6">
