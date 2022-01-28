@@ -51,6 +51,10 @@ The project is in redevelopment with the following aims:
 Note: "new" `/userinfo` mechanism is functional and _could_ be integrated (as the final solution will use a `/userinfo` endpoint),
 but the integration will need to be designed to submit a different Authorization header when the API implementation is finalised.
 
+### Design decisions
+
+* [ ] Decide how to manage Discord alternatives/solution to `user doesn't allow non-friends to DM` 
+
 ## Quickstart
 
 Perform all the following steps for your chosen environment:
