@@ -6,7 +6,7 @@ import { SkillsetSelector } from "../../components/SkillsetSelector";
 import { ReactSVG } from "react-svg";
 import { MultiSelect } from "../../components/MultiSelect";
 import { languageSelectIndex } from "../../components/LanguageSelector";
-import { importMetaEnv } from "../../utils/importMeta";
+import { importMetaEnv } from "../../../src/utils/importMeta";
 
 const getTeamsList = (
   queryParams: {

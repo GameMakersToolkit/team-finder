@@ -2,8 +2,8 @@ import * as React from "react";
 import { Controller, NestedValue, useForm, useWatch } from "react-hook-form";
 import classnames from "classnames";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Button } from "../../components/Button";
-import { SkillsetSelector } from "../../components/SkillsetSelector";
+import { Button } from "../../../oldsrc/components/Button";
+import { SkillsetSelector } from "../../../oldsrc/components/SkillsetSelector";
 import {
   createTeam,
   updateTeam,
@@ -13,11 +13,11 @@ import {
 } from "../../utils/TeamActions";
 import { getSkillsets } from "../../utils/Skillsets";
 import { match, matchif } from "../../utils/match";
-import { PageUserInfo } from "../../components/PageUserInfo";
-import { AddMessage } from "../../components/StatusMessenger";
-import { MultiSelect } from "../../components/MultiSelect";
+import { PageUserInfo } from "../../../oldsrc/components/PageUserInfo";
+import { AddMessage } from "../../../oldsrc/components/StatusMessenger";
+import { MultiSelect } from "../../../oldsrc/components/MultiSelect";
 import { limitNewlines } from "../../utils/limitNewlines";
-import { languageSelectIndex } from "../../components/LanguageSelector";
+import { languageSelectIndex } from "../../../oldsrc/components/LanguageSelector";
 
 export interface FormData {
   description: string;

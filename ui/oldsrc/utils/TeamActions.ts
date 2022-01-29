@@ -1,5 +1,5 @@
 import {FormData} from "../pages/Register/Register";
-import { makeApiRequest } from "./ApiRequest";
+import { makeApiRequest } from "../../src/utils/ApiRequest";
 
 export interface TeamDto {
   description: string;

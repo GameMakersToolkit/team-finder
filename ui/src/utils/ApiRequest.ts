@@ -1,6 +1,6 @@
-import {loginUrl} from "../pages/Login/Login";
+import {loginUrl} from "../../oldsrc/pages/Login/Login";
 import { importMetaEnv } from "./importMeta";
-import {TeamDto} from "./TeamActions";
+import {TeamDto} from "../../oldsrc/utils/TeamActions";
 
 /**
  * Horrific general API request method
