@@ -1,4 +1,4 @@
-import {AddMessage} from "../../components/StatusMessenger";
+import {AddMessage} from "../../../oldsrc/components/StatusMessenger";
 
 export const tryPerformAction = async (callableFunction: () => Promise<Response>): Promise<void> => {
   try {

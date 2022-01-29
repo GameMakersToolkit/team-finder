@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {getBannedUsers, getReportedTeams} from "../../utils/TeamActions";
-import {TeamData} from "../../components/Team";
+import {TeamData} from "../../../oldsrc/components/Team";
 import {TeamView} from "./TeamView";
 import {User, UserView} from "./UserView";
 

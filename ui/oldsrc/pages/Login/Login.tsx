@@ -1,5 +1,5 @@
 import * as React from "react";
-import { importMetaEnv } from "../../utils/importMeta";
+import { importMetaEnv } from "../../../src/utils/importMeta";
 
 export const loginUrl = `${importMetaEnv().VITE_API_URL}/login`
 

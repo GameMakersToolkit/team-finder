@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Switch, Route } from "react-router-dom";
-import { Home } from "./pages/Home/Home";
-import { Register } from "./pages/Register/Register";
-import { About } from "./pages/About/About";
-import { Login } from "./pages/Login/Login"
-import { Logout } from "./pages/Login/Logout"
-import { AuthorizedCallback } from "./pages/Login/AuthorizedCallback";
-import { NotFound } from "./pages/Errors/NotFound";
-import { LoginFailure } from "./pages/Errors/LoginFailure";
-import { isUserLoggedIn } from "./components/PageUserInfo";
-import { Admin } from "./pages/Admin/Admin";
+import { Home } from "../oldsrc/pages/Home/Home";
+import { Register } from "../oldsrc/pages/Register/Register";
+import { About } from "../oldsrc/pages/About/About";
+import { Login } from "../oldsrc/pages/Login/Login"
+import { Logout } from "../oldsrc/pages/Login/Logout"
+import { AuthorizedCallback } from "../oldsrc/pages/Login/AuthorizedCallback";
+import { NotFound } from "../oldsrc/pages/Errors/NotFound";
+import { LoginFailure } from "../oldsrc/pages/Errors/LoginFailure";
+import { isUserLoggedIn } from "../oldsrc/components/PageUserInfo";
+import { Admin } from "../oldsrc/pages/Admin/Admin";
 
 export const Routes: React.FC = () => (
   <Switch>

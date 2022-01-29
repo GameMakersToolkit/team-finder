@@ -1,5 +1,5 @@
 import {loginUrl} from "../pages/Login/Login";
-import { importMetaEnv } from "./importMeta";
+import { importMetaEnv } from "../../src/utils/importMeta";
 import {TeamDto} from "./TeamActions";
 
 /**

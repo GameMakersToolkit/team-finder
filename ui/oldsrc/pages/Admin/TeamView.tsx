@@ -1,5 +1,5 @@
 import React from "react";
-import {Team, TeamData} from "../../components/Team";
+import {Team, TeamData} from "../../../oldsrc/components/Team";
 import {adminBanUser, adminClearReports, adminDeleteTeam} from "../../utils/TeamActions";
 import {tryPerformAction} from "./AdminActions";
 
