@@ -6,6 +6,7 @@ import { Context } from "../src/Context";
 import { importMetaEnv } from "../src/utils/importMeta";
 
 import "tailwindcss/tailwind.css";
+import { AppRoutes } from "./AppRoutes";
 import "./index.css";
 
 if (importMetaEnv().PROD) {
@@ -15,7 +16,7 @@ if (importMetaEnv().PROD) {
 ReactDOM.render(
   <React.StrictMode>
     <Context>
-      <h1>Hello World, UI goes here</h1>
+      <AppRoutes />
       <ReactQueryDevtools />
     </Context>
   </React.StrictMode>,

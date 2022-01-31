@@ -1,20 +1,19 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-const colors = require('tailwindcss/colors')
+const colors = require("tailwindcss/colors");
 
 const primaryBright = "#00FFC0";
 const primaryDark = "#14bd93";
 
 module.exports = {
   mode: "jit",
-  purge: ["./src/**/*.tsx", "index.html"],
-  darkMode: false, // or 'media' or 'class'
+  content: ["./src/**/*.tsx", "index.html"],
   theme: {
     extend: {
       borderWidth: {
-        5: "5px"
+        5: "5px",
       },
       width: {
-        21: "5.25rem"
+        21: "5.25rem",
       },
       fontFamily: {
         sans: ["Lato", ...defaultTheme.fontFamily.sans],
@@ -36,12 +35,7 @@ module.exports = {
           },
         },
       }),
-      fill: (theme) => theme('colors')
-    },
-  },
-  variants: {
-    extend: {
-      fill: ['hover']
+      fill: (theme) => theme("colors"),
     },
   },
   plugins: [require("@tailwindcss/typography")],
