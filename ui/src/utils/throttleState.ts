@@ -4,7 +4,7 @@ export function useThrottleState<T>(
   current: T,
   updateBackingValue: (newValue: T) => void,
   {
-    timeout = 500,
+    timeout = 300,
     immediatelyUpdateIfFalsey = false,
   }: { timeout?: number; immediatelyUpdateIfFalsey?: boolean } = {}
 ): [T, (newValue: T) => void] {

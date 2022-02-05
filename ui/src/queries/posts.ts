@@ -1,7 +1,7 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
+import { Skill } from "../model/skill";
 import { apiRequest, toQueryString } from "../utils/apiRequest";
 
-export type Skill = string; // TODO: literal union/enum
 export type Availability = string; // TODO: literal union/enum
 export type SupportedLanguage = string; // TODO: literal union/enum
 
@@ -52,15 +52,22 @@ export function usePostsList(
   searchOptions?: SearchOptions,
   queryOptions?: UseQueryOptions<GetPost[], Error, Post[], PostsListQueryKey>
 ): UseQueryResult<Post[], Error> {
+  const normalizedSearchOptions = { ...searchOptions };
+  if (normalizedSearchOptions.skillsPossessed) {
+    normalizedSearchOptions.skillsPossessed = [
+      ...normalizedSearchOptions.skillsPossessed,
+    ];
+    normalizedSearchOptions.skillsPossessed.sort();
+  }
   return useQuery(
-    ["posts", "list", searchOptions ?? {}],
+    ["posts", "list", normalizedSearchOptions ?? {}],
     () => {
       const params = {
-        ...searchOptions,
-        skillsPossessed: searchOptions?.skillsPossessed?.join(","),
-        skillsSought: searchOptions?.skillsSought?.join(","),
-        languages: searchOptions?.languages?.join(","),
-        availability: searchOptions?.availability?.join(","),
+        ...normalizedSearchOptions,
+        skillsPossessed: normalizedSearchOptions?.skillsPossessed?.join(","),
+        skillsSought: normalizedSearchOptions?.skillsSought?.join(","),
+        languages: normalizedSearchOptions?.languages?.join(","),
+        availability: normalizedSearchOptions?.availability?.join(","),
       };
       return apiRequest<GetPost[]>(`/posts?${toQueryString(params)}`);
     },
