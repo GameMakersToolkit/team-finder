@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
 import { Skill } from "../model/skill";
 import { apiRequest, toQueryString } from "../utils/apiRequest";
+import { sortArrayImmutably } from "../utils/fns";
 
 export type Availability = string; // TODO: literal union/enum
 export type SupportedLanguage = string; // TODO: literal union/enum
@@ -52,13 +53,21 @@ export function usePostsList(
   searchOptions?: SearchOptions,
   queryOptions?: UseQueryOptions<GetPost[], Error, Post[], PostsListQueryKey>
 ): UseQueryResult<Post[], Error> {
-  const normalizedSearchOptions = { ...searchOptions };
-  if (normalizedSearchOptions.skillsPossessed) {
-    normalizedSearchOptions.skillsPossessed = [
-      ...normalizedSearchOptions.skillsPossessed,
-    ];
-    normalizedSearchOptions.skillsPossessed.sort();
-  }
+  const normalizedSearchOptions: SearchOptions = {
+    ...searchOptions,
+    skillsPossessed:
+      searchOptions?.skillsPossessed &&
+      sortArrayImmutably(searchOptions.skillsPossessed),
+    skillsSought:
+      searchOptions?.skillsSought &&
+      sortArrayImmutably(searchOptions.skillsSought),
+    languages:
+      searchOptions?.languages && sortArrayImmutably(searchOptions.languages),
+    availability:
+      searchOptions?.availability &&
+      sortArrayImmutably(searchOptions.availability),
+  };
+
   return useQuery(
     ["posts", "list", normalizedSearchOptions ?? {}],
     () => {
