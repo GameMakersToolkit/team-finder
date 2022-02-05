@@ -28,3 +28,18 @@ export async function apiRequest<T>(
   }
   return res.json();
 }
+
+/**
+ * @returns Query string representation of input, not including the leading "?"
+ */
+export function toQueryString(
+  input: Record<string, string | null | undefined>
+): string {
+  const params = new URLSearchParams();
+  Object.entries(input).forEach(([key, value]) => {
+    if (value != null) {
+      params.append(key, value);
+    }
+  });
+  return params.toString();
+}

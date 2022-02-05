@@ -1,16 +1,20 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
-import { apiRequest } from "../utils/apiRequest";
+import { apiRequest, toQueryString } from "../utils/apiRequest";
+
+export type Skill = string; // TODO: literal union/enum
+export type Availability = string; // TODO: literal union/enum
+export type SupportedLanguage = string; // TODO: literal union/enum
 
 export interface Post {
   id: number;
   author: string;
   authorId: string;
   description: string;
-  skillsPossessed: string[]; // TODO: constants
-  skillsSought: string[]; // TODO: constants
-  availability: string; // TODO: constants
+  skillsPossessed: Skill[];
+  skillsSought: Skill[];
+  availability: Availability;
   timezoneStr: string;
-  languages: string[]; // TODO: constants
+  languages: SupportedLanguage[];
   reportCount: number;
   createdAt: Date;
   updatedAt: Date | null;
@@ -31,17 +35,44 @@ function transformDateOrNull(input: string | null): Date | null {
   return new Date(input);
 }
 
-export function usePosts(
-  queryOptions?: UseQueryOptions<GetPost[], Error, Post[], ["posts"]>
+export type SortByOption = keyof Post;
+export interface SearchOptions {
+  description?: string;
+  skillsPossessed?: Skill[];
+  skillsSought?: Skill[];
+  languages?: SupportedLanguage[];
+  availability?: Availability[];
+  sortBy?: SortByOption;
+  sortDir?: "asc" | "desc";
+}
+
+export type PostsListQueryKey = ["posts", "list", SearchOptions];
+
+export function usePostsList(
+  searchOptions?: SearchOptions,
+  queryOptions?: UseQueryOptions<GetPost[], Error, Post[], PostsListQueryKey>
 ): UseQueryResult<Post[], Error> {
-  return useQuery(["posts"], () => apiRequest<GetPost[]>("/posts"), {
-    ...queryOptions,
-    select: (posts: GetPost[]) =>
-      posts.map((post) => ({
-        ...post,
-        createdAt: new Date(post.createdAt),
-        updatedAt: transformDateOrNull(post.updatedAt),
-        deletedAt: transformDateOrNull(post.deletedAt),
-      })),
-  });
+  return useQuery(
+    ["posts", "list", searchOptions ?? {}],
+    () => {
+      const params = {
+        ...searchOptions,
+        skillsPossessed: searchOptions?.skillsPossessed?.join(","),
+        skillsSought: searchOptions?.skillsSought?.join(","),
+        languages: searchOptions?.languages?.join(","),
+        availability: searchOptions?.availability?.join(","),
+      };
+      return apiRequest<GetPost[]>(`/posts?${toQueryString(params)}`);
+    },
+    {
+      ...queryOptions,
+      select: (posts: GetPost[]) =>
+        posts.map((post) => ({
+          ...post,
+          createdAt: new Date(post.createdAt),
+          updatedAt: transformDateOrNull(post.updatedAt),
+          deletedAt: transformDateOrNull(post.deletedAt),
+        })),
+    }
+  );
 }
