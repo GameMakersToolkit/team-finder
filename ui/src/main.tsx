@@ -5,7 +5,6 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { Context } from "../src/Context";
 import { importMetaEnv } from "../src/utils/importMeta";
 
-import "tailwindcss/tailwind.css";
 import { AppRoutes } from "./AppRoutes";
 import "./index.css";
 
