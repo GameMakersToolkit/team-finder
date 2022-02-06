@@ -1,7 +1,8 @@
 import * as React from "react";
 import { render, RenderResult } from "@testing-library/react";
-import { createTestContext, TestContext } from "./createTestContext";
 import { QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
+import { createTestContext, TestContext } from "./createTestContext";
 
 export function renderWithContext(
   element: React.ReactElement,
@@ -9,7 +10,7 @@ export function renderWithContext(
 ): RenderResult {
   return render(
     <QueryClientProvider client={context.queryClient}>
-      {element}
+      <MemoryRouter>{element}</MemoryRouter>
     </QueryClientProvider>
   );
 }
