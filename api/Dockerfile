@@ -15,10 +15,14 @@ RUN ./gradlew help
 
 # Copy code and build artefact
 COPY build.gradle.kts /opt/code/build.gradle.kts
+
+# Download dependencies in order to save that build time later
+RUN ./gradlew build
+
 COPY src/ /opt/code/src
 
 # Do the actual build, now we have source code
-RUN ./gradlew build --no-daemon
+RUN ./gradlew build --build-cache
 
 # Extract distribution
 # The files/folders are the fully-qualified app name (com.gmtkgamejam.api-x.y.z) - shorten here for ease of use
