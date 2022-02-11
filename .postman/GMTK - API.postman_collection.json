@@ -157,7 +157,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessedMask\": 255,\n    \"skillsSoughtMask\": 255,\n    \"availability\": \"PART_TIME\",\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}",
+							"raw": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessed\": [\"ART_3D\", \"CODE\"],\n    \"skillsSought\": [\"OTHER\"],\n    \"preferredTools\": [\"BLENDER\", \"UNITY\"],\n    \"availability\": \"PART_TIME\",\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -202,12 +202,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{API_ADDRESS}}/post/mine",
+							"raw": "{{API_ADDRESS}}/posts/mine",
 							"host": [
 								"{{API_ADDRESS}}"
 							],
 							"path": [
-								"post",
+								"posts",
 								"mine"
 							]
 						},
@@ -222,7 +222,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"author\": \"TestValue2\",\n    \"authorId\": \"TestValue2\",\n    \"description\": \"TestValue2\",\n    \"skillsetMask\": 254,\n    \"languages\": \"TestValue2\"\n}",
+							"raw": "{\n    \"author\": \"TestValue2\",\n    \"authorId\": \"TestValue2\",\n    \"description\": \"TestValue2\",\n    \"languages\": \"TestValue2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -376,16 +376,6 @@
 				{
 					"name": "UserInfo",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -399,10 +389,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Token Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_ADDRESS}}/hello",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"hello"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJodHRwOi8vMC4wLjAuMDo4MDgwL2hlbGxvIiwiaXNzIjoiaHR0cDovLzAuMC4wLjA6ODA4MC8iLCJpZCI6InNvbWUtaWQiLCJleHAiOjE2NDQ2NjIyMTJ9.DCbY2McteC6-FEoKpHxrQlWCCkTeWUxk0Wb_Ml75Qmo",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",

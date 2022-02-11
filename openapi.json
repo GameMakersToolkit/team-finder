@@ -124,8 +124,17 @@
                   "author": "TestValue",
                   "authorId": "TestValue",
                   "description": "TestValue",
-                  "skillsPossessedMask": 255,
-                  "skillsSoughtMask": 255,
+                  "skillsPossessed": [
+                    "ART_3D",
+                    "CODE"
+                  ],
+                  "skillsSought": [
+                    "OTHER"
+                  ],
+                  "preferredTools": [
+                    "BLENDER",
+                    "UNITY"
+                  ],
                   "availability": "PART_TIME",
                   "timezoneStr": "UTC",
                   "languages": [
@@ -134,7 +143,7 @@
                   ]
                 }
               },
-              "example": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessedMask\": 255,\n    \"skillsSoughtMask\": 255,\n    \"availability\": \"PART_TIME\",\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}"
+              "example": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessed\": [\"ART_3D\", \"CODE\"],\n    \"skillsSought\": [\"OTHER\"],\n    \"preferredTools\": [\"BLENDER\", \"UNITY\"],\n    \"availability\": \"PART_TIME\",\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}"
             }
           }
         },
@@ -164,7 +173,7 @@
         ]
       }
     },
-    "/post/mine": {
+    "/posts/mine": {
       "get": {
         "summary": "Get My Post",
         "description": "A less exploitable reference for a logged-in user to view their own Team.\n\nUsed when showing the Manage Team page, to populate form fields.",
@@ -179,9 +188,7 @@
         "tags": [
           "Posts"
         ]
-      }
-    },
-    "/posts/mine": {
+      },
       "put": {
         "summary": "Update My Post",
         "description": "Update a Team with the details a participant is able to change.",
@@ -204,11 +211,10 @@
                   "author": "TestValue2",
                   "authorId": "TestValue2",
                   "description": "TestValue2",
-                  "skillsetMask": 254,
                   "languages": "TestValue2"
                 }
               },
-              "example": "{\n    \"author\": \"TestValue2\",\n    \"authorId\": \"TestValue2\",\n    \"description\": \"TestValue2\",\n    \"skillsetMask\": 254,\n    \"languages\": \"TestValue2\"\n}"
+              "example": "{\n    \"author\": \"TestValue2\",\n    \"authorId\": \"TestValue2\",\n    \"description\": \"TestValue2\",\n    \"languages\": \"TestValue2\"\n}"
             }
           }
         },
@@ -300,6 +306,22 @@
       "get": {
         "summary": "UserInfo",
         "operationId": "UserInfo0",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/hello": {
+      "get": {
+        "summary": "Token Info",
+        "operationId": "TokenInfo",
         "parameters": [],
         "responses": {
           "200": {
@@ -404,9 +426,6 @@
     }
   },
   "security": [
-    {
-      "bearer": []
-    },
     {
       "bearer": []
     },

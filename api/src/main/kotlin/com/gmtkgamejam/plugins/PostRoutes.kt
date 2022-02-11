@@ -100,8 +100,9 @@ fun Application.configurePostRouting() {
                         it.author = data.author.ifEmpty { it.author }
                         it.authorId = data.authorId.ifEmpty { it.authorId }
                         it.description = data.description ?: it.description
-                        it.skillsPossessed = if (data.skillsPossessedMask != null) Skills.fromBitwiseId(data.skillsPossessedMask!!) else it.skillsPossessed
-                        it.skillsSought = if (data.skillsSoughtMask != null) Skills.fromBitwiseId(data.skillsSoughtMask!!) else it.skillsSought
+                        it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
+                        it.skillsSought = data.skillsSought ?: it.skillsSought
+                        it.preferredTools = data.preferredTools ?: it.preferredTools
                         it.languages = if (data.languages != null) data.languages!!.split(",") else it.languages
 
                         service.updatePost(it)

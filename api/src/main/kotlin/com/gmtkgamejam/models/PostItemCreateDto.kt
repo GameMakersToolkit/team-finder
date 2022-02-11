@@ -10,8 +10,9 @@ data class PostItemCreateDto (
     var author: String,
     var authorId: String,
     var description: String,
-    var skillsPossessedMask: Int,
-    var skillsSoughtMask: Int,
+    var skillsPossessed: List<Skills>,
+    var skillsSought: List<Skills>,
+    var preferredTools: List<Tools>?,
     var availability: Availability,
     var timezoneStr: String,
     var languages: List<String>, // TODO: Sanitise/validate?
