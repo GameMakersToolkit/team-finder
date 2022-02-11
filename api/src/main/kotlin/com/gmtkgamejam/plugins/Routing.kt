@@ -2,6 +2,7 @@ package com.gmtkgamejam.plugins
 
 import com.gmtkgamejam.models.DiscordGuildInfo
 import com.gmtkgamejam.models.DiscordUserInfo
+import com.gmtkgamejam.models.UserInfo
 import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -35,6 +36,7 @@ fun Application.configureRouting() {
                 call.respondText("Hello, id: $id and expires at: $expiresAt")
             }
 
+            // TODO: Move this into a better named file?
             get("/userinfo") {
                 val userInfo = "https://discordapp.com/api/users/@me"
                 val guildInfo = "https://discordapp.com/api/users/@me/guilds"
@@ -75,9 +77,8 @@ fun Application.configureRouting() {
 
                     client.close()
 
-                    user.is_in_guild = guilds.any { guild -> guild.id == "248204508960653312" }
-
-                    return@get call.respond(user)
+                    val userinfo = UserInfo(user, guilds)
+                    return@get call.respond(userinfo)
                 }
 
                 call.respondText("Couldn't load token set from DB", status = HttpStatusCode.NotFound)
