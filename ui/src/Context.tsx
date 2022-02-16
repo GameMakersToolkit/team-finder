@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { AuthContextProvider } from "./utils/AuthContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -12,6 +13,8 @@ const queryClient = new QueryClient({
 
 export const Context: React.FC = ({ children }) => (
   <Router>
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <AuthContextProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </AuthContextProvider>
   </Router>
 );
