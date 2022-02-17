@@ -12,14 +12,14 @@ export interface UserInfo {
 export function useUserInfo(
   opts?: UseQueryOptions<UserInfo, Error, UserInfo, typeof USER_INFO_QUERY_KEY>
 ): UseQueryResult<UserInfo | null, Error> {
-  const { token } = useAuth() ?? {};
+  const hasAuth = Boolean(useAuth());
   const apiRequest = useApiRequest();
   return useQuery(
     USER_INFO_QUERY_KEY,
     () => apiRequest<UserInfo>("/userinfo"),
     {
       ...opts,
-      enabled: Boolean(token) && (opts?.enabled ?? true),
+      enabled: hasAuth && (opts?.enabled ?? true),
       staleTime: opts?.staleTime ?? milliseconds({ minutes: 5 }),
     }
   );

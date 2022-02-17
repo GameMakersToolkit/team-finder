@@ -79,6 +79,9 @@ export function toQueryString(
   return params.toString();
 }
 
+/**
+ * A hook that pre-populates the apiRequest() function from context
+ */
 export function useApiRequest() {
   const { token } = useAuth() ?? {};
   const { logout } = useAuthActions();
