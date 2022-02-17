@@ -1,5 +1,7 @@
 import * as React from "react";
 
+const LOCAL_STORAGE_KEY = "gmtkjam_auth";
+
 export interface AuthContextValue {
   currentState: AuthState | null;
   setState: (state: AuthState | null) => void;
@@ -34,8 +36,14 @@ export function useAuthActions(): AuthActions {
   const { setState } = authContext;
   return React.useMemo(
     () => ({
-      setToken: (token) => setState({ token }),
-      logout: () => setState(null),
+      setToken: (token) => {
+        localStorage.setItem(LOCAL_STORAGE_KEY, token);
+        setState({ token });
+      },
+      logout: () => {
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        setState(null);
+      },
     }),
     [setState]
   );
@@ -46,7 +54,14 @@ export function AuthContextProvider({
 }: {
   children?: React.ReactNode;
 }): React.ReactElement {
-  const [currentState, setState] = React.useState<AuthState | null>(null);
+  const [currentState, setState] = React.useState<AuthState | null>(() => {
+    const existingToken = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (existingToken) {
+      return { token: existingToken };
+    } else {
+      return null;
+    }
+  });
 
   const value: AuthContextValue = React.useMemo(
     () => ({
