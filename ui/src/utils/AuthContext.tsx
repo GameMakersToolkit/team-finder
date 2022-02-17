@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useQueryClient } from "react-query";
 
 const LOCAL_STORAGE_KEY = "gmtkjam_auth";
 
@@ -30,6 +31,7 @@ export function useAuth(): AuthState | null {
 
 export function useAuthActions(): AuthActions {
   const authContext = React.useContext(AuthContext);
+  const queryClient = useQueryClient();
   if (!authContext) {
     throw new Error("useAuthActions must be used within an AuthContext");
   }
@@ -43,9 +45,10 @@ export function useAuthActions(): AuthActions {
       logout: () => {
         localStorage.removeItem(LOCAL_STORAGE_KEY);
         setState(null);
+        queryClient.invalidateQueries();
       },
     }),
-    [setState]
+    [setState, queryClient]
   );
 }
 

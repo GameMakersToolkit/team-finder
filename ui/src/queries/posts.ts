@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
 import { Skill } from "../model/skill";
-import { apiRequest, toQueryString } from "../utils/apiRequest";
+import { toQueryString, useApiRequest } from "../utils/apiRequest";
 import { sortArrayImmutably } from "../utils/fns";
 
 export type Availability = string; // TODO: literal union/enum
@@ -47,12 +47,14 @@ export interface SearchOptions {
   sortDir?: "asc" | "desc";
 }
 
-export type PostsListQueryKey = ["posts", "list", SearchOptions];
+type PostsListQueryKey = ["posts", "list", SearchOptions];
 
 export function usePostsList(
   searchOptions?: SearchOptions,
   queryOptions?: UseQueryOptions<GetPost[], Error, Post[], PostsListQueryKey>
 ): UseQueryResult<Post[], Error> {
+  const apiRequest = useApiRequest();
+
   const normalizedSearchOptions: SearchOptions = {
     ...searchOptions,
     skillsPossessed:
