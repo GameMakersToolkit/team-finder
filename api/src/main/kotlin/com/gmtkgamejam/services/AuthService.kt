@@ -8,6 +8,7 @@ import org.koin.core.component.inject
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollectionOfName
+import org.litote.kmongo.updateOne
 
 class AuthService : KoinComponent {
 
@@ -26,6 +27,10 @@ class AuthService : KoinComponent {
 
     fun getOAuthPrincipal(jwt: String): AuthTokenSet? {
         return col.findOne(AuthTokenSet::jwt eq jwt)
+    }
+
+    fun updateTokenSet(tokenSet: AuthTokenSet) {
+        col.updateOne(AuthTokenSet::jwt eq tokenSet.jwt, tokenSet)
     }
 
 }
