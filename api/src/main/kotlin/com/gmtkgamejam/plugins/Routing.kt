@@ -1,7 +1,9 @@
 package com.gmtkgamejam.plugins
 
 import com.gmtkgamejam.models.DiscordGuildInfo
+import com.gmtkgamejam.models.DiscordRefreshTokenResponse
 import com.gmtkgamejam.models.DiscordUserInfo
+import com.gmtkgamejam.models.UserInfo
 import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -11,6 +13,7 @@ import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -35,22 +38,42 @@ fun Application.configureRouting() {
                 call.respondText("Hello, id: $id and expires at: $expiresAt")
             }
 
+            // TODO: Move this into a better named file?
             get("/userinfo") {
                 val userInfo = "https://discordapp.com/api/users/@me"
                 val guildInfo = "https://discordapp.com/api/users/@me/guilds"
+                val refreshTokenEndpoint = "https://discord.com/api/oauth2/token"
 
                 // TODO: This is definitely not how this works
                 val jwt = call.request.header("Authorization")!!.substring(7)
                 service.getOAuthPrincipal(jwt)?.let {
-
-                    // TODO: If tokens are expired
-                    val accessToken = it.accessToken
+                    val tokenSet = it
 
                     val client = HttpClient(CIO) {
                         install(JsonFeature) {
                             serializer = KotlinxSerializer()
                         }
                     }
+
+                    // If access token has expired, try a dirty inline refresh
+                    var accessToken = tokenSet.accessToken
+                    val tokenHasExpired = tokenSet.expiry <= System.currentTimeMillis()
+                    if (tokenHasExpired) {
+                        val refreshedTokenSet = client.post<DiscordRefreshTokenResponse>(refreshTokenEndpoint) {
+                            body = FormDataContent(Parameters.build {
+                                append("client_id", environment.config.property("secrets.discord.client.id").getString())
+                                append("client_secret", environment.config.property("secrets.discord.client.secret").getString())
+                                append("grant_type", "refresh_token")
+                                append("refresh_token", it.refreshToken.toString())
+                            })
+                        }
+
+                        tokenSet.refresh(refreshedTokenSet)
+                        service.updateTokenSet(tokenSet)
+
+                        accessToken = refreshedTokenSet.access_token
+                    }
+
 
                     val userRequest: Deferred<DiscordUserInfo> = async {
                         client.get(userInfo) {
@@ -75,9 +98,8 @@ fun Application.configureRouting() {
 
                     client.close()
 
-                    user.is_in_guild = guilds.any { guild -> guild.id == "248204508960653312" }
-
-                    return@get call.respond(user)
+                    val userinfo = UserInfo(user, guilds)
+                    return@get call.respond(userinfo)
                 }
 
                 call.respondText("Couldn't load token set from DB", status = HttpStatusCode.NotFound)

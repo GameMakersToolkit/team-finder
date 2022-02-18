@@ -30,11 +30,13 @@ fun Application.configureAuthRouting() {
                 val issuer = environment.config.property("jwt.issuer").getString()
                 val audience = environment.config.property("jwt.audience").getString()
 
+                val lifespanOfAppJwt = 86400000 // A user is logged into the Team Finder for 24 hours
+
                 val token = JWT.create()
                     .withAudience(audience)
                     .withIssuer(issuer)
                     .withClaim("id", "some-id")
-                    .withExpiresAt(Date(System.currentTimeMillis() + 60000))
+                    .withExpiresAt(Date(System.currentTimeMillis() + lifespanOfAppJwt))
                     .sign(Algorithm.HMAC256(secret))
 
                 call.principal<OAuthAccessTokenResponse.OAuth2>()?.let {

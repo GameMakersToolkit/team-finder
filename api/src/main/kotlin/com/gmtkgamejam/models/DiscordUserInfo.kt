@@ -12,8 +12,7 @@ data class DiscordUserInfo(
     val flags: Long,
     val banner: String?,
     val banner_color: String?,
-    val accent_color: String?,
+    val accent_color: Int?,
     val locale: String,
     val mfa_enabled: Boolean,
-    var is_in_guild: Boolean = false
 )
