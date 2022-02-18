@@ -15,5 +15,4 @@ data class DiscordUserInfo(
     val accent_color: Int?,
     val locale: String,
     val mfa_enabled: Boolean,
-    var is_in_guild: Boolean = false
 )
