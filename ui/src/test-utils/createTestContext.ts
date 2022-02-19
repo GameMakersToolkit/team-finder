@@ -2,11 +2,12 @@ import { QueryClient } from "react-query";
 
 export interface TestContext {
   queryClient: QueryClient;
+  initialToken?: string | null;
 }
 
-// This is fine for now - I expect it won't be empty for long
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface TestContextOptions {}
+interface TestContextOptions {
+  initialToken: string | null;
+}
 
 export function createTestContext(
   options?: TestContextOptions,
@@ -21,7 +22,10 @@ export function createTestContext(
         },
       },
     });
+  const initialToken =
+    options?.initialToken !== undefined ? options.initialToken : "TEST.TOKEN";
   return {
     queryClient,
+    initialToken,
   };
 }
