@@ -1,25 +1,16 @@
 import * as React from "react";
-import { useUserInfo } from "../../queries/userInfo";
-import { LOGIN_URL, useAuth } from "../../utils/AuthContext";
+import { useEnsureLoggedIn } from "../../utils/useEnsureLoggedIn";
 
 export function TestAuthenticatedPage(): React.ReactElement | null {
-  const auth = useAuth();
-  const userInfo = useUserInfo();
+  const userInfo = useEnsureLoggedIn();
 
-  React.useEffect(() => {
-    if (!auth) {
-      window.location.href = LOGIN_URL;
-    }
-  }, [auth]);
-
-  if (!auth) {
+  if (!userInfo.data) {
     return null;
   }
 
   return (
     <>
-      <div>are ya logged in</div>
-      {userInfo.data && <pre>{JSON.stringify(userInfo.data, null, 2)}</pre>}
+      <pre>{JSON.stringify(userInfo.data, null, 2)}</pre>
     </>
   );
 }
