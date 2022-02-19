@@ -1,9 +1,6 @@
 import * as React from "react";
 import { useUserInfo } from "../../queries/userInfo";
-import { useAuth } from "../../utils/AuthContext";
-import { importMetaEnv } from "../../utils/importMeta";
-
-export const loginUrl = `${importMetaEnv().VITE_API_URL}/login`;
+import { LOGIN_URL, useAuth } from "../../utils/AuthContext";
 
 export function TestAuthenticatedPage(): React.ReactElement | null {
   const auth = useAuth();
@@ -11,7 +8,7 @@ export function TestAuthenticatedPage(): React.ReactElement | null {
 
   React.useEffect(() => {
     if (!auth) {
-      window.location.href = loginUrl;
+      window.location.href = LOGIN_URL;
     }
   }, [auth]);
 

@@ -1,5 +1,8 @@
 import * as React from "react";
 import { useQueryClient } from "react-query";
+import { importMetaEnv } from "./importMeta";
+
+export const LOGIN_URL = `${importMetaEnv().VITE_API_URL}/login`;
 
 const LOCAL_STORAGE_KEY = "gmtkjam_auth";
 
