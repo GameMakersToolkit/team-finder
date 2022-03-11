@@ -14,6 +14,7 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import java.security.SecureRandom
 import java.util.*
 
 fun Application.configureAuthRouting() {
@@ -32,10 +33,13 @@ fun Application.configureAuthRouting() {
 
                 val lifespanOfAppJwt = 86400000 // A user is logged into the Team Finder for 24 hours
 
+                // A securely random ID is used to ensure a JWT is unique, and that another JWT can't be brute-forced
+                val randomId = getSecureId()
+
                 val token = JWT.create()
                     .withAudience(audience)
                     .withIssuer(issuer)
-                    .withClaim("id", "some-id")
+                    .withClaim("id", randomId)
                     .withExpiresAt(Date(System.currentTimeMillis() + lifespanOfAppJwt))
                     .sign(Algorithm.HMAC256(secret))
 
@@ -91,4 +95,13 @@ val httpClient = HttpClient(CIO) {
     install(JsonFeature) {
         serializer = KotlinxSerializer()
     }
+}
+
+fun getSecureId() : String {
+    // Arbitrary array size, but inflated to give overflow in case byte->string encoding drops any characters
+    val bytes = ByteArray(64)
+    SecureRandom().nextBytes(bytes)
+
+    val encoder: Base64.Encoder = Base64.getUrlEncoder().withoutPadding()
+    return encoder.encodeToString(bytes)
 }
