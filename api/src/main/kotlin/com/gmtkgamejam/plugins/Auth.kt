@@ -40,7 +40,7 @@ fun Application.configureAuthRouting() {
                     .sign(Algorithm.HMAC256(secret))
 
                 call.principal<OAuthAccessTokenResponse.OAuth2>()?.let {
-                    val tokenSet = AuthTokenSet(token, it.accessToken, it.tokenType, System.currentTimeMillis() + it.expiresIn, it.refreshToken)
+                    val tokenSet = AuthTokenSet(token, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
                     service.storeTokens(tokenSet)
 
                     val redirectTarget = environment.config.property("ui.host").getString()

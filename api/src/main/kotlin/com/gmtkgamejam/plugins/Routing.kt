@@ -20,6 +20,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
+import java.util.*
 
 fun Application.configureRouting() {
 
@@ -57,7 +58,7 @@ fun Application.configureRouting() {
 
                     // If access token has expired, try a dirty inline refresh
                     var accessToken = tokenSet.accessToken
-                    val tokenHasExpired = tokenSet.expiry <= System.currentTimeMillis()
+                    val tokenHasExpired = tokenSet.expiry <= Date(System.currentTimeMillis())
                     if (tokenHasExpired) {
                         val refreshedTokenSet = client.post<DiscordRefreshTokenResponse>(refreshTokenEndpoint) {
                             body = FormDataContent(Parameters.build {
