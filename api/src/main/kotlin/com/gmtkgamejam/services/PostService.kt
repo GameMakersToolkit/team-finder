@@ -21,6 +21,7 @@ class PostService : KoinComponent {
         val database = client.getDatabase("team-finder")
         col = database.getCollectionOfName("posts")
     }
+
     fun createPost(postItem: PostItem) {
         col.insertOne(postItem)
     }
