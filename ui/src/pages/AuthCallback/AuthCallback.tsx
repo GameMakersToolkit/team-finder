@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuthActions } from "../../utils/AuthContext";
+import { LOCAL_STORAGE_RETURN_AUTH_PATH_KEY } from "../../utils/login";
 
 export function AuthCallback(): React.ReactElement | null {
   const { setToken } = useAuthActions();
@@ -12,7 +13,8 @@ export function AuthCallback(): React.ReactElement | null {
   React.useEffect(() => {
     if (token) {
       setToken(token);
-      navigate("/");
+
+      navigate(localStorage.getItem(LOCAL_STORAGE_RETURN_AUTH_PATH_KEY) || "/");
     }
   }, [navigate, setToken, token]);
 
