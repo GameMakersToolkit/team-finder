@@ -26,11 +26,11 @@ class AuthService : KoinComponent {
     }
 
     fun getOAuthPrincipal(jwt: String): AuthTokenSet? {
-        return col.findOne(AuthTokenSet::jwt eq jwt)
+        return col.findOne(AuthTokenSet::id eq jwt)
     }
 
     fun updateTokenSet(tokenSet: AuthTokenSet) {
-        col.updateOne(AuthTokenSet::jwt eq tokenSet.jwt, tokenSet)
+        col.updateOne(AuthTokenSet::id eq tokenSet.id, tokenSet)
     }
 
 }
