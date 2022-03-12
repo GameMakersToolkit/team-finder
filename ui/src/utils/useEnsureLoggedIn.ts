@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useUserInfo } from "../queries/userInfo";
-import { LOGIN_URL, useAuth } from "./AuthContext";
+import { useAuth } from "./AuthContext";
+import { login } from "./login";
 
 /**
  * Note: While this does automatically redirect the user to the login page
@@ -14,7 +15,7 @@ export function useEnsureLoggedIn(): ReturnType<typeof useUserInfo> {
 
   React.useEffect(() => {
     if (!auth) {
-      window.location.href = LOGIN_URL;
+      login();
     }
   }, [auth]);
 
