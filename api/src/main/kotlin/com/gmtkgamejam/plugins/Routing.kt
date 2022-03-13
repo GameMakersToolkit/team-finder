@@ -47,7 +47,7 @@ fun Application.configureRouting() {
                 val principal = call.principal<JWTPrincipal>()
                 val id = principal?.payload?.getClaim("id")?.asString()
 
-                service.getOAuthPrincipal(id!!)?.let {
+                service.getTokenSet(id!!)?.let {
                     val tokenSet = it
 
                     val client = HttpClient(CIO) {

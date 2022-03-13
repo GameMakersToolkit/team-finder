@@ -21,12 +21,12 @@ class AuthService : KoinComponent {
         col = database.getCollectionOfName("auth")
     }
 
-    fun storeTokens(tokenSet: AuthTokenSet) {
+    fun storeTokenSet(tokenSet: AuthTokenSet) {
         col.insertOne(tokenSet)
     }
 
-    fun getOAuthPrincipal(jwt: String): AuthTokenSet? {
-        return col.findOne(AuthTokenSet::id eq jwt)
+    fun getTokenSet(id: String): AuthTokenSet? {
+        return col.findOne(AuthTokenSet::id eq id)
     }
 
     fun updateTokenSet(tokenSet: AuthTokenSet) {
