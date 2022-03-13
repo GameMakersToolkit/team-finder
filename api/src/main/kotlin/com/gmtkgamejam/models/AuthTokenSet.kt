@@ -3,7 +3,7 @@ package com.gmtkgamejam.models
 import java.util.*
 
 data class AuthTokenSet(
-    val jwt: String,
+    val id: String,
     var accessToken: String,
     val tokenType: String,
     var expiry: Date,

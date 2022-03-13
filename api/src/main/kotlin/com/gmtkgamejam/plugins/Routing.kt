@@ -15,7 +15,6 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
-import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.coroutines.Deferred
@@ -45,9 +44,10 @@ fun Application.configureRouting() {
                 val guildInfo = "https://discordapp.com/api/users/@me/guilds"
                 val refreshTokenEndpoint = "https://discord.com/api/oauth2/token"
 
-                // TODO: This is definitely not how this works
-                val jwt = call.request.header("Authorization")!!.substring(7)
-                service.getOAuthPrincipal(jwt)?.let {
+                val principal = call.principal<JWTPrincipal>()
+                val id = principal?.payload?.getClaim("id")?.asString()
+
+                service.getOAuthPrincipal(id!!)?.let {
                     val tokenSet = it
 
                     val client = HttpClient(CIO) {
