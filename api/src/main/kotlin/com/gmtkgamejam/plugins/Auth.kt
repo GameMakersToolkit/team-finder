@@ -45,7 +45,7 @@ fun Application.configureAuthRouting() {
 
                 call.principal<OAuthAccessTokenResponse.OAuth2>()?.let {
                     val tokenSet = AuthTokenSet(randomId, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
-                    service.storeTokens(tokenSet)
+                    service.storeTokenSet(tokenSet)
 
                     val redirectTarget = environment.config.property("ui.host").getString()
                     call.respondRedirect("$redirectTarget/login/authorized?token=$token")
@@ -83,9 +83,18 @@ fun Application.authModule() {
                 .withIssuer(issuer)
                 .build())
             validate {
-                if (it.payload.getClaim("id").asString() != "") {
+                val service = AuthService()
+
+                val id = it.payload.getClaim("id").asString()
+                val tokenSet = service.getTokenSet(id)
+
+                // We deliberately aren't checking `expiry` here (which is for the accessToken only),
+                // just the that record exists; the collection's TTL will clear out expired auth sessions
+                if (tokenSet != null) {
                     JWTPrincipal(it.payload)
-                } else null
+                } else {
+                    null
+                }
             }
         }
     }
