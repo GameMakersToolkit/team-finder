@@ -27,8 +27,12 @@ fun Application.configurePostRouting() {
                 params["description"]?.split(',')
                     ?.filter ( String::isNotBlank ) // Filter out empty `&description=`
                     // The regex is the easiest way to check if a description contains a given substring
-                    ?.map { PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE) }
-                    ?.let ( filters::addAll )
+                    ?.forEach {
+                        filters.add(or(
+                            PostItem::title regex it.toRegex(RegexOption.IGNORE_CASE),
+                            PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE)
+                        ))
+                    }
 
                 params["skillsPossessed"]?.split(',')
                     ?.filter ( String::isNotBlank ) // Filter out empty `&skillsPossessed=`
