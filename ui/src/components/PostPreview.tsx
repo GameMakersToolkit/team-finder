@@ -1,9 +1,8 @@
 import * as React from "react";
 import cx from "classnames";
-import { ReactSVG } from "react-svg";
 import { Post } from "../queries/posts";
 import { Button } from "./Button";
-import { skillInfoMap } from "../model/skill";
+import { Skill, skillInfoMap } from "../model/skill";
 import { SkillIcon } from "./SkillIcon";
 
 interface Props {
@@ -20,36 +19,57 @@ export const PostPreview: React.FC<Props> = ({ post, className }) => {
       )}
     >
       <h3 className="font-bold text-xl">[title goes here]</h3>
-      {post.skillsSought.length && (
-        <dl className="flex gap-1 flex-wrap text-lg">
-          <dt className="py-1 mr-1">Looking for:</dt>
-          {post.skillsSought.map((skill) => {
-            const info = skillInfoMap[skill];
-            return (
-              <dd key={skill} className="py-1 px-2 border-2 border-accent1 flex items-center">
-                <SkillIcon
-                  skill={skill}
-                  className="text-accent1 w-5 mr-1"
-                  aria-hidden={true}
-                />
-                {info.friendlyName}
-              </dd>
-            );
-          })}
-        </dl>
-      )}
-      {post.skillsPossessed.length && (
-        <dl className="flex gap-1 flex-wrap text-lg">
-          <dt className="py-1">Brings:</dt>
-          {post.skillsPossessed.map((skill) => (
-            <dd className="py-1 px-2 border-2 border-accent2" key={skill}>
-              {skill}
-            </dd>
-          ))}
-        </dl>
-      )}
+      <SkillList
+        label="Looking for:"
+        skills={post.skillsSought}
+        elementClassName="border-accent1"
+        iconClassName="text-accent1"
+      />
+      <SkillList
+        label="Looking for:"
+        skills={post.skillsSought}
+        elementClassName="border-accent2"
+        iconClassName="text-accent2"
+      />
       <p>{post.description}</p>
       <Button className="justify-self-end">More</Button>
     </article>
   );
+};
+
+const SkillList: React.FC<{
+  skills: Skill[];
+  label: React.ReactNode;
+  className?: string;
+  elementClassName?: string;
+  iconClassName?: string;
+}> = ({ skills, label, className, elementClassName, iconClassName }) => {
+  if (skills.length) {
+    return (
+      <dl className={cx("flex gap-1 flex-wrap text-lg", className)}>
+        <dt className="py-1 mr-1">{label}</dt>
+        {skills.map((skill) => {
+          const info = skillInfoMap[skill];
+          return (
+            <dd
+              key={skill}
+              className={cx(
+                "py-1 px-2 border-2 flex items-center",
+                elementClassName
+              )}
+            >
+              <SkillIcon
+                skill={skill}
+                className={cx("w-5 mr-1", iconClassName)}
+                aria-hidden={true}
+              />
+              {info.friendlyName}
+            </dd>
+          );
+        })}
+      </dl>
+    );
+  } else {
+    return null;
+  }
 };
