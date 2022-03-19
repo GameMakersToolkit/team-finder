@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useSearchParams } from "react-router-dom";
+import { PostPreview } from "../../components/PostPreview";
 import { isSkill } from "../../model/skill";
 import { SearchOptions, usePostsList } from "../../queries/posts";
 import { useUpdateSearchParam } from "../../utils/searchParam";
@@ -35,7 +36,7 @@ export const Home: React.FC = () => {
   const query = usePostsList(searchOptions);
 
   return (
-    <div>
+    <div className="container mx-auto max-w-screen-md">
       <div>
         <label htmlFor="descriptionFilter">Description</label>
         <input
@@ -58,7 +59,8 @@ export const Home: React.FC = () => {
         />
       </div>
       {query.data && <div>{query.data.length} results found</div>}
-      <pre>{JSON.stringify(query.data, null, 2)}</pre>
+      <PostPreview />
+      {/* <pre>{JSON.stringify(query.data, null, 2)}</pre> */}
     </div>
   );
 };
