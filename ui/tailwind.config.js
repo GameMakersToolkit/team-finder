@@ -19,8 +19,8 @@ module.exports = {
         lightbg: colors.gray["600"],
         'lightbg-highlight': colors.gray["500"],
         primary: colors.sky["400"],
-        accent1: colors.fuchsia["400"],
-        accent2: colors.yellow["400"],
+        accent1: colors.fuchsia["500"],
+        accent2: colors.yellow["500"],
       },
       typography: (theme) => ({
         DEFAULT: {
