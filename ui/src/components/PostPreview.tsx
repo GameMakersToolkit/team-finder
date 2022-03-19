@@ -10,10 +10,10 @@ interface Props {
 
 export const PostPreview: React.FC<Props> = ({ post, className }) => {
   return (
-    <article className={cx("border-2 border-white p-2", className)}>
+    <article className={cx("border-2 border-white p-2 grid grid-flow-row auto-cols-auto gap-y-2", className)}>
       <h3 className="font-bold text-xl">[title goes here]</h3>
       <p>{post.description}</p>
-      <Button>More</Button>
+      <Button className="justify-self-end">More</Button>
     </article>
   );
 };
