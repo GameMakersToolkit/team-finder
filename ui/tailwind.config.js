@@ -19,14 +19,11 @@ module.exports = {
         sans: ["Lato", ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        gray: colors.trueGray,
-        trueWhite: "#fff",
-        white: "#f0f0f0",
-        primary: {
-          DEFAULT: primaryBright,
-          bright: primaryBright,
-          dark: primaryDark,
-        },
+        darkbg: colors.neutral["800"],
+        lightbg: colors.gray["600"],
+        primary: colors.sky["400"],
+        accent1: colors.fuchsia["400"],
+        accent2: colors.yellow["400"],
       },
       typography: (theme) => ({
         DEFAULT: {
