@@ -22,14 +22,12 @@ export const PostPreview: React.FC<Props> = ({ post, className }) => {
       <SkillList
         label="Looking for:"
         skills={post.skillsSought}
-        elementClassName="border-accent1"
-        iconClassName="text-accent1"
+        className="[--skill-color:theme(colors.accent1)]"
       />
       <SkillList
         label="Looking for:"
         skills={post.skillsSought}
-        elementClassName="border-accent2"
-        iconClassName="text-accent2"
+        className="[--skill-color:theme(colors.accent2)]"
       />
       <p>{post.description}</p>
       <Button className="justify-self-end">More</Button>
@@ -41,9 +39,7 @@ const SkillList: React.FC<{
   skills: Skill[];
   label: React.ReactNode;
   className?: string;
-  elementClassName?: string;
-  iconClassName?: string;
-}> = ({ skills, label, className, elementClassName, iconClassName }) => {
+}> = ({ skills, label, className }) => {
   if (skills.length) {
     return (
       <dl className={cx("flex gap-1 flex-wrap text-lg", className)}>
@@ -53,14 +49,13 @@ const SkillList: React.FC<{
           return (
             <dd
               key={skill}
-              className={cx(
-                "py-1 px-2 border-2 flex items-center",
-                elementClassName
-              )}
+              className={
+                "py-1 px-2 border-2 border-[color:var(--skill-color)] flex items-center"
+              }
             >
               <SkillIcon
                 skill={skill}
-                className={cx("w-5 mr-1", iconClassName)}
+                className={"w-5 mr-1 text-[color:var(--skill-color)]"}
                 aria-hidden={true}
               />
               {info.friendlyName}
