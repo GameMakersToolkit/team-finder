@@ -1,5 +1,19 @@
 import * as React from "react";
+import cx from "classnames";
+import { Post } from "../queries/posts";
+import { Button } from "./Button";
 
-export const PostPreview: React.FC = () => {
-  return <div className="border-2 border-white">hi!</div>
+interface Props {
+  post: Post;
+  className?: string;
+}
+
+export const PostPreview: React.FC<Props> = ({ post, className }) => {
+  return (
+    <article className={cx("border-2 border-white p-2", className)}>
+      <h3 className="font-bold text-xl">[title goes here]</h3>
+      <p>{post.description}</p>
+      <Button>More</Button>
+    </article>
+  );
 };

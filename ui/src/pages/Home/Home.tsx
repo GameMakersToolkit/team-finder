@@ -59,7 +59,9 @@ export const Home: React.FC = () => {
         />
       </div>
       {query.data && <div>{query.data.length} results found</div>}
-      <PostPreview />
+      {query.data?.map((post) => (
+        <PostPreview key={post.id} post={post} className="mt-4" />
+      ))}
       {/* <pre>{JSON.stringify(query.data, null, 2)}</pre> */}
     </div>
   );

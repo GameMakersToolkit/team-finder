@@ -17,6 +17,7 @@ module.exports = {
       colors: {
         darkbg: colors.neutral["800"],
         lightbg: colors.gray["600"],
+        'lightbg-highlight': colors.gray["500"],
         primary: colors.sky["400"],
         accent1: colors.fuchsia["400"],
         accent2: colors.yellow["400"],
