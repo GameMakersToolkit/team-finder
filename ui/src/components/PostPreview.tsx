@@ -1,7 +1,10 @@
 import * as React from "react";
 import cx from "classnames";
+import { ReactSVG } from "react-svg";
 import { Post } from "../queries/posts";
 import { Button } from "./Button";
+import { skillInfoMap } from "../model/skill";
+import { SkillIcon } from "./SkillIcon";
 
 interface Props {
   post: Post;
@@ -20,11 +23,19 @@ export const PostPreview: React.FC<Props> = ({ post, className }) => {
       {post.skillsSought.length && (
         <dl className="flex gap-1 flex-wrap text-lg">
           <dt className="py-1 mr-1">Looking for:</dt>
-          {post.skillsSought.map((skill) => (
-            <dd className="py-1 px-2 border-2 border-accent1" key={skill}>
-              {skill}
-            </dd>
-          ))}
+          {post.skillsSought.map((skill) => {
+            const info = skillInfoMap[skill];
+            return (
+              <dd key={skill} className="py-1 px-2 border-2 border-accent1 flex items-center">
+                <SkillIcon
+                  skill={skill}
+                  className="text-accent1 w-5 mr-1"
+                  aria-hidden={true}
+                />
+                {info.friendlyName}
+              </dd>
+            );
+          })}
         </dl>
       )}
       {post.skillsPossessed.length && (
