@@ -2,9 +2,11 @@ package com.gmtkgamejam.plugins;
 
 import com.gmtkgamejam.enumFromStringSafe
 import com.gmtkgamejam.models.*
+import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.PostService
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.auth.jwt.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -14,6 +16,7 @@ import kotlin.reflect.full.memberProperties
 
 fun Application.configurePostRouting() {
 
+    val authService = AuthService()
     val service = PostService()
 
     routing {
@@ -89,40 +92,53 @@ fun Application.configurePostRouting() {
             authenticate("auth-jwt") {
                 route("/mine") {
                     get {
-                        // TODO: Pull ID from auth payload when set up
-                        service.getPost(1)?.let { return@get call.respond(it) }
+                        val principal = call.principal<JWTPrincipal>()!!
+                        val id = principal.payload.getClaim("id").asString()
+
+                        authService.getTokenSet(id)
+                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let { return@get call.respond(it) }
+
                         call.respondText("Post not found", status = HttpStatusCode.NotFound)
                     }
 
                     put {
-                        val data = call.receive<PostItemUpdateDto>()
-                        // TODO: Pull ID from auth payload when set up
-                        service.getPost(data.id)?.let {
-                            // FIXME: Don't just brute force update all given fields
-                            it.author = data.author.ifEmpty { it.author }
-                            it.authorId = data.authorId.ifEmpty { it.authorId }
-                            it.description = data.description ?: it.description
-                            it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
-                            it.skillsSought = data.skillsSought ?: it.skillsSought
-                            it.preferredTools = data.preferredTools ?: it.preferredTools
-                            it.languages = if (data.languages != null) data.languages!!.split(",") else it.languages
+                        val principal = call.principal<JWTPrincipal>()!!
+                        val id = principal.payload.getClaim("id").asString()
 
-                            service.updatePost(it)
-                            return@put call.respond(it)
-                        }
+                        val data = call.receive<PostItemUpdateDto>()
+
+                        authService.getTokenSet(id)
+                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let {
+                                // FIXME: Don't just brute force update all given fields
+                                it.description = data.description ?: it.description
+                                it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
+                                it.skillsSought = data.skillsSought ?: it.skillsSought
+                                it.preferredTools = data.preferredTools ?: it.preferredTools
+                                it.languages = if (data.languages != null) data.languages!!.split(",") else it.languages
+
+                                service.updatePost(it)
+                                return@put call.respond(it)
+                            }
 
                         // TODO: Replace BadRequest with contextual response
                         call.respondText("Could not update Post", status = HttpStatusCode.BadRequest)
                     }
 
                     delete {
-                        // TODO: Manage user Post, not just any ID
+                        // TODO: Should this DTO exist at all? No data being used.
                         val data = call.receive<PostItemDeleteDto>()
 
-                        service.getPost(data.id)?.let {
-                            service.deletePost(it)
-                            return@delete call.respondText("Post deleted", status = HttpStatusCode.OK)
-                        }
+                        val principal = call.principal<JWTPrincipal>()!!
+                        val id = principal.payload.getClaim("id").asString()
+
+                        authService.getTokenSet(id)
+                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let {
+                                service.deletePost(it)
+                                return@delete call.respondText("Post deleted", status = HttpStatusCode.OK)
+                            }
 
                         // TODO: Replace BadRequest with contextual response
                         call.respondText("Could not delete Post", status = HttpStatusCode.BadRequest)

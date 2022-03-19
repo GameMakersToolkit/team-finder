@@ -41,6 +41,10 @@ class PostService : KoinComponent {
         return col.findOne(PostItem::id eq id)
     }
 
+    fun getPostByAuthorId(authorId: String) : PostItem? {
+        return col.findOne(PostItem::authorId eq authorId)
+    }
+
     fun updatePost(postItem: PostItem) {
         col.updateOne(PostItem::id eq postItem.id, postItem)
     }

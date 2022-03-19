@@ -3,6 +3,7 @@ package com.gmtkgamejam.plugins
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.gmtkgamejam.models.AuthTokenSet
+import com.gmtkgamejam.models.DiscordUserInfo
 import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -11,6 +12,7 @@ import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
+import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -44,7 +46,22 @@ fun Application.configureAuthRouting() {
                     .sign(Algorithm.HMAC256(secret))
 
                 call.principal<OAuthAccessTokenResponse.OAuth2>()?.let {
-                    val tokenSet = AuthTokenSet(randomId, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
+                    val client = HttpClient(CIO) {
+                        install(JsonFeature) {
+                            serializer = KotlinxSerializer()
+                        }
+                    }
+
+                    val userRequest: DiscordUserInfo = client.get("https://discordapp.com/api/users/@me") {
+                        headers {
+                            append(HttpHeaders.Accept, "application/json")
+                            append(HttpHeaders.Authorization, "Bearer " + it.accessToken)
+                        }
+                    }
+
+                    client.close()
+
+                    val tokenSet = AuthTokenSet(randomId, userRequest.id, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
                     service.storeTokenSet(tokenSet)
 
                     val redirectTarget = environment.config.property("ui.host").getString()
