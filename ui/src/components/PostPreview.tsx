@@ -25,8 +25,8 @@ export const PostPreview: React.FC<Props> = ({ post, className }) => {
         className="[--skill-color:theme(colors.accent1)]"
       />
       <SkillList
-        label="Looking for:"
-        skills={post.skillsSought}
+        label="Brings:"
+        skills={post.skillsPossessed}
         className="[--skill-color:theme(colors.accent2)]"
       />
       <p>{post.description}</p>
