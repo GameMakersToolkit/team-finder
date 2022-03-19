@@ -75,14 +75,6 @@ fun Application.configurePostRouting() {
                 call.respond(service.getPosts(combinedFilter, sort, page))
             }
 
-            post {
-                val data = call.receive<PostItemCreateDto>()
-                val postItem = PostItem.fromCreateDto(data)
-
-                service.createPost(postItem)
-                call.respond(postItem)
-            }
-
             get("{id}") {
                 val post: PostItem? = call.parameters["id"]?.toLong()?.let { service.getPost(it) }
                 post?.let { return@get call.respond(it) }
@@ -90,6 +82,26 @@ fun Application.configurePostRouting() {
             }
 
             authenticate("auth-jwt") {
+
+                post {
+                    val principal = call.principal<JWTPrincipal>()!!
+                    val id = principal.payload.getClaim("id").asString()
+
+                    val data = call.receive<PostItemCreateDto>()
+                    authService.getTokenSet(id)
+                        ?.let {
+                            data.authorId = it.discordId  // TODO: What about author name?
+                            if (service.getPostByAuthorId(it.discordId) != null) {
+                                return@post call.respondText("Cannot have duplicate posts", status = HttpStatusCode.BadRequest)
+                            }
+                        }
+                        ?.let { PostItem.fromCreateDto(data) }
+                        ?.let {  service.createPost(it) }
+                        ?.let { return@post call.respond(it) }
+
+                    call.respondText("Post could not be created", status = HttpStatusCode.NotFound)
+                }
+
                 route("/mine") {
                     get {
                         val principal = call.principal<JWTPrincipal>()!!
