@@ -1,6 +1,7 @@
 package com.gmtkgamejam.plugins
 
 import com.auth0.jwt.JWT
+import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.gmtkgamejam.discord.discordHttpClient
 import com.gmtkgamejam.discord.getUserInfoAsync
@@ -72,31 +73,39 @@ fun Application.authModule() {
             client = discordHttpClient()
         }
         jwt("auth-jwt") {
-            val secret = environment.config.property("jwt.secret").getString()
-            val issuer = environment.config.property("jwt.issuer").getString()
-            val audience = environment.config.property("jwt.audience").getString()
-
-            verifier(JWT
-                .require(Algorithm.HMAC256(secret))
-                .withAudience(audience)
-                .withIssuer(issuer)
-                .build())
+            verifier(buildJWTVerifier(environment))
             validate {
-                val service = AuthService()
-
                 val id = it.payload.getClaim("id").asString()
-                val tokenSet = service.getTokenSet(id)
+                val tokenSet = AuthService().getTokenSet(id)
 
                 // We deliberately aren't checking `expiry` here (which is for the accessToken only),
                 // just the that record exists; the collection's TTL will clear out expired auth sessions
-                if (tokenSet != null) {
-                    JWTPrincipal(it.payload)
-                } else {
-                    null
-                }
+                return@validate if (tokenSet != null) JWTPrincipal(it.payload) else null
+            }
+        }
+        jwt("auth-jwt-admin") {
+            verifier(buildJWTVerifier(environment))
+            validate {
+                val id = it.payload.getClaim("id").asString()
+                val tokenSet = AuthService().getTokenSet(id)
+                val adminDiscordIds = environment.config.property("jam.adminIds").getList()
+
+                return@validate if (tokenSet != null && adminDiscordIds.contains(tokenSet.discordId)) JWTPrincipal(it.payload) else null
             }
         }
     }
+}
+
+fun buildJWTVerifier(environment: ApplicationEnvironment): JWTVerifier {
+    val secret = environment.config.property("jwt.secret").getString()
+    val issuer = environment.config.property("jwt.issuer").getString()
+    val audience = environment.config.property("jwt.audience").getString()
+
+    return JWT
+        .require(Algorithm.HMAC256(secret))
+        .withAudience(audience)
+        .withIssuer(issuer)
+        .build()!!
 }
 
 fun getSecureId() : String {
