@@ -10,6 +10,8 @@ data class PostItem (
 
     var author: String,
     var authorId: String,
+
+    var title: String,
     var description: String,
 
     var skillsPossessed: List<Skills>?,
@@ -36,6 +38,7 @@ data class PostItem (
                 99999,
                 dto.author,
                 dto.authorId,
+                dto.title,
                 dto.description,
                 dto.skillsPossessed,
                 dto.skillsSought,
