@@ -4,6 +4,7 @@ import java.util.*
 
 data class AuthTokenSet(
     val id: String,
+    val discordId: String,
     var accessToken: String,
     val tokenType: String,
     var expiry: Date,

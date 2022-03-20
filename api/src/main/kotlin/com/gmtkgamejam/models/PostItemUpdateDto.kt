@@ -7,9 +7,6 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class PostItemUpdateDto (
-    var id: Long,
-    var author: String,
-    var authorId: String,
     var title: String?,
     var description: String?,
     var skillsPossessed: List<Skills>?,

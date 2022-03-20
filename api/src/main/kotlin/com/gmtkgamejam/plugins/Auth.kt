@@ -2,15 +2,13 @@ package com.gmtkgamejam.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.gmtkgamejam.discord.discordHttpClient
+import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.models.AuthTokenSet
 import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -44,7 +42,8 @@ fun Application.configureAuthRouting() {
                     .sign(Algorithm.HMAC256(secret))
 
                 call.principal<OAuthAccessTokenResponse.OAuth2>()?.let {
-                    val tokenSet = AuthTokenSet(randomId, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
+                    val user = getUserInfoAsync(it.accessToken)
+                    val tokenSet = AuthTokenSet(randomId, user.id, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
                     service.storeTokenSet(tokenSet)
 
                     val redirectTarget = environment.config.property("ui.host").getString()
@@ -70,7 +69,7 @@ fun Application.authModule() {
                     defaultScopes = listOf("identify", "guilds")
                 )
             }
-            client = httpClient
+            client = discordHttpClient()
         }
         jwt("auth-jwt") {
             val secret = environment.config.property("jwt.secret").getString()
@@ -97,12 +96,6 @@ fun Application.authModule() {
                 }
             }
         }
-    }
-}
-
-val httpClient = HttpClient(CIO) {
-    install(JsonFeature) {
-        serializer = KotlinxSerializer()
     }
 }
 
