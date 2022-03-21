@@ -1,7 +1,8 @@
-import 'whatwg-fetch';
+import "whatwg-fetch";
 import { server } from "./test-utils/api-mocks/server-jest";
 
 jest.mock("./utils/importMeta");
+jest.mock("./model/skillIcons");
 
 // Establish API mocking before all tests.
 beforeAll(() =>

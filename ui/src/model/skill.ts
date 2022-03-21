@@ -1,4 +1,4 @@
-const skillIcons = import.meta.globEager("./skill-icons/*.svg");
+import { getSkillIcon } from "./skillIcons";
 
 export const allSkills = [
   "ART_2D",
@@ -24,34 +24,34 @@ export interface SkillInfo {
 export const skillInfoMap: Record<Skill, SkillInfo> = {
   ART_2D: {
     friendlyName: "2D Art",
-    icon: skillIcons["./skill-icons/ART_2D.svg"].default,
+    icon: getSkillIcon("ART_2D"),
   },
   ART_3D: {
     friendlyName: "3D Art",
-    icon: skillIcons["./skill-icons/ART_3D.svg"].default,
+    icon: getSkillIcon("ART_3D"),
   },
   CODE: {
     friendlyName: "Code",
-    icon: skillIcons["./skill-icons/CODE.svg"].default,
+    icon: getSkillIcon("CODE"),
   },
   DESIGN_PRODUCTION: {
     friendlyName: "Design & Production",
-    icon: skillIcons["./skill-icons/DESIGN_PRODUCTION.svg"].default,
+    icon: getSkillIcon("DESIGN_PRODUCTION"),
   },
   OTHER: {
     friendlyName: "Other",
-    icon: skillIcons["./skill-icons/OTHER.svg"].default,
+    icon: getSkillIcon("OTHER"),
   },
   SOUND_MUSIC: {
     friendlyName: "Sound & Music",
-    icon: skillIcons["./skill-icons/SOUND_MUSIC.svg"].default,
+    icon: getSkillIcon("SOUND_MUSIC"),
   },
   TEAM_LEAD: {
     friendlyName: "Team Lead",
-    icon: skillIcons["./skill-icons/TEAM_LEAD.svg"].default,
+    icon: getSkillIcon("TEAM_LEAD"),
   },
   TESTING_SUPPORT: {
     friendlyName: "Testing & Support",
-    icon: skillIcons["./skill-icons/TESTING_SUPPORT.svg"].default,
+    icon: getSkillIcon("TESTING_SUPPORT"),
   },
 };
