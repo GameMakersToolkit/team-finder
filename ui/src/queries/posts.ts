@@ -8,6 +8,7 @@ export type SupportedLanguage = string; // TODO: literal union/enum
 
 export interface Post {
   id: number;
+  title: string;
   author: string;
   authorId: string;
   description: string;

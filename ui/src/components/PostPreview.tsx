@@ -18,7 +18,7 @@ export const PostPreview: React.FC<Props> = ({ post, className }) => {
         className
       )}
     >
-      <h3 className="font-bold text-xl">[title goes here]</h3>
+      <h3 className="font-bold text-xl">{post.title}</h3>
       <SkillList
         label="Looking for:"
         skills={post.skillsSought}
