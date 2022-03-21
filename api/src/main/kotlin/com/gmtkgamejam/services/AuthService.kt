@@ -3,6 +3,7 @@ package com.gmtkgamejam.services
 import com.gmtkgamejam.models.AuthTokenSet
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
+import com.mongodb.client.model.UpdateOptions
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.litote.kmongo.eq
@@ -22,7 +23,7 @@ class AuthService : KoinComponent {
     }
 
     fun storeTokenSet(tokenSet: AuthTokenSet) {
-        col.insertOne(tokenSet)
+        col.updateOne(AuthTokenSet::discordId eq tokenSet.discordId, tokenSet, UpdateOptions().upsert(true))
     }
 
     fun getTokenSet(id: String): AuthTokenSet? {

@@ -2,8 +2,11 @@ package com.gmtkgamejam.plugins;
 
 import com.gmtkgamejam.enumFromStringSafe
 import com.gmtkgamejam.models.*
+import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.PostService
 import io.ktor.application.*
+import io.ktor.auth.*
+import io.ktor.auth.jwt.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -13,6 +16,7 @@ import kotlin.reflect.full.memberProperties
 
 fun Application.configurePostRouting() {
 
+    val authService = AuthService()
     val service = PostService()
 
     routing {
@@ -27,8 +31,12 @@ fun Application.configurePostRouting() {
                 params["description"]?.split(',')
                     ?.filter ( String::isNotBlank ) // Filter out empty `&description=`
                     // The regex is the easiest way to check if a description contains a given substring
-                    ?.map { PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE) }
-                    ?.let ( filters::addAll )
+                    ?.forEach {
+                        filters.add(or(
+                            PostItem::title regex it.toRegex(RegexOption.IGNORE_CASE),
+                            PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE)
+                        ))
+                    }
 
                 params["skillsPossessed"]?.split(',')
                     ?.filter ( String::isNotBlank ) // Filter out empty `&skillsPossessed=`
@@ -71,74 +79,101 @@ fun Application.configurePostRouting() {
                 call.respond(service.getPosts(combinedFilter, sort, page))
             }
 
-            post {
-                val data = call.receive<PostItemCreateDto>()
-                val postItem = PostItem.fromCreateDto(data)
-
-                service.createPost(postItem)
-                call.respond(postItem)
-            }
-
             get("{id}") {
                 val post: PostItem? = call.parameters["id"]?.toLong()?.let { service.getPost(it) }
                 post?.let { return@get call.respond(it) }
                 call.respondText("Post not found", status = HttpStatusCode.NotFound)
             }
 
-            route("/mine") {
-                get {
-                    // TODO: Pull ID from auth payload when set up
-                    service.getPost(1)?.let { return@get call.respond(it) }
-                    call.respondText("Post not found", status = HttpStatusCode.NotFound)
-                }
+            authenticate("auth-jwt") {
 
-                put {
-                    val data = call.receive<PostItemUpdateDto>()
-                    // TODO: Pull ID from auth payload when set up
-                    service.getPost(data.id)?.let {
-                        // FIXME: Don't just brute force update all given fields
-                        it.author = data.author.ifEmpty { it.author }
-                        it.authorId = data.authorId.ifEmpty { it.authorId }
-                        it.description = data.description ?: it.description
-                        it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
-                        it.skillsSought = data.skillsSought ?: it.skillsSought
-                        it.preferredTools = data.preferredTools ?: it.preferredTools
-                        it.languages = if (data.languages != null) data.languages!!.split(",") else it.languages
-
-                        service.updatePost(it)
-                        return@put call.respond(it)
-                    }
-
-                    // TODO: Replace BadRequest with contextual response
-                    call.respondText("Could not update Post", status = HttpStatusCode.BadRequest)
-                }
-
-                delete {
-                    // TODO: Manage user Post, not just any ID
-                    val data = call.receive<PostItemDeleteDto>()
-
-                    service.getPost(data.id)?.let {
-                        service.deletePost(it)
-                        return@delete call.respondText("Post deleted", status = HttpStatusCode.OK)
-                    }
-
-                    // TODO: Replace BadRequest with contextual response
-                    call.respondText("Could not delete Post", status = HttpStatusCode.BadRequest)
-                }
-            }
-
-            route("/report")
-            {
                 post {
-                    val data = call.receive<PostItemReportDto>()
+                    val principal = call.principal<JWTPrincipal>()!!
+                    val id = principal.payload.getClaim("id").asString()
 
-                    service.getPost(data.id)?.let {
-                        it.reportCount++
-                        service.updatePost(it)
-                        return@post call.respond(it)
+                    val data = call.receive<PostItemCreateDto>()
+                    authService.getTokenSet(id)
+                        ?.let {
+                            data.authorId = it.discordId  // TODO: What about author name?
+                            if (service.getPostByAuthorId(it.discordId) != null) {
+                                return@post call.respondText("Cannot have duplicate posts", status = HttpStatusCode.BadRequest)
+                            }
+                        }
+                        ?.let { PostItem.fromCreateDto(data) }
+                        ?.let {  service.createPost(it) }
+                        ?.let { return@post call.respond(it) }
+
+                    call.respondText("Post could not be created", status = HttpStatusCode.NotFound)
+                }
+
+                route("/mine") {
+                    get {
+                        val principal = call.principal<JWTPrincipal>()!!
+                        val id = principal.payload.getClaim("id").asString()
+
+                        authService.getTokenSet(id)
+                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let { return@get call.respond(it) }
+
+                        call.respondText("Post not found", status = HttpStatusCode.NotFound)
                     }
 
-                    call.respondText("Post not found", status = HttpStatusCode.NotFound)
+                    put {
+                        val principal = call.principal<JWTPrincipal>()!!
+                        val id = principal.payload.getClaim("id").asString()
+
+                        val data = call.receive<PostItemUpdateDto>()
+
+                        authService.getTokenSet(id)
+                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let {
+                                // FIXME: Don't just brute force update all given fields
+                                it.description = data.description ?: it.description
+                                it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
+                                it.skillsSought = data.skillsSought ?: it.skillsSought
+                                it.preferredTools = data.preferredTools ?: it.preferredTools
+                                it.languages = if (data.languages != null) data.languages!!.split(",") else it.languages
+
+                                service.updatePost(it)
+                                return@put call.respond(it)
+                            }
+
+                        // TODO: Replace BadRequest with contextual response
+                        call.respondText("Could not update Post", status = HttpStatusCode.BadRequest)
+                    }
+
+                    delete {
+                        // TODO: Should this DTO exist at all? No data being used.
+                        val data = call.receive<PostItemDeleteDto>()
+
+                        val principal = call.principal<JWTPrincipal>()!!
+                        val id = principal.payload.getClaim("id").asString()
+
+                        authService.getTokenSet(id)
+                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let {
+                                service.deletePost(it)
+                                return@delete call.respondText("Post deleted", status = HttpStatusCode.OK)
+                            }
+
+                        // TODO: Replace BadRequest with contextual response
+                        call.respondText("Could not delete Post", status = HttpStatusCode.BadRequest)
+                    }
+                }
+
+                route("/report")
+                {
+                    post {
+                        val data = call.receive<PostItemReportDto>()
+
+                        service.getPost(data.id)?.let {
+                            it.reportCount++
+                            service.updatePost(it)
+                            return@post call.respond(it)
+                        }
+
+                        call.respondText("Post not found", status = HttpStatusCode.NotFound)
+                    }
                 }
             }
         }

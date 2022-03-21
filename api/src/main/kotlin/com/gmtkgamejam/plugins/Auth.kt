@@ -1,16 +1,15 @@
 package com.gmtkgamejam.plugins
 
 import com.auth0.jwt.JWT
+import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import com.gmtkgamejam.discord.discordHttpClient
+import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.models.AuthTokenSet
 import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -44,7 +43,8 @@ fun Application.configureAuthRouting() {
                     .sign(Algorithm.HMAC256(secret))
 
                 call.principal<OAuthAccessTokenResponse.OAuth2>()?.let {
-                    val tokenSet = AuthTokenSet(randomId, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
+                    val user = getUserInfoAsync(it.accessToken)
+                    val tokenSet = AuthTokenSet(randomId, user.id, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
                     service.storeTokenSet(tokenSet)
 
                     val redirectTarget = environment.config.property("ui.host").getString()
@@ -70,40 +70,42 @@ fun Application.authModule() {
                     defaultScopes = listOf("identify", "guilds")
                 )
             }
-            client = httpClient
+            client = discordHttpClient()
         }
         jwt("auth-jwt") {
-            val secret = environment.config.property("jwt.secret").getString()
-            val issuer = environment.config.property("jwt.issuer").getString()
-            val audience = environment.config.property("jwt.audience").getString()
-
-            verifier(JWT
-                .require(Algorithm.HMAC256(secret))
-                .withAudience(audience)
-                .withIssuer(issuer)
-                .build())
+            verifier(buildJWTVerifier(environment))
             validate {
-                val service = AuthService()
-
                 val id = it.payload.getClaim("id").asString()
-                val tokenSet = service.getTokenSet(id)
+                val tokenSet = AuthService().getTokenSet(id)
 
                 // We deliberately aren't checking `expiry` here (which is for the accessToken only),
                 // just the that record exists; the collection's TTL will clear out expired auth sessions
-                if (tokenSet != null) {
-                    JWTPrincipal(it.payload)
-                } else {
-                    null
-                }
+                return@validate if (tokenSet != null) JWTPrincipal(it.payload) else null
+            }
+        }
+        jwt("auth-jwt-admin") {
+            verifier(buildJWTVerifier(environment))
+            validate {
+                val id = it.payload.getClaim("id").asString()
+                val tokenSet = AuthService().getTokenSet(id)
+                val adminDiscordIds = environment.config.property("jam.adminIds").getList()
+
+                return@validate if (tokenSet != null && adminDiscordIds.contains(tokenSet.discordId)) JWTPrincipal(it.payload) else null
             }
         }
     }
 }
 
-val httpClient = HttpClient(CIO) {
-    install(JsonFeature) {
-        serializer = KotlinxSerializer()
-    }
+fun buildJWTVerifier(environment: ApplicationEnvironment): JWTVerifier {
+    val secret = environment.config.property("jwt.secret").getString()
+    val issuer = environment.config.property("jwt.issuer").getString()
+    val audience = environment.config.property("jwt.audience").getString()
+
+    return JWT
+        .require(Algorithm.HMAC256(secret))
+        .withAudience(audience)
+        .withIssuer(issuer)
+        .build()!!
 }
 
 fun getSecureId() : String {
