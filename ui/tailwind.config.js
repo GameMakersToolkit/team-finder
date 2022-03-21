@@ -1,11 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 
-const primaryBright = "#00FFC0";
-const primaryDark = "#14bd93";
-
 module.exports = {
-  mode: "jit",
   content: ["./src/**/*.tsx", "index.html"],
   theme: {
     extend: {
@@ -19,14 +15,12 @@ module.exports = {
         sans: ["Lato", ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        gray: colors.trueGray,
-        trueWhite: "#fff",
-        white: "#f0f0f0",
-        primary: {
-          DEFAULT: primaryBright,
-          bright: primaryBright,
-          dark: primaryDark,
-        },
+        darkbg: colors.neutral["800"],
+        lightbg: colors.gray["600"],
+        'lightbg-highlight': colors.gray["500"],
+        primary: colors.sky["400"],
+        accent1: colors.fuchsia["500"],
+        accent2: colors.yellow["500"],
       },
       typography: (theme) => ({
         DEFAULT: {
