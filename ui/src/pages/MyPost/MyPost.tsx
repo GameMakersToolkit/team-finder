@@ -1,11 +1,28 @@
 import * as React from "react";
 import { Button } from "../../components/Button";
-import { useMyPostQuery } from "../../queries/my-post";
+import { useMyPostMutation, useMyPostQuery } from "../../queries/my-post";
 import { useEnsureLoggedIn } from "../../utils/useEnsureLoggedIn";
+
+interface FormState {
+  description: string;
+}
 
 export const MyPost: React.FC = () => {
   useEnsureLoggedIn();
   const myPostQuery = useMyPostQuery();
+
+  const { mutate: save, isLoading: isSaving } = useMyPostMutation();
+
+  const [formState, setFormState] = React.useState<FormState>({
+    description: "",
+  });
+
+  React.useEffect(() => {
+    if (myPostQuery.data) {
+      const { description } = myPostQuery.data;
+      setFormState({ description });
+    }
+  }, [myPostQuery.data]);
 
   // summary
   // description
@@ -18,7 +35,10 @@ export const MyPost: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    save(formState);
   };
+
+  const disabled = myPostQuery.isLoading || isSaving;
 
   return (
     <form
@@ -32,10 +52,11 @@ export const MyPost: React.FC = () => {
       <textarea
         id="description"
         rows={5}
-        className="border-white border-2 bg-darkbg w-full py-1 px-2 mt-4"
+        className="border-white border-2 bg-darkbg w-full py-1 px-2 mt-4 min-h-[100px]"
+        disabled={disabled}
       />
       <div className="flex mt-4 justify-end">
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="primary" disabled={disabled}>
           Save
         </Button>
       </div>

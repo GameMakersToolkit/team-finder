@@ -17,7 +17,9 @@ export const Button: React.FC<Props> = ({
         "py-2 px-8 shadow-md text-lg",
         {
           "bg-lightbg hover:bg-lightbg-highlight": variant === "default",
-          "bg-primary hover:bg-primary-highlight text-darkbg": variant === "primary",
+          "bg-primary hover:bg-primary-highlight text-darkbg":
+            variant === "primary",
+          "opacity-50": props.disabled,
         },
         className
       )}

@@ -2,7 +2,7 @@ import { importMetaEnv } from "../../src/utils/importMeta";
 import { useAuth, useAuthActions } from "./AuthContext";
 
 interface ApiRequestOptions {
-  method?: "GET";
+  method?: "GET" | "PUT" | "POST" | "DELETE";
   authToken?: string;
   body?: unknown;
 }
