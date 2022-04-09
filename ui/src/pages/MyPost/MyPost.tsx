@@ -54,6 +54,10 @@ export const MyPost: React.FC = () => {
         rows={5}
         className="border-white border-2 bg-darkbg w-full py-1 px-2 mt-4 min-h-[100px]"
         disabled={disabled}
+        value={formState.description}
+        onChange={(e) =>
+          setFormState((prev) => ({ ...prev, description: e.target.value }))
+        }
       />
       <div className="flex mt-4 justify-end">
         <Button type="submit" variant="primary" disabled={disabled}>
