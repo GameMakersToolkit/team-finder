@@ -21,18 +21,22 @@ fun Application.module() {
             prettyPrint = true
             isLenient = true
         })
-        // FIXME: Only suppress CORS until we can easily sort it
         install(CORS)
         {
+            anyHost()
+
             method(HttpMethod.Options)
+            method(HttpMethod.Head)
+            method(HttpMethod.Get)
+            method(HttpMethod.Post)
+            method(HttpMethod.Put)
+            method(HttpMethod.Patch)
+            method(HttpMethod.Delete)
 
             header(HttpHeaders.XForwardedProto)
-            header(HttpHeaders.Authorization)
             header(HttpHeaders.ContentType)
-            header(HttpHeaders.AccessControlAllowHeaders)
-            header(HttpHeaders.AccessControlAllowOrigin)
-
-            anyHost()
+            header(HttpHeaders.Authorization)
+            allowCredentials = true
         }
     }
 
