@@ -8,7 +8,10 @@ import io.ktor.client.features.json.serializer.*
 fun discordHttpClient(): HttpClient {
     return HttpClient(CIO) {
         install(JsonFeature) {
-            serializer = KotlinxSerializer()
+            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+                isLenient = true
+                ignoreUnknownKeys = true
+            })
         }
     }
 }
