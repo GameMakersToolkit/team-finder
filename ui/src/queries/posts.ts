@@ -4,7 +4,6 @@ import {
   PostApiResult,
   postFromApiResult,
   Post,
-  SupportedLanguage,
 } from "../model/post";
 import { Skill } from "../model/skill";
 import { toQueryString, useApiRequest } from "../utils/apiRequest";
@@ -15,7 +14,7 @@ export interface SearchOptions {
   description?: string;
   skillsPossessed?: Skill[];
   skillsSought?: Skill[];
-  languages?: SupportedLanguage[];
+  languages?: string[];
   availability?: Availability[];
   sortBy?: SortByOption;
   sortDir?: "asc" | "desc";
