@@ -7,7 +7,8 @@ import {
   UseQueryResult,
   useQueryClient,
 } from "react-query";
-import { Post, PostApiResult, postFromApiResult } from "../model/post";
+import { Availability, Post, PostApiResult, postFromApiResult } from "../model/post";
+import { Skill } from "../model/skill";
 import { expectNotFound, useApiRequest } from "../utils/apiRequest";
 import { useAuth } from "../utils/AuthContext";
 
@@ -37,7 +38,14 @@ export function useMyPostQuery(
 }
 
 export interface MyPostMutationVariables {
+  title: string;
   description: string;
+  skillsPossessed: Skill[],
+  skillsSought: Skill[],
+  preferredTools: string[],
+  availability: Availability,
+  timezoneStr: string,
+  languages: string, // Shouldn't this be an array?
 }
 
 export function useMyPostMutation(

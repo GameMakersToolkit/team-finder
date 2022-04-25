@@ -24,18 +24,18 @@ export const MyPost: React.FC = () => {
     }
   }, [myPostQuery.data]);
 
-  // summary
-  // description
-  // skillsPossessed
-  // skillsSought
-  // preferredTools
-  // availability
-  // timezoneStr
-  // languages
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    save(formState);
+    save({
+      title: "Testing",
+      languages: "English",
+      availability: "PART_TIME",
+      skillsPossessed: [],
+      skillsSought: [],
+      preferredTools: [],
+      timezoneStr: "America/Chicago",
+      ...formState,
+    });
   };
 
   const disabled = myPostQuery.isLoading || isSaving;
