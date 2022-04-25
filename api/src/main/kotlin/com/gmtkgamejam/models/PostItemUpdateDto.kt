@@ -14,5 +14,5 @@ data class PostItemUpdateDto (
     var preferredTools: List<Tools>?,
     var availability: Availability?,
     var timezoneStr: String?,
-    var languages: String?,
+    var languages: List<String>?,
 )

@@ -28,7 +28,7 @@ export const MyPost: React.FC = () => {
     e.preventDefault();
     save({
       title: "Testing",
-      languages: "English",
+      languages: ["English"],
       availability: "PART_TIME",
       skillsPossessed: [],
       skillsSought: [],
