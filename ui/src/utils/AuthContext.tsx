@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useQueryClient } from "react-query";
-import { importMetaEnv } from "./importMeta";
 
 const LOCAL_STORAGE_KEY = "gmtkjam_auth";
 

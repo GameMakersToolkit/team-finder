@@ -46,7 +46,7 @@ export const MyPost: React.FC = () => {
       onSubmit={handleSubmit}
     >
       <label htmlFor="description" className="text-lg">
-        Write a brief summary of what you're looking for that isn't covered by
+        Write a brief summary of what you&apos;re looking for that isn&apos;t covered by
         the rest of the form
       </label>
       <textarea
