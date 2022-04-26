@@ -6,6 +6,7 @@ import { allSkills, Skill, skillInfoMap } from "../model/skill";
 interface Props {
   value: Skill[];
   onChange: (value: Skill[]) => void;
+  id?: string;
 }
 
 interface Option {
@@ -27,9 +28,10 @@ const optionsMap = Object.fromEntries(
   options.map((it) => [it.value, it])
 ) as Record<Skill, Option>;
 
-export function SkillSelector({ value, onChange }: Props): React.ReactElement {
+export function SkillSelector({ id, value, onChange }: Props): React.ReactElement {
   return (
     <StyledSelector
+      id={id}
       isMulti={true}
       options={options}
       value={value.map((it) => optionsMap[it])}
