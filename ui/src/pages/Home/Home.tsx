@@ -5,7 +5,7 @@ import { isSkill } from "../../model/skill";
 import { SearchOptions, usePostsList } from "../../queries/posts";
 import { useUpdateSearchParam } from "../../utils/searchParam";
 import { useThrottleState } from "../../utils/throttleState";
-import { SkillList } from "../SkillList";
+import { SkillSelector } from "../SkillSelector";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,7 +48,7 @@ export const Home: React.FC = () => {
       </div>
       <div>
         Find posts offering skills:
-        <SkillList
+        <SkillSelector
           value={skillsPossessedFilter ?? []}
           onChange={(newList) => {
             updateSearchParam(
