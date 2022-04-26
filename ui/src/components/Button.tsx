@@ -1,13 +1,26 @@
 import * as React from "react";
 import cx from "classnames";
 
-export const Button: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, className, ...props }) => {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "default" | "primary";
+}
+
+export const Button: React.FC<Props> = ({
+  children,
+  className,
+  variant = "default",
+  ...props
+}) => {
   return (
     <button
       className={cx(
-        "bg-lightbg hover:bg-lightbg-highlight py-2 px-8 shadow-md text-lg",
+        "py-2 px-8 shadow-md text-lg",
+        {
+          "bg-lightbg hover:bg-lightbg-highlight": variant === "default",
+          "bg-primary hover:bg-primary-highlight text-darkbg":
+            variant === "primary",
+          "opacity-50": props.disabled,
+        },
         className
       )}
       {...props}

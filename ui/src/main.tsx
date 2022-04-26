@@ -15,7 +15,9 @@ if (importMetaEnv().PROD) {
 ReactDOM.render(
   <React.StrictMode>
     <Context>
-      <AppRoutes />
+      <React.Suspense fallback={null}>
+        <AppRoutes />
+      </React.Suspense>
       <ReactQueryDevtools />
     </Context>
   </React.StrictMode>,

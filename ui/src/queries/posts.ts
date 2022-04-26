@@ -1,48 +1,20 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
+import {
+  Availability,
+  PostApiResult,
+  postFromApiResult,
+  Post,
+} from "../model/post";
 import { Skill } from "../model/skill";
 import { toQueryString, useApiRequest } from "../utils/apiRequest";
 import { sortArrayImmutably } from "../utils/fns";
-
-export type Availability = string; // TODO: literal union/enum
-export type SupportedLanguage = string; // TODO: literal union/enum
-
-export interface Post {
-  id: number;
-  title: string;
-  author: string;
-  authorId: string;
-  description: string;
-  skillsPossessed: Skill[];
-  skillsSought: Skill[];
-  availability: Availability;
-  timezoneStr: string;
-  languages: SupportedLanguage[];
-  reportCount: number;
-  createdAt: Date;
-  updatedAt: Date | null;
-  deletedAt: Date | null;
-}
-
-export type GetPost = Omit<Post, "createdAt" | "updatedAt" | "deletedAt"> & {
-  createdAt: string;
-  updatedAt: string | null;
-  deletedAt: string | null;
-};
-
-// this can be moved to a util if it keeps coming up
-function transformDateOrNull(input: string | null): Date | null {
-  if (input === null) {
-    return null;
-  }
-  return new Date(input);
-}
 
 export type SortByOption = keyof Post;
 export interface SearchOptions {
   description?: string;
   skillsPossessed?: Skill[];
   skillsSought?: Skill[];
-  languages?: SupportedLanguage[];
+  languages?: string[];
   availability?: Availability[];
   sortBy?: SortByOption;
   sortDir?: "asc" | "desc";
@@ -52,7 +24,12 @@ type PostsListQueryKey = ["posts", "list", SearchOptions];
 
 export function usePostsList(
   searchOptions?: SearchOptions,
-  queryOptions?: UseQueryOptions<GetPost[], Error, Post[], PostsListQueryKey>
+  queryOptions?: UseQueryOptions<
+    PostApiResult[],
+    Error,
+    Post[],
+    PostsListQueryKey
+  >
 ): UseQueryResult<Post[], Error> {
   const apiRequest = useApiRequest();
 
@@ -81,17 +58,11 @@ export function usePostsList(
         languages: normalizedSearchOptions?.languages?.join(","),
         availability: normalizedSearchOptions?.availability?.join(","),
       };
-      return apiRequest<GetPost[]>(`/posts?${toQueryString(params)}`);
+      return apiRequest<PostApiResult[]>(`/posts?${toQueryString(params)}`);
     },
     {
       ...queryOptions,
-      select: (posts: GetPost[]) =>
-        posts.map((post) => ({
-          ...post,
-          createdAt: new Date(post.createdAt),
-          updatedAt: transformDateOrNull(post.updatedAt),
-          deletedAt: transformDateOrNull(post.deletedAt),
-        })),
+      select: (posts: PostApiResult[]) => posts.map(postFromApiResult),
     }
   );
 }

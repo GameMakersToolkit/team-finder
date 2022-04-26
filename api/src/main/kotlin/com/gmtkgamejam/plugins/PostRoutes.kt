@@ -132,7 +132,6 @@ fun Application.configurePostRouting() {
                                 it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
                                 it.skillsSought = data.skillsSought ?: it.skillsSought
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
-                                it.languages = if (data.languages != null) data.languages!!.split(",") else it.languages
 
                                 service.updatePost(it)
                                 return@put call.respond(it)

@@ -19,6 +19,7 @@ module.exports = {
         lightbg: colors.gray["600"],
         'lightbg-highlight': colors.gray["500"],
         primary: colors.sky["400"],
+        'primary-highlight': colors.sky["300"],
         accent1: colors.fuchsia["500"],
         accent2: colors.yellow["500"],
       },

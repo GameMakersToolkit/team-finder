@@ -2,7 +2,7 @@ import { importMetaEnv } from "../../src/utils/importMeta";
 import { useAuth, useAuthActions } from "./AuthContext";
 
 interface ApiRequestOptions {
-  method?: "GET";
+  method?: "GET" | "PUT" | "POST" | "DELETE";
   authToken?: string;
   body?: unknown;
 }
@@ -22,6 +22,13 @@ export class ForbiddenError extends Error {
   constructor() {
     super("Forbidden");
     this.name = "ForbiddenError";
+  }
+}
+
+export class NotFoundError extends Error {
+  constructor() {
+    super("Not Found");
+    this.name = "NotFoundError";
   }
 }
 
@@ -52,12 +59,15 @@ export async function apiRequest<T>(
 
   const res = await fetch(`${importMetaEnv().VITE_API_URL}${path}`, options);
   if (!res.ok) {
-    if (res.status == 401) {
+    if (res.status === 401) {
       dependencies.logout();
       throw new NotAuthorizedError();
     }
-    if (res.status == 403) {
+    if (res.status === 403) {
       throw new ForbiddenError();
+    }
+    if (res.status === 404) {
+      throw new NotFoundError();
     }
     throw new Error(`${res.status} ${res.statusText}: ${await res.text()}`);
   }
@@ -94,4 +104,20 @@ export function useApiRequest() {
       { authToken: token, ...apiRequestOptions }
     );
   };
+}
+
+/*
+ * Returns null for a 404 response
+ */
+export function expectNotFound<T>(promise: Promise<T>): Promise<T | null> {
+  return promise.then(
+    (value) => value,
+    (err) => {
+      if (err instanceof NotFoundError) {
+        return null;
+      }
+
+      throw err;
+    }
+  );
 }

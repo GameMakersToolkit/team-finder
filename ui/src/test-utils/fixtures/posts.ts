@@ -1,6 +1,6 @@
-import { GetPost } from "../../queries/posts";
+import { PostApiResult } from "../../model/post";
 
-export const postsFixture: GetPost[] = [
+export const postsFixture: PostApiResult[] = [
   {
     id: 1,
     author: "SlamBamActionman#1234",

@@ -1,6 +1,6 @@
 import * as React from "react";
 import cx from "classnames";
-import { Post } from "../queries/posts";
+import { Post } from "../model/post";
 import { Button } from "./Button";
 import { Skill, skillInfoMap } from "../model/skill";
 import { SkillIcon } from "./SkillIcon";
