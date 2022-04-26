@@ -1,4 +1,5 @@
 import * as React from "react";
+import { StyledSelector } from "../../components/StyledSelector/StyledSelector";
 import { useEnsureLoggedIn } from "../../utils/useEnsureLoggedIn";
 
 export function TestAuthenticatedPage(): React.ReactElement | null {
@@ -11,6 +12,9 @@ export function TestAuthenticatedPage(): React.ReactElement | null {
   return (
     <>
       <pre>{JSON.stringify(userInfo.data, null, 2)}</pre>
+      <div className="container mx-auto">
+        <StyledSelector />
+      </div>
     </>
   );
 }

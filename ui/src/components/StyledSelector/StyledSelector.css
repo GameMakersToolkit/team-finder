@@ -1,0 +1,29 @@
+@layer components {
+  .styled-selector .react-select__control {
+    @apply bg-transparent border-2 border-white rounded-none;
+  }
+
+  .styled-selector .react-select__control:hover {
+    @apply border-white;
+  }
+
+  .styled-selector .react-select__input-container {
+    @apply text-white;
+  }
+
+  .styled-selector .react-select__menu {
+    @apply bg-lightbg rounded-none;
+  }
+
+  .styled-selector .react-select__option--is-focused {
+    @apply bg-lightbg-highlight;
+  }
+
+  .styled-selector .react-select__multi-value {
+    @apply bg-lightbg;
+  }
+
+  .styled-selector .react-select__multi-value__label {
+    @apply text-white;
+  }
+}
