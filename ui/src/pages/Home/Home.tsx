@@ -5,7 +5,7 @@ import { isSkill } from "../../model/skill";
 import { SearchOptions, usePostsList } from "../../queries/posts";
 import { useUpdateSearchParam } from "../../utils/searchParam";
 import { useThrottleState } from "../../utils/throttleState";
-import { SkillList } from "../SkillList";
+import { SkillSelector } from "../SkillSelector";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -38,17 +38,23 @@ export const Home: React.FC = () => {
   return (
     <div className="container mx-auto max-w-screen-xxl p-1">
       <div>
-        <label htmlFor="descriptionFilter">Description</label>
+        <label className="font-bold block" htmlFor="descriptionFilter">
+          Description
+        </label>
         <input
           id="descriptionFilter"
           type="text"
+          className="bg-transparent border-2 border-white text-white px-2 w-full"
           value={description}
           onChange={(e) => setDescription(e.currentTarget.value)}
         />
       </div>
-      <div>
-        Find posts offering skills:
-        <SkillList
+      <div className="mt-2">
+        <label className="font-bold block" htmlFor="skillsPossessedFilter">
+          Find posts offering skills:
+        </label>
+        <SkillSelector
+          id="skillsPossessedFilter"
           value={skillsPossessedFilter ?? []}
           onChange={(newList) => {
             updateSearchParam(
@@ -58,7 +64,9 @@ export const Home: React.FC = () => {
           }}
         />
       </div>
-      {query.data && <div>{query.data.length} results found</div>}
+      {query.data && (
+        <div className="mt-4">{query.data.length} results found</div>
+      )}
       {query.data?.map((post) => (
         <PostPreview key={post.id} post={post} className="mt-4" />
       ))}
