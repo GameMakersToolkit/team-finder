@@ -6,6 +6,7 @@ import { Context } from "../src/Context";
 import { importMetaEnv } from "../src/utils/importMeta";
 
 import { AppRoutes } from "./AppRoutes";
+import PageHeader from "./pages/PageHeader";
 import "./index.css";
 
 if (importMetaEnv().PROD) {
@@ -16,6 +17,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Context>
       <React.Suspense fallback={null}>
+        <PageHeader />
         <AppRoutes />
       </React.Suspense>
       <ReactQueryDevtools />
