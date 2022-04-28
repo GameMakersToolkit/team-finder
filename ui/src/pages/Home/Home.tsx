@@ -6,6 +6,8 @@ import { SearchOptions, usePostsList } from "../../queries/posts";
 import { useUpdateSearchParam } from "../../utils/searchParam";
 import { useThrottleState } from "../../utils/throttleState";
 import { SkillSelector } from "../SkillSelector";
+import { ToolSelector } from "../ToolSelector";
+import { isTool } from "../../model/tool";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,11 +27,13 @@ export const Home: React.FC = () => {
 
   const skillsPossessedFilter = searchParams.get("skillsPossessed")?.split(",").filter(isSkill);
   const skillsSoughtFilter = searchParams.get("skillsSought")?.split(",").filter(isSkill);
+  const toolsFilter = searchParams.get("tools")?.split(",").filter(isTool);
 
   const searchOptions: SearchOptions = {
     description: searchParams.get("description") || undefined,
     skillsPossessed: skillsPossessedFilter,
     skillsSought: skillsSoughtFilter,
+    tools: toolsFilter
   };
 
   const query = usePostsList(searchOptions);
@@ -73,6 +77,21 @@ export const Home: React.FC = () => {
           onChange={(newList) => {
             updateSearchParam(
               "skillsSought",
+              newList.length ? newList.join(",") : null
+            );
+          }}
+        />
+      </div>
+      <div className="mt-2">
+        <label className="font-bold block" htmlFor="toolsFilter">
+          Tools used:
+        </label>
+        <ToolSelector
+          id="toolsFilter"
+          value={toolsFilter ?? []}
+          onChange={(newList) => {
+            updateSearchParam(
+              "tools",
               newList.length ? newList.join(",") : null
             );
           }}

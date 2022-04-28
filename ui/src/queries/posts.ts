@@ -6,6 +6,7 @@ import {
   Post,
 } from "../model/post";
 import { Skill } from "../model/skill";
+import { Tool } from "../model/tool";
 import { toQueryString, useApiRequest } from "../utils/apiRequest";
 import { sortArrayImmutably } from "../utils/fns";
 
@@ -14,6 +15,7 @@ export interface SearchOptions {
   description?: string;
   skillsPossessed?: Skill[];
   skillsSought?: Skill[];
+  tools?: Tool[];
   languages?: string[];
   availability?: Availability[];
   sortBy?: SortByOption;

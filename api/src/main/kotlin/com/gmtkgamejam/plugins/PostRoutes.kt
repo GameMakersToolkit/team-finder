@@ -50,6 +50,12 @@ fun Application.configurePostRouting() {
                     ?.map { PostItem::skillsSought contains it }
                     ?.let ( filters::addAll )
 
+                params["tools"]?.split(',')
+                    ?.filter ( String::isNotBlank ) // Filter out empty `&skillsSought=`
+                    ?.mapNotNull { enumFromStringSafe<Tools>(it) }
+                    ?.map { PostItem::preferredTools contains it }
+                    ?.let ( filters::addAll )
+
                 params["languages"]?.split(',')
                     ?.filter ( String::isNotBlank ) // Filter out empty `&languages=`
                     ?.map { PostItem::languages contains it }
