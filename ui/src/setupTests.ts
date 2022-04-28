@@ -3,6 +3,7 @@ import { server } from "./test-utils/api-mocks/server-jest";
 
 jest.mock("./utils/importMeta");
 jest.mock("./model/skillIcons");
+jest.mock("./model/toolIcons");
 
 // Establish API mocking before all tests.
 beforeAll(() =>
