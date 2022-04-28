@@ -6,6 +6,7 @@ import {
   Post,
 } from "../model/post";
 import { Skill } from "../model/skill";
+import { Tool } from "../model/tool";
 import { toQueryString, useApiRequest } from "../utils/apiRequest";
 import { sortArrayImmutably } from "../utils/fns";
 
@@ -14,6 +15,7 @@ export interface SearchOptions {
   description?: string;
   skillsPossessed?: Skill[];
   skillsSought?: Skill[];
+  tools?: Tool[];
   languages?: string[];
   availability?: Availability[];
   sortBy?: SortByOption;
@@ -41,6 +43,7 @@ export function usePostsList(
     skillsSought:
       searchOptions?.skillsSought &&
       sortArrayImmutably(searchOptions.skillsSought),
+    tools: searchOptions?.tools && sortArrayImmutably(searchOptions.tools),
     languages:
       searchOptions?.languages && sortArrayImmutably(searchOptions.languages),
     availability:
@@ -55,6 +58,7 @@ export function usePostsList(
         ...normalizedSearchOptions,
         skillsPossessed: normalizedSearchOptions?.skillsPossessed?.join(","),
         skillsSought: normalizedSearchOptions?.skillsSought?.join(","),
+        tools: normalizedSearchOptions?.tools?.join(","),
         languages: normalizedSearchOptions?.languages?.join(","),
         availability: normalizedSearchOptions?.availability?.join(","),
       };
