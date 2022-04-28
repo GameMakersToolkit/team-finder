@@ -5,7 +5,7 @@ export function TestAuthenticatedPage(): React.ReactElement | null {
   const userInfo = useEnsureLoggedIn();
 
   if (!userInfo.data) {
-    return null;
+    return <p>You&apos;ll be redirect to login with Discord shortly</p>;
   }
 
   return (
