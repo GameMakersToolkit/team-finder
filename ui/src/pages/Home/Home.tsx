@@ -23,14 +23,13 @@ export const Home: React.FC = () => {
     }
   );
 
-  const skillsPossessedFilter = searchParams
-    .get("skillsPossessed")
-    ?.split(",")
-    .filter(isSkill);
+  const skillsPossessedFilter = searchParams.get("skillsPossessed")?.split(",").filter(isSkill);
+  const skillsSoughtFilter = searchParams.get("skillsSought")?.split(",").filter(isSkill);
 
   const searchOptions: SearchOptions = {
     description: searchParams.get("description") || undefined,
     skillsPossessed: skillsPossessedFilter,
+    skillsSought: skillsSoughtFilter,
   };
 
   const query = usePostsList(searchOptions);
@@ -51,7 +50,7 @@ export const Home: React.FC = () => {
       </div>
       <div className="mt-2">
         <label className="font-bold block" htmlFor="skillsPossessedFilter">
-          Find posts offering skills:
+          I can do:
         </label>
         <SkillSelector
           id="skillsPossessedFilter"
@@ -59,6 +58,21 @@ export const Home: React.FC = () => {
           onChange={(newList) => {
             updateSearchParam(
               "skillsPossessed",
+              newList.length ? newList.join(",") : null
+            );
+          }}
+        />
+      </div>
+      <div className="mt-2">
+        <label className="font-bold block" htmlFor="skillsSoughtFilter">
+          I need:
+        </label>
+        <SkillSelector
+          id="skillsSoughtFilter"
+          value={skillsSoughtFilter ?? []}
+          onChange={(newList) => {
+            updateSearchParam(
+              "skillsSought",
               newList.length ? newList.join(",") : null
             );
           }}
