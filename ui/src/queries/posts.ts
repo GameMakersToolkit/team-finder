@@ -43,6 +43,7 @@ export function usePostsList(
     skillsSought:
       searchOptions?.skillsSought &&
       sortArrayImmutably(searchOptions.skillsSought),
+    tools: searchOptions?.tools && sortArrayImmutably(searchOptions.tools),
     languages:
       searchOptions?.languages && sortArrayImmutably(searchOptions.languages),
     availability:
@@ -57,6 +58,7 @@ export function usePostsList(
         ...normalizedSearchOptions,
         skillsPossessed: normalizedSearchOptions?.skillsPossessed?.join(","),
         skillsSought: normalizedSearchOptions?.skillsSought?.join(","),
+        tools: normalizedSearchOptions?.tools?.join(","),
         languages: normalizedSearchOptions?.languages?.join(","),
         availability: normalizedSearchOptions?.availability?.join(","),
       };
