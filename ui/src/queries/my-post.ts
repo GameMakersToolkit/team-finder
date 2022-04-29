@@ -8,11 +8,11 @@ import {
   useQueryClient,
 } from "react-query";
 import {
-  Availability,
   Post,
   PostApiResult,
   postFromApiResult,
 } from "../model/post";
+import { Availability } from "../model/availability";
 import { Skill } from "../model/skill";
 import { expectNotFound, useApiRequest } from "../utils/apiRequest";
 import { useAuth } from "../utils/AuthContext";
