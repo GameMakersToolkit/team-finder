@@ -1,7 +1,6 @@
 import { Skill } from "./skill";
 import { Availability } from "./availability";
-
-export type SupportedTool = string; // TODO: literal union/enum
+import { Tool } from "./tool";
 
 export interface Post {
   id: number;
@@ -11,6 +10,7 @@ export interface Post {
   description: string;
   skillsPossessed: Skill[];
   skillsSought: Skill[];
+  preferredTools: Tool[];
   availability: Availability;
   timezoneStr: string;
   languages: string[];
