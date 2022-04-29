@@ -29,7 +29,10 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen }
             className="bg-darkbg text-white m-4 p-4 font-sans"
             contentLabel="Example Modal"
         >
-            <h3 className="font-bold text-xl">{post.title}</h3>
+            <h3 className="font-bold text-xl">
+                {post.title}
+                <span className="float-right font-bold cursor-pointer" onClick={() => setIsModalOpen(false)}>X</span>
+            </h3>
             <SkillList
                 label="Looking for:"
                 skills={post.skillsSought}
