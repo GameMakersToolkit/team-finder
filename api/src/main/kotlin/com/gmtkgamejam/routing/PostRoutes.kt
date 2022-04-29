@@ -1,4 +1,4 @@
-package com.gmtkgamejam.plugins;
+package com.gmtkgamejam.routing;
 
 import com.gmtkgamejam.enumFromStringSafe
 import com.gmtkgamejam.models.*
