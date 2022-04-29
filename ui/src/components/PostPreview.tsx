@@ -8,9 +8,11 @@ import { SkillIcon } from "./SkillIcon";
 interface Props {
   post: Post;
   className?: string;
+  adminView?: boolean;
+  deletePost?: (post: Post) => void;
 }
 
-export const PostPreview: React.FC<Props> = ({ post, className }) => {
+export const PostPreview: React.FC<Props> = ({ post, className, adminView, deletePost }) => {
   return (
     <article
       className={cx(
@@ -30,7 +32,11 @@ export const PostPreview: React.FC<Props> = ({ post, className }) => {
         className="[--skill-color:theme(colors.accent2)]"
       />
       <p>{post.description}</p>
-      <Button className="justify-self-end">More</Button>
+
+      <div className={`flex ${adminView ? "justify-between" : "justify-end"}`}>
+        {adminView && <Button style={{backgroundColor: "red"}} onClick={() => deletePost!(post)}>Delete</Button>}
+        <Button>More</Button>
+      </div>
     </article>
   );
 };

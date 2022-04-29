@@ -1,10 +1,27 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import {useAuth} from "../../utils/AuthContext";
+import {useUserInfo} from "../../queries/userInfo";
+import {login} from "../../utils/login";
 
 const navElementStylingRules = "w-full py-2 border mb-2 rounded text-center "
 
 export const PageHeader: React.FC = () => {
+    const userInfo = useUserInfo();
+
+    const [shouldDisplayLogin, setShouldDisplayLogin] = useState(true)
+    const [shouldDisplayAdminLink, setShouldDisplayAdminLink] = useState(false)
+
+    React.useEffect(() => {
+        if (!userInfo.data) {
+            return;
+        }
+
+        setShouldDisplayLogin(false)
+        setShouldDisplayAdminLink(!!userInfo.data.isAdmin)
+    }, [userInfo]);
+
 
     const [isNavVisible, setNavVisibility] = useState(false)
 
@@ -15,7 +32,7 @@ export const PageHeader: React.FC = () => {
             <div className="flex flex-cols-2 justify-between">
                 <Link to="/"><h1 className="text-xl uppercase font-bold ml-4 px-1 py-1">Team<br />Finder</h1></Link>
                 <div className="flex items-center">
-                    <Link className="rounded rounded-lg font-bold mr-4 px-5 py-1" style={{backgroundColor: "#39bcf8"}} to="/test-auth">Log In</Link>
+                    {shouldDisplayLogin && <Link className="rounded rounded-lg font-bold mr-4 px-5 py-1" style={{backgroundColor: "#39bcf8"}} to="/test-auth">Log In</Link>}
                     <ShowHideNavButton isNavVisible={isNavVisible} setNavVisibility={setNavVisibility} />
                 </div>
             </div>
@@ -25,6 +42,7 @@ export const PageHeader: React.FC = () => {
             {isNavVisible && (<nav className={"border-t-4 grid grid-cols-1 justify-items-center content-center px-4 py-4"}>
                 <Link className={navElementStylingRules} to="/">Home</Link>
                 <Link className={navElementStylingRules} to="/my-post">My Post</Link>
+                {shouldDisplayAdminLink && <Link className={navElementStylingRules} to="/admin">Admin tools</Link>}
             </nav>)}
         </div>
         )
