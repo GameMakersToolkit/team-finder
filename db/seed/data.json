@@ -25,6 +25,10 @@
       "TEAM_LEAD",
       "OTHER"
     ],
+    "preferredTools": [
+      "UNITY",
+      "GODOT"
+    ],
     "availability": "PART_TIME",
     "timezoneStr": "UTC",
     "languages": [
@@ -55,6 +59,10 @@
       "SOUND_MUSIC",
       "TESTING_SUPPORT"
     ],
+    "preferredTools": [
+      "UNREAL",
+      "CONSTRUCT"
+    ],
     "availability": "FULL_TIME",
     "timezoneStr": "UTC",
     "languages": [
@@ -80,6 +88,11 @@
     "skillsSought": [
       "ART_2D",
       "OTHER"
+    ],
+    "preferredTools": [
+      "UNITY",
+      "UNREAL",
+      "TWINE"
     ],
     "availability": "MINIMAL",
     "timezoneStr": "UTC",
@@ -110,6 +123,11 @@
       "TESTING_SUPPORT",
       "OTHER"
     ],
+    "preferredTools": [
+      "BITSY",
+      "GAME_MAKER_STUDIO",
+      "PICO_8"
+    ],
     "availability": "FULL_TIME",
     "timezoneStr": "UTC",
     "languages": [
@@ -138,6 +156,12 @@
       "CODE",
       "TESTING_SUPPORT",
       "OTHER"
+    ],
+    "preferredTools": [
+      "BITSY",
+      "GAME_MAKER_STUDIO",
+      "PICO_8",
+      "RPG_MAKER"
     ],
     "availability": "PART_TIME",
     "timezoneStr": "UTC",
