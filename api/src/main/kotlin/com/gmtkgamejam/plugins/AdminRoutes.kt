@@ -23,7 +23,6 @@ fun Application.configureAdminRouting() {
     val service = PostService()
 
     routing {
-        // TODO: Implement Admin account authentication
         authenticate("auth-jwt-admin") {
             route("/admin") {
                 route("/reports") {

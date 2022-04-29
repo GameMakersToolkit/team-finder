@@ -4,7 +4,6 @@ import io.ktor.config.*
 
 // Use object to make Config a singleton reference
 // I truly hate that Ktor makes me do this
-// TODO: Refactor other non-standard usages of config into this (e.g. DatabaseModule)
 object Config {
     private lateinit var config: ApplicationConfig
 

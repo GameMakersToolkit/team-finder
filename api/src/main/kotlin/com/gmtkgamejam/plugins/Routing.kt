@@ -1,5 +1,6 @@
 package com.gmtkgamejam.plugins
 
+import com.gmtkgamejam.Config
 import com.gmtkgamejam.discord.getGuildInfoAsync
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
@@ -43,8 +44,8 @@ fun Application.configureRouting() {
                     val tokenHasExpired = tokenSet.expiry <= Date(System.currentTimeMillis())
                     if (tokenHasExpired) {
                         val refreshedTokenSet = refreshTokenAsync(
-                            environment.config.property("secrets.discord.client.id").getString(),
-                            environment.config.property("secrets.discord.client.secret").getString(),
+                            Config.getString("secrets.discord.client.id"),
+                            Config.getString("secrets.discord.client.secret"),
                             it.refreshToken.toString()
                         )
 

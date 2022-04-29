@@ -3,6 +3,7 @@ package com.gmtkgamejam.plugins
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import com.gmtkgamejam.Config
 import com.gmtkgamejam.discord.discordHttpClient
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.models.AuthTokenSet
@@ -26,9 +27,9 @@ fun Application.configureAuthRouting() {
                 // redirects to authorize url
             }
             get("/callback") {
-                val secret = environment.config.property("jwt.secret").getString()
-                val issuer = environment.config.property("jwt.issuer").getString()
-                val audience = environment.config.property("jwt.audience").getString()
+                val secret = Config.getString("jwt.secret")
+                val issuer = Config.getString("jwt.issuer")
+                val audience = Config.getString("jwt.audience")
 
                 val lifespanOfAppJwt = 86400000 // A user is logged into the Team Finder for 24 hours
 
@@ -47,7 +48,7 @@ fun Application.configureAuthRouting() {
                     val tokenSet = AuthTokenSet(randomId, user.id, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
                     service.storeTokenSet(tokenSet)
 
-                    val redirectTarget = environment.config.property("ui.host").getString()
+                    val redirectTarget = Config.getString("ui.host")
                     call.respondRedirect("$redirectTarget/login/authorized?token=$token")
                 }
             }
@@ -56,17 +57,20 @@ fun Application.configureAuthRouting() {
 }
 
 fun Application.authModule() {
+    // Set config at first point of entry
+    Config.initConfig(environment.config)
+
     install(Authentication) {
         oauth("auth-oauth-discord") {
-            urlProvider = { environment.config.property("api.host").getString() + "/callback" }
+            urlProvider = { Config.getString("api.host") + "/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "discord",
                     authorizeUrl = "https://discord.com/api/oauth2/authorize",
                     accessTokenUrl = "https://discord.com/api/oauth2/token",
                     requestMethod = HttpMethod.Post,
-                    clientId = environment.config.property("secrets.discord.client.id").getString(),
-                    clientSecret = environment.config.property("secrets.discord.client.secret").getString(),
+                    clientId = Config.getString("secrets.discord.client.id"),
+                    clientSecret = Config.getString("secrets.discord.client.secret"),
                     defaultScopes = listOf("identify", "guilds")
                 )
             }
@@ -88,7 +92,7 @@ fun Application.authModule() {
             validate {
                 val id = it.payload.getClaim("id").asString()
                 val tokenSet = AuthService().getTokenSet(id)
-                val adminDiscordIds = environment.config.property("jam.adminIds").getList()
+                val adminDiscordIds = Config.getList("jam.adminIds")
 
                 return@validate if (tokenSet != null && adminDiscordIds.contains(tokenSet.discordId)) JWTPrincipal(it.payload) else null
             }
@@ -97,9 +101,9 @@ fun Application.authModule() {
 }
 
 fun buildJWTVerifier(environment: ApplicationEnvironment): JWTVerifier {
-    val secret = environment.config.property("jwt.secret").getString()
-    val issuer = environment.config.property("jwt.issuer").getString()
-    val audience = environment.config.property("jwt.audience").getString()
+    val secret = Config.getString("jwt.secret")
+    val issuer = Config.getString("jwt.issuer")
+    val audience = Config.getString("jwt.audience")
 
     return JWT
         .require(Algorithm.HMAC256(secret))
