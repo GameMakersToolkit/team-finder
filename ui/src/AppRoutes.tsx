@@ -2,7 +2,6 @@ import * as React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthCallback } from "./pages/AuthCallback/AuthCallback";
 import { Home } from "./pages/Home/Home";
-import { TestAuthenticatedPage } from "./pages/TestAuthenticatedPage/TestAuthenticatedPage";
 import { Admin } from "./pages/Admin/Admin";
 
 const MyPost = React.lazy(() => import("./pages/MyPost"));
@@ -12,7 +11,6 @@ export const AppRoutes: React.FC = () => (
     <Route path="/" element={<Home />} />
     <Route path="/admin" element={<Admin />} />
     <Route path="/my-post" element={<MyPost />} />
-    <Route path="/test-auth" element={<TestAuthenticatedPage />} />
     <Route path="/login/authorized" element={<AuthCallback />} />
     {/* TODO: replace with a proper Not Found page */}
     <Route path="*" element={<p>u wot m8</p>} />
