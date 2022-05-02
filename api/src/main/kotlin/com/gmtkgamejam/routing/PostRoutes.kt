@@ -1,4 +1,4 @@
-package com.gmtkgamejam.plugins;
+package com.gmtkgamejam.routing;
 
 import com.gmtkgamejam.enumFromStringSafe
 import com.gmtkgamejam.models.*
@@ -25,7 +25,6 @@ fun Application.configurePostRouting() {
                 val params = call.parameters
 
                 // All Posts found should be active
-                // TODO: Handle deleted posts differently for admins (if at all)
                 val filters = mutableListOf(PostItem::deletedAt eq null)
 
                 params["description"]?.split(',')
