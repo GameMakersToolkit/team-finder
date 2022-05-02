@@ -7,20 +7,11 @@ import {
   UseQueryOptions,
   UseQueryResult,
 } from "react-query";
-import {
-  Availability,
-  PostApiResult,
-  postFromApiResult,
-  Post,
-} from "../model/post";
-import { Skill } from "../model/skill";
-import { Tool } from "../model/tool";
-import { toQueryString, useApiRequest } from "../utils/apiRequest";
-import { sortArrayImmutably } from "../utils/fns";
-import { useAuth } from "../utils/AuthContext";
+import { PostApiResult, postFromApiResult, Post } from "../model/post";
+import { useApiRequest } from "../utils/apiRequest";
 
 const REPORTED_POSTS_QUERY_KEY = ["admin", "reports"] as const;
-const DELETE_POST_QUERY_KEY = ["admin", "posts", "delete"] as const;
+const DELETE_POST_MUTATION_KEY = ["admin", "posts", "delete"] as const;
 
 export function useReportedPostsList(
   opts?: UseQueryOptions<
@@ -61,7 +52,7 @@ export function useDeletePost(
         body: { postId: variables.postId },
       });
     },
-    mutationKey: ["admin", "posts", "delete"],
+    mutationKey: DELETE_POST_MUTATION_KEY,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries(["posts", "list"]);
       queryClient.invalidateQueries(REPORTED_POSTS_QUERY_KEY);
