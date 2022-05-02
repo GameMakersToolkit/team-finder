@@ -5,21 +5,21 @@ import { Button } from "./Button";
 import { useState } from "react";
 import { PostModal } from "./PostModal";
 import { SkillList } from "./SkillList";
+import { useDeletePost } from "../queries/admin";
 
 interface Props {
   post: Post;
   className?: string;
   adminView?: boolean;
-  deletePost?: (post: Post) => void;
 }
 
 export const PostPreview: React.FC<Props> = ({
   post,
   className,
   adminView,
-  deletePost,
 }) => {
   const [isModelOpen, setIsModelOpen] = useState(false);
+  const deletePostMutation = useDeletePost();
 
   return (
     <article
@@ -51,7 +51,7 @@ export const PostPreview: React.FC<Props> = ({
         {adminView && (
           <Button
             style={{ backgroundColor: "red" }}
-            onClick={() => deletePost!(post)}
+            onClick={() => deletePostMutation.mutate({ postId: post.id })}
           >
             Delete
           </Button>
