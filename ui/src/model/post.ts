@@ -1,6 +1,6 @@
 import { Skill } from "./skill";
+import { Availability } from "./availability";
 
-export type Availability = string; // TODO: literal union/enum
 export type SupportedTool = string; // TODO: literal union/enum
 
 export interface Post {
