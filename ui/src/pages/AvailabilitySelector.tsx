@@ -1,6 +1,9 @@
 import * as React from "react";
-import { allAvailabilities, Availability, availabilityInfoMap } from "../model/availability";
-import { useEffect, useState } from "react";
+import {
+  allAvailabilities,
+  Availability,
+  availabilityInfoMap,
+} from "../model/availability";
 
 interface Props {
   value: Availability[];
@@ -12,45 +15,49 @@ interface Props {
 
 const options = allAvailabilities.map((it) => ({
   value: it,
-  label: availabilityInfoMap[it].friendlyName
+  label: availabilityInfoMap[it].friendlyName,
 }));
 
-export function AvailabilitySelector({ id, value, disabled, allowMultiple, onChange }: Props): React.ReactElement {
-    const [selected, updateSelected] = useState(value)
-
-    useEffect(() => onChange(selected), [selected]) // onChange deliberately excluded
-
-    /**
-     * Toggle whether the selected Availability option is active in the search
-     * @param availability
-     */
-    const toggleAvailability = (availability: Availability) => {
-        if (!allowMultiple) {
-            updateSelected([availability])
-            return;
-        }
-
-        if (selected.includes(availability)) {
-            // Remove selected option from array
-            updateSelected(selected.filter(a => a != availability))
-        } else {
-            updateSelected([...selected, availability])
-        }
+export function AvailabilitySelector({
+  id,
+  value,
+  disabled,
+  allowMultiple,
+  onChange,
+}: Props): React.ReactElement {
+  /**
+   * Toggle whether the selected Availability option is active in the search
+   * @param availability
+   */
+  const toggleAvailability = (availability: Availability) => {
+    if (!allowMultiple) {
+      onChange([availability]);
+      return;
     }
+
+    if (value.includes(availability)) {
+      // Remove selected option from array
+      onChange(value.filter((a) => a != availability));
+    } else {
+      onChange([...value, availability]);
+    }
+  };
 
   return (
     <>
       <div id={id}>
-        {options.map(option => (
-            <input
-                key={option.value}
-                type="button"
-                value={option.label}
-                disabled={disabled}
-                className={`rounded border text-white w-full p-2 mr-2 mb-2 ${selected.includes(option.value) ? "bg-primary" : "bg-lightbg"}`}
-                data-availability={option.value}
-                onClick={() => toggleAvailability(option.value)}
-            />
+        {options.map((option) => (
+          <input
+            key={option.value}
+            type="button"
+            value={option.label}
+            disabled={disabled}
+            className={`rounded border text-white w-full p-2 mr-2 mb-2 ${
+              value.includes(option.value) ? "bg-primary" : "bg-lightbg"
+            }`}
+            data-availability={option.value}
+            onClick={() => toggleAvailability(option.value)}
+          />
         ))}
       </div>
     </>

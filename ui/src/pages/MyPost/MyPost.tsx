@@ -18,10 +18,8 @@ interface FormState {
   availability: Availability;
 }
 
-// TODO: Expand this to store an object if multiple fields needed
-const LAST_SELECTED_AVAILABILITY_CACHE_KEY = "last_selected_availability"
-
-const commonStyling = "border-white border-2 bg-darkbg text-white w-full py-1 px-2 mt-4 "
+const commonStyling =
+  "border-white border-2 bg-darkbg text-white w-full py-1 px-2 mt-4 ";
 
 export const MyPost: React.FC = () => {
   useEnsureLoggedIn();
@@ -29,25 +27,33 @@ export const MyPost: React.FC = () => {
 
   const { mutate: save, isLoading: isSaving } = useMyPostMutation();
 
-  const lastSelectedAvailability: Availability = localStorage.getItem(LAST_SELECTED_AVAILABILITY_CACHE_KEY) as Availability || allAvailabilities[0];
-
   const [formState, setFormState] = React.useState<FormState>({
     title: "",
     description: "",
     skillsPossessed: [],
     skillsSought: [],
     preferredTools: [],
-    availability: lastSelectedAvailability,
+    availability: allAvailabilities[0],
   });
 
   React.useEffect(() => {
     if (myPostQuery.data) {
-      const { title, description, skillsPossessed, skillsSought, preferredTools, availability } = myPostQuery.data;
-      setFormState({ title, description, skillsPossessed, skillsSought, preferredTools, availability });
-
-      // Manually update Availability, because the formState change doesn't call custom onChange method
-      // We use localStorage to track the last selected option to minimise the visual jank of the field changing
-      localStorage.setItem(LAST_SELECTED_AVAILABILITY_CACHE_KEY, availability)
+      const {
+        title,
+        description,
+        skillsPossessed,
+        skillsSought,
+        preferredTools,
+        availability,
+      } = myPostQuery.data;
+      setFormState({
+        title,
+        description,
+        skillsPossessed,
+        skillsSought,
+        preferredTools,
+        availability,
+      });
     }
   }, [myPostQuery.data]);
 
@@ -67,25 +73,26 @@ export const MyPost: React.FC = () => {
       className="container mx-auto max-w-screen-xxl p-1"
       onSubmit={handleSubmit}
     >
+      <pre>{myPostQuery.isFetched ? "isFetched" : "!isFetched"}</pre>
       {/* Title */}
       <label htmlFor="title" className="text-lg">
         Post title - put something short and catchy!
       </label>
       <input
-          id="title"
-          type="text"
-          className={commonStyling + ""}
-          disabled={disabled}
-          value={formState.title}
-          onChange={(e) =>
-              setFormState((prev) => ({ ...prev, title: e.target.value }))
-          }
+        id="title"
+        type="text"
+        className={commonStyling + ""}
+        disabled={disabled}
+        value={formState.title}
+        onChange={(e) =>
+          setFormState((prev) => ({ ...prev, title: e.target.value }))
+        }
       />
 
       {/* Description */}
       <label htmlFor="description" className="text-lg">
-        Write a brief summary of what you&apos;re looking for that isn&apos;t covered by
-        the rest of the form
+        Write a brief summary of what you&apos;re looking for that isn&apos;t
+        covered by the rest of the form
       </label>
       <textarea
         id="description"
@@ -104,9 +111,14 @@ export const MyPost: React.FC = () => {
           What skills do you have?
         </label>
         <SkillSelector
-            id="skillsPossessedFilter"
-            value={formState.skillsPossessed}
-            onChange={(skillsPossessed) => setFormState((prev) => ({ ...prev, skillsPossessed: skillsPossessed }))}
+          id="skillsPossessedFilter"
+          value={formState.skillsPossessed}
+          onChange={(skillsPossessed) =>
+            setFormState((prev) => ({
+              ...prev,
+              skillsPossessed: skillsPossessed,
+            }))
+          }
         />
       </div>
 
@@ -116,9 +128,11 @@ export const MyPost: React.FC = () => {
           What skills are you looking for?
         </label>
         <SkillSelector
-            id="skillsSoughtFilter"
-            value={formState.skillsSought}
-            onChange={(skillsSought) => setFormState((prev) => ({ ...prev, skillsSought: skillsSought }))}
+          id="skillsSoughtFilter"
+          value={formState.skillsSought}
+          onChange={(skillsSought) =>
+            setFormState((prev) => ({ ...prev, skillsSought: skillsSought }))
+          }
         />
       </div>
 
@@ -128,9 +142,14 @@ export const MyPost: React.FC = () => {
           What tools do you want to work with?
         </label>
         <ToolSelector
-            id="toolsFilter"
-            value={formState.preferredTools}
-            onChange={(preferredTools) => setFormState((prev) => ({ ...prev, preferredTools: preferredTools }))}
+          id="toolsFilter"
+          value={formState.preferredTools}
+          onChange={(preferredTools) =>
+            setFormState((prev) => ({
+              ...prev,
+              preferredTools: preferredTools,
+            }))
+          }
         />
       </div>
 
@@ -140,11 +159,15 @@ export const MyPost: React.FC = () => {
           How much time are you looking to spend?
         </label>
         <AvailabilitySelector
-            id="availabilityFilter"
-            allowMultiple={false}
-            disabled={disabled}
-            value={[formState.availability]}
-            onChange={(availability) => setFormState((prev) => ({ ...prev, availability: availability[0] }))}
+          id="availabilityFilter"
+          allowMultiple={false}
+          disabled={disabled}
+          // Don't have anything selected while loading the form
+          // to avoid visual jank
+          value={myPostQuery.isFetched ? [formState.availability] : []}
+          onChange={(availability) =>
+            setFormState((prev) => ({ ...prev, availability: availability[0] }))
+          }
         />
       </div>
 
