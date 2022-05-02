@@ -1,27 +1,16 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import {useAuth} from "../../utils/AuthContext";
 import {useUserInfo} from "../../queries/userInfo";
-import {login} from "../../utils/login";
 
 const navElementStylingRules = "w-full py-2 border mb-2 rounded text-center "
 
 export const PageHeader: React.FC = () => {
     const userInfo = useUserInfo();
 
-    const [shouldDisplayLogin, setShouldDisplayLogin] = useState(true)
-    const [shouldDisplayAdminLink, setShouldDisplayAdminLink] = useState(false)
 
-    React.useEffect(() => {
-        if (!userInfo.data) {
-            return;
-        }
-
-        setShouldDisplayLogin(false)
-        setShouldDisplayAdminLink(!!userInfo.data.isAdmin)
-    }, [userInfo]);
-
+    const shouldDisplayLogin = !userInfo.data;
+    const shouldDisplayAdminLink = userInfo.data?.isAdmin;
 
     const [isNavVisible, setNavVisibility] = useState(false)
 
@@ -32,7 +21,7 @@ export const PageHeader: React.FC = () => {
             <div className="flex flex-cols-2 justify-between">
                 <Link to="/"><h1 className="text-xl uppercase font-bold ml-4 px-1 py-1">Team<br />Finder</h1></Link>
                 <div className="flex items-center">
-                    {shouldDisplayLogin && <Link className="rounded rounded-lg font-bold mr-4 px-5 py-1" style={{backgroundColor: "#39bcf8"}} to="/test-auth">Log In</Link>}
+                    {shouldDisplayLogin && <Link className="rounded-lg font-bold mr-4 px-5 py-1" style={{backgroundColor: "#39bcf8"}} to="/test-auth">Log In</Link>}
                     <ShowHideNavButton isNavVisible={isNavVisible} setNavVisibility={setNavVisibility} />
                 </div>
             </div>
