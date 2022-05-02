@@ -7,8 +7,8 @@ import {
   UseQueryResult,
   useQueryClient,
 } from "react-query";
+import { Availability } from "../model/availability";
 import {
-  Availability,
   Post,
   PostApiResult,
   postFromApiResult,

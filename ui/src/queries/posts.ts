@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
+import { Availability } from "../model/availability";
 import {
-  Availability,
   PostApiResult,
   postFromApiResult,
   Post,
