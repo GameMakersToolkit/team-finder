@@ -26,7 +26,7 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen }
         <Modal
             isOpen={isModalOpen}
             style={modalStyles}
-            className="bg-darkbg text-white m-4 p-4 font-sans"
+            className="bg-darkbg text-white inset-4 p-4 font-sans"
             contentLabel="Example Modal"
         >
             <h3 className="font-bold text-xl">
