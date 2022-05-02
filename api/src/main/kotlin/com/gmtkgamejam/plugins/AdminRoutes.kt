@@ -1,7 +1,7 @@
 package com.gmtkgamejam.plugins;
 
 import com.gmtkgamejam.models.PostItem
-import com.gmtkgamejam.models.admin.DeleteTeamDto
+import com.gmtkgamejam.models.admin.DeletePostDto
 import com.gmtkgamejam.models.admin.ReportedUsersClearDto
 import com.gmtkgamejam.services.PostService
 import io.ktor.application.*
@@ -10,7 +10,10 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import org.bson.conversions.Bson
+import org.litote.kmongo.and
 import org.litote.kmongo.descending
+import org.litote.kmongo.eq
 import org.litote.kmongo.gt
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -25,7 +28,8 @@ fun Application.configureAdminRouting() {
             route("/admin") {
                 route("/reports") {
                     get {
-                        call.respond(service.getPosts(PostItem::reportCount gt 0, descending(PostItem::reportCount)))
+                        val filters = mutableListOf(PostItem::deletedAt eq null, PostItem::reportCount gt 0)
+                        call.respond(service.getPosts(and(filters), descending(PostItem::reportCount)))
                     }
                     post("/clear") {
                         val data = call.receive<ReportedUsersClearDto>()
@@ -38,16 +42,16 @@ fun Application.configureAdminRouting() {
                         call.respondText("Post not found", status = HttpStatusCode.NotFound)
                     }
                 }
-                route("/teams") {
+                route("/post") {
                     delete {
-                        val data = call.receive<DeleteTeamDto>()
-                        service.getPost(data.teamId.toLong())?.let {
+                        val data = call.receive<DeletePostDto>()
+                        service.getPost(data.postId.toLong())?.let {
                             it.deletedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                             service.updatePost(it)
                             return@delete call.respond(it)
                         }
 
-                        call.respondText("Team not found", status = HttpStatusCode.NotFound)
+                        call.respondText("Post not found", status = HttpStatusCode.NotFound)
                     }
                 }
             }

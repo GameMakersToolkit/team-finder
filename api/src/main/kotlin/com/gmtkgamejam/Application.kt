@@ -40,6 +40,8 @@ fun Application.module() {
         }
     }
 
+    Config.initConfig(environment.config)
+
     startKoin {
         environmentProperties()
         modules(DatabaseModule)

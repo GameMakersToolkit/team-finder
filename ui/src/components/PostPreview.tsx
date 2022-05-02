@@ -5,14 +5,21 @@ import { Button } from "./Button";
 import { useState } from "react";
 import { PostModal } from "./PostModal";
 import { SkillList } from "./SkillList";
+import { useDeletePost } from "../queries/admin";
 
 interface Props {
   post: Post;
   className?: string;
+  adminView?: boolean;
 }
 
-export const PostPreview: React.FC<Props> = ({ post, className }) => {
-  const [isModelOpen, setIsModelOpen] = useState(false)
+export const PostPreview: React.FC<Props> = ({
+  post,
+  className,
+  adminView,
+}) => {
+  const [isModelOpen, setIsModelOpen] = useState(false);
+  const deletePostMutation = useDeletePost();
 
   return (
     <article
@@ -35,8 +42,27 @@ export const PostPreview: React.FC<Props> = ({ post, className }) => {
       />
       <p>{post.description}</p>
 
-      <PostModal post={post} isModalOpen={isModelOpen} setIsModalOpen={setIsModelOpen} />
-      <Button className="justify-self-end" onClick={() => setIsModelOpen(true)}>More</Button>
+      <PostModal
+        post={post}
+        isModalOpen={isModelOpen}
+        setIsModalOpen={setIsModelOpen}
+      />
+      <div className={`flex ${adminView ? "justify-between" : "justify-end"}`}>
+        {adminView && (
+          <Button
+            style={{ backgroundColor: "red" }}
+            onClick={() => deletePostMutation.mutate({ postId: post.id })}
+          >
+            Delete
+          </Button>
+        )}
+        <Button
+          className="justify-self-end"
+          onClick={() => setIsModelOpen(true)}
+        >
+          More
+        </Button>
+      </div>
     </article>
   );
 };
