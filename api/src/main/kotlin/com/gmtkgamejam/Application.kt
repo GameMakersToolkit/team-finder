@@ -1,10 +1,10 @@
 package com.gmtkgamejam
 
 import com.gmtkgamejam.koin.DatabaseModule
-import com.gmtkgamejam.plugins.configureAdminRouting
-import com.gmtkgamejam.plugins.configureAuthRouting
-import com.gmtkgamejam.plugins.configurePostRouting
-import com.gmtkgamejam.plugins.configureRouting
+import com.gmtkgamejam.routing.configureAdminRouting
+import com.gmtkgamejam.routing.configureAuthRouting
+import com.gmtkgamejam.routing.configurePostRouting
+import com.gmtkgamejam.routing.configureUserInfoRouting
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -15,6 +15,7 @@ import org.koin.environmentProperties
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+@Suppress("unused")
 fun Application.module() {
     install(ContentNegotiation) {
         json(Json {
@@ -40,14 +41,12 @@ fun Application.module() {
         }
     }
 
-    Config.initConfig(environment.config)
-
     startKoin {
         environmentProperties()
         modules(DatabaseModule)
     }
 
-    configureRouting()
+    configureUserInfoRouting()
     configureAuthRouting()
     configureAdminRouting()
     configurePostRouting()
