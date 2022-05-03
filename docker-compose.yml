@@ -12,7 +12,9 @@ services:
 
   ui:
     container_name: team-finder-ui
-    build: ./ui
+    build:
+      context: ./ui
+      dockerfile: Dockerfile.dev
     restart: on-failure
     ports:
       - "3000:3000"
