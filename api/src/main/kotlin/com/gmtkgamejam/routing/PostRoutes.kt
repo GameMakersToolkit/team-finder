@@ -133,10 +133,12 @@ fun Application.configurePostRouting() {
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let {
                                 // FIXME: Don't just brute force update all given fields
+                                it.title = data.title ?: it.title
                                 it.description = data.description ?: it.description
                                 it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
                                 it.skillsSought = data.skillsSought ?: it.skillsSought
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
+                                it.availability = data.availability ?: it.availability
 
                                 service.updatePost(it)
                                 return@put call.respond(it)

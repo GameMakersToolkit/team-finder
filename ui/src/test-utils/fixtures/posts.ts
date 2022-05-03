@@ -28,6 +28,9 @@ export const postsFixture: PostApiResult[] = [
       "TEAM_LEAD",
       "OTHER",
     ],
+    preferredTools: [
+        "UNITY",
+    ],
     availability: "PART_TIME",
     timezoneStr: "UTC",
     languages: ["en"],
@@ -52,6 +55,9 @@ export const postsFixture: PostApiResult[] = [
       "SOUND_MUSIC",
       "TESTING_SUPPORT",
     ],
+    preferredTools: [
+      "UNREAL",
+    ],
     availability: "FULL_TIME",
     timezoneStr: "UTC",
     languages: ["en", "ja"],
@@ -69,6 +75,9 @@ export const postsFixture: PostApiResult[] = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     skillsPossessed: ["ART_3D", "DESIGN_PRODUCTION", "SOUND_MUSIC"],
     skillsSought: ["ART_2D", "OTHER"],
+    preferredTools: [
+      "PICO_8",
+    ],
     availability: "MINIMAL",
     timezoneStr: "UTC",
     languages: ["en"],
@@ -92,6 +101,7 @@ export const postsFixture: PostApiResult[] = [
       "SOUND_MUSIC",
     ],
     skillsSought: ["ART_3D", "CODE", "TESTING_SUPPORT", "OTHER"],
+    preferredTools: [],
     availability: "FULL_TIME",
     timezoneStr: "UTC",
     languages: ["en"],
@@ -114,6 +124,10 @@ export const postsFixture: PostApiResult[] = [
       "SOUND_MUSIC",
     ],
     skillsSought: ["ART_3D", "CODE", "TESTING_SUPPORT", "OTHER"],
+    preferredTools: [
+      "GAME_MAKER_STUDIO",
+      "RPG_MAKER",
+    ],
     availability: "PART_TIME",
     timezoneStr: "UTC",
     languages: ["en"],

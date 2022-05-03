@@ -108,6 +108,7 @@ export const Home: React.FC = () => {
         <AvailabilitySelector
           id="availabilityFilter"
           value={availabilityFilter ?? []}
+          allowMultiple={true}
           onChange={(newList) => {
             updateSearchParam(
               "availability",
