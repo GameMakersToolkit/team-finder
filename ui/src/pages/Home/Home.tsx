@@ -8,6 +8,8 @@ import { useThrottleState } from "../../utils/throttleState";
 import { SkillSelector } from "../SkillSelector";
 import { ToolSelector } from "../ToolSelector";
 import { isTool } from "../../model/tool";
+import { AvailabilitySelector } from "../AvailabilitySelector";
+import { isAvailability } from "../../model/availability";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,12 +30,14 @@ export const Home: React.FC = () => {
   const skillsPossessedFilter = searchParams.get("skillsPossessed")?.split(",").filter(isSkill);
   const skillsSoughtFilter = searchParams.get("skillsSought")?.split(",").filter(isSkill);
   const toolsFilter = searchParams.get("tools")?.split(",").filter(isTool);
+  const availabilityFilter = searchParams.get("availability")?.split(",").filter(isAvailability);
 
   const searchOptions: SearchOptions = {
     description: searchParams.get("description") || undefined,
     skillsPossessed: skillsPossessedFilter,
     skillsSought: skillsSoughtFilter,
-    tools: toolsFilter
+    tools: toolsFilter,
+    availability: availabilityFilter,
   };
 
   const query = usePostsList(searchOptions);
@@ -96,6 +100,21 @@ export const Home: React.FC = () => {
             );
           }}
         />
+      </div>
+      <div className="mt-2">
+        <label className="font-bold block" htmlFor="toolsFilter">
+          Availability (select all that apply):
+        </label>
+        <AvailabilitySelector
+          id="availabilityFilter"
+          value={availabilityFilter ?? []}
+          allowMultiple={true}
+          onChange={(newList) => {
+            updateSearchParam(
+              "availability",
+              newList.length ? newList.join(",") : null
+            );
+        }}/>
       </div>
       {query.data && (
         <div className="mt-4">{query.data.length} results found</div>

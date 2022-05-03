@@ -1,5 +1,6 @@
-package com.gmtkgamejam.plugins
+package com.gmtkgamejam.routing
 
+import com.gmtkgamejam.Config
 import com.gmtkgamejam.discord.getGuildInfoAsync
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
@@ -13,14 +14,11 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import java.util.*
 
-fun Application.configureRouting() {
+fun Application.configureUserInfoRouting() {
 
     val service = AuthService()
 
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
         authenticate("auth-jwt") { // These routes go through the authentication middleware defined in Auth.kt
             get("/hello") {
                 val principal = call.principal<JWTPrincipal>()
@@ -30,7 +28,6 @@ fun Application.configureRouting() {
                 call.respondText("Hello, id: $id and expires at: $expiresAt")
             }
 
-            // TODO: Move this into a better named file?
             get("/userinfo") {
                 val principal = call.principal<JWTPrincipal>()
                 val id = principal?.payload?.getClaim("id")?.asString()
@@ -43,8 +40,8 @@ fun Application.configureRouting() {
                     val tokenHasExpired = tokenSet.expiry <= Date(System.currentTimeMillis())
                     if (tokenHasExpired) {
                         val refreshedTokenSet = refreshTokenAsync(
-                            environment.config.property("secrets.discord.client.id").getString(),
-                            environment.config.property("secrets.discord.client.secret").getString(),
+                            Config.getString("secrets.discord.client.id"),
+                            Config.getString("secrets.discord.client.secret"),
                             it.refreshToken.toString()
                         )
 
