@@ -5,7 +5,6 @@ import {
   postFromApiResult,
   Post,
 } from "../model/post";
-import { Availability } from "../model/availability";
 import { Skill } from "../model/skill";
 import { Tool } from "../model/tool";
 import { toQueryString, useApiRequest } from "../utils/apiRequest";
