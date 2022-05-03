@@ -56,6 +56,9 @@ export const PageHeader: React.FC = () => {
           <Link className={navElementStylingRules} to="/my-post">
             My Post
           </Link>
+          <Link className={navElementStylingRules} to="/faq">
+            FAQ
+          </Link>
           {shouldDisplayAdminLink && (
             <Link className={navElementStylingRules} to="/admin">
               Admin tools
