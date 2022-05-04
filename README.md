@@ -71,6 +71,10 @@ Run the apps with the following environment variables, set in the IDE/on the com
 If you have access to the Team Finder app in Discord, the ID/secret are [here](https://discord.com/developers/teams).
 If not, message Dotwo to get access.
 
+If you're using the remote database (or a local DB with authentication), you'll likely need to import the certificate
+locally. See https://docs.oracle.com/javase/tutorial/security/toolfilex/rstep1.html (or something newer) to import
+the certificate into your keytool.
+
 ### Docker
 
 #### API
