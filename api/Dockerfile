@@ -10,7 +10,7 @@ COPY settings.gradle.kts gradle.properties* /opt/code/
 # Add ca-cert for mongodo+src connections to remote
 ARG CERT="ca-certificate.crt"
 COPY $CERT /opt/code/
-RUN keytool -importcert -file $CERT -alias $CERT -cacerts -storepass changeit -noprompt
+RUN keytool -importcert -file /opt/code/$CERT -alias /opt/code/$CERT -cacerts -storepass changeit -noprompt
 
 WORKDIR /opt/code/
 
