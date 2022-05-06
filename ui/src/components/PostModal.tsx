@@ -2,6 +2,7 @@ import Modal, {Styles} from "react-modal";
 import * as React from "react";
 import { Post } from "../model/post";
 import { SkillList } from "./SkillList";
+import {useAuth} from "../utils/AuthContext";
 
 interface Props {
     post: Post;
@@ -60,10 +61,13 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen }
  *
  * The direct link has been a bit finicky in the past - we should make this more robust where possible
  * TODO: Investigate if app links are feasible
- * TODO: Don't display if user is not logged in
  * TODO: Don't display if user fails Guild Permissions check
  */
 const ModalCallToAction: React.FC<CTAProps> = ({ authorName, authorId }) => {
+    const isLoggedIn = Boolean(useAuth());
+
+    if (!isLoggedIn) return (<></>)
+
     return (
         <>
         {/* TODO: Position this relative to bottom of frame? */}
