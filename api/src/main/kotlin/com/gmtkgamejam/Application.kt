@@ -1,6 +1,7 @@
 package com.gmtkgamejam
 
 import com.gmtkgamejam.koin.DatabaseModule
+import com.gmtkgamejam.koin.DiscordBotModule
 import com.gmtkgamejam.routing.configureAdminRouting
 import com.gmtkgamejam.routing.configureAuthRouting
 import com.gmtkgamejam.routing.configurePostRouting
@@ -43,7 +44,7 @@ fun Application.module() {
 
     startKoin {
         environmentProperties()
-        modules(DatabaseModule)
+        modules(DatabaseModule, DiscordBotModule)
     }
 
     configureUserInfoRouting()
