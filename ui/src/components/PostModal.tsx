@@ -51,7 +51,7 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen }
             />
             <p className="mb-16">{post.description}</p>
 
-            <ModalCallToAction authorName={post.author} authorId={post.authorId} />
+            <MessageOnDiscordButton authorName={post.author} authorId={post.authorId} />
         </Modal>
     )
 }
@@ -63,7 +63,7 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen }
  * TODO: Investigate if app links are feasible
  * TODO: Don't display if user fails Guild Permissions check
  */
-const ModalCallToAction: React.FC<CTAProps> = ({ authorName, authorId }) => {
+const MessageOnDiscordButton: React.FC<CTAProps> = ({ authorName, authorId }) => {
     const isLoggedIn = Boolean(useAuth());
 
     if (!isLoggedIn) return (<></>)
