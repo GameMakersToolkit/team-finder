@@ -19,5 +19,6 @@ object Config {
     /**
      * Get property list value
      */
-    fun getList(key: String): List<String> = config.property(key).getList()
+    // getList() doesn't parse comma-separated lists for some reason. eugh.
+    fun getList(key: String): List<String> = config.property(key).getString().split(",")
 }
