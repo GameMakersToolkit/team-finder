@@ -73,7 +73,6 @@ export const MyPost: React.FC = () => {
       className="container mx-auto max-w-screen-xxl p-1"
       onSubmit={handleSubmit}
     >
-      <pre>{myPostQuery.isFetched ? "isFetched" : "!isFetched"}</pre>
       {/* Title */}
       <label htmlFor="title" className="text-lg">
         Post title - put something short and catchy!

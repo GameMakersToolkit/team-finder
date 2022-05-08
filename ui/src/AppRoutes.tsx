@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthCallback } from "./pages/AuthCallback/AuthCallback";
+import { FAQ } from "./pages/FAQ/FAQ";
 import { Home } from "./pages/Home/Home";
 import { Admin } from "./pages/Admin/Admin";
 
@@ -11,6 +12,7 @@ export const AppRoutes: React.FC = () => (
     <Route path="/" element={<Home />} />
     <Route path="/admin" element={<Admin />} />
     <Route path="/my-post" element={<MyPost />} />
+    <Route path="/faq" element={<FAQ />} />
     <Route path="/login/authorized" element={<AuthCallback />} />
     {/* TODO: replace with a proper Not Found page */}
     <Route path="*" element={<p>u wot m8</p>} />
