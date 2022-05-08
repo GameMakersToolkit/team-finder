@@ -1,5 +1,6 @@
 package com.gmtkgamejam.services
 
+import com.gmtkgamejam.models.BannedUser
 import com.gmtkgamejam.models.PostItem
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
@@ -16,13 +17,19 @@ class PostService : KoinComponent {
     private val client: MongoClient by inject()
 
     private val col: MongoCollection<PostItem>
+    private val bannedUsersCol: MongoCollection<BannedUser>
 
     init {
         val database = client.getDatabase("team-finder")
         col = database.getCollectionOfName("posts")
+        bannedUsersCol = database.getCollectionOfName("banned-users")
     }
 
     fun createPost(postItem: PostItem) {
+        if (bannedUsersCol.findOne(BannedUser::discordId eq postItem.authorId) != null) {
+            throw Exception("User is banned, cannot perform action!")
+        }
+
         col.insertOne(postItem)
     }
 
@@ -46,6 +53,10 @@ class PostService : KoinComponent {
     }
 
     fun updatePost(postItem: PostItem) {
+        if (bannedUsersCol.findOne(BannedUser::discordId eq postItem.authorId) != null) {
+            throw Exception("User is banned, cannot perform action!")
+        }
+
         col.updateOne(PostItem::id eq postItem.id, postItem)
     }
 

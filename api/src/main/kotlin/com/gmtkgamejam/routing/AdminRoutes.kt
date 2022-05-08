@@ -1,8 +1,11 @@
 package com.gmtkgamejam.routing;
 
+import com.gmtkgamejam.models.BanUnbanUserDto
+import com.gmtkgamejam.models.BannedUser
 import com.gmtkgamejam.models.PostItem
 import com.gmtkgamejam.models.admin.DeletePostDto
 import com.gmtkgamejam.models.admin.ReportedUsersClearDto
+import com.gmtkgamejam.services.AdminService
 import com.gmtkgamejam.services.PostService
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -20,6 +23,7 @@ import java.time.format.DateTimeFormatter
 fun Application.configureAdminRouting() {
 
     val service = PostService()
+    val adminService = AdminService()
 
     routing {
         authenticate("auth-jwt-admin") {
@@ -50,6 +54,22 @@ fun Application.configureAdminRouting() {
                         }
 
                         call.respondText("Post not found", status = HttpStatusCode.NotFound)
+                    }
+                }
+                route("/user") {
+                    post("/ban") {
+                        val data = call.receive<BanUnbanUserDto>()
+                        val userToBan = BannedUser(data)
+                        adminService.banUser(userToBan).let {
+                            return@post call.respond("User banned")
+                        }
+                    }
+                    post("/unban") {
+                        val data = call.receive<BanUnbanUserDto>()
+                        val userToBan = BannedUser(data)
+                        adminService.unbanUser(userToBan).let {
+                            return@post call.respond("User unbanned")
+                        }
                     }
                 }
             }
