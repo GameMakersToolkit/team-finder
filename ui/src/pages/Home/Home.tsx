@@ -56,9 +56,11 @@ export const Home: React.FC = () => {
           onChange={(e) => setDescription(e.currentTarget.value)}
         />
       </div>
-      <div className="mt-2">
+        {/* The labels here seem back-to-front because 'sought'/'possessed' are from the perspective of the team */}
+
+        <div className="mt-2">
         <label className="font-bold block" htmlFor="skillsPossessedFilter">
-          I can do:
+          I need:
         </label>
         <SkillSelector
           id="skillsPossessedFilter"
@@ -73,7 +75,7 @@ export const Home: React.FC = () => {
       </div>
       <div className="mt-2">
         <label className="font-bold block" htmlFor="skillsSoughtFilter">
-          I need:
+          I can do:
         </label>
         <SkillSelector
           id="skillsSoughtFilter"
