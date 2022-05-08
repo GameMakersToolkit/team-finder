@@ -18,7 +18,6 @@ application {
 repositories {
     mavenCentral()
 }
-
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
@@ -35,6 +34,9 @@ dependencies {
 
     // DB
     implementation("org.litote.kmongo:kmongo:4.2.8")
+
+    // Discord bot
+    implementation("org.javacord:javacord:3.4.0")
 
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")

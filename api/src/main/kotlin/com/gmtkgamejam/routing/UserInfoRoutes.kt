@@ -1,6 +1,7 @@
 package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.Config
+import com.gmtkgamejam.bot.ContactPermissionsCheckerBot
 import com.gmtkgamejam.discord.getGuildInfoAsync
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
@@ -12,10 +13,12 @@ import io.ktor.auth.jwt.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import org.koin.ktor.ext.inject
 import java.util.*
 
 fun Application.configureUserInfoRouting() {
 
+    val bot: ContactPermissionsCheckerBot by inject()
     val service = AuthService()
 
     routing {
@@ -53,8 +56,9 @@ fun Application.configureUserInfoRouting() {
 
                     val user = getUserInfoAsync(accessToken)
                     val guilds = getGuildInfoAsync(accessToken)
+                    val hasPermissions = bot.doesUserHaveValidPermissions(user.id)
 
-                    val userinfo = UserInfo(user, guilds)
+                    val userinfo = UserInfo(user, guilds, hasPermissions)
                     return@get call.respond(userinfo)
                 }
 
