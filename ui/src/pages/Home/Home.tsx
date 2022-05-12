@@ -11,10 +11,14 @@ import { isTool } from "../../model/tool";
 import { AvailabilitySelector } from "../AvailabilitySelector";
 import { isAvailability } from "../../model/availability";
 import { Onboarding } from "./components/Onboarding";
+import { useState } from "react";
+import { ViewOptions } from "./components/ViewOptions";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const updateSearchParam = useUpdateSearchParam(searchParams, setSearchParams);
+
+  const [showSkillText, setShowSkillText] = useState(true)
 
   const [description, setDescription] = useThrottleState(
     searchParams.get("description") ?? "",
@@ -120,12 +124,14 @@ export const Home: React.FC = () => {
               newList.length ? newList.join(",") : null
             );
         }}/>
+
+        <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText} />
       </div>
       {query.data && (
         <div className="mt-4">{query.data.length} results found</div>
       )}
       {query.data?.map((post) => (
-        <PostPreview key={post.id} post={post} className="mt-4" />
+        <PostPreview key={post.id} post={post} className="mt-4" showSkillText={showSkillText} />
       ))}
       {/* <pre>{JSON.stringify(query.data, null, 2)}</pre> */}
     </div>
