@@ -50,6 +50,7 @@ export const PostPreview: React.FC<Props> = ({
         post={post}
         isModalOpen={isModelOpen}
         setIsModalOpen={setIsModelOpen}
+        showSkillText={showSkillText}
       />
       <div className={`flex ${adminView ? "justify-between" : "justify-end"}`}>
         {adminView && (
