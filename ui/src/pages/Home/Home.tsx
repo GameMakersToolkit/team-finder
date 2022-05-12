@@ -19,6 +19,7 @@ export const Home: React.FC = () => {
   const updateSearchParam = useUpdateSearchParam(searchParams, setSearchParams);
 
   const [showSkillText, setShowSkillText] = useState(true)
+  const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false)
 
   const [description, setDescription] = useThrottleState(
     searchParams.get("description") ?? "",
@@ -110,23 +111,35 @@ export const Home: React.FC = () => {
           }}
         />
       </div>
-      <div className="mt-2">
-        <label className="font-bold block" htmlFor="toolsFilter">
-          Availability (select all that apply):
-        </label>
-        <AvailabilitySelector
-          id="availabilityFilter"
-          value={availabilityFilter ?? []}
-          allowMultiple={true}
-          onChange={(newList) => {
-            updateSearchParam(
-              "availability",
-              newList.length ? newList.join(",") : null
-            );
-        }}/>
 
-        <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText} />
-      </div>
+      <p
+        className="mt-2 font-bold block cursor-pointer"
+        onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+      >
+        Advanced Search Options:
+      </p>
+      {showAdvancedSearchOptions && (
+        <>
+          <div className="mt-2">
+            <label className="font-bold block" htmlFor="toolsFilter">
+              Availability (select all that apply):
+            </label>
+            <AvailabilitySelector
+              id="availabilityFilter"
+              value={availabilityFilter ?? []}
+              allowMultiple={true}
+              onChange={(newList) => {
+                updateSearchParam(
+                  "availability",
+                  newList.length ? newList.join(",") : null
+                );
+            }}/>
+          </div>
+
+          <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText} />
+        </>
+      )}
+
       {query.data && (
         <div className="mt-4">{query.data.length} results found</div>
       )}
