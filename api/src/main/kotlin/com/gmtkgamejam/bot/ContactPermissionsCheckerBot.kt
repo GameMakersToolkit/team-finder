@@ -58,7 +58,7 @@ class ContactPermissionsCheckerBot {
             println("User has correct contact perms active!")
         }
 
-        return didMessageFailBecausePerms
+        return !didMessageFailBecausePerms
     }
 
 }

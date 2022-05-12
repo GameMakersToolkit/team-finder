@@ -10,6 +10,7 @@ import { ToolSelector } from "../ToolSelector";
 import { isTool } from "../../model/tool";
 import { AvailabilitySelector } from "../AvailabilitySelector";
 import { isAvailability } from "../../model/availability";
+import { Onboarding } from "./components/Onboarding";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,6 +45,8 @@ export const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto max-w-screen-xxl p-1">
+      <Onboarding />
+
       <div>
         <label className="font-bold block" htmlFor="descriptionFilter">
           Description
