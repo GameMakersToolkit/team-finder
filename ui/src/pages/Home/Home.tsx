@@ -58,14 +58,14 @@ export const Home: React.FC = () => {
         <input
           id="descriptionFilter"
           type="text"
-          className="bg-transparent border-2 border-white text-white px-2 w-full"
+          className="bg-transparent border-2 border-white text-white p-2 w-full h-[36px]"
           value={description}
           onChange={(e) => setDescription(e.currentTarget.value)}
         />
       </div>
         {/* The labels here seem back-to-front because 'sought'/'possessed' are from the perspective of the team */}
 
-        <div className="mt-2">
+        <div className="mt-2 sm:w-1/3 sm:pr-4 sm:inline-block">
         <label className="font-bold block" htmlFor="skillsPossessedFilter">
           I need:
         </label>
@@ -80,7 +80,7 @@ export const Home: React.FC = () => {
           }}
         />
       </div>
-      <div className="mt-2">
+      <div className="mt-2 sm:w-1/3 sm:pr-4 sm:inline-block">
         <label className="font-bold block" htmlFor="skillsSoughtFilter">
           I can do:
         </label>
@@ -95,7 +95,7 @@ export const Home: React.FC = () => {
           }}
         />
       </div>
-      <div className="mt-2">
+      <div className="mt-2 sm:w-1/3 sm:pr-0 sm:inline-block">
         <label className="font-bold block" htmlFor="toolsFilter">
           Tools used:
         </label>
