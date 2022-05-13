@@ -64,52 +64,53 @@ export const Home: React.FC = () => {
           onChange={(e) => setDescription(e.currentTarget.value)}
         />
       </div>
-        {/* The labels here seem back-to-front because 'sought'/'possessed' are from the perspective of the team */}
-
-        <div className="mt-2 sm:w-1/3 sm:pr-4 sm:inline-block">
-        <label className="font-bold block" htmlFor="skillsPossessedFilter">
-          I need:
-        </label>
-        <SkillSelector
-          id="skillsPossessedFilter"
-          value={skillsPossessedFilter ?? []}
-          onChange={(newList) => {
-            updateSearchParam(
-              "skillsPossessed",
-              newList.length ? newList.join(",") : null
-            );
-          }}
-        />
-      </div>
-      <div className="mt-2 sm:w-1/3 sm:pr-4 sm:inline-block">
-        <label className="font-bold block" htmlFor="skillsSoughtFilter">
-          I can do:
-        </label>
-        <SkillSelector
-          id="skillsSoughtFilter"
-          value={skillsSoughtFilter ?? []}
-          onChange={(newList) => {
-            updateSearchParam(
-              "skillsSought",
-              newList.length ? newList.join(",") : null
-            );
-          }}
-        />
-      </div>
-      <div className="mt-2 sm:w-1/3 sm:pr-0 sm:inline-block">
-        <label className="font-bold block" htmlFor="toolsFilter">
-          Tools used:
-        </label>
-        <ToolSelector
-          id="toolsFilter"
-          value={toolsFilter ?? []}
-          onChange={(newList) => {
-            updateSearchParam(
-              "tools",
-              newList.length ? newList.join(",") : null
-            );
-          }}
-        />
+      {/* The labels here seem back-to-front because 'sought'/'possessed' are from the perspective of the team */}
+      <div className="grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-2">
+          <label className="font-bold block" htmlFor="skillsPossessedFilter">
+            I need:
+          </label>
+          <SkillSelector
+            id="skillsPossessedFilter"
+            value={skillsPossessedFilter ?? []}
+            onChange={(newList) => {
+              updateSearchParam(
+                "skillsPossessed",
+                newList.length ? newList.join(",") : null
+              );
+            }}
+          />
+        </div>
+        <div className="mt-2">
+          <label className="font-bold block" htmlFor="skillsSoughtFilter">
+            I can do:
+          </label>
+          <SkillSelector
+            id="skillsSoughtFilter"
+            value={skillsSoughtFilter ?? []}
+            onChange={(newList) => {
+              updateSearchParam(
+                "skillsSought",
+                newList.length ? newList.join(",") : null
+              );
+            }}
+          />
+        </div>
+        <div className="mt-2">
+          <label className="font-bold block" htmlFor="toolsFilter">
+            Tools used:
+          </label>
+          <ToolSelector
+            id="toolsFilter"
+            value={toolsFilter ?? []}
+            onChange={(newList) => {
+              updateSearchParam(
+                "tools",
+                newList.length ? newList.join(",") : null
+              );
+            }}
+          />
+        </div>
       </div>
 
       <p
@@ -133,19 +134,23 @@ export const Home: React.FC = () => {
                   "availability",
                   newList.length ? newList.join(",") : null
                 );
-            }}/>
+              }}/>
           </div>
 
-          <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText} />
+          <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText}/>
         </>
       )}
 
       {query.data && (
         <div className="mt-4">{query.data.length} results found</div>
       )}
-      {query.data?.map((post) => (
-        <PostPreview key={post.id} post={post} className="mt-4" showSkillText={showSkillText} />
-      ))}
+
+      <div className="grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{}}>
+        {query.data?.map((post) => (
+          <PostPreview key={post.id} post={post} className="" showSkillText={showSkillText}/>
+        ))}
+      </div>
+
       {/* <pre>{JSON.stringify(query.data, null, 2)}</pre> */}
     </div>
   );
