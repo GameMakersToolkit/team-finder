@@ -15,6 +15,6 @@ data class PostItemCreateDto(
     var skillsSought: List<Skills>,
     var preferredTools: List<Tools>?,
     var availability: Availability,
-    var timezoneStr: String,
+    var timezoneOffset: Int,
     var languages: List<String>,
 )

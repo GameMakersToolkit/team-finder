@@ -67,6 +67,16 @@ fun Application.configurePostRouting() {
                     // Availabilities are mutually exclusive, so treat it as inclusion search
                     ?.let { filters.add(or(it)) }
 
+                // Timezones
+                // TODO: Default values
+                val timezoneRange = params["timezones"]?.split('/')
+                if (timezoneRange != null && timezoneRange.size == 2) {
+                    val timezoneStart: Int = timezoneRange.minOrNull()?.toInt() ?: -12
+                    filters.add(PostItem::timezoneOffset gte timezoneStart)
+                    val timezoneEnd: Int = timezoneRange.maxOrNull()?.toInt() ?: 12
+                    filters.add(PostItem::timezoneOffset lte timezoneEnd)
+                }
+
                 // Sorting
                 // TODO: Error handling
                 val sortByFieldName = params["sortBy"] ?: "id"
@@ -139,6 +149,7 @@ fun Application.configurePostRouting() {
                                 it.skillsSought = data.skillsSought ?: it.skillsSought
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
                                 it.availability = data.availability ?: it.availability
+                                it.timezoneOffset = data.timezoneOffset ?: it.timezoneOffset
 
                                 service.updatePost(it)
                                 return@put call.respond(it)

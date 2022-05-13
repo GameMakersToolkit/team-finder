@@ -17,6 +17,7 @@ import { Skill } from "../model/skill";
 import { expectNotFound, useApiRequest } from "../utils/apiRequest";
 import { useAuth } from "../utils/AuthContext";
 import { useUserInfo } from "./userInfo";
+import {TimezoneOffset, timezoneOffsetInfoMap} from "../model/timezone";
 
 const MY_POST_QUERY_KEY = ["posts", "mine"] as const;
 const DELETE_MY_POST_QUERY_KEY = ["posts", "mine", "delete"] as const;
@@ -51,7 +52,7 @@ export interface MyPostMutationVariables {
   skillsSought: Skill[];
   preferredTools: string[];
   availability: Availability;
-  timezoneStr: string;
+  timezoneOffset: TimezoneOffset;
   languages: string[];
 }
 
@@ -69,6 +70,7 @@ export function useMyPostMutation(
       );
       let result;
       if (existing) {
+        console.log("WPW", variables.timezoneOffset)
         result = await apiRequest<PostApiResult>("/posts/mine", {
           method: "PUT",
           body: variables,

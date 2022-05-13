@@ -18,6 +18,7 @@ export interface SearchOptions {
   tools?: Tool[];
   languages?: string[];
   availability?: Availability[];
+  timezones?: string;
   sortBy?: SortByOption;
   sortDir?: "asc" | "desc";
 }

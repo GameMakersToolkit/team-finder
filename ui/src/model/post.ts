@@ -2,6 +2,7 @@ import { Skill } from "./skill";
 import { Availability } from "./availability";
 import { Tool } from "./tool";
 import { Language } from "./language";
+import { TimezoneOffset } from "./timezone";
 
 export interface Post {
   id: number;
@@ -13,7 +14,7 @@ export interface Post {
   skillsSought: Skill[];
   preferredTools: Tool[];
   availability: Availability;
-  timezoneStr: string;
+  timezoneOffset: TimezoneOffset;
   languages: Language[];
   reportCount: number;
   createdAt: Date;
