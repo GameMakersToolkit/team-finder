@@ -2,7 +2,8 @@ import Modal, {Styles} from "react-modal";
 import * as React from "react";
 import { Post } from "../model/post";
 import { SkillList } from "./SkillList";
-import {useAuth} from "../utils/AuthContext";
+import { useAuth } from "../utils/AuthContext";
+import { login } from "../utils/login";
 
 interface Props {
     post: Post;
@@ -69,20 +70,19 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen, 
 const MessageOnDiscordButton: React.FC<CTAProps> = ({ authorName, authorId }) => {
     const isLoggedIn = Boolean(useAuth());
 
-    if (!isLoggedIn) return (<></>)
-
     return (
         <>
         {/* TODO: Position this relative to bottom of frame? */}
          <div className="text-center">
              {/* Span wraps anchor in case text splits onto two lines - we want one whole button shape */}
-             <span className="p-2 rounded inline-flex" style={{background:"#5865F2"}}>
+             <span className="p-2 rounded inline-flex cursor-pointer" style={{background:"#5865F2"}}>
                 <a
                     target="_blank" rel="noreferrer"
-                    href={`https://discordapp.com/channels/@me/${authorId}`}
+                    href={isLoggedIn ? `https://discordapp.com/channels/@me/${authorId}` : undefined}
+                    onClick={!isLoggedIn ? login : undefined}
                     className="text-sm"
                 >
-                    Message {authorName} on Discord
+                    Message {authorName} on Discord {!isLoggedIn && <>(Log in to continue)</>}
                 </a>
             </span>
          </div>
