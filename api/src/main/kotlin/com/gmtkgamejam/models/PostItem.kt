@@ -3,6 +3,7 @@ package com.gmtkgamejam.models
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.ThreadLocalRandom
 
 @Serializable
 data class PostItem (
@@ -35,7 +36,7 @@ data class PostItem (
             // TODO: Standardise datetime format
             val currentDatetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             return PostItem(
-                99999,
+                ThreadLocalRandom.current().nextLong(),
                 dto.author,
                 dto.authorId,
                 dto.title,
