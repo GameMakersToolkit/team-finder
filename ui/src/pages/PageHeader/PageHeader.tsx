@@ -50,17 +50,17 @@ export const PageHeader: React.FC = () => {
             "border-t-4 grid grid-cols-1 justify-items-center content-center px-4 py-4"
           }
         >
-          <Link className={navElementStylingRules} to="/">
+          <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/">
             Home
           </Link>
-          <Link className={navElementStylingRules} to="/my-post">
+          <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/my-post">
             My Post
           </Link>
-          <Link className={navElementStylingRules} to="/faq">
+          <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/faq">
             FAQ
           </Link>
           {shouldDisplayAdminLink && (
-            <Link className={navElementStylingRules} to="/admin">
+            <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/admin">
               Admin tools
             </Link>
           )}
