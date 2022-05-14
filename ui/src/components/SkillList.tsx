@@ -7,27 +7,28 @@ export const SkillList: React.FC<{
     skills: Skill[];
     label: React.ReactNode;
     className?: string;
-}> = ({skills, label, className}) => {
+    showText: boolean
+}> = ({skills, label, className, showText}) => {
     if (skills.length == 0) {
         return null;
     }
 
     return (
         <dl className={cx("flex gap-1 flex-wrap text-lg", className)}>
-            <dt className="py-1 mr-1">{label}</dt>
+            <dt className={`py-1 ${showText ? "mr-1" : "block w-full sm:w-fit"}`}>{label}</dt>
             {skills.map((skill) => {
                 const info = skillInfoMap[skill];
                 return (
                     <dd
                         key={skill}
-                        className="py-1 px-2 border-2 border-[color:var(--skill-color)] flex items-center"
+                        className={`py-1 border-2 border-[color:var(--skill-color)] flex items-center ${showText ? "px-2 sm:px-1" : "px-1"}`}
                     >
                         <SkillIcon
                             skill={skill}
-                            className={"w-5 mr-1 text-[color:var(--skill-color)]"}
+                            className={`w-5 text-[color:var(--skill-color)] ${showText && "mr-1"}`}
                             aria-hidden={true}
                         />
-                        {info.friendlyName}
+                        {showText && <span className="text-sm">{info.friendlyName}</span>}
                     </dd>
                 );
             })}

@@ -11,10 +11,15 @@ import { isTool } from "../../model/tool";
 import { AvailabilitySelector } from "../AvailabilitySelector";
 import { isAvailability } from "../../model/availability";
 import { Onboarding } from "./components/Onboarding";
+import { useState } from "react";
+import { ViewOptions } from "./components/ViewOptions";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const updateSearchParam = useUpdateSearchParam(searchParams, setSearchParams);
+
+  const [showSkillText, setShowSkillText] = useState(true)
+  const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false)
 
   const [description, setDescription] = useThrottleState(
     searchParams.get("description") ?? "",
@@ -54,79 +59,99 @@ export const Home: React.FC = () => {
         <input
           id="descriptionFilter"
           type="text"
-          className="bg-transparent border-2 border-white text-white px-2 w-full"
+          className="bg-transparent border-2 border-white text-white p-2 w-full h-[36px]"
           value={description}
           onChange={(e) => setDescription(e.currentTarget.value)}
         />
       </div>
-        {/* The labels here seem back-to-front because 'sought'/'possessed' are from the perspective of the team */}
-
+      {/* The labels here seem back-to-front because 'sought'/'possessed' are from the perspective of the team */}
+      <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
         <div className="mt-2">
-        <label className="font-bold block" htmlFor="skillsPossessedFilter">
-          I need:
-        </label>
-        <SkillSelector
-          id="skillsPossessedFilter"
-          value={skillsPossessedFilter ?? []}
-          onChange={(newList) => {
-            updateSearchParam(
-              "skillsPossessed",
-              newList.length ? newList.join(",") : null
-            );
-          }}
-        />
+          <label className="font-bold block" htmlFor="skillsPossessedFilter">
+            I need:
+          </label>
+          <SkillSelector
+            id="skillsPossessedFilter"
+            value={skillsPossessedFilter ?? []}
+            onChange={(newList) => {
+              updateSearchParam(
+                "skillsPossessed",
+                newList.length ? newList.join(",") : null
+              );
+            }}
+          />
+        </div>
+        <div className="mt-2">
+          <label className="font-bold block" htmlFor="skillsSoughtFilter">
+            I can do:
+          </label>
+          <SkillSelector
+            id="skillsSoughtFilter"
+            value={skillsSoughtFilter ?? []}
+            onChange={(newList) => {
+              updateSearchParam(
+                "skillsSought",
+                newList.length ? newList.join(",") : null
+              );
+            }}
+          />
+        </div>
       </div>
-      <div className="mt-2">
-        <label className="font-bold block" htmlFor="skillsSoughtFilter">
-          I can do:
-        </label>
-        <SkillSelector
-          id="skillsSoughtFilter"
-          value={skillsSoughtFilter ?? []}
-          onChange={(newList) => {
-            updateSearchParam(
-              "skillsSought",
-              newList.length ? newList.join(",") : null
-            );
-          }}
-        />
-      </div>
-      <div className="mt-2">
-        <label className="font-bold block" htmlFor="toolsFilter">
-          Tools used:
-        </label>
-        <ToolSelector
-          id="toolsFilter"
-          value={toolsFilter ?? []}
-          onChange={(newList) => {
-            updateSearchParam(
-              "tools",
-              newList.length ? newList.join(",") : null
-            );
-          }}
-        />
-      </div>
-      <div className="mt-2">
-        <label className="font-bold block" htmlFor="toolsFilter">
-          Availability (select all that apply):
-        </label>
-        <AvailabilitySelector
-          id="availabilityFilter"
-          value={availabilityFilter ?? []}
-          allowMultiple={true}
-          onChange={(newList) => {
-            updateSearchParam(
-              "availability",
-              newList.length ? newList.join(",") : null
-            );
-        }}/>
-      </div>
+
+
+      <button
+        onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
+      >
+        Advanced Search Options:
+      </button>
+      {showAdvancedSearchOptions && (
+        <>
+          <div className="mt-2 lg:w-1/2">
+            <label className="font-bold block" htmlFor="toolsFilter">
+              Preferred Engine(s):
+            </label>
+            <ToolSelector
+              id="toolsFilter"
+              value={toolsFilter ?? []}
+              onChange={(newList) => {
+                updateSearchParam(
+                  "tools",
+                  newList.length ? newList.join(",") : null
+                );
+              }}
+            />
+          </div>
+          <div className="mt-2">
+            <label className="font-bold block" htmlFor="toolsFilter">
+              Availability (select all that apply):
+            </label>
+            <AvailabilitySelector
+              id="availabilityFilter"
+              value={availabilityFilter ?? []}
+              allowMultiple={true}
+              onChange={(newList) => {
+                updateSearchParam(
+                  "availability",
+                  newList.length ? newList.join(",") : null
+                );
+              }}/>
+          </div>
+
+          <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText}/>
+        </>
+      )}
+
       {query.data && (
         <div className="mt-4">{query.data.length} results found</div>
       )}
-      {query.data?.map((post) => (
-        <PostPreview key={post.id} post={post} className="mt-4" />
-      ))}
+
+      <div className="grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{}}>
+        {query.data?.map((post) => (
+          <PostPreview key={post.id} post={post} className="" showSkillText={showSkillText}/>
+        ))}
+      </div>
+
       {/* <pre>{JSON.stringify(query.data, null, 2)}</pre> */}
     </div>
   );

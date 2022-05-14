@@ -8,6 +8,7 @@ interface Props {
     post: Post;
     isModalOpen: boolean;
     setIsModalOpen: (isOpen: boolean) => void;
+    showSkillText: boolean;
 }
 
 interface CTAProps {
@@ -23,7 +24,7 @@ const modalStyles: Styles = {
     },
 };
 
-export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen }) => {
+export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen, showSkillText }) => {
 
     // Bind Modal to specific element for accessibility behaviour
     Modal.setAppElement(`#root`);
@@ -43,11 +44,13 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen }
                 label="Looking for:"
                 skills={post.skillsSought}
                 className="[--skill-color:theme(colors.accent1)]"
+                showText={showSkillText}
             />
             <SkillList
                 label="Brings:"
                 skills={post.skillsPossessed}
                 className="[--skill-color:theme(colors.accent2)]"
+                showText={showSkillText}
             />
             <p className="mb-16">{post.description}</p>
 

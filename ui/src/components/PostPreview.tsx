@@ -11,12 +11,14 @@ interface Props {
   post: Post;
   className?: string;
   adminView?: boolean;
+  showSkillText: boolean;
 }
 
 export const PostPreview: React.FC<Props> = ({
   post,
   className,
   adminView,
+  showSkillText
 }) => {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const deletePostMutation = useDeletePost();
@@ -34,11 +36,13 @@ export const PostPreview: React.FC<Props> = ({
         label="Looking for:"
         skills={post.skillsSought}
         className="[--skill-color:theme(colors.accent1)]"
+        showText={showSkillText}
       />
       <SkillList
         label="Brings:"
         skills={post.skillsPossessed}
         className="[--skill-color:theme(colors.accent2)]"
+        showText={showSkillText}
       />
       <p>{post.description}</p>
 
@@ -46,6 +50,7 @@ export const PostPreview: React.FC<Props> = ({
         post={post}
         isModalOpen={isModelOpen}
         setIsModalOpen={setIsModelOpen}
+        showSkillText={showSkillText}
       />
       <div className={`flex ${adminView ? "justify-between" : "justify-end"}`}>
         {adminView && (
