@@ -10,12 +10,15 @@ import { ToolSelector } from "../ToolSelector";
 import { Tool } from "../../model/tool";
 import { useUserInfo } from "../../queries/userInfo";
 import { IncorrectPermsSetModal } from "./IncorrectPermsSetModal";
+import { LanguageSelector } from "../LanguageSelector";
+import { Language } from "../../model/language";
 
 interface FormState {
   title: string;
   description: string;
   skillsPossessed: Skill[];
   skillsSought: Skill[];
+  languages: Language[];
   preferredTools: Tool[];
   availability: Availability;
 }
@@ -35,6 +38,7 @@ export const MyPost: React.FC = () => {
     description: "",
     skillsPossessed: [],
     skillsSought: [],
+    languages: ["en"],
     preferredTools: [],
     availability: allAvailabilities[0],
   });
@@ -46,6 +50,7 @@ export const MyPost: React.FC = () => {
         description,
         skillsPossessed,
         skillsSought,
+        languages,
         preferredTools,
         availability,
       } = myPostQuery.data;
@@ -54,6 +59,7 @@ export const MyPost: React.FC = () => {
         description,
         skillsPossessed,
         skillsSought,
+        languages,
         preferredTools,
         availability,
       });
@@ -63,13 +69,14 @@ export const MyPost: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     save({
-      languages: ["English"],
       timezoneStr: "America/Chicago",
       ...formState,
     });
   };
 
   const disabled = myPostQuery.isLoading || isSaving;
+
+  console.log("LANGUAGES", formState.languages)
 
   return (
     <>
@@ -137,6 +144,23 @@ export const MyPost: React.FC = () => {
           value={formState.skillsSought}
           onChange={(skillsSought) =>
             setFormState((prev) => ({ ...prev, skillsSought: skillsSought }))
+          }
+        />
+      </div>
+
+      {/* Language(s) */}
+      <div className="mt-2">
+        <label className="font-bold block" htmlFor="toolsFilter">
+          What languages do you speak?
+        </label>
+        <LanguageSelector
+          id="languagesFilter"
+          value={formState.languages}
+          onChange={(languages) =>
+            setFormState((prev) => ({
+              ...prev,
+              languages: languages,
+            }))
           }
         />
       </div>
