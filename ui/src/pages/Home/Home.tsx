@@ -65,7 +65,7 @@ export const Home: React.FC = () => {
         />
       </div>
       {/* The labels here seem back-to-front because 'sought'/'possessed' are from the perspective of the team */}
-      <div className="grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
         <div className="mt-2">
           <label className="font-bold block" htmlFor="skillsPossessedFilter">
             I need:
@@ -96,31 +96,32 @@ export const Home: React.FC = () => {
             }}
           />
         </div>
-        <div className="mt-2">
-          <label className="font-bold block" htmlFor="toolsFilter">
-            Tools used:
-          </label>
-          <ToolSelector
-            id="toolsFilter"
-            value={toolsFilter ?? []}
-            onChange={(newList) => {
-              updateSearchParam(
-                "tools",
-                newList.length ? newList.join(",") : null
-              );
-            }}
-          />
-        </div>
       </div>
 
-      <p
-        className="mt-2 font-bold block cursor-pointer"
+
+      <button
         onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
       >
         Advanced Search Options:
-      </p>
+      </button>
       {showAdvancedSearchOptions && (
         <>
+          <div className="mt-2 lg:w-1/2">
+            <label className="font-bold block" htmlFor="toolsFilter">
+              Preferred Engine(s):
+            </label>
+            <ToolSelector
+              id="toolsFilter"
+              value={toolsFilter ?? []}
+              onChange={(newList) => {
+                updateSearchParam(
+                  "tools",
+                  newList.length ? newList.join(",") : null
+                );
+              }}
+            />
+          </div>
           <div className="mt-2">
             <label className="font-bold block" htmlFor="toolsFilter">
               Availability (select all that apply):
