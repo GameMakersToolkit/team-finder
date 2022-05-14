@@ -8,6 +8,8 @@ import { SkillSelector } from "../SkillSelector";
 import { Skill } from "../../model/skill";
 import { ToolSelector } from "../ToolSelector";
 import { Tool } from "../../model/tool";
+import { useUserInfo } from "../../queries/userInfo";
+import { IncorrectPermsSetModal } from "./IncorrectPermsSetModal";
 
 interface FormState {
   title: string;
@@ -24,6 +26,7 @@ const commonStyling =
 export const MyPost: React.FC = () => {
   useEnsureLoggedIn();
   const myPostQuery = useMyPostQuery();
+  const userInfo = useUserInfo();
 
   const { mutate: save, isLoading: isSaving } = useMyPostMutation();
 
@@ -69,6 +72,9 @@ export const MyPost: React.FC = () => {
   const disabled = myPostQuery.isLoading || isSaving;
 
   return (
+    <>
+      {(userInfo.data?.hasContactPermsSet == false) && <IncorrectPermsSetModal isModalOpen={true} />}
+
     <form
       className="container mx-auto max-w-screen-xxl p-1"
       onSubmit={handleSubmit}
@@ -177,5 +183,6 @@ export const MyPost: React.FC = () => {
         </Button>
       </div>
     </form>
+    </>
   );
 };
