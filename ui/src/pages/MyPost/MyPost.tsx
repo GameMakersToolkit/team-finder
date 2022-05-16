@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Button } from "../../components/Button";
-import { useMyPostMutation, useMyPostQuery } from "../../queries/my-post";
+import { useDeleteMyPostMutation, useMyPostMutation, useMyPostQuery } from "../../queries/my-post";
 import { useEnsureLoggedIn } from "../../utils/useEnsureLoggedIn";
 import { AvailabilitySelector } from "../AvailabilitySelector";
 import { allAvailabilities, Availability } from "../../model/availability";
@@ -29,6 +29,7 @@ export const MyPost: React.FC = () => {
   const userInfo = useUserInfo();
 
   const { mutate: save, isLoading: isSaving } = useMyPostMutation();
+  const deletePostMutation = useDeleteMyPostMutation();
 
   const [formState, setFormState] = React.useState<FormState>({
     title: "",
@@ -176,11 +177,31 @@ export const MyPost: React.FC = () => {
         />
       </div>
 
-      {/* Submit */}
-      <div className="flex mt-4 justify-end">
-        <Button type="submit" variant="primary" disabled={disabled}>
-          Save
-        </Button>
+      <div className={`flex ${myPostQuery?.data ? "justify-between" : "justify-end"}`}>
+        {/* Delete */}
+        <div className="flex mt-4">
+          {myPostQuery?.data && (
+            // TODO: Add visual cues for deleting (throbber, disabled etc)
+            <Button
+              style={{ backgroundColor: "red" }}
+              type="button"
+              variant="default"
+              disabled={disabled}
+              onClick={() => {
+                deletePostMutation.mutate({ id: myPostQuery.data!.id })
+              }}
+            >
+              Delete
+            </Button>
+            )}
+        </div>
+
+        {/* Submit */}
+        <div className="flex mt-4">
+          <Button type="submit" variant="primary" disabled={disabled}>
+            Save
+          </Button>
+        </div>
       </div>
     </form>
     </>
