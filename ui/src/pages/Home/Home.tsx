@@ -25,6 +25,7 @@ export const Home: React.FC = () => {
   const [showSkillText, setShowSkillText] = useState(true)
   const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false)
 
+  const [usingCustomTimezones, setUsingCustomTimezones] = useState(false);
   // Use ints in the URL from start to finish
   const [timezoneOffsetStart, setTimezoneOffsetStart] = useState(timezoneOffsetInfoMap[allTimezoneOffsets[0]].value)
   const [timezoneOffsetEnd, setTimezoneOffsetEnd] = useState(timezoneOffsetInfoMap[allTimezoneOffsets[24]].value)
@@ -152,26 +153,33 @@ export const Home: React.FC = () => {
               }}
             />
           </div>
-          <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
-            <div className="mt-2">
-              <div className="lg:w-1/2">
-                <label className="font-bold block" htmlFor="timezoneStart">
+          <div className="mt-4">
+            <button
+              onClick={() => setUsingCustomTimezones(!usingCustomTimezones)}
+              className={`rounded border text-white p-2 mr-2 mb-2 w-full sm:w-fit ${usingCustomTimezones ? "bg-lightbg" : "bg-primary"}`}
+            >
+              All Timezones
+            </button>
+
+            <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+              <div className={`${usingCustomTimezones ? "cursor-pointer" : "cursor-not-allowed"}`}>
+                <label className={`font-bold block ${usingCustomTimezones ? "text-white" : "text-gray-400"}`} htmlFor="timezoneStart">
                   Earliest Timezone:
                 </label>
                 <TimezoneOffsetSelector
                   id="timezoneStart"
+                  disabled={!usingCustomTimezones}
                   value={timezoneOffsetStart}
                   onChange={(timezoneOffsetStart) => setTimezoneOffsetStart(timezoneOffsetStart)}
                 />
               </div>
-            </div>
-            <div className="mt-2">
-              <div className="lg:w-1/2">
-                <label className="font-bold block" htmlFor="timezoneEnd">
+              <div className={`${usingCustomTimezones ? "cursor-pointer" : "cursor-not-allowed"}`}>
+                <label className={`font-bold block ${usingCustomTimezones ? "text-white" : "text-gray-400"}`} htmlFor="timezoneEnd">
                   Latest Timezone:
                 </label>
                 <TimezoneOffsetSelector
                   id="timezoneEnd"
+                  disabled={!usingCustomTimezones}
                   value={timezoneOffsetEnd}
                   onChange={(timezoneOffsetEnd) => setTimezoneOffsetEnd(timezoneOffsetEnd)}
                 />

@@ -9,6 +9,7 @@ interface Props {
   value: TimezoneOffset;
   onChange: (value: TimezoneOffset) => void;
   id?: string;
+  disabled?: boolean;
 }
 
 interface Option {
@@ -32,13 +33,14 @@ const optionsMap = Object.fromEntries(
 ) as Record<TimezoneOffset, Option>;
 
 
-export function TimezoneOffsetSelector({ id, value, onChange }: Props) : React.ReactElement {
+export function TimezoneOffsetSelector({ id, value, onChange, disabled }: Props) : React.ReactElement {
   return (
     <>
       {/* Force selected value to be readable; default styling uses very low-contrast text for single value selections */}
-      <style dangerouslySetInnerHTML={{__html: `.react-select__single-value {color: white!important;}`}} />
+      {!disabled && <style dangerouslySetInnerHTML={{__html: `.react-select__single-value {color: white!important;}`}} />}
       <StyledSelector
         id={id}
+        isDisabled={disabled}
         isMulti={false}
         options={options}
         value={optionsMap[value]}
