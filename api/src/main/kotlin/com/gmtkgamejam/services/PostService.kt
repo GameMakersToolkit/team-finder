@@ -7,10 +7,9 @@ import com.mongodb.client.MongoCollection
 import org.bson.conversions.Bson
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
-import org.litote.kmongo.getCollectionOfName
-import org.litote.kmongo.updateOne
+import org.litote.kmongo.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class PostService : KoinComponent {
 
@@ -48,8 +47,13 @@ class PostService : KoinComponent {
         return col.findOne(PostItem::id eq id)
     }
 
-    fun getPostByAuthorId(authorId: String) : PostItem? {
-        return col.findOne(PostItem::authorId eq authorId)
+    fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false) : PostItem? {
+        var filter = PostItem::authorId eq authorId
+        if (!ignoreDeletion) {
+            filter = and(filter, PostItem::deletedAt eq null)
+        }
+
+        return col.findOne(filter)
     }
 
     fun updatePost(postItem: PostItem) {
@@ -61,7 +65,8 @@ class PostService : KoinComponent {
     }
 
     fun deletePost(postItem: PostItem) {
-        col.deleteOne(PostItem::id eq postItem.id)
+        postItem.deletedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        col.updateOne(PostItem::id eq postItem.id, postItem)
     }
 
 }

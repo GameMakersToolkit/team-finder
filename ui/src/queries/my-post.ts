@@ -19,6 +19,7 @@ import { useAuth } from "../utils/AuthContext";
 import { useUserInfo } from "./userInfo";
 
 const MY_POST_QUERY_KEY = ["posts", "mine"] as const;
+const DELETE_MY_POST_QUERY_KEY = ["posts", "mine", "delete"] as const;
 
 export function useMyPostQuery(
   opts?: UseQueryOptions<
@@ -87,6 +88,31 @@ export function useMyPostMutation(
     mutationKey: ["posts", "mine", "update"],
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries(MY_POST_QUERY_KEY);
+      opts?.onSuccess?.(data, variables, context);
+    },
+  });
+}
+
+export interface DeleteMyPostMutationVariables {
+  id: number;
+}
+export function useDeleteMyPostMutation(
+  opts?: UseMutationOptions<Post, Error, DeleteMyPostMutationVariables>
+): UseMutationResult<Post, Error, DeleteMyPostMutationVariables> {
+  const apiRequest = useApiRequest();
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...opts,
+    mutationFn: async (variables) => {
+      const result = await apiRequest<PostApiResult>("/posts/mine", {
+        method: "DELETE",
+        body: variables,
+      });
+      return postFromApiResult(result);
+    },
+    mutationKey: ["posts", "mine", "delete"],
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries(DELETE_MY_POST_QUERY_KEY);
       opts?.onSuccess?.(data, variables, context);
     },
   });

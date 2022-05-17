@@ -12,6 +12,7 @@ import { useApiRequest } from "../utils/apiRequest";
 
 const REPORTED_POSTS_QUERY_KEY = ["admin", "reports"] as const;
 const DELETE_POST_MUTATION_KEY = ["admin", "posts", "delete"] as const;
+const BAN_USER_MUTATION_KEY = ["admin", "user", "ban"] as const;
 
 export function useReportedPostsList(
   opts?: UseQueryOptions<
@@ -56,6 +57,38 @@ export function useDeletePost(
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries(["posts", "list"]);
       queryClient.invalidateQueries(REPORTED_POSTS_QUERY_KEY);
+      opts?.onSuccess?.(data, variables, context);
+    },
+  });
+}
+
+
+interface BanUserVariables {
+  discordId: string;
+  adminId: string;
+}
+
+export function useBanUser(
+  opts?: UseMutationOptions<void, Error, BanUserVariables, unknown>
+): UseMutationResult<void, Error, BanUserVariables, unknown> {
+  const apiRequest = useApiRequest();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    ...opts,
+    mutationFn: async (variables) => {
+      return apiRequest<void>("/admin/user/ban", {
+        method: "POST",
+        body: {
+          discordId: variables.discordId,
+          adminId: variables.adminId,
+        },
+      });
+    },
+    mutationKey: DELETE_POST_MUTATION_KEY,
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries(["admin", "user", "ban"]);
+      queryClient.invalidateQueries(BAN_USER_MUTATION_KEY);
       opts?.onSuccess?.(data, variables, context);
     },
   });

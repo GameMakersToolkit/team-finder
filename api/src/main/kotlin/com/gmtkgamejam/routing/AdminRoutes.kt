@@ -48,8 +48,7 @@ fun Application.configureAdminRouting() {
                     delete {
                         val data = call.receive<DeletePostDto>()
                         service.getPost(data.postId.toLong())?.let {
-                            it.deletedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                            service.updatePost(it)
+                            service.deletePost(it)
                             return@delete call.respond(it)
                         }
 
