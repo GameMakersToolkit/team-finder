@@ -40,7 +40,7 @@ data class PostItem (
                 dto.author,
                 dto.authorId,
                 dto.title,
-                dto.description,
+                dto.description.take(2000),
                 dto.skillsPossessed,
                 dto.skillsSought,
                 dto.preferredTools,

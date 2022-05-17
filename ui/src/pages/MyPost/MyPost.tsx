@@ -112,8 +112,11 @@ export const MyPost: React.FC = () => {
         Write a brief summary of what you&apos;re looking for that isn&apos;t
         covered by the rest of the form
       </label>
+      <br />
+      <small>{2000 - formState.description.length} characters remaining</small>
       <textarea
         id="description"
+        maxLength="2000"
         rows={5}
         className={commonStyling + "min-h-[100px]"}
         disabled={disabled}

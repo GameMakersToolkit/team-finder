@@ -47,7 +47,7 @@ export const PostPreview: React.FC<Props> = ({
         className="[--skill-color:theme(colors.accent2)]"
         showText={showSkillText}
       />
-      <p>{post.description}</p>
+      <p>{post.description.length <= 210 ? post.description : post.description.substring(0, 210) + "..."}</p>
 
       <PostModal
         post={post}
