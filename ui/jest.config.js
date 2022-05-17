@@ -19,6 +19,5 @@ module.exports = {
   // Files to run before every test suite
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 
-  // ignore files in in the oldsrc directory
-  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/oldsrc"],
+  testPathIgnorePatterns: ["<rootDir>/node_modules/"],
 };
