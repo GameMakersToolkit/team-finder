@@ -13,6 +13,8 @@ import { isAvailability } from "../../model/availability";
 import { Onboarding } from "./components/Onboarding";
 import { useState } from "react";
 import { ViewOptions } from "./components/ViewOptions";
+import { isLanguage } from "../../model/language";
+import { LanguageSelector } from "../LanguageSelector";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,6 +37,7 @@ export const Home: React.FC = () => {
 
   const skillsPossessedFilter = searchParams.get("skillsPossessed")?.split(",").filter(isSkill);
   const skillsSoughtFilter = searchParams.get("skillsSought")?.split(",").filter(isSkill);
+  const languagesFilter = searchParams.get("languages")?.split(",").filter(isLanguage);
   const toolsFilter = searchParams.get("tools")?.split(",").filter(isTool);
   const availabilityFilter = searchParams.get("availability")?.split(",").filter(isAvailability);
 
@@ -42,6 +45,7 @@ export const Home: React.FC = () => {
     description: searchParams.get("description") || undefined,
     skillsPossessed: skillsPossessedFilter,
     skillsSought: skillsSoughtFilter,
+    languages: languagesFilter,
     tools: toolsFilter,
     availability: availabilityFilter,
   };
@@ -117,6 +121,21 @@ export const Home: React.FC = () => {
               onChange={(newList) => {
                 updateSearchParam(
                   "tools",
+                  newList.length ? newList.join(",") : null
+                );
+              }}
+            />
+          </div>
+          <div className="mt-2 lg:w-1/2">
+            <label className="font-bold block" htmlFor="toolsFilter">
+              Language(s):
+            </label>
+            <LanguageSelector
+              id="languagesFilter"
+              value={languagesFilter ?? []}
+              onChange={(newList) => {
+                updateSearchParam(
+                  "languages",
                   newList.length ? newList.join(",") : null
                 );
               }}

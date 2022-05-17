@@ -47,7 +47,7 @@ export const IncorrectPermsSetModal: React.FC<Props> = ({ isModalOpen }) => {
           />
         </div>
         <div className={stepImageStyles}>
-          <p className="mb-2 text-sm font-italics text-center">2: Navigate to the server's Privacy Settings</p>
+          <p className="mb-2 text-sm font-italics text-center">2: Navigate to the server&apos;s Privacy Settings</p>
           <img
             src={steps[`./incorrect-perms-steps/step-2.png`].default}
             alt="Navigate to the server's Privacy Settings"

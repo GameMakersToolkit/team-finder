@@ -58,7 +58,7 @@ fun Application.configurePostRouting() {
                 params["languages"]?.split(',')
                     ?.filter ( String::isNotBlank ) // Filter out empty `&languages=`
                     ?.map { PostItem::languages contains it }
-                    ?.let ( filters::addAll )
+                    ?.let { filters.add(or(it)) }
 
                 params["availability"]?.split(',')
                     ?.filter ( String::isNotBlank ) // Filter out empty `&availability=`
