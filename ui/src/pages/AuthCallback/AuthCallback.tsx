@@ -14,7 +14,7 @@ export function AuthCallback(): React.ReactElement | null {
     if (token) {
       setToken(token);
 
-      navigate(localStorage.getItem(LOCAL_STORAGE_RETURN_AUTH_PATH_KEY) || "/");
+      navigate(localStorage.getItem(LOCAL_STORAGE_RETURN_AUTH_PATH_KEY) || "/", {replace: true});
     }
   }, [navigate, setToken, token]);
 
