@@ -68,13 +68,21 @@ fun Application.configurePostRouting() {
                     ?.let { filters.add(or(it)) }
 
                 // Timezones
-                // TODO: Default values
                 val timezoneRange = params["timezones"]?.split('/')
                 if (timezoneRange != null && timezoneRange.size == 2) {
-                    val timezoneStart: Int = timezoneRange.minOrNull()?.toInt() ?: -12
-                    filters.add(PostItem::timezoneOffset gte timezoneStart)
-                    val timezoneEnd: Int = timezoneRange.maxOrNull()?.toInt() ?: 12
-                    filters.add(PostItem::timezoneOffset lte timezoneEnd)
+                    val timezoneStart: Int = timezoneRange[0].toInt()
+                    val timezoneEnd: Int = timezoneRange[1].toInt()
+
+                    if (timezoneStart < timezoneEnd) {
+                        // UTC-2 -> UTC+2 should be: [-2, -1, 0, 1, 2]
+                        filters.add(and(PostItem::timezoneOffset gte timezoneStart, PostItem::timezoneOffset lte timezoneEnd))
+                    } else {
+                        // UTC+9 -> UTC-9 should be: [9, 10, 11, 12, -12, -11, -10, -9]
+                        filters.add(or(
+                            and(PostItem::timezoneOffset gte timezoneStart, PostItem::timezoneOffset lte 12),
+                            and(PostItem::timezoneOffset gte -12, PostItem::timezoneOffset lte timezoneEnd)
+                        ))
+                    }
                 }
 
                 // Sorting
