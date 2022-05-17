@@ -11,10 +11,12 @@ import { isTool } from "../../model/tool";
 import { AvailabilitySelector } from "../AvailabilitySelector";
 import { isAvailability } from "../../model/availability";
 import { Onboarding } from "./components/Onboarding";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ViewOptions } from "./components/ViewOptions";
 import { isLanguage } from "../../model/language";
 import { LanguageSelector } from "../LanguageSelector";
+import { TimezoneOffsetSelector } from "../../components/TimezoneOffsetSelector";
+import { allTimezoneOffsets, timezoneOffsetInfoMap } from "../../model/timezone";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -22,6 +24,15 @@ export const Home: React.FC = () => {
 
   const [showSkillText, setShowSkillText] = useState(true)
   const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false)
+
+  const [usingCustomTimezones, setUsingCustomTimezones] = useState(false);
+  // Use ints in the URL from start to finish
+  const [timezoneOffsetStart, setTimezoneOffsetStart] = useState(timezoneOffsetInfoMap[allTimezoneOffsets[0]].value)
+  const [timezoneOffsetEnd, setTimezoneOffsetEnd] = useState(timezoneOffsetInfoMap[allTimezoneOffsets[24]].value)
+  useEffect(() => {
+    // Ordering is taken care of on the API side
+    updateSearchParam("timezones", `${timezoneOffsetStart}/${timezoneOffsetEnd}`)
+  }, [timezoneOffsetStart, timezoneOffsetEnd])
 
   const [description, setDescription] = useThrottleState(
     searchParams.get("description") ?? "",
@@ -48,6 +59,7 @@ export const Home: React.FC = () => {
     languages: languagesFilter,
     tools: toolsFilter,
     availability: availabilityFilter,
+    timezones: searchParams.get("timezones") || undefined,
   };
 
   const query = usePostsList(searchOptions);
@@ -141,6 +153,42 @@ export const Home: React.FC = () => {
               }}
             />
           </div>
+          <div className="mt-4">
+            <button
+              onClick={() => setUsingCustomTimezones(!usingCustomTimezones)}
+              className={`rounded border text-white p-2 mr-2 mb-2 w-full sm:w-fit ${usingCustomTimezones ? "bg-lightbg" : "bg-primary"}`}
+            >
+              All Timezones
+            </button>
+
+            <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+              <div className={`${usingCustomTimezones ? "cursor-pointer" : "cursor-not-allowed"}`}>
+                <label className={`font-bold block ${usingCustomTimezones ? "text-white" : "text-gray-400"}`} htmlFor="timezoneStart">
+                  Earliest Timezone:
+                </label>
+                <TimezoneOffsetSelector
+                  id="timezoneStart"
+                  disabled={!usingCustomTimezones}
+                  value={timezoneOffsetStart}
+                  onChange={(timezoneOffsetStart) => setTimezoneOffsetStart(timezoneOffsetStart)}
+                />
+              </div>
+              <div className={`${usingCustomTimezones ? "cursor-pointer" : "cursor-not-allowed"}`}>
+                <label className={`font-bold block ${usingCustomTimezones ? "text-white" : "text-gray-400"}`} htmlFor="timezoneEnd">
+                  Latest Timezone:
+                </label>
+                <TimezoneOffsetSelector
+                  id="timezoneEnd"
+                  disabled={!usingCustomTimezones}
+                  value={timezoneOffsetEnd}
+                  onChange={(timezoneOffsetEnd) => setTimezoneOffsetEnd(timezoneOffsetEnd)}
+                />
+              </div>
+            </div>
+          </div>
+          <span className="text-xs">
+            Leave blank to search all timezones.
+          </span>
           <div className="mt-2">
             <label className="font-bold block" htmlFor="toolsFilter">
               Availability (select all that apply):

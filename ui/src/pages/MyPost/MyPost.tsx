@@ -12,6 +12,8 @@ import { useUserInfo } from "../../queries/userInfo";
 import { IncorrectPermsSetModal } from "./IncorrectPermsSetModal";
 import { LanguageSelector } from "../LanguageSelector";
 import { Language } from "../../model/language";
+import { TimezoneOffsetSelector} from "../../components/TimezoneOffsetSelector";
+import { TimezoneOffset, timezoneOffsetFromInt } from "../../model/timezone";
 
 interface FormState {
   title: string;
@@ -21,6 +23,7 @@ interface FormState {
   languages: Language[];
   preferredTools: Tool[];
   availability: Availability;
+  timezoneOffset: TimezoneOffset;
 }
 
 const commonStyling =
@@ -42,6 +45,7 @@ export const MyPost: React.FC = () => {
     languages: ["en"],
     preferredTools: [],
     availability: allAvailabilities[0],
+    timezoneOffset: "UTC+0" as TimezoneOffset,
   });
 
   React.useEffect(() => {
@@ -54,6 +58,7 @@ export const MyPost: React.FC = () => {
         languages,
         preferredTools,
         availability,
+        timezoneOffset,
       } = myPostQuery.data;
       setFormState({
         title,
@@ -63,6 +68,7 @@ export const MyPost: React.FC = () => {
         languages,
         preferredTools,
         availability,
+        timezoneOffset,
       });
     }
   }, [myPostQuery.data]);
@@ -70,8 +76,7 @@ export const MyPost: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     save({
-      timezoneStr: "America/Chicago",
-      ...formState,
+      ...formState
     });
   };
 
@@ -179,6 +184,29 @@ export const MyPost: React.FC = () => {
               ...prev,
               preferredTools: preferredTools,
             }))
+          }
+        />
+      </div>
+
+      {/* Timezone */}
+      <div className="mt-2">
+        <label className="font-bold block" htmlFor="toolsFilter">
+          What timezone are you based in?<br/>
+          <span className="text-xs">
+            Timezone is an optional way for other participants to find people who will be awake/online at roughly
+            the same of day.
+          </span>
+        </label>
+        <TimezoneOffsetSelector
+          id="timezoneOffset"
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore The initial value of formState.timezoneOffset is an int, which we need to cast to be UTC+/-X
+          value={myPostQuery.isFetched ? timezoneOffsetFromInt(formState.timezoneOffset) : null}
+          onChange={(timezoneOffset) =>
+           setFormState((prev) => ({
+             ...prev,
+             timezoneOffset: timezoneOffset,
+           }))
           }
         />
       </div>

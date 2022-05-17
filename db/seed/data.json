@@ -30,7 +30,7 @@
       "GODOT"
     ],
     "availability": "PART_TIME",
-    "timezoneStr": "UTC",
+    "timezoneOffset": 0,
     "languages": [
       "en"
     ],
@@ -64,7 +64,7 @@
       "CONSTRUCT"
     ],
     "availability": "FULL_TIME",
-    "timezoneStr": "UTC",
+    "timezoneOffset": 1,
     "languages": [
       "en",
       "ja"
@@ -95,7 +95,7 @@
       "TWINE"
     ],
     "availability": "MINIMAL",
-    "timezoneStr": "UTC",
+    "timezoneOffset": -7,
     "languages": [
       "en"
     ],
@@ -129,7 +129,7 @@
       "PICO_8"
     ],
     "availability": "FULL_TIME",
-    "timezoneStr": "UTC",
+    "timezoneOffset": 0,
     "languages": [
       "en"
     ],
@@ -164,7 +164,7 @@
       "RPG_MAKER"
     ],
     "availability": "PART_TIME",
-    "timezoneStr": "UTC",
+    "timezoneOffset": 0,
     "languages": [
       "en"
     ],

@@ -20,7 +20,7 @@ data class PostItem (
 
     var preferredTools: List<Tools>?,
     var availability: Availability,
-    var timezoneStr: String,
+    var timezoneOffset: Int,
     var languages: List<String>,
 
     var reportCount: Int,
@@ -45,7 +45,7 @@ data class PostItem (
                 dto.skillsSought,
                 dto.preferredTools,
                 dto.availability,
-                dto.timezoneStr,
+                dto.timezoneOffset,
                 dto.languages,
                 0,
                 currentDatetime,
