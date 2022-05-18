@@ -50,8 +50,11 @@ export const PageHeader: React.FC = () => {
       {isNavVisible && (
         <nav
           className={
-            "grid grid-cols-1 justify-items-center content-center px-4 py-4"
+            "fixed w-full bg-black grid grid-cols-1 justify-items-center content-center px-4 py-4"
           }
+          style={{
+            zIndex: 100,
+          }}
         >
           <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/">
             Home
