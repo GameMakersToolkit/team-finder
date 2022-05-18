@@ -23,14 +23,19 @@ export const PageHeader: React.FC = () => {
           <img src={logos['../../../public/logos/header.png'].default} width={100} alt={"GMTK Game Jam 2022 Team Finder"} />
         </Link>
         <div className="flex items-center">
-          {shouldDisplayLogin && (
-            <button
-              className="rounded-lg font-bold mr-4 px-5 py-1 bg-primary"
-              onClick={login}
-            >
-              Log In
-            </button>
-          )}
+          {shouldDisplayLogin
+            ? (<button
+                className={`rounded-lg font-bold mr-4 px-5 py-1 bg-primary ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
+                onClick={login}
+                disabled={userInfo.isLoading}
+              >
+              {userInfo.isLoading ? "Loading..." : "Log In"}
+              </button>)
+            : (
+              <p className="mr-4">Welcome {userInfo.data?.username}! (Not you? <Link to="/logout" className="cursor-pointer font-bold text-primary">Click here to logout</Link>)</p>
+            )
+
+          }
           <ShowHideNavButton
             isNavVisible={isNavVisible}
             setNavVisibility={setNavVisibility}
