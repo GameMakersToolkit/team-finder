@@ -14,8 +14,8 @@ export const SkillList: React.FC<{
     }
 
     return (
-        <dl className={cx("flex gap-1 flex-wrap text-lg", className)}>
-            <dt className={`py-1 ${showText ? "mr-1" : "block w-full sm:w-fit"}`}>{label}</dt>
+        <dl className={cx("flex gap-1 flex-wrap self-baseline items-baseline text-lg", className)}>
+            <dt className={`self-center ${showText ? "mr-1" : "block w-full sm:w-fit"}`}>{label}</dt>
             {skills.map((skill) => {
                 const info = skillInfoMap[skill];
                 return (
