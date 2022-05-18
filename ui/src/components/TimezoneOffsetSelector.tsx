@@ -28,6 +28,8 @@ const options = allTimezoneOffsets.map((it) => ({
 }));
 
 // This is all errors but still works, I have no idea why
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore Cannot implicitly cast from [k:string] to a TimezoneOffset, apparently
 const optionsMap = Object.fromEntries(
   options.map((it) => [it.offset, it])
 ) as Record<TimezoneOffset, Option>;
@@ -42,6 +44,8 @@ export function TimezoneOffsetSelector({ id, value, onChange, disabled }: Props)
         id={id}
         isDisabled={disabled}
         isMulti={false}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore Suppress weird-but-working Number <-> TimezoneOffset jank
         options={options}
         value={optionsMap[value]}
         onChange={(newValue) => onChange((newValue!.value))}

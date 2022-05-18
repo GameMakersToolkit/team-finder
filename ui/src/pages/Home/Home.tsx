@@ -169,7 +169,11 @@ export const Home: React.FC = () => {
                 <TimezoneOffsetSelector
                   id="timezoneStart"
                   disabled={!usingCustomTimezones}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore Suppress weird-but-working Number <-> TimezoneOffset jank
                   value={timezoneOffsetStart}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore Suppress weird-but-working Number <-> TimezoneOffset jank
                   onChange={(timezoneOffsetStart) => setTimezoneOffsetStart(timezoneOffsetStart)}
                 />
               </div>
@@ -180,7 +184,11 @@ export const Home: React.FC = () => {
                 <TimezoneOffsetSelector
                   id="timezoneEnd"
                   disabled={!usingCustomTimezones}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore Suppress weird-but-working Number <-> TimezoneOffset jank
                   value={timezoneOffsetEnd}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore Suppress weird-but-working Number <-> TimezoneOffset jank
                   onChange={(timezoneOffsetEnd) => setTimezoneOffsetEnd(timezoneOffsetEnd)}
                 />
               </div>

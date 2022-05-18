@@ -68,6 +68,8 @@ export const MyPost: React.FC = () => {
         languages,
         preferredTools,
         availability,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore Suppress weird-but-working Number <-> TimezoneOffset jank
         timezoneOffset,
       });
     }
@@ -116,7 +118,7 @@ export const MyPost: React.FC = () => {
       <small>{2000 - formState.description.length} characters remaining</small>
       <textarea
         id="description"
-        maxLength="2000"
+        maxLength={2000}
         rows={5}
         className={commonStyling + "min-h-[100px]"}
         disabled={disabled}
