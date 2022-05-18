@@ -40,6 +40,29 @@ This will run all Team Finder components, and start the website in [http://local
 The UI will still use the Vite hot-reload functionality within Docker, so we recommend running all the images in Docker
 for simplicity unless you're confident working with Docker.
 
+If you prefer to run the UI outside of Docker, you can run all the other tools with `docker compose up -d api db db-seed db-viewer`
+
+#### Docker Commands - Quick Reference
+
+You'll need to be in the root directory of the app to run Docker commands.
+
+```bash
+# Runs all apps and logs all output to the terminal - very noisy!
+# If you run the `up` command without `-d`, you'll turn off the app when you close the log output
+docker compose up
+
+# Run all apps in a 'detached' mode - the apps run in the background, and don't take over your terminal
+docker compose up -d
+
+# Run only some of the apps - the options are: [api, db, db-seed, db-viewer, ui]
+docker compose up -d app1 app2 app3
+
+# Forcibly rebuild the image
+# You'll likely only need to do this when the API changes drastically 
+# or when you want to re-run the db-seed (to reset the database)
+docker compose up --build -d api db-seed 
+```
+
 ### IDE/Natively (not recommended)
 
 If you prefer to run the apps natively, you'll need to run the **UI**, **API** and **DB** on your machine.
