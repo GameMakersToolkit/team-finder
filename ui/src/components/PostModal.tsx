@@ -4,6 +4,10 @@ import { Post } from "../model/post";
 import { SkillList } from "./SkillList";
 import { useAuth } from "../utils/AuthContext";
 import { login } from "../utils/login";
+import {ToolList} from "./ToolList";
+import {LanguageList} from "./LanguageList";
+import {AvailabilityList} from "./AvailabilityList";
+import {timezoneOffsetFromInt} from "../model/timezone";
 
 interface Props {
     post: Post;
@@ -44,16 +48,35 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen, 
             <SkillList
                 label="Looking for:"
                 skills={post.skillsSought}
-                className="[--skill-color:theme(colors.accent1)]"
+                className="[--skill-color:theme(colors.accent1)] mt-4"
                 showText={showSkillText}
             />
             <SkillList
                 label="Brings:"
                 skills={post.skillsPossessed}
-                className="[--skill-color:theme(colors.accent2)]"
+                className="[--skill-color:theme(colors.accent2)] mt-4"
                 showText={showSkillText}
             />
-            <p className="mb-16">{post.description}</p>
+            <ToolList
+              tools={post.preferredTools}
+              label={"Preferred Tools:"}
+              className="mt-4"
+              showText={true}
+            />
+            <AvailabilityList
+              availability={post.availability}
+              label={"Availabilities"}
+              className="mt-4"
+              showText={true}
+            />
+            <LanguageList
+              languages={post.languages}
+              label={"Language(s):"}
+              className="mt-4"
+              showText={true}
+            />
+            <p className="mt-4">Timezone: {timezoneOffsetFromInt(post.timezoneOffset)}</p>
+            <p className="mb-16 mt-4">{post.description}</p>
 
             <MessageOnDiscordButton authorName={post.author} authorId={post.authorId} />
         </Modal>
