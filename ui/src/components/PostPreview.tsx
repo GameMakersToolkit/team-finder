@@ -57,7 +57,7 @@ export const PostPreview: React.FC<Props> = ({
       />
       <div className={`flex ${adminView ? "justify-between" : "justify-end"}`}>
         {adminView && (
-          <>=
+          <>
           <Button
             style={{ backgroundColor: "red" }}
             onClick={() => deletePostMutation.mutate({ postId: post.id })}
