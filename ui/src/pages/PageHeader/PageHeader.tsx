@@ -25,8 +25,7 @@ export const PageHeader: React.FC = () => {
         <div className="flex items-center">
           {shouldDisplayLogin && (
             <button
-              className="rounded-lg font-bold mr-4 px-5 py-1"
-              style={{ backgroundColor: "#39bcf8" }}
+              className="rounded-lg font-bold mr-4 px-5 py-1 bg-primary"
               onClick={login}
             >
               Log In
