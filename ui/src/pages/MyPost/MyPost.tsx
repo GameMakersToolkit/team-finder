@@ -82,8 +82,6 @@ export const MyPost: React.FC = () => {
 
   const disabled = myPostQuery.isLoading || isSaving;
 
-  console.log("LANGUAGES", formState.languages)
-
   return (
     <>
       {(userInfo.data?.hasContactPermsSet == false) && <IncorrectPermsSetModal isModalOpen={true} />}
@@ -127,69 +125,72 @@ export const MyPost: React.FC = () => {
       />
 
       {/* Skills possessed */}
-      <div className="mt-2">
-        <label className="font-bold block" htmlFor="skillsPossessedFilter">
-          What skills do you have?
-        </label>
-        <SkillSelector
-          id="skillsPossessedFilter"
-          value={formState.skillsPossessed}
-          onChange={(skillsPossessed) =>
-            setFormState((prev) => ({
-              ...prev,
-              skillsPossessed: skillsPossessed,
-            }))
-          }
-        />
+      <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+        <div className="mt-2">
+          <label className="font-bold block" htmlFor="skillsPossessedFilter">
+            What skills do you have?
+          </label>
+          <SkillSelector
+            id="skillsPossessedFilter"
+            value={formState.skillsPossessed}
+            onChange={(skillsPossessed) =>
+              setFormState((prev) => ({
+                ...prev,
+                skillsPossessed: skillsPossessed,
+              }))
+            }
+          />
+        </div>
+
+        {/* Skills sought */}
+        <div className="mt-2">
+          <label className="font-bold block" htmlFor="skillsSoughtFilter">
+            What skills are you looking for?
+          </label>
+          <SkillSelector
+            id="skillsSoughtFilter"
+            value={formState.skillsSought}
+            onChange={(skillsSought) =>
+              setFormState((prev) => ({ ...prev, skillsSought: skillsSought }))
+            }
+          />
+        </div>
+
+        {/* Language(s) */}
+        <div className="mt-2">
+          <label className="font-bold block" htmlFor="toolsFilter">
+            What languages do you speak?
+          </label>
+          <LanguageSelector
+            id="languagesFilter"
+            value={formState.languages}
+            onChange={(languages) =>
+              setFormState((prev) => ({
+                ...prev,
+                languages: languages,
+              }))
+            }
+          />
+        </div>
+
+        {/* Tools */}
+        <div className="mt-2">
+          <label className="font-bold block" htmlFor="toolsFilter">
+            What tools do you want to work with?
+          </label>
+          <ToolSelector
+            id="toolsFilter"
+            value={formState.preferredTools}
+            onChange={(preferredTools) =>
+              setFormState((prev) => ({
+                ...prev,
+                preferredTools: preferredTools,
+              }))
+            }
+          />
+        </div>
       </div>
 
-      {/* Skills sought */}
-      <div className="mt-2">
-        <label className="font-bold block" htmlFor="skillsSoughtFilter">
-          What skills are you looking for?
-        </label>
-        <SkillSelector
-          id="skillsSoughtFilter"
-          value={formState.skillsSought}
-          onChange={(skillsSought) =>
-            setFormState((prev) => ({ ...prev, skillsSought: skillsSought }))
-          }
-        />
-      </div>
-
-      {/* Language(s) */}
-      <div className="mt-2">
-        <label className="font-bold block" htmlFor="toolsFilter">
-          What languages do you speak?
-        </label>
-        <LanguageSelector
-          id="languagesFilter"
-          value={formState.languages}
-          onChange={(languages) =>
-            setFormState((prev) => ({
-              ...prev,
-              languages: languages,
-            }))
-          }
-        />
-      </div>
-
-      {/* Tools */}
-      <div className="mt-2">
-        <label className="font-bold block" htmlFor="toolsFilter">
-          What tools do you want to work with?
-        </label>
-        <ToolSelector
-          id="toolsFilter"
-          value={formState.preferredTools}
-          onChange={(preferredTools) =>
-            setFormState((prev) => ({
-              ...prev,
-              preferredTools: preferredTools,
-            }))
-          }
-        />
-      </div>
 
       {/* Timezone */}
       <div className="mt-2">
