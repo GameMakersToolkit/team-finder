@@ -77,6 +77,7 @@ export const PostPreview: React.FC<Props> = ({
         )}
         <Button
           className="justify-self-end"
+          variant="primary"
           onClick={() => setIsModelOpen(true)}
         >
           More
