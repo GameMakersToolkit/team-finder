@@ -33,7 +33,7 @@ export interface TimezoneOffsetInfo {
   label: string;
 }
 
-export const timezoneOffsetFromInt = (int: number) => int < 0 ? `UTC${int}` : `UTC+${int}`;
+export const timezoneOffsetFromInt = (int: number | string) => int < 0 ? `UTC${int}` : `UTC+${int}`;
 
 export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> = {
   "UTC-12": {

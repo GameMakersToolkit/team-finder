@@ -34,7 +34,7 @@ export const PostPreview: React.FC<Props> = ({
         className
       )}
     >
-      <h3 className="font-bold text-xl">{post.title}</h3>
+      <h3 className="font-bold text-xl leading-6 h-[50px]">{post.title}</h3>
       <SkillList
         label="Looking for:"
         skills={post.skillsSought}
@@ -57,7 +57,7 @@ export const PostPreview: React.FC<Props> = ({
       />
       <div className={`flex ${adminView ? "justify-between" : "justify-end"}`}>
         {adminView && (
-          <>=
+          <>
           <Button
             style={{ backgroundColor: "red" }}
             onClick={() => deletePostMutation.mutate({ postId: post.id })}
@@ -76,7 +76,8 @@ export const PostPreview: React.FC<Props> = ({
           </>
         )}
         <Button
-          className="justify-self-end"
+          className="justify-self-end self-end"
+          variant="primary"
           onClick={() => setIsModelOpen(true)}
         >
           More

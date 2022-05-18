@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useUserInfo } from "../../queries/userInfo";
 import { login } from "../../utils/login";
 
-const navElementStylingRules = "w-full py-2 border mb-2 rounded text-center ";
+const logos = import.meta.globEager("../../../public/logos/*.png");
+const navElementStylingRules = "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight ";
 
 export const PageHeader: React.FC = () => {
   const userInfo = useUserInfo();
@@ -15,26 +16,26 @@ export const PageHeader: React.FC = () => {
   const [isNavVisible, setNavVisibility] = useState(false);
 
   return (
-    <div className="bg-lightbg h-full mx-auto">
+    <div className="bg-black h-full mx-auto">
       {/* Static Inline Header */}
-      <div className="flex flex-cols-2 justify-between">
+      <div className="flex flex-cols-2 justify-between border-b-2">
         <Link to="/">
-          <h1 className="text-xl uppercase font-bold ml-4 px-1 py-1">
-            Team
-            <br />
-            Finder
-          </h1>
+          <img src={logos['../../../public/logos/header.png'].default} width={100} alt={"GMTK Game Jam 2022 Team Finder"} />
         </Link>
         <div className="flex items-center">
-          {shouldDisplayLogin && (
-            <button
-              className="rounded-lg font-bold mr-4 px-5 py-1"
-              style={{ backgroundColor: "#39bcf8" }}
-              onClick={login}
-            >
-              Log In
-            </button>
-          )}
+          {shouldDisplayLogin
+            ? (<button
+                className={`rounded-lg font-bold mr-4 px-5 py-1 bg-primary ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
+                onClick={login}
+                disabled={userInfo.isLoading}
+              >
+              {userInfo.isLoading ? "Loading..." : "Log In"}
+              </button>)
+            : (
+              <p className="mr-4">Welcome {userInfo.data?.username}! (Not you? <Link to="/logout" className="cursor-pointer font-bold text-primary">Click here to logout</Link>)</p>
+            )
+
+          }
           <ShowHideNavButton
             isNavVisible={isNavVisible}
             setNavVisibility={setNavVisibility}
@@ -47,7 +48,7 @@ export const PageHeader: React.FC = () => {
       {isNavVisible && (
         <nav
           className={
-            "border-t-4 grid grid-cols-1 justify-items-center content-center px-4 py-4"
+            "grid grid-cols-1 justify-items-center content-center px-4 py-4"
           }
         >
           <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/">
