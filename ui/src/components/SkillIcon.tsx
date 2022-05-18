@@ -13,6 +13,7 @@ export const SkillIcon: React.FC<Props> = ({ skill, ...props }) => (
   <ReactSVG
     {...props}
     src={skillInfoMap[skill].icon}
+    title={skillInfoMap[skill].friendlyName}
     loading={Spacer}
     fallback={Spacer}
   />
