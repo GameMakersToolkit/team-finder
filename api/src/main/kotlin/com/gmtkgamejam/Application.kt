@@ -2,10 +2,7 @@ package com.gmtkgamejam
 
 import com.gmtkgamejam.koin.DatabaseModule
 import com.gmtkgamejam.koin.DiscordBotModule
-import com.gmtkgamejam.routing.configureAdminRouting
-import com.gmtkgamejam.routing.configureAuthRouting
-import com.gmtkgamejam.routing.configurePostRouting
-import com.gmtkgamejam.routing.configureUserInfoRouting
+import com.gmtkgamejam.routing.*
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -51,4 +48,5 @@ fun Application.module() {
     configureAuthRouting()
     configureAdminRouting()
     configurePostRouting()
+    configureFavouritesRouting()
 }
