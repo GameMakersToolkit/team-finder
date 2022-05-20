@@ -26,7 +26,7 @@ class FavouritesService : KoinComponent {
         col = database.getCollectionOfName("favourites")
     }
 
-    fun getFavouritesByUserId(discordId: String): FavouritesList? {
+    fun getFavouritesByUserId(discordId: String): FavouritesList {
         return col.findOne(FavouritesList::discordId eq discordId) ?: FavouritesList(discordId)
     }
 

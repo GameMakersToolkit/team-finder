@@ -30,7 +30,7 @@ data class PostItem (
     var updatedAt: String,
     var deletedAt: String?,
 ) {
-
+    var isFavourite: Boolean = false
     companion object {
         fun fromCreateDto(dto: PostItemCreateDto): PostItem {
             // TODO: Standardise datetime format
