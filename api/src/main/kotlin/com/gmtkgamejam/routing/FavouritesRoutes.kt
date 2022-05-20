@@ -26,7 +26,7 @@ fun Application.configureFavouritesRouting() {
     val favouritesService = FavouritesService()
 
     routing {
-        authenticate("auth-jwt") { // These routes go through the authentication middleware defined in Auth.kt
+        authenticate("auth-jwt") {
             route("/favourites") {
                 post {
                     val principal = call.principal<JWTPrincipal>()!!
