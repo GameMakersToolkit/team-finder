@@ -1,8 +1,10 @@
 package com.gmtkgamejam.routing;
 
+import com.auth0.jwt.JWT
 import com.gmtkgamejam.enumFromStringSafe
 import com.gmtkgamejam.models.*
 import com.gmtkgamejam.services.AuthService
+import com.gmtkgamejam.services.FavouritesService
 import com.gmtkgamejam.services.PostService
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -11,6 +13,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import org.bson.conversions.Bson
 import org.litote.kmongo.*
 import kotlin.reflect.full.memberProperties
 
@@ -18,6 +21,7 @@ fun Application.configurePostRouting() {
 
     val authService = AuthService()
     val service = PostService()
+    val favouritesService = FavouritesService()
 
     routing {
         route("/posts") {
@@ -25,7 +29,8 @@ fun Application.configurePostRouting() {
                 val params = call.parameters
 
                 // All Posts found should be active
-                val filters = mutableListOf(PostItem::deletedAt eq null)
+                val filters = mutableListOf<Bson>(PostItem::deletedAt eq null)
+                val favouritesFilters = mutableListOf<Bson>()
 
                 params["description"]?.split(',')
                     ?.filter ( String::isNotBlank ) // Filter out empty `&description=`
@@ -85,6 +90,20 @@ fun Application.configurePostRouting() {
                     }
                 }
 
+                // Favourited posts, _if_ user is logged in
+                var favouritePostIds = mutableListOf<Long>()
+                call.request.header("Authorization")?.substring(7)
+                    ?.let { JWT.decode(it) }
+                    ?.let { it.getClaim("id").asString() }
+                    ?.let { authService.getTokenSet(it) }
+                    ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
+                    ?.also { favouritePostIds = it.postIds }
+                    ?.let { favouritesList ->
+                        favouritesList.postIds.map {
+                            favouritesFilters.add(and(PostItem::id eq it, PostItem::deletedAt eq null))
+                        }
+                    }
+
                 // Sorting
                 // TODO: Error handling
                 val sortByFieldName = params["sortBy"] ?: "id"
@@ -98,8 +117,12 @@ fun Application.configurePostRouting() {
                 // Pagination
                 val page = params["page"]?.toInt() ?: 1
 
-                val combinedFilter = and(filters) // One and() call combines all filters into a single bool query
-                call.respond(service.getPosts(combinedFilter, sort, page))
+                val combinedFilter = or(and(filters), or(favouritesFilters)) // One and() call combines all filters into a single bool query
+
+                val posts = service.getPosts(combinedFilter, sort, page)
+                posts.map { it.isFavourite = favouritePostIds.contains(it.id) }
+
+                call.respond(posts)
             }
 
             get("{id}") {
