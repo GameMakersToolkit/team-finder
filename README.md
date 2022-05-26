@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="300" src="https://raw.githubusercontent.com/GameMakersToolkit/team-finder/feature/make-it-look-good/ui/public/logos/header.png" alt="Project Build Status">
+  <img width="300" src="https://raw.githubusercontent.com/GameMakersToolkit/team-finder/main/ui/public/logos/header.png" alt="Project Build Status">
 </p>
 <p align="center">
   <img src="https://github.com/GameMakersToolkit/team-finder/actions/workflows/api-run-tests.yml/badge.svg" alt="API CI Status">
