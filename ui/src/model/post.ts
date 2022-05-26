@@ -14,7 +14,7 @@ export interface Post {
   skillsSought: Skill[];
   preferredTools: Tool[];
   availability: Availability;
-  timezoneOffset: TimezoneOffset;
+  timezoneOffsets: TimezoneOffset[];
   languages: Language[];
   reportCount: number;
   createdAt: Date;
