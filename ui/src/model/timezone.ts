@@ -34,6 +34,7 @@ export interface TimezoneOffsetInfo {
 }
 
 export const timezoneOffsetFromInt = (int: number | string) => int < 0 ? `UTC${int}` : `UTC+${int}`;
+export const timezoneOffsetToInt = (offset: string) => parseInt(offset.replace("UTC", "").replace("+", ""));
 
 export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> = {
   "UTC-12": {
@@ -62,15 +63,15 @@ export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> =
   },
   "UTC-6": {
     value: -6,
-    label: "UTC-6:  Mexico City, Chicago, Guatemala City, Tegucigalpa, Winnipeg, San José, San Salvador",
+    label: "UTC-6: Mexico City, Chicago, Winnipeg, San José",
   },
   "UTC-5": {
     value: -5,
-    label: "UTC-5: : New York, Toronto, Havana, Lima, Bogotá, Kingston, Quito",
+    label: "UTC-5: New York, Toronto, Havana, Kingston",
   },
   "UTC-4": {
     value: -4,
-    label: "UTC-4: Santiago, Santo Domingo, Manaus, Caracas, La Paz, Halifax",
+    label: "UTC-4: Santiago, Manaus, Caracas, Halifax",
   },
   "UTC-3": {
     value: -3,
@@ -78,7 +79,7 @@ export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> =
   },
   "UTC-2": {
     value: -2,
-    label: "UTC-2: Fernando de Noronha,South Georgia and the South Sandwich Islands",
+    label: "UTC-2: Fernando de Noronha, South Georgia and the South Sandwich Islands",
   },
   "UTC-1": {
     value: -1,
@@ -86,11 +87,11 @@ export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> =
   },
   "UTC+0": {
     value: 0,
-    label: "UTC+0: London, Dublin, Lisbon, Abidjan, Accra, Dakar",
+    label: "UTC+0: London, Dublin, Lisbon",
   },
   "UTC+1": {
     value: 1,
-    label: "UTC+1:  Berlin, Rome, Paris, Madrid, Warsaw, Lagos, Kinshasa, Algiers, Casablanca",
+    label: "UTC+1:  Berlin, Rome, Paris, Madrid, Warsaw",
   },
   "UTC+2": {
     value: 2,
@@ -98,7 +99,7 @@ export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> =
   },
   "UTC+3": {
     value: 3,
-    label: "UTC+3: Moscow, Istanbul, Riyadh, Baghdad, Addis Ababa, Doha",
+    label: "UTC+3: Moscow, Istanbul, Riyadh, Baghdad, Addis Ababa",
   },
   "UTC+4": {
     value: 4,
@@ -118,11 +119,11 @@ export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> =
   },
   "UTC+8": {
     value: 8,
-    label: "UTC+8: Shanghai, Taipei, Kuala Lumpur, Singapore, Perth, Manila, Makassar, Irkutsk",
+    label: "UTC+8: Shanghai, Taipei, Kuala Lumpur, Singapore, Perth",
   },
   "UTC+9": {
     value: 9,
-    label: "UTC+9: Tokyo, Seoul, Pyongyang, Ambon, Chita",
+    label: "UTC+9: Tokyo, Seoul, Ambon, Chita",
   },
   "UTC+10": {
     value: 10,

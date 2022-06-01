@@ -23,7 +23,7 @@ interface FormState {
   languages: Language[];
   preferredTools: Tool[];
   availability: Availability;
-  timezoneOffset: TimezoneOffset;
+  timezoneOffsets: TimezoneOffset[];
 }
 
 const commonStyling =
@@ -45,7 +45,7 @@ export const MyPost: React.FC = () => {
     languages: ["en"],
     preferredTools: [],
     availability: allAvailabilities[0],
-    timezoneOffset: "UTC+0" as TimezoneOffset,
+    timezoneOffsets: ["UTC+0"] as TimezoneOffset[],
   });
 
   React.useEffect(() => {
@@ -58,7 +58,7 @@ export const MyPost: React.FC = () => {
         languages,
         preferredTools,
         availability,
-        timezoneOffset,
+        timezoneOffsets,
       } = myPostQuery.data;
       setFormState({
         title,
@@ -68,19 +68,22 @@ export const MyPost: React.FC = () => {
         languages,
         preferredTools,
         availability,
-        timezoneOffset,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        timezoneOffsets: timezoneOffsets.map(int => timezoneOffsetFromInt(int)),
       });
     }
   }, [myPostQuery.data]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    save({
-      ...formState
-    });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    save(formState);
   };
 
-  const disabled = myPostQuery.isLoading || isSaving;
+  const disabled = myPostQuery.isLoading || isSaving || formState.timezoneOffsets.length == 0;
 
   return (
     <>
@@ -202,14 +205,12 @@ export const MyPost: React.FC = () => {
           </span>
         </label>
         <TimezoneOffsetSelector
-          id="timezoneOffset"
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore The initial value of formState.timezoneOffset is an int, which we need to cast to be UTC+/-X
-          value={myPostQuery.isFetched ? timezoneOffsetFromInt(formState.timezoneOffset) : null}
-          onChange={(timezoneOffset) =>
+          id="timezoneOffsets"
+          value={myPostQuery.isFetched ? formState.timezoneOffsets : []}
+          onChange={(timezoneOffsets) =>
            setFormState((prev) => ({
              ...prev,
-             timezoneOffset: timezoneOffset,
+             timezoneOffsets: timezoneOffsets,
            }))
           }
         />
