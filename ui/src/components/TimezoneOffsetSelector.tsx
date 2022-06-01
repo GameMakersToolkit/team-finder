@@ -1,13 +1,10 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {allTools, Tool, toolInfoMap} from "../model/tool";
-import {StyledSelector} from "./StyledSelector/StyledSelector";
-import {ToolIcon} from "./ToolIcon";
-import {allTimezoneOffsets, TimezoneOffset, timezoneOffsetInfoMap} from "../model/timezone";
+import { StyledSelector } from "./StyledSelector/StyledSelector";
+import { allTimezoneOffsets, TimezoneOffset, timezoneOffsetInfoMap } from "../model/timezone";
 
 interface Props {
-  value: TimezoneOffset;
-  onChange: (value: TimezoneOffset) => void;
+  value: TimezoneOffset[];
+  onChange: (value: TimezoneOffset[]) => void;
   id?: string;
   disabled?: boolean;
 }
@@ -18,8 +15,7 @@ interface Option {
 }
 
 const options = allTimezoneOffsets.map((it) => ({
-  offset: it,
-  value: timezoneOffsetInfoMap[it].value,
+  value: it,
   label: (
     <span className="flex items-center">
       <span>{timezoneOffsetInfoMap[it].label}</span>
@@ -29,7 +25,7 @@ const options = allTimezoneOffsets.map((it) => ({
 
 // This is all errors but still works, I have no idea why
 const optionsMap = Object.fromEntries(
-  options.map((it) => [it.offset, it])
+  options.map((it) => [it.value, it])
 ) as Record<TimezoneOffset, Option>;
 
 
@@ -41,10 +37,10 @@ export function TimezoneOffsetSelector({ id, value, onChange, disabled }: Props)
       <StyledSelector
         id={id}
         isDisabled={disabled}
-        isMulti={false}
+        isMulti={true}
         options={options}
-        value={optionsMap[value]}
-        onChange={(newValue) => onChange((newValue!.value))}
+        value={value.map((it) => optionsMap[it])}
+        onChange={(newValue) => onChange(newValue.map((it) => it.value))}
       />
     </>
   )

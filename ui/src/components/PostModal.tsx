@@ -75,7 +75,7 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen, 
               className="mt-4"
               showText={true}
             />
-            <p className="mt-4">Timezone: {timezoneOffsetFromInt(post.timezoneOffset)}</p>
+            <p className="mt-4">Timezone: {timezoneOffsetFromInt(post.timezoneOffsets)}</p>
             <p className="mb-16 mt-4">{post.description}</p>
 
             <MessageOnDiscordButton authorName={post.author} authorId={post.authorId} />

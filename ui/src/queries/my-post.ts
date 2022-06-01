@@ -17,7 +17,7 @@ import { Skill } from "../model/skill";
 import { expectNotFound, useApiRequest } from "../utils/apiRequest";
 import { useAuth } from "../utils/AuthContext";
 import { useUserInfo } from "./userInfo";
-import {TimezoneOffset, timezoneOffsetInfoMap} from "../model/timezone";
+import {TimezoneOffset, timezoneOffsetInfoMap, timezoneOffsetToInt} from "../model/timezone";
 
 const MY_POST_QUERY_KEY = ["posts", "mine"] as const;
 const DELETE_MY_POST_QUERY_KEY = ["posts", "mine", "delete"] as const;
@@ -52,7 +52,7 @@ export interface MyPostMutationVariables {
   skillsSought: Skill[];
   preferredTools: string[];
   availability: Availability;
-  timezoneOffset: TimezoneOffset;
+  timezoneOffsets: number[];
   languages: string[];
 }
 
@@ -69,8 +69,14 @@ export function useMyPostMutation(
         MY_POST_QUERY_KEY
       );
       let result;
+
+      //  Cast timezones to int representation
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      variables.timezoneOffsets = variables.timezoneOffsets.map(str => timezoneOffsetToInt(str))
+
       if (existing) {
-        console.log("WPW", variables.timezoneOffset)
         result = await apiRequest<PostApiResult>("/posts/mine", {
           method: "PUT",
           body: variables,

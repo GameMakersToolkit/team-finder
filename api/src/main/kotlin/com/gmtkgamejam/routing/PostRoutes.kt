@@ -78,16 +78,21 @@ fun Application.configurePostRouting() {
                     val timezoneStart: Int = timezoneRange[0].toInt()
                     val timezoneEnd: Int = timezoneRange[1].toInt()
 
+                    val timezones: MutableList<Int> = mutableListOf<Int>()
                     if (timezoneStart < timezoneEnd) {
                         // UTC-2 -> UTC+2 should be: [-2, -1, 0, 1, 2]
-                        filters.add(and(PostItem::timezoneOffset gte timezoneStart, PostItem::timezoneOffset lte timezoneEnd))
+                        timezones.addAll((timezoneStart..timezoneEnd))
                     } else {
                         // UTC+9 -> UTC-9 should be: [9, 10, 11, 12, -12, -11, -10, -9]
-                        filters.add(or(
-                            and(PostItem::timezoneOffset gte timezoneStart, PostItem::timezoneOffset lte 12),
-                            and(PostItem::timezoneOffset gte -12, PostItem::timezoneOffset lte timezoneEnd)
-                        ))
+                        timezones.addAll((timezoneStart..12))
+                        timezones.addAll((-12..timezoneEnd))
                     }
+
+                    // Add all timezone searches as eq checks
+                    // It's brute force, but easier to confirm
+                    timezones
+                        .map { PostItem::timezoneOffsets contains it }
+                        .let { filters.add(or(it)) }
                 }
 
                 // Favourited posts, _if_ user is logged in
@@ -180,7 +185,7 @@ fun Application.configurePostRouting() {
                                 it.skillsSought = data.skillsSought ?: it.skillsSought
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
                                 it.availability = data.availability ?: it.availability
-                                it.timezoneOffset = data.timezoneOffset ?: it.timezoneOffset
+                                it.timezoneOffsets = data.timezoneOffsets ?: it.timezoneOffsets
 
                                 service.updatePost(it)
                                 return@put call.respond(it)

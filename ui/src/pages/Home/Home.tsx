@@ -16,7 +16,7 @@ import { ViewOptions } from "./components/ViewOptions";
 import { isLanguage } from "../../model/language";
 import { LanguageSelector } from "../LanguageSelector";
 import { TimezoneOffsetSelector } from "../../components/TimezoneOffsetSelector";
-import { allTimezoneOffsets, timezoneOffsetInfoMap } from "../../model/timezone";
+import { allTimezoneOffsets, TimezoneOffset, timezoneOffsetToInt } from "../../model/timezone";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,12 +27,34 @@ export const Home: React.FC = () => {
 
   const [usingCustomTimezones, setUsingCustomTimezones] = useState(false);
   // Use ints in the URL from start to finish
-  const [timezoneOffsetStart, setTimezoneOffsetStart] = useState(timezoneOffsetInfoMap[allTimezoneOffsets[0]].value)
-  const [timezoneOffsetEnd, setTimezoneOffsetEnd] = useState(timezoneOffsetInfoMap[allTimezoneOffsets[24]].value)
+  const [timezoneOffsetStart, setTimezoneOffsetStart] = useState<TimezoneOffset[]>([allTimezoneOffsets[0]])
+  const [previousTimezoneOffsetStart, setPreviousTimezoneOffsetStart] = useState<TimezoneOffset[]>()
+  const [timezoneOffsetEnd, setTimezoneOffsetEnd] = useState<TimezoneOffset[]>([allTimezoneOffsets[24]])
+  const [previousTimezoneOffsetEnd, setPreviousTimezoneOffsetEnd] = useState<TimezoneOffset[]>()
   useEffect(() => {
-    // Ordering is taken care of on the API side
-    updateSearchParam("timezones", `${timezoneOffsetStart}/${timezoneOffsetEnd}`)
-  }, [timezoneOffsetStart, timezoneOffsetEnd])
+    console.log(timezoneOffsetStart, timezoneOffsetEnd)
+    // If a timezone selector is empty (user has removed value but not replaced it), don't try to update query
+    if (timezoneOffsetStart.length === 0 || timezoneOffsetEnd.length === 0) {
+      return;
+    }
+
+    // If user has added multiple timezones, stop them doing it! Take the new value and remove old value
+    if (timezoneOffsetStart.length > 1) {
+      setTimezoneOffsetStart(timezoneOffsetStart.filter(x => !(previousTimezoneOffsetStart || []).includes(x)))
+    }
+    if (timezoneOffsetEnd.length > 1) {
+      setTimezoneOffsetEnd(timezoneOffsetEnd.filter(x => !(previousTimezoneOffsetEnd || []).includes(x)))
+    }
+
+    // We're only supporting one timezone here (at position [0]) regardless of what the user enters
+    updateSearchParam("timezones", usingCustomTimezones
+        ? `${timezoneOffsetToInt(timezoneOffsetStart[0])}/${timezoneOffsetToInt(timezoneOffsetEnd[0])}`
+        : `-12/12` // If usingCustomTimezones==false, search for all timezones without updating the last values in form
+    )
+
+    setPreviousTimezoneOffsetStart(timezoneOffsetStart)
+    setPreviousTimezoneOffsetEnd(timezoneOffsetEnd)
+  }, [timezoneOffsetStart, timezoneOffsetEnd, usingCustomTimezones])
 
   const [description, setDescription] = useThrottleState(
     searchParams.get("description") ?? "",
