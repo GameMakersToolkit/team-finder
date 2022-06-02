@@ -89,6 +89,8 @@ export const Home: React.FC = () => {
     <div className="container mx-auto max-w-screen-xxl p-1">
       <Onboarding />
 
+      <h1 className="text-3xl my-4">Search for a post</h1>
+
       <div>
         <label className="font-bold block" htmlFor="descriptionFilter">
           Description
@@ -236,10 +238,10 @@ export const Home: React.FC = () => {
         </>
       )}
 
-      {query.data && (
-        <div className="mt-4">{query.data.length} results found</div>
-      )}
-
+      <div className="block">
+        <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
+        <span className="inline-block">({query?.data?.length} posts found)</span>
+      </div>
       <div className="grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{}}>
         {query.data?.map((post) => (
           <PostPreview key={post.id} post={post} className="" showSkillText={showSkillText}/>
