@@ -14,7 +14,8 @@ export interface Post {
   skillsSought: Skill[];
   preferredTools: Tool[];
   availability: Availability;
-  timezoneOffsets: TimezoneOffset[];
+  // The UI uses TimezoneOffset[], the API (and mocks) use number[], and the TimezoneSelector does the magic conversion
+  timezoneOffsets: TimezoneOffset[] | number[];
   languages: Language[];
   isFavourite: boolean;
   reportCount: number;
