@@ -1,6 +1,6 @@
 @layer components {
   .styled-selector .react-select__control {
-    @apply bg-transparent border-2 border-white rounded-none;
+    @apply bg-black border-2 border-white rounded-none;
   }
 
   .styled-selector .react-select__control:hover {
@@ -17,6 +17,10 @@
 
   .styled-selector .react-select__option--is-focused {
     @apply bg-lightbg-highlight;
+  }
+
+  .styled-selector .react-select__control--is-disabled {
+    @apply bg-darkbg;
   }
 
   .styled-selector .react-select__multi-value {

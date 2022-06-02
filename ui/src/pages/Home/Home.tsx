@@ -96,7 +96,7 @@ export const Home: React.FC = () => {
         <input
           id="descriptionFilter"
           type="text"
-          className="bg-transparent border-2 border-white text-white p-2 w-full h-[36px]"
+          className="bg-black border-2 border-white text-white p-2 w-full h-[36px]"
           value={description}
           onChange={(e) => setDescription(e.currentTarget.value)}
         />

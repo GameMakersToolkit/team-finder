@@ -28,7 +28,7 @@ interface FormState {
 }
 
 const commonStyling =
-  "border-white border-2 bg-darkbg text-white w-full py-1 px-2 mt-4 ";
+  "border-white border-2 bg-black text-white w-full py-1 px-2 mt-4 ";
 
 export const MyPost: React.FC = () => {
   useEnsureLoggedIn();
