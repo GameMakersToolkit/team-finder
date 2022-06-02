@@ -7,12 +7,22 @@ export const ViewOptions: React.FC<{
   return (
     <>
       <h3>View Options</h3>
-      <button
-        onClick={() => setShowSkillText(!showSkillText)}
-        className={`rounded border text-white p-2 mr-2 mb-2 w-full sm:w-fit ${showSkillText ? "bg-primary" : "bg-lightbg"}`}
-      >
-        Show skill names
-      </button>
+
+      <span className="mb-2 block sm:inline md:inline lg:inline">
+        <input
+          id="show-skill-names-checkbox"
+          type="checkbox"
+          onChange={() => setShowSkillText(!showSkillText)}
+          checked={showSkillText}
+          className={`mr-2`}
+        />
+        <label
+          className="w-full"
+          htmlFor="show-skill-names-checkbox"
+        >
+          Show skill names
+        </label>
+      </span>
     </>
   )
 }
