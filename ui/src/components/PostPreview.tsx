@@ -81,6 +81,7 @@ export const PostPreview: React.FC<Props> = ({
           className="justify-self-end self-end"
           variant="primary"
           onClick={() => setIsModelOpen(true)}
+          style={{color: "white"}}
         >
           More
         </Button>

@@ -138,7 +138,7 @@ export const Home: React.FC = () => {
 
       <button
         onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
-        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
+        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
       >
         Advanced Search Options:
       </button>
