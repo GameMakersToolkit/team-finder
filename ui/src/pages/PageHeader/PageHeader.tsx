@@ -32,7 +32,7 @@ export const PageHeader: React.FC = () => {
               {userInfo.isLoading ? "Loading..." : "Log In"}
               </button>)
             : (
-              <p className="mr-4">Welcome {userInfo.data?.username}! (Not you? <Link to="/logout" className="cursor-pointer font-bold text-primary">Click here to logout</Link>)</p>
+              <p className="mr-4">Welcome {userInfo.data?.username}! (<Link to="/logout" className="cursor-pointer hover:underline">Click to logout</Link>)</p>
             )
 
           }
