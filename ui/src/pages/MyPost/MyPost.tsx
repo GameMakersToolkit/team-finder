@@ -248,7 +248,7 @@ export const MyPost: React.FC = () => {
                 deletePostMutation.mutate({ id: myPostQuery.data!.id })
               }}
             >
-              Delete
+              Delete Post
             </Button>
             )}
         </div>
@@ -256,7 +256,7 @@ export const MyPost: React.FC = () => {
         {/* Submit */}
         <div className="flex mt-4">
           <Button type="submit" variant="primary" disabled={disabled}>
-            Save
+            Save Post
           </Button>
         </div>
       </div>
