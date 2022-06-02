@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useUserInfo } from "../../queries/userInfo";
 import { login } from "../../utils/login";
+import { useMyPostQuery } from "../../queries/my-post";
 
 const logos = import.meta.globEager("../../../public/logos/*.png");
 const navElementStylingRules = "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight ";
 
 export const PageHeader: React.FC = () => {
   const userInfo = useUserInfo();
+  const myPostQuery = useMyPostQuery();
 
   const shouldDisplayLogin = !userInfo.data;
   const shouldDisplayAdminLink = userInfo.data?.isAdmin;
@@ -55,7 +57,7 @@ export const PageHeader: React.FC = () => {
             Home
           </Link>
           <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/my-post">
-            My Post
+            {myPostQuery?.data ? `Edit my Post` : `Create a Post`}
           </Link>
           <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/faq">
             FAQ
