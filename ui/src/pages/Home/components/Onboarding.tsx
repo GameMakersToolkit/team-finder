@@ -14,7 +14,7 @@ export const Onboarding: React.FC = () => {
 
   if (!isLoggedIn) return (
     <div className={onboardingMessageBoxStyle}>
-      <p className="text-center">Want to contact other users or make your own post? <a onClick={login} className="font-bold underline">Log in with Discord!</a>
+      <p className="text-center">Welcome to the Team Finder! <a onClick={login} className="font-bold underline">Log in with Discord to get started!</a>
       </p>
     </div>
   )
