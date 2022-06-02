@@ -32,7 +32,6 @@ export const Home: React.FC = () => {
   const [timezoneOffsetEnd, setTimezoneOffsetEnd] = useState<TimezoneOffset[]>([allTimezoneOffsets[24]])
   const [previousTimezoneOffsetEnd, setPreviousTimezoneOffsetEnd] = useState<TimezoneOffset[]>()
   useEffect(() => {
-    console.log(timezoneOffsetStart, timezoneOffsetEnd)
     // If a timezone selector is empty (user has removed value but not replaced it), don't try to update query
     if (timezoneOffsetStart.length === 0 || timezoneOffsetEnd.length === 0) {
       return;
@@ -49,7 +48,7 @@ export const Home: React.FC = () => {
     // We're only supporting one timezone here (at position [0]) regardless of what the user enters
     updateSearchParam("timezones", usingCustomTimezones
         ? `${timezoneOffsetToInt(timezoneOffsetStart[0])}/${timezoneOffsetToInt(timezoneOffsetEnd[0])}`
-        : `-12/12` // If usingCustomTimezones==false, search for all timezones without updating the last values in form
+        : null // If usingCustomTimezones==false, search for all timezones without updating the last values in form
     )
 
     setPreviousTimezoneOffsetStart(timezoneOffsetStart)
@@ -191,7 +190,7 @@ export const Home: React.FC = () => {
                 <TimezoneOffsetSelector
                   id="timezoneStart"
                   disabled={!usingCustomTimezones}
-                  value={timezoneOffsetStart}
+                  value={usingCustomTimezones ? timezoneOffsetStart : []}
                   onChange={(timezoneOffsetStart) => setTimezoneOffsetStart(timezoneOffsetStart)}
                 />
               </div>
@@ -202,15 +201,12 @@ export const Home: React.FC = () => {
                 <TimezoneOffsetSelector
                   id="timezoneEnd"
                   disabled={!usingCustomTimezones}
-                  value={timezoneOffsetEnd}
+                  value={usingCustomTimezones ? timezoneOffsetEnd : []}
                   onChange={(timezoneOffsetEnd) => setTimezoneOffsetEnd(timezoneOffsetEnd)}
                 />
               </div>
             </div>
           </div>
-          <span className="text-xs">
-            Leave blank to search all timezones.
-          </span>
           <div className="mt-2">
             <label className="font-bold block" htmlFor="toolsFilter">
               Availability (select all that apply):

@@ -67,6 +67,7 @@ fun Application.configurePostRouting() {
             // Availabilities are mutually exclusive, so treat it as inclusion search
             ?.let { filters.add(or(it)) }
 
+        // If no timezones sent, lack of filters will search all timezones
         val timezoneRange = params["timezones"]?.split('/')
         if (timezoneRange != null && timezoneRange.size == 2) {
             val timezoneStart: Int = timezoneRange[0].toInt()
