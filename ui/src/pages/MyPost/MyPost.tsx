@@ -14,6 +14,7 @@ import { LanguageSelector } from "../LanguageSelector";
 import { Language } from "../../model/language";
 import { TimezoneOffsetSelector} from "../../components/TimezoneOffsetSelector";
 import { TimezoneOffset, timezoneOffsetFromInt } from "../../model/timezone";
+import { useAuth } from "../../utils/AuthContext";
 
 interface FormState {
   title: string;
@@ -31,6 +32,7 @@ const commonStyling =
 
 export const MyPost: React.FC = () => {
   useEnsureLoggedIn();
+  const auth = useAuth();
   const myPostQuery = useMyPostQuery();
   const userInfo = useUserInfo();
 
@@ -83,7 +85,7 @@ export const MyPost: React.FC = () => {
     save(formState);
   };
 
-  const disabled = myPostQuery.isLoading || isSaving || formState.timezoneOffsets.length == 0;
+  const disabled = !auth || myPostQuery.isLoading || isSaving || formState.timezoneOffsets.length == 0;
 
   return (
     <>
