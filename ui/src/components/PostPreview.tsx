@@ -7,6 +7,7 @@ import { PostModal } from "./PostModal";
 import { SkillList } from "./SkillList";
 import { useBanUser, useDeletePost } from "../queries/admin";
 import { useFavouritePostMutation } from "../queries/posts";
+import {Tool} from "../model/tool";
 
 interface Props {
   post: Post;
@@ -35,7 +36,7 @@ export const PostPreview: React.FC<Props> = ({
         className
       )}
     >
-      <h3 className="font-bold text-xl leading-6 h-[50px]">{post.title}</h3>
+      <PreviewTitle post={post} />
       <FavouritePostIndicator post={post} className={`absolute right-2 top-2 text-4xl text-neutral-600 cursor-pointer`} />
       <SkillList
         label="Looking for:"
@@ -89,7 +90,29 @@ export const PostPreview: React.FC<Props> = ({
   );
 };
 
-export const FavouritePostIndicator:React.FC<{
+export const PreviewTitle: React.FC<{ post: Post; }> = ({post}) => {
+
+  const personIcons = import.meta.globEager("../model/post-assets/*.svg");
+
+  return (
+    <>
+      <div className="relative">
+        <img
+          src={personIcons[`../model/post-assets/person.svg`].default}
+          className="absolute left-0 top-1 inline-block"
+          width={48}
+          height={48}
+        />
+        <span className="inline-block ml-14">
+          <h3 className="text-2xl">{post.author.substring(0, post.author.length - 5)}</h3>
+          <p>{post.size > 1 ? `and ${post.size} others are looking for members` : `is looking for members`}</p>
+        </span>
+      </div>
+    </>
+  )
+};
+
+export const FavouritePostIndicator: React.FC<{
   post: Post;
   className: string;
 }> = ({post, className}) => {

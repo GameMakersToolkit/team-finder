@@ -8,6 +8,7 @@ export const postsFixture: PostApiResult[] = [
     title: "Example Post #1",
     description:
       "This is how your team will look like in the Team Finder list! (This is an example from a Jam Moderator)",
+    size: 4,
     skillsPossessed: [
       "ART_2D",
       "ART_3D",
@@ -46,6 +47,7 @@ export const postsFixture: PostApiResult[] = [
     title: "Join my amazing team!",
     description:
       "This is some exciting text, that I couldn't be bothered to Lorem Ipsum! 日本語　テスト",
+    size: 1,
     skillsPossessed: ["CODE", "TESTING_SUPPORT", "TEAM_LEAD", "OTHER"],
     skillsSought: [
       "ART_2D",
@@ -73,6 +75,7 @@ export const postsFixture: PostApiResult[] = [
     title: "Big post big post big post",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    size: 2,
     skillsPossessed: ["ART_3D", "DESIGN_PRODUCTION", "SOUND_MUSIC"],
     skillsSought: ["ART_2D", "OTHER"],
     preferredTools: [
@@ -93,6 +96,7 @@ export const postsFixture: PostApiResult[] = [
     title: "If you can see this in a normal list, something is wrong",
     description:
       "A Team post, killed in it's prime, never to see the light of day...",
+    size: 1,
     skillsPossessed: [
       "ART_2D",
       "ART_3D",
@@ -116,6 +120,7 @@ export const postsFixture: PostApiResult[] = [
     authorId: "5",
     title: "Game Mame's Tamekame",
     description: "A Team post that contains emoji: ♻️ ☎️ ❕✈️",
+    size: 1,
     skillsPossessed: [
       "ART_2D",
       "ART_3D",

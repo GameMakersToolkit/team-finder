@@ -48,6 +48,7 @@ export function useMyPostQuery(
 export interface MyPostMutationVariables {
   title: string;
   description: string;
+  size: number;
   skillsPossessed: Skill[];
   skillsSought: Skill[];
   preferredTools: string[];
@@ -71,6 +72,7 @@ export function useMyPostMutation(
       let result;
 
       //  Cast timezones to int representation
+      console.log(variables)
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

@@ -14,6 +14,7 @@ data class PostItem (
 
     var title: String,
     var description: String,
+    var size: Int,
 
     var skillsPossessed: List<Skills>?,
     var skillsSought: List<Skills>?,
@@ -41,6 +42,7 @@ data class PostItem (
                 dto.authorId,
                 dto.title,
                 dto.description.take(2000),
+                dto.size,
                 dto.skillsPossessed,
                 dto.skillsSought,
                 dto.preferredTools,
