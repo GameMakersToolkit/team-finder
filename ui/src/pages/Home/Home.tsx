@@ -175,12 +175,21 @@ export const Home: React.FC = () => {
             />
           </div>
           <div className="mt-4">
-            <button
-              onClick={() => setUsingCustomTimezones(!usingCustomTimezones)}
-              className={`rounded border text-white p-2 mr-2 mb-2 w-full sm:w-fit ${usingCustomTimezones ? "bg-lightbg" : "bg-primary"}`}
-            >
-              All Timezones
-            </button>
+            <span className="mb-2 block sm:inline md:inline lg:inline">
+              <input
+                id="use-all-timezones-checkbox"
+                type="checkbox"
+                onChange={() => setUsingCustomTimezones(!usingCustomTimezones)}
+                checked={!usingCustomTimezones}
+                className={`mr-2`}
+              />
+              <label
+                className="w-full"
+                htmlFor="use-all-timezones-checkbox"
+              >
+                  Search All Timezones
+              </label>
+            </span>
 
             <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
               <div className={`${usingCustomTimezones ? "cursor-pointer" : "cursor-not-allowed"}`}>
