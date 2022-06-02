@@ -255,7 +255,7 @@ export const MyPost: React.FC = () => {
 
         {/* Submit */}
         <div className="flex mt-4">
-          <Button type="submit" variant="primary" disabled={disabled}>
+          <Button type="submit" variant="primary" disabled={disabled} style={{color: "white"}}>
             Save Post
           </Button>
         </div>
