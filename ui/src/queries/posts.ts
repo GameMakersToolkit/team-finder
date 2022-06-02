@@ -1,4 +1,12 @@
-import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
+import {
+  useMutation,
+  UseMutationOptions,
+  UseMutationResult,
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
+  UseQueryResult
+} from "react-query";
 import { Availability } from "../model/availability";
 import {
   PostApiResult,
@@ -70,4 +78,38 @@ export function usePostsList(
       select: (posts: PostApiResult[]) => posts.map(postFromApiResult),
     }
   );
+}
+
+const FAVOURITE_POST_QUERY_KEY = ["posts", "favourite"] as const;
+
+export interface FavouritePostMutationVariables {
+  postId: number;
+  isFavourite?: boolean;
+}
+
+export function useFavouritePostMutation(
+  opts?: UseMutationOptions<Post, Error, FavouritePostMutationVariables>
+): UseMutationResult<Post, Error, FavouritePostMutationVariables> {
+  const apiRequest = useApiRequest();
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...opts,
+    mutationFn: async (variables) => {
+      // If post is already favourited, use DELETE to remove Favourite status
+      const method = variables.isFavourite ? "POST" : "DELETE";
+      delete variables.isFavourite; // Don't submit this field, it's only used in the UI
+
+      const result = await apiRequest<PostApiResult>("/favourites", {
+        method: method,
+        body: variables,
+      });
+
+      return postFromApiResult(result);
+    },
+    mutationKey: ["posts", "favourite"],
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries(FAVOURITE_POST_QUERY_KEY);
+      opts?.onSuccess?.(data, variables, context);
+    },
+  });
 }
