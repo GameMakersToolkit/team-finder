@@ -16,6 +16,7 @@ export interface Post {
   availability: Availability;
   timezoneOffsets: TimezoneOffset[];
   languages: Language[];
+  isFavourite: boolean;
   reportCount: number;
   createdAt: Date;
   updatedAt: Date | null;

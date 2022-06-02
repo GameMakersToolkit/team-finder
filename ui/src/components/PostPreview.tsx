@@ -6,6 +6,7 @@ import { useState } from "react";
 import { PostModal } from "./PostModal";
 import { SkillList } from "./SkillList";
 import { useBanUser, useDeletePost } from "../queries/admin";
+import { useFavouritePostMutation } from "../queries/posts";
 
 interface Props {
   post: Post;
@@ -30,11 +31,12 @@ export const PostPreview: React.FC<Props> = ({
     <article
       id={"post-" + post.id}
       className={cx(
-        "border-2 border-white p-2 grid grid-flow-row auto-cols-auto gap-y-2",
+        "relative border-2 border-white p-2 grid grid-flow-row auto-cols-auto gap-y-2",
         className
       )}
     >
       <h3 className="font-bold text-xl leading-6 h-[50px]">{post.title}</h3>
+      <FavouritePostIndicator post={post} className={`absolute right-2 top-2 text-4xl text-neutral-600 cursor-pointer`} />
       <SkillList
         label="Looking for:"
         skills={post.skillsSought}
@@ -86,3 +88,24 @@ export const PostPreview: React.FC<Props> = ({
     </article>
   );
 };
+
+export const FavouritePostIndicator:React.FC<{
+  post: Post;
+  className: string;
+}> = ({post, className}) => {
+  const favouritePostMutation = useFavouritePostMutation();
+
+  return (
+    <span
+      data-post-id={post.id}
+      className={className}
+      onClick={() => {
+        post.isFavourite = !post.isFavourite // Set isFavourite in local context to immediately update UI (without waiting for API response)
+        favouritePostMutation.mutate({ postId: post.id, isFavourite: post.isFavourite })
+      }}
+    >
+      {/* TODO: Replace with nice SVGs */}
+      {post.isFavourite ? `🤍` : `♡`}
+    </span>
+  )
+}

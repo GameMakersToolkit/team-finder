@@ -1,5 +1,6 @@
 package com.gmtkgamejam.routing
 
+import com.auth0.jwt.JWT
 import com.gmtkgamejam.enumFromStringSafe
 import com.gmtkgamejam.models.*
 import com.gmtkgamejam.services.AuthService
@@ -111,6 +112,16 @@ fun Application.configurePostRouting() {
                 val page = params["page"]?.toInt() ?: 1
 
                 val posts = service.getPosts(and(getFilterFromParameters(params)), sort, page)
+
+                // Set isFavourite on posts for this user if they're logged in
+                call.request.header("Authorization")?.substring(7)
+                    ?.let { JWT.decode(it) }
+                    ?.let { it.getClaim("id").asString() }
+                    ?.let { authService.getTokenSet(it) }
+                    ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
+                    ?.let { favouritesList ->
+                        posts.map { it.isFavourite = favouritesList.postIds.contains(it.id) }
+                    }
 
                 call.respond(posts)
             }

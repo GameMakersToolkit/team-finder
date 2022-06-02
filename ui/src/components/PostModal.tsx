@@ -8,6 +8,7 @@ import {ToolList} from "./ToolList";
 import {LanguageList} from "./LanguageList";
 import {AvailabilityList} from "./AvailabilityList";
 import {timezoneOffsetFromInt} from "../model/timezone";
+import {FavouritePostIndicator} from "./PostPreview";
 
 interface Props {
     post: Post;
@@ -43,6 +44,7 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen, 
         >
             <h3 className="font-bold text-xl">
                 {post.title}
+                <FavouritePostIndicator post={post} className={`ml-4 text-xl text-neutral-600 cursor-pointer`} />
                 <span className="float-right font-bold cursor-pointer" onClick={() => setIsModalOpen(false)}>X</span>
             </h3>
             <SkillList
