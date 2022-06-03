@@ -132,7 +132,7 @@ export const FAQ = () => {
             <p>
               It can take up to 5 minutes for the Team Finder to update after
               you make a change. If it&apos;s been more than 5 minutes, and you
-              still can&apos;t see your team, please{" "}
+              still can&apos;t see your team, please tag{" "}
               <span className="text-accent1">@Team Finder Tech Support</span> on
               the GMTK Discord server.
             </p>
@@ -151,7 +151,7 @@ export const FAQ = () => {
             <p>
               Yes! If you have any moderation concerns, use the Report function
               or contact the Jam Moderators on the GMTK Discord server. If you
-              are encountering technical problems, please{" "}
+              are encountering technical problems, please tag{" "}
               <span className="text-accent1">@Team Finder Tech Support</span> on
               the GMTK Discord server.
             </p>
