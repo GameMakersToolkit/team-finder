@@ -27,7 +27,7 @@ fun Application.authModule() {
                     requestMethod = HttpMethod.Post,
                     clientId = Config.getString("secrets.discord.client.id"),
                     clientSecret = Config.getString("secrets.discord.client.secret"),
-                    defaultScopes = listOf("identify", "guilds")
+                    defaultScopes = listOf("identify", "guilds.members.read")
                 )
             }
             client = discordHttpClient()

@@ -17,11 +17,11 @@ data class UserInfo(
     val isAdmin: Boolean
 ) {
 
-    constructor(discordUserInfo: DiscordUserInfo, guilds: Array<DiscordGuildInfo>, hasContactPermsSet: Boolean) : this(
+    constructor(discordUserInfo: DiscordUserInfo, guildInfo: JamGuildUserInfo?, isInDiscordServer: Boolean, hasContactPermsSet: Boolean) : this(
         discordUserInfo.id,
-        "${discordUserInfo.username}#${discordUserInfo.discriminator}",
+        guildInfo?.nick ?: discordUserInfo.username,
         discordUserInfo.avatar,
-        guilds.any { guild -> guild.id == guildId },
+        isInDiscordServer,
         hasContactPermsSet,
         adminIds.contains(discordUserInfo.id)
     )
