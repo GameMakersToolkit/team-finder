@@ -23,6 +23,7 @@ export const Home: React.FC = () => {
   const updateSearchParam = useUpdateSearchParam(searchParams, setSearchParams);
 
   const [showSkillText, setShowSkillText] = useState(true)
+  const [shouldLimitToFavourites, setShouldLimitToFavourites] = useState(false)
   const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false)
 
   const [usingCustomTimezones, setUsingCustomTimezones] = useState(false);
@@ -74,6 +75,7 @@ export const Home: React.FC = () => {
   const availabilityFilter = searchParams.get("availability")?.split(",").filter(isAvailability);
 
   const searchOptions: SearchOptions = {
+    limitToFavourites: shouldLimitToFavourites,
     description: searchParams.get("description") || undefined,
     skillsPossessed: skillsPossessedFilter,
     skillsSought: skillsSoughtFilter,
@@ -137,12 +139,18 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
+      <button
+        onClick={() => setShouldLimitToFavourites(!shouldLimitToFavourites)}
+        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${shouldLimitToFavourites ? "bg-primary" : "bg-lightbg"}`}
+      >
+        Only Show Favourites
+      </button>
 
       <button
         onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
         className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
       >
-        Advanced Search Options:
+        Advanced Search Options
       </button>
       {showAdvancedSearchOptions && (
         <>

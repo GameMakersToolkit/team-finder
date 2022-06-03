@@ -20,6 +20,7 @@ import { sortArrayImmutably } from "../utils/fns";
 
 export type SortByOption = keyof Post;
 export interface SearchOptions {
+  limitToFavourites?: boolean;
   description?: string;
   skillsPossessed?: Skill[];
   skillsSought?: Skill[];
@@ -71,7 +72,13 @@ export function usePostsList(
         languages: normalizedSearchOptions?.languages?.join(","),
         availability: normalizedSearchOptions?.availability?.join(","),
       };
-      return apiRequest<PostApiResult[]>(`/posts?${toQueryString(params)}`);
+
+      const route = params.limitToFavourites ? "posts/favourites" : "posts";
+      delete params.limitToFavourites;
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore toQueryString complains about `params.limitToFavourites` even though it doesn't exist anymore
+      return apiRequest<PostApiResult[]>(`/${route}?${toQueryString(params)}`);
     },
     {
       ...queryOptions,
