@@ -1,8 +1,8 @@
 module.exports = {
-  plugins: {
-    "postcss-import": {},
-    tailwindcss: {},
-    "postcss-focus-visible": {},
-    autoprefixer: {},
-  },
+  plugins: [
+    require("postcss-import"),
+    require("tailwindcss"),
+    require("postcss-focus-visible"),
+    require("autoprefixer"),
+  ],
 };
