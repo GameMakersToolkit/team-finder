@@ -4,24 +4,41 @@ import com.gmtkgamejam.Config
 import kotlinx.coroutines.future.await
 import org.javacord.api.DiscordApi
 import org.javacord.api.DiscordApiBuilder
+import org.javacord.api.entity.channel.ServerTextChannel
+import org.javacord.api.entity.message.Message
 import org.javacord.api.entity.message.MessageBuilder
 import org.javacord.api.entity.user.User
 import org.javacord.api.exception.DiscordException
 import org.javacord.api.exception.MissingPermissionsException
-import java.util.concurrent.CompletableFuture
 
-class ContactPermissionsCheckerBot {
+class DiscordBot {
 
     private lateinit var api: DiscordApi
+
+    private lateinit var channel: ServerTextChannel
 
     init {
         val token = Config.getString("bot.token")
         val builder = DiscordApiBuilder().setToken(token)
         try {
             api = builder.login().join()
+
+            // This is horrific, but it works for now!
+            channel = api.channels.filter { it.asServerChannel().get().name == "bot-spam" }[0].asServerTextChannel().get()
         } catch (ex: Exception) {
             println("Discord bot could not be initialised - continuing...")
         }
+    }
+
+    suspend fun createContactUserPingMessage(recipientUserId: String, senderUserId: String): Boolean {
+        val recipient: User = api.getUserById(recipientUserId).await()
+        val sender: User = api.getUserById(senderUserId).await()
+
+        val messageContents = "${recipient.mentionTag}: ${sender.mentionTag} wants to get in contact about your Team Finder post!"
+        // TODO: Validate message actually sent, give error otherwise
+        channel.sendMessage(messageContents).await()
+
+        return true
     }
 
     suspend fun doesUserHaveValidPermissions(userId: String): Boolean {
