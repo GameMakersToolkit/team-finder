@@ -121,7 +121,7 @@ export const MyPost: React.FC = () => {
       <small>{2000 - formState.description.length} characters remaining</small>
       <textarea
         id="description"
-        maxLength="2000"
+        maxLength={2000}
         rows={5}
         className={commonStyling + "min-h-[100px]"}
         disabled={disabled}
