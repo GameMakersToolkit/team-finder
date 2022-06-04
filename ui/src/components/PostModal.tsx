@@ -103,7 +103,7 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({ authorName, authorId }) =>
              <span className="p-2 rounded inline-flex cursor-pointer" style={{background:"#5865F2"}}>
                 <a
                     target="_blank" rel="noreferrer"
-                    href={isLoggedIn ? `https://discordapp.com/channels/@me/${authorId}` : undefined}
+                    href={isLoggedIn ? `https://discordapp.com/users/${authorId}` : undefined}
                     onClick={!isLoggedIn ? login : undefined}
                     className="text-sm"
                 >
