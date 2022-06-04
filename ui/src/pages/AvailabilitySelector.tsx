@@ -50,6 +50,8 @@ export function AvailabilitySelector({
           <input
             key={option.value}
             type="button"
+            role="checkbox"
+            aria-checked={value.includes(option.value)}
             value={option.label}
             disabled={disabled}
             className={`rounded border text-white cursor-pointer p-2 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${
