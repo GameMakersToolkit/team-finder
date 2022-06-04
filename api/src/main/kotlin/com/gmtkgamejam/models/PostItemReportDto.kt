@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class PostItemReportDto (
-    var id: Long,
+    var id: String,
 )

@@ -43,7 +43,7 @@ class PostService : KoinComponent {
         return col.find(filter).sort(sort).skip((page - 1) * pageSize).limit(pageSize).toList()
     }
 
-    fun getPost(id: Long) : PostItem? {
+    fun getPost(id: String) : PostItem? {
         return col.findOne(PostItem::id eq id)
     }
 

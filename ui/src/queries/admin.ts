@@ -37,7 +37,7 @@ export function useReportedPostsList(
 }
 
 interface DeletePostVariables {
-  postId: number;
+  postId: string;
 }
 export function useDeletePost(
   opts?: UseMutationOptions<void, Error, DeletePostVariables, unknown>

@@ -35,7 +35,7 @@ fun Application.configureAdminRouting() {
                     }
                     post("/clear") {
                         val data = call.receive<ReportedUsersClearDto>()
-                        service.getPost(data.teamId.toLong())?.let {
+                        service.getPost(data.teamId)?.let {
                             it.reportCount = 0
                             service.updatePost(it)
                             return@post call.respond(it)
@@ -47,7 +47,7 @@ fun Application.configureAdminRouting() {
                 route("/post") {
                     delete {
                         val data = call.receive<DeletePostDto>()
-                        service.getPost(data.postId.toLong())?.let {
+                        service.getPost(data.postId)?.let {
                             service.deletePost(it)
                             return@delete call.respond(it)
                         }
