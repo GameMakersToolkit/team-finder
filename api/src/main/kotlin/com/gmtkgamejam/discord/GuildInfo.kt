@@ -1,12 +1,15 @@
 package com.gmtkgamejam.discord
 
-import com.gmtkgamejam.models.DiscordGuildInfo
+import com.gmtkgamejam.Config
+import com.gmtkgamejam.models.JamGuildUserInfo
 import io.ktor.client.request.*
 import io.ktor.http.*
 
-const val guildInfo = "https://discordapp.com/api/users/@me/guilds"
+private val guildId: String = Config.getString("jam.guildId")
 
-suspend fun getGuildInfoAsync(accessToken: String): Array<DiscordGuildInfo> {
+var guildInfo = "https://discordapp.com/api/users/@me/guilds/$guildId/member"
+
+suspend fun getGuildInfoAsync(accessToken: String): JamGuildUserInfo {
     return discordHttpClient().use { client ->
         client.get(guildInfo) {
             headers {

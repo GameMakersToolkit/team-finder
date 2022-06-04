@@ -9,10 +9,4 @@ data class DiscordUserInfo(
     val avatar: String,
     val discriminator: String,
     val public_flags: Long,
-    val flags: Long,
-    val banner: String?,
-    val banner_color: String?,
-    val accent_color: Int?,
-    val locale: String,
-    val mfa_enabled: Boolean,
 )

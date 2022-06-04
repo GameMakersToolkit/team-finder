@@ -54,12 +54,22 @@ fun Application.configureUserInfoRouting() {
                         accessToken = refreshedTokenSet.access_token
                     }
 
+                    // TODO: Risk of rate limiting from Discord
                     val user = getUserInfoAsync(accessToken)
-                    val guilds = getGuildInfoAsync(accessToken)
                     val hasPermissions = bot.doesUserHaveValidPermissions(user.id)
 
-                    val userinfo = UserInfo(user, guilds, hasPermissions)
-                    return@get call.respond(userinfo)
+                    try {
+                        // If the user doesn't belong to the jam guild, this call will return a 404
+                        val guildInfo = getGuildInfoAsync(accessToken)
+
+                        val userinfo = UserInfo(user, guildInfo, true, hasPermissions)
+                        return@get call.respond(userinfo)
+                    } catch (e: Exception) {
+                        println("Exception thrown - user likely not in guild: $e")
+
+                        val userinfo = UserInfo(user, null, false, hasPermissions)
+                        return@get call.respond(userinfo)
+                    }
                 }
 
                 call.respondText("Couldn't load token set from DB", status = HttpStatusCode.NotFound)
