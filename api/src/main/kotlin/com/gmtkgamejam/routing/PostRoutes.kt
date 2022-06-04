@@ -206,6 +206,7 @@ fun Application.configurePostRouting() {
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let {
                                 // FIXME: Don't just brute force update all given fields
+                                it.author = data.author ?: it.author // We don't expect user to change, but track username updates
                                 it.title = data.title ?: it.title
                                 it.description = data.description ?: it.description
                                 it.size = data.size ?: it.size

@@ -81,7 +81,10 @@ export function useMyPostMutation(
       if (existing) {
         result = await apiRequest<PostApiResult>("/posts/mine", {
           method: "PUT",
-          body: variables,
+          body: {
+            ...variables,
+            author: userInfo.data?.username,
+          },
         });
       } else {
         result = await apiRequest<PostApiResult>("/posts", {
