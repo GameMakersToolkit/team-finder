@@ -2,10 +2,12 @@ package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.Config
 import com.gmtkgamejam.bot.DiscordBot
+import com.gmtkgamejam.models.BotDmDto
 import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import org.koin.ktor.ext.inject
@@ -46,14 +48,14 @@ fun Application.configureDiscordBotRouting() {
         authenticate("auth-jwt") {
             route("/bot") {
                 post("/dm") {
-                    val params = call.parameters
+                    val data = call.receive<BotDmDto>()
                     val principal = call.principal<JWTPrincipal>()!!
                     val id = principal.payload.getClaim("id").asString()
 
                     val tokenSet = authService.getTokenSet(id) ?: return@post call.respondText("lolno - auth")
 
                     val senderId = tokenSet.discordId
-                    val recipientId = params["recipientUserId"].toString()
+                    val recipientId = data.recipientId
                     if (!isUserWithinRateLimit(senderId)){
                         return@post call.respondText("lolno - user rate limit")
                     }

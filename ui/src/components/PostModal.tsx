@@ -9,6 +9,7 @@ import {LanguageList} from "./LanguageList";
 import {AvailabilityList} from "./AvailabilityList";
 import {timezoneOffsetFromInt} from "../model/timezone";
 import {FavouritePostIndicator} from "./PostPreview";
+import {useCreateBotDmMutation} from "../queries/bot";
 
 interface Props {
     post: Post;
@@ -94,6 +95,7 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen, 
  */
 const MessageOnDiscordButton: React.FC<CTAProps> = ({ authorName, authorId }) => {
     const isLoggedIn = Boolean(useAuth());
+    const createBotDmMutation = useCreateBotDmMutation();
 
     return (
         <>
@@ -103,7 +105,7 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({ authorName, authorId }) =>
              <span className="mb-16 p-2 rounded inline-flex cursor-pointer" style={{background:"#5865F2"}}>
                 <a
                     target="_blank" rel="noreferrer"
-                    href={isLoggedIn ? `https://discord.com/users/91969935848251392` : undefined}
+                    href={isLoggedIn ? `https://discord.com/users/${authorId}` : undefined}
                     onClick={!isLoggedIn ? login : undefined}
                     className="text-sm"
                 >
@@ -118,7 +120,7 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({ authorName, authorId }) =>
              <span className="mb-6 p-2 rounded inline-flex cursor-pointer border" style={{borderColor:"#5865F2"}}>
                 <a
                     target="_blank" rel="noreferrer"
-                    onClick={!isLoggedIn ? login : undefined}
+                    onClick={() => createBotDmMutation.mutate({ recipientId: authorId })}
                     className="text-sm"
                 >
                     Direct Message button not working?<br />Click here to ping them in the channel
