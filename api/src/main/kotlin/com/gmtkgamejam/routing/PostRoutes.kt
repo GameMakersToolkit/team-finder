@@ -180,7 +180,9 @@ fun Application.configurePostRouting() {
                         favouritesFilters.add(and(PostItem::id eq it, PostItem::deletedAt eq null))
                     }
 
-                    val posts = service.getPosts(and(and(favouritesFilters), and(getFilterFromParameters(params))), sort, page)
+                    val posts = service.getPosts(and(or(favouritesFilters), and(getFilterFromParameters(params))), sort, page)
+                    posts.map { post -> post.isFavourite = true }
+
                     call.respond(posts)
                 }
 
