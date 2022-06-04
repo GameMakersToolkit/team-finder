@@ -1,7 +1,7 @@
 package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.Config
-import com.gmtkgamejam.bot.ContactPermissionsCheckerBot
+import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.discord.getGuildInfoAsync
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
@@ -18,7 +18,7 @@ import java.util.*
 
 fun Application.configureUserInfoRouting() {
 
-    val bot: ContactPermissionsCheckerBot by inject()
+    val bot: DiscordBot by inject()
     val service = AuthService()
 
     routing {

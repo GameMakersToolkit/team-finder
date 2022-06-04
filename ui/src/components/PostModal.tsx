@@ -100,16 +100,31 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({ authorName, authorId }) =>
         {/* TODO: Position this relative to bottom of frame? */}
          <div className="text-center">
              {/* Span wraps anchor in case text splits onto two lines - we want one whole button shape */}
-             <span className="p-2 rounded inline-flex cursor-pointer" style={{background:"#5865F2"}}>
+             <span className="mb-16 p-2 rounded inline-flex cursor-pointer" style={{background:"#5865F2"}}>
                 <a
                     target="_blank" rel="noreferrer"
-                    href={isLoggedIn ? `https://discordapp.com/users/${authorId}` : undefined}
+                    href={isLoggedIn ? `https://discord.com/users/91969935848251392` : undefined}
                     onClick={!isLoggedIn ? login : undefined}
                     className="text-sm"
                 >
                     Message {authorName} on Discord {!isLoggedIn && <>(Log in to continue)</>}
                 </a>
             </span>
+
+             <br />
+
+             {/* TODO: Rate limiting on a per-user basis */}
+             {isLoggedIn && (
+             <span className="mb-6 p-2 rounded inline-flex cursor-pointer border" style={{borderColor:"#5865F2"}}>
+                <a
+                    target="_blank" rel="noreferrer"
+                    onClick={!isLoggedIn ? login : undefined}
+                    className="text-sm"
+                >
+                    Direct Message button not working?<br />Click here to ping them in the channel
+                </a>
+            </span>
+             )}
          </div>
         </>
     )

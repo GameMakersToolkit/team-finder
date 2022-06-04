@@ -1,13 +1,6 @@
 package com.gmtkgamejam.routing
 
-import com.gmtkgamejam.Config
-import com.gmtkgamejam.bot.ContactPermissionsCheckerBot
-import com.gmtkgamejam.discord.getGuildInfoAsync
-import com.gmtkgamejam.discord.getUserInfoAsync
-import com.gmtkgamejam.discord.refreshTokenAsync
 import com.gmtkgamejam.models.FavouritesDto
-import com.gmtkgamejam.models.UserInfo
-import com.gmtkgamejam.models.admin.ReportedUsersClearDto
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
 import io.ktor.application.*
@@ -17,8 +10,6 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import org.koin.ktor.ext.inject
-import java.util.*
 
 fun Application.configureFavouritesRouting() {
 

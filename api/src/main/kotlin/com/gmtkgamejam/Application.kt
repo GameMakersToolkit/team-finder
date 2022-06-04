@@ -49,4 +49,5 @@ fun Application.module() {
     configureAdminRouting()
     configurePostRouting()
     configureFavouritesRouting()
+    configureDiscordBotRouting()
 }
