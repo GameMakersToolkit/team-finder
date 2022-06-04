@@ -11,6 +11,7 @@ data class PostItemCreateDto(
     var authorId: String,
     var title: String,
     var description: String,
+    var size: Int,
     var skillsPossessed: List<Skills>,
     var skillsSought: List<Skills>,
     var preferredTools: List<Tools>?,

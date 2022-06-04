@@ -19,6 +19,7 @@ import { useAuth } from "../../utils/AuthContext";
 interface FormState {
   title: string;
   description: string;
+  size: number;
   skillsPossessed: Skill[];
   skillsSought: Skill[];
   languages: Language[];
@@ -42,6 +43,7 @@ export const MyPost: React.FC = () => {
   const [formState, setFormState] = React.useState<FormState>({
     title: "",
     description: "",
+    size: 1,
     skillsPossessed: [],
     skillsSought: [],
     languages: ["en"],
@@ -55,6 +57,7 @@ export const MyPost: React.FC = () => {
       const {
         title,
         description,
+        size,
         skillsPossessed,
         skillsSought,
         languages,
@@ -65,6 +68,7 @@ export const MyPost: React.FC = () => {
       setFormState({
         title,
         description,
+        size,
         skillsPossessed,
         skillsSought,
         languages,
@@ -104,6 +108,7 @@ export const MyPost: React.FC = () => {
       <input
         id="title"
         type="text"
+        required={true}
         className={commonStyling + ""}
         disabled={disabled}
         value={formState.title}
@@ -123,11 +128,31 @@ export const MyPost: React.FC = () => {
         id="description"
         maxLength={2000}
         rows={5}
+        required={true}
         className={commonStyling + "min-h-[100px]"}
         disabled={disabled}
         value={formState.description}
         onChange={(e) =>
           setFormState((prev) => ({ ...prev, description: e.target.value }))
+        }
+      />
+
+      {/* Size */}
+      <label htmlFor="size" className="text-lg inline-block w-[75%]">
+        How many people (including you) are currently working together?
+      </label>
+      <input
+        id="size"
+        type="number"
+        className={commonStyling + " inline-block w-[25%]"}
+        disabled={disabled}
+        value={formState.size}
+        min="1"
+        max="20"
+        onChange={(e) => {
+            if (e.target.value !== "" && parseInt(e.target.value) < 1) return;
+            setFormState((prev) => ({...prev, size: parseInt(e.target.value)}))
+          }
         }
       />
 

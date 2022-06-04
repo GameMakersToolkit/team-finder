@@ -208,6 +208,7 @@ fun Application.configurePostRouting() {
                                 // FIXME: Don't just brute force update all given fields
                                 it.title = data.title ?: it.title
                                 it.description = data.description ?: it.description
+                                it.size = data.size ?: it.size
                                 it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
                                 it.skillsSought = data.skillsSought ?: it.skillsSought
                                 it.preferredTools = data.preferredTools ?: it.preferredTools

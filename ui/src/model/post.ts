@@ -10,6 +10,7 @@ export interface Post {
   author: string;
   authorId: string;
   description: string;
+  size: number;
   skillsPossessed: Skill[];
   skillsSought: Skill[];
   preferredTools: Tool[];
