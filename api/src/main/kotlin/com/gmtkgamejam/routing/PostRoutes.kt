@@ -162,6 +162,11 @@ fun Application.configurePostRouting() {
                     val favourites = authService.getTokenSet(id)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
 
+                    // Exit early if the user don't have any favourites set
+                    if (favourites!!.postIds.isEmpty()) {
+                        return@get call.respond(emptyList<PostItem>())
+                    }
+
                     // Sorting
                     // TODO: Error handling
                     val sortByFieldName = params["sortBy"] ?: "id"
