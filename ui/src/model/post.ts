@@ -5,7 +5,7 @@ import { Language } from "./language";
 import { TimezoneOffset } from "./timezone";
 
 export interface Post {
-  id: number;
+  id: string;
   title: string;
   author: string;
   authorId: string;

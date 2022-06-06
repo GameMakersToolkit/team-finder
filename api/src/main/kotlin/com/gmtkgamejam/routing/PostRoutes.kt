@@ -128,7 +128,7 @@ fun Application.configurePostRouting() {
             }
 
             get("{id}") {
-                val post: PostItem? = call.parameters["id"]?.toLong()?.let { service.getPost(it) }
+                val post: PostItem? = call.parameters["id"]?.let { service.getPost(it) }
                 post?.let { return@get call.respond(it) }
                 call.respondText("Post not found", status = HttpStatusCode.NotFound)
             }

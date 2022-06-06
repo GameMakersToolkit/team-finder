@@ -90,7 +90,7 @@ export function usePostsList(
 const FAVOURITE_POST_QUERY_KEY = ["posts", "favourite"] as const;
 
 export interface FavouritePostMutationVariables {
-  postId: number;
+  postId: string;
   isFavourite?: boolean;
 }
 
