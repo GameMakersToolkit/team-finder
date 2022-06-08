@@ -1,11 +1,12 @@
 import React from "react";
 import teamListImg from "./team-list.png";
 import addTeamFormImg from "./add-team-form.png";
+import {Link} from "react-router-dom";
 
 const FAQHeading: React.FC<{ question: string }> = ({ question, children }) => {
   return (
     <div className="grid place-items-center bg-gray-900">
-      <div className="py-12 w-2/6">
+      <div className="py-12 w-5/6">
         <h2 className="text-white-900 font-bold text-4xl">{question}</h2>
         {children}
       </div>
@@ -28,7 +29,7 @@ const FAQImage: React.FC<{
             </div>
           )}
           <div className="md:7/12 lg:w-6/12">
-            <h2 className="text-2xl text-white-900 font-bold md:text-4xl">
+            <h2 className="text-2xl text-white-900 font-bold md:text-4xl mb-4">
               {question}
             </h2>
             {children}
@@ -49,11 +50,9 @@ const FAQTextItem: React.FC<{ question: string }> = ({
   children,
 }) => {
   return (
-    <div className="grid place-items-center">
-      <div className="py-12 w-2/6">
-        <h2 className="text-white-900 font-bold text-4xl">{question}</h2>
-        {children}
-      </div>
+    <div className="pb-12">
+      <h2 className="text-white-900 font-bold text-2xl sm:text-3xl mb-4">{question}</h2>
+      {children}
     </div>
   );
 };
@@ -128,48 +127,42 @@ export const FAQ = () => {
             </p>
           </FAQImage>
 
-          <FAQTextItem question="I just posted/updated my post, but I can't see it in the Team Finder?">
-            <p>
-              It can take up to 5 minutes for the Team Finder to update after
-              you make a change. If it&apos;s been more than 5 minutes, and you
-              still can&apos;t see your team, please tag{" "}
-              <span className="text-accent1">@Team Finder Tech Support</span> on
-              the GMTK Discord server.
-            </p>
-          </FAQTextItem>
+          <div className="container m-auto px-6 md:px-12 xl:px-6">
+            <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 pt-16 sm:pt-12">
+              <FAQTextItem question="I've found someone for my team, what do I do now?">
+                <p>
+                  If you&#39;ve filled a role and are no longer looking for it, you
+                  can edit your team post in the <Link className="hover:underline cursor-pointer" to="/my-post">Post / Edit Your Team tab above!</Link>
+                  <br />
+                  If you&#39;re no longer looking for any more team members, make
+                  sure to delete your post once you're finished!
+                </p>
+              </FAQTextItem>
+              <FAQTextItem question="Can I report team posts?">
+                <p>
+                  Yes! If you have any moderation concerns, use the Report function
+                  or contact the Jam Moderators on the GMTK Discord server. If you
+                  are encountering technical problems, please tag{" "}
+                  <span className="text-accent1">@Team Finder Tech Support</span> on
+                  the GMTK Discord server.
+                </p>
+              </FAQTextItem>
 
-          <FAQTextItem question="I've found someone for my team, what do I do now?">
-            <p>
-              If you&#39;ve filled a role and are no longer looking for it, you
-              can edit your team post in the Post / Edit Your Team tab above.
-              <br />
-              If you&#39;re no longer looking for any more team members, make
-              sure to delete your post in the Post / Edit Your Team tab!
-            </p>
-          </FAQTextItem>
-          <FAQTextItem question="Can I report team posts?">
-            <p>
-              Yes! If you have any moderation concerns, use the Report function
-              or contact the Jam Moderators on the GMTK Discord server. If you
-              are encountering technical problems, please tag{" "}
-              <span className="text-accent1">@Team Finder Tech Support</span> on
-              the GMTK Discord server.
-            </p>
-          </FAQTextItem>
-
-          <FAQTextItem question="What is the GMTK Game Jam 2021, anyway?">
-            <p>
-              Please see{" "}
-              <a
-                style={{ textDecorationThickness: "3px" }}
-                className="text-accent1 underline hover:text-accent2"
-                href="https://itch.io/jam/gmtk-2021"
-              >
-                the official itch.io page for details
-              </a>
-              .
-            </p>
-          </FAQTextItem>
+              <FAQTextItem question="What is the GMTK Game Jam 2021, anyway?">
+                <p>
+                  Please see{" "}
+                  <a
+                    style={{ textDecorationThickness: "3px" }}
+                    className="text-accent1 underline hover:text-accent2"
+                    href="https://itch.io/jam/gmtk-2021"
+                  >
+                    the official itch.io page for details
+                  </a>
+                  .
+                </p>
+              </FAQTextItem>
+            </div>
+          </div>
         </div>
       </main>
     </>
