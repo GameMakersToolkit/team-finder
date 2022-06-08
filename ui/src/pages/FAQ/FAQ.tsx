@@ -67,17 +67,21 @@ export const FAQ = () => {
         <div className="text-lg">
           <FAQHeading question="What is this website?">
             <p className="pt-6">
-              This is a semi-official fan project aimed at supporting the jam in
-              becoming more community-driven, and to help you jammers make new
-              teams and maybe even meet new friends!
+              Welcome to the Team Finder! You can use this website to find other game jam participants to team up with
+              for the GMTK 2022 Game Jam! Browse the post list or make a post of your own!
             </p>
             <p className="pt-4">
               <span className="italic">This is not run by Mark Brown!</span>{" "}
               Mark gave his blessing for us to use his shiny logos and branding,
               but other than that Mark isn&#39;t directly involved in the
-              development of this tool. Please do not contact Mark with
-              questions about this tool.
+              development of this website.
             </p>
+            <p className="pt-4">
+              This is a semi-official fan project aimed at supporting the jam in
+              becoming more community-driven - please do not contact Mark with
+              questions about the Team Finder!
+            </p>
+
           </FAQHeading>
 
           <FAQImage
