@@ -2,6 +2,7 @@ import React from "react";
 import teamListImg from "./team-list.png";
 import addTeamFormImg from "./add-team-form.png";
 import {Link} from "react-router-dom";
+import {discordInviteUrl} from "../Home/components/Onboarding";
 
 const FAQHeading: React.FC<{ question: string }> = ({ question, children }) => {
   return (
@@ -90,8 +91,7 @@ export const FAQ = () => {
             question="How do I find teams to join?"
           >
             <p>
-              If you are looking for a team to join, click on the Team Finder
-              tab above!
+              If you are looking for a team to join, use the search tools on <Link className="hover:underline cursor-pointer" to="/my-post">the homepage to find a team.</Link>
             </p>
             <p>
               You can scroll through the list of teams that other jammers have
@@ -102,6 +102,11 @@ export const FAQ = () => {
               Once you find a team that looks good, click the &quot;Message on
               Discord&quot; button and a window will open to their Discord
               profile where you can contact them.
+            </p>
+            <p className="font-bold">
+              Keep in mind that you need to be a member of the{" "}
+              <Link className="hover:underline cursor-pointer" to={`/${discordInviteUrl}`}>GMTK Discord server</Link>{" "}
+              to be able to contact them!
             </p>
           </FAQImage>
 

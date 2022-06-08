@@ -3,7 +3,7 @@ import { useUserInfo } from "../../../queries/userInfo";
 import { useAuth } from "../../../utils/AuthContext";
 import { login } from "../../../utils/login";
 
-const discordInviteUrl = "https://discord.gg/TGHj6FCJVy"
+export const discordInviteUrl = "https://discord.gg/TGHj6FCJVy"
 
 const onboardingMessageBoxStyle = "bg-lightbg my-4 px-2 py-6"
 
