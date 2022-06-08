@@ -4,6 +4,8 @@ import addTeamFormImg from "./add-team-form.png";
 import {Link} from "react-router-dom";
 import {discordInviteUrl} from "../Home/components/Onboarding";
 
+const currentYear = new Date().getFullYear();
+
 const FAQHeading: React.FC<{ question: string }> = ({ question, children }) => {
   return (
     <div className="grid place-items-center bg-gray-900">
@@ -63,13 +65,13 @@ export const FAQ = () => {
     <>
       <main>
         <h2 className="font-medium leading-tight text-5xl p-8 text-center">
-          Welcome to the GMTK Game Jam 2022 Team Finder!
+          {`Welcome to the GMTK Game Jam ${currentYear} Team Finder!`}`
         </h2>
         <div className="text-lg">
           <FAQHeading question="What is this website?">
             <p className="pt-6">
-              Welcome to the Team Finder! You can use this website to find other game jam participants to team up with
-              for the GMTK 2022 Game Jam! Browse the post list or make a post of your own!
+              {`Welcome to the Team Finder! You can use this website to find other game jam participants to team up with
+              for the GMTK ${currentYear} Game Jam! Browse the post list or make a post of your own!`}
             </p>
             <p className="pt-4">
               <span className="italic">This is not run by Mark Brown!</span>{" "}
@@ -160,13 +162,13 @@ export const FAQ = () => {
                 </p>
               </FAQTextItem>
 
-              <FAQTextItem question="What is the GMTK Game Jam 2021, anyway?">
+              <FAQTextItem question={`What is the GMTK Game Jam ${currentYear}, anyway?`}>
                 <p>
                   Please see{" "}
                   <a
                     style={{ textDecorationThickness: "3px" }}
                     className="text-accent1 underline hover:text-accent2"
-                    href="https://itch.io/jam/gmtk-2021"
+                    href={`https://itch.io/jam/gmtk-jam-${currentYear}`}
                   >
                     the official itch.io page for details
                   </a>
