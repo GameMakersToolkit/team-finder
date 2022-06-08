@@ -142,9 +142,12 @@ export const FAQ = () => {
                 <p>
                   If you&#39;ve filled a role and are no longer looking for it, you
                   can edit your team post in the <Link className="hover:underline cursor-pointer" to="/my-post">Post / Edit Your Team tab above!</Link>
-                  <br />
+                </p>
+                <p>
                   If you&#39;re no longer looking for any more team members, make
-                  sure to delete your post once you're finished!
+                  sure to delete your post once you&#39;re finished!
+                  <br />
+                  The option to delete your post is in the bottom-left of the <Link className="hover:underline cursor-pointer" to="/my-post">Post / Edit Your Team page</Link>.
                 </p>
               </FAQTextItem>
               <FAQTextItem question="Can I report team posts?">
