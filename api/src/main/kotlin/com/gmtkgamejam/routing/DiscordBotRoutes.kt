@@ -3,6 +3,7 @@ package com.gmtkgamejam.routing
 import com.gmtkgamejam.Config
 import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.models.BotDmDto
+import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -52,16 +53,16 @@ fun Application.configureDiscordBotRouting() {
                     val principal = call.principal<JWTPrincipal>()!!
                     val id = principal.payload.getClaim("id").asString()
 
-                    val tokenSet = authService.getTokenSet(id) ?: return@post call.respondText("lolno - auth")
+                    val tokenSet = authService.getTokenSet(id) ?: return@post call.respondJSON("lolno - auth")
 
                     val senderId = tokenSet.discordId
                     val recipientId = data.recipientId
                     if (!isUserWithinRateLimit(senderId)){
-                        return@post call.respondText("lolno - user rate limit")
+                        return@post call.respondJSON("lolno - user rate limit")
                     }
 
                     if (!isUserWithinPerUserTimeout(senderId, recipientId)) {
-                        return@post call.respondText("lolno - recipient rate limit")
+                        return@post call.respondJSON("lolno - recipient rate limit")
                     }
 
                     bot.createContactUserPingMessage(recipientId, senderId)

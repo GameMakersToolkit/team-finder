@@ -1,6 +1,7 @@
 package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.models.FavouritesDto
+import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
 import io.ktor.application.*
@@ -31,7 +32,7 @@ fun Application.configureFavouritesRouting() {
                         ?.let { favouritesService.saveFavourites(it) }
                         ?.let { return@post call.respond(it) }
 
-                    call.respondText("Favourite couldn't be added", status = HttpStatusCode.BadRequest)
+                    call.respondJSON("Favourite couldn't be added", status = HttpStatusCode.BadRequest)
                 }
                 delete {
                     val principal = call.principal<JWTPrincipal>()!!
@@ -45,7 +46,7 @@ fun Application.configureFavouritesRouting() {
                         ?.let { favouritesService.saveFavourites(it) }
                         ?.let { return@delete call.respond(it) }
 
-                    call.respondText("Favourite couldn't be added", status = HttpStatusCode.BadRequest)
+                    call.respondJSON("Favourite couldn't be added", status = HttpStatusCode.BadRequest)
                 }
             }
         }
