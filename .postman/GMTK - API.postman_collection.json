@@ -3,7 +3,8 @@
 		"_postman_id": "f33fe709-5d26-4b3f-a287-b5bb90d34d6a",
 		"name": "GMTK - API",
 		"description": "The Team Finder API handles the creation, management and administration of Teams within the project.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17266132"
 	},
 	"item": [
 		{
@@ -82,6 +83,62 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Ban User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"discordId\": \"427486675409829898\",\n    \"adminId\": \"427486675409829898\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/admin/user/ban",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"admin",
+								"user",
+								"ban"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unban User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"discordId\": \"427486675409829898\",\n    \"adminId\": \"427486675409829898\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/admin/user/unban",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"admin",
+								"user",
+								"unban"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -101,7 +158,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{API_ADDRESS}}/posts",
+							"raw": "{{API_ADDRESS}}/posts?description=mame",
 							"host": [
 								"{{API_ADDRESS}}"
 							],
@@ -109,11 +166,6 @@
 								"posts"
 							],
 							"query": [
-								{
-									"key": "description",
-									"value": "moderator",
-									"disabled": true
-								},
 								{
 									"key": "skillsPossessed",
 									"value": "ART_3D,SOUND_MUSIC",
@@ -143,6 +195,10 @@
 									"key": "sortDir",
 									"value": "desc",
 									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "mame"
 								}
 							]
 						},
@@ -157,7 +213,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessed\": [\"ART_3D\", \"CODE\"],\n    \"skillsSought\": [\"OTHER\"],\n    \"preferredTools\": [\"BLENDER\", \"UNITY\"],\n    \"availability\": \"PART_TIME\",\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}",
+							"raw": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessed\": [\"ART_3D\", \"CODE\"],\n    \"skillsSought\": [\"OTHER\"],\n    \"preferredTools\": [\"UNITY\"],\n    \"availability\": \"PART_TIME\",\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -222,7 +278,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"author\": \"TestValue2\",\n    \"authorId\": \"TestValue2\",\n    \"description\": \"TestValue2\",\n    \"languages\": \"TestValue2\"\n}",
+							"raw": "{\n    \"description\": \"TestValue2\",\n    \"languages\": \"TestValue2\",\n    \"skillsPossessed\": null, \n    \"skillsSought\": null, \n    \"preferredTools\": null, \n    \"availability\": null, \n    \"timezoneStr\": null\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -250,7 +306,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"teamId\": 99999\n}",
+							"raw": "{\n    \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -306,6 +362,35 @@
 			"name": "Discord",
 			"item": [
 				{
+					"name": "Bot",
+					"item": [
+						{
+							"name": "Send Channel DM request to bot",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{API_ADDRESS}}/bot/dm?recipientUserId=91969935848251392",
+									"host": [
+										"{{API_ADDRESS}}"
+									],
+									"path": [
+										"bot",
+										"dm"
+									],
+									"query": [
+										{
+											"key": "recipientUserId",
+											"value": "91969935848251392"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "User Info",
 					"request": {
 						"auth": {
@@ -331,6 +416,40 @@
 								"api",
 								"users",
 								"@me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GMTK Server User Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "MuPD8fyktXGgtyyOXaKxPBldyzqxK8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://discordapp.com/api/users/@me/guilds/248204508960653312/member",
+							"protocol": "https",
+							"host": [
+								"discordapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"@me",
+								"guilds",
+								"248204508960653312",
+								"member"
 							]
 						}
 					},
@@ -408,6 +527,63 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Favourites",
+			"item": [
+				{
+					"name": "Add New Favourite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postId\": -1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/favourites",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"favourites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Favourite",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postId\": -1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_ADDRESS}}/favourites",
+							"host": [
+								"{{API_ADDRESS}}"
+							],
+							"path": [
+								"favourites"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -415,7 +591,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJodHRwOi8vMC4wLjAuMDo4MDgwL2hlbGxvIiwiaXNzIjoiaHR0cDovLzAuMC4wLjA6ODA4MC8iLCJpZCI6InNvbWUtaWQiLCJleHAiOjE2NDQ2NjIyMTJ9.DCbY2McteC6-FEoKpHxrQlWCCkTeWUxk0Wb_Ml75Qmo",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJodHRwOi8vMC4wLjAuMDo4MDgwL2hlbGxvIiwiaXNzIjoiaHR0cDovLzAuMC4wLjA6ODA4MC8iLCJpZCI6IkE1aDRfT2ZCWXNXNjFRaWRzN084OURIampmNnpCUjJOYi1FcjBBR0VsSVVKdU9YZmdGc21peV9SM0FaTGlkMkt4VjF4emZ0UXlGOUozX05tdUFEU25nIiwiZXhwIjoxNjU0NDI0NTA5fQ.VkF5w9yqahnbYh-vNelVtli7Y_cXB73KPuWMp0c67cM",
 				"type": "string"
 			}
 		]
@@ -448,6 +624,10 @@
 		{
 			"key": "TEAM_ID",
 			"value": "1"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "0xJDeZGAwOLNKE2xHfIVnLeVCxbioQ"
 		}
 	]
 }

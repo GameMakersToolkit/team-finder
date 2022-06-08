@@ -1,125 +1,192 @@
 {
   "openapi": "3.0.0",
-  "servers": [
-    {
-      "url": "https://discordapp.com",
-      "description": "",
-      "variables": {}
-    }
-  ],
   "info": {
-    "version": "f33fe709-5d26-4b3f-a287-b5bb90d34d6a",
     "title": "GMTK - API",
     "description": "The Team Finder API handles the creation, management and administration of Teams within the project.",
-    "termsOfService": "",
-    "contact": {},
-    "license": {
-      "name": ""
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://{{api_address}}"
+    },
+    {
+      "url": "https://discordapp.com"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
     }
   },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Admin"
+    },
+    {
+      "name": "Posts",
+      "description": "The /teams resource handles everything for the concept of a \"Team\" - an entity which groups a set of participants together. A Team advertises itself as \"Looking for Skills\" from jam participants."
+    },
+    {
+      "name": "Discord"
+    },
+    {
+      "name": "Discord > Bot"
+    },
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Favourites"
+    }
+  ],
   "paths": {
     "/admin/reports": {
       "get": {
-        "summary": "List Reported Posts",
-        "operationId": "ListReportedPosts",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
         "tags": [
           "Admin"
-        ]
+        ],
+        "summary": "List Reported Posts",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     },
     "/admin/reports/clear": {
       "post": {
-        "summary": "Clear Reports",
-        "operationId": "ClearReports",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Delete Team",
         "requestBody": {
-          "required": true,
           "content": {
-            "text/plain": {
+            "application/json": {
               "schema": {
-                "type": "string",
+                "type": "object",
                 "example": {
                   "teamId": 3
                 }
-              },
-              "example": "{\n    \"teamId\": 3\n}"
+              }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/admin/user/ban": {
+      "post": {
         "tags": [
           "Admin"
-        ]
+        ],
+        "summary": "Ban User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "discordId": "427486675409829898",
+                  "adminId": "427486675409829898"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/admin/user/unban": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Unban User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "discordId": "427486675409829898",
+                  "adminId": "427486675409829898"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     },
     "/posts": {
       "get": {
+        "tags": [
+          "Posts"
+        ],
         "summary": "List Posts",
         "description": "Get a list of all teams.\n\nTODO: limiting, pagination, filtering etc.",
-        "operationId": "ListPosts",
         "parameters": [
           {
-            "$ref": "#/components/parameters/description"
-          },
-          {
-            "$ref": "#/components/parameters/skillsPossessed"
-          },
-          {
-            "$ref": "#/components/parameters/skillsSought"
-          },
-          {
-            "$ref": "#/components/parameters/languages"
-          },
-          {
-            "$ref": "#/components/parameters/availability"
-          },
-          {
-            "$ref": "#/components/parameters/sortBy"
-          },
-          {
-            "$ref": "#/components/parameters/sortDir"
+            "name": "description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "example": "mame"
           }
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
           }
-        },
-        "tags": [
-          "Posts"
-        ]
+        }
       },
       "post": {
+        "tags": [
+          "Posts"
+        ],
         "summary": "Create Post",
         "description": "Create a new Team",
-        "operationId": "CreatePost",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
         "requestBody": {
-          "description": "Create a new Team",
-          "required": true,
           "content": {
-            "text/plain": {
+            "application/json": {
               "schema": {
-                "type": "string",
+                "type": "object",
                 "example": {
                   "author": "TestValue",
                   "authorId": "TestValue",
@@ -132,7 +199,6 @@
                     "OTHER"
                   ],
                   "preferredTools": [
-                    "BLENDER",
                     "UNITY"
                   ],
                   "availability": "PART_TIME",
@@ -142,303 +208,306 @@
                     "jp"
                   ]
                 }
-              },
-              "example": "{\n    \"author\": \"TestValue\",\n    \"authorId\": \"TestValue\",\n    \"description\": \"TestValue\",\n    \"skillsPossessed\": [\"ART_3D\", \"CODE\"],\n    \"skillsSought\": [\"OTHER\"],\n    \"preferredTools\": [\"BLENDER\", \"UNITY\"],\n    \"availability\": \"PART_TIME\",\n    \"timezoneStr\": \"UTC\",\n    \"languages\": [\"en\", \"jp\"]\n}"
+              }
             }
           }
         },
-        "tags": [
-          "Posts"
-        ]
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     },
     "/posts/{TEAM_ID}": {
       "get": {
+        "tags": [
+          "Posts"
+        ],
         "summary": "Get Specific Post",
         "description": "Get a specific team by internal ID. Currently used for development purposes only.",
-        "operationId": "GetSpecificPost",
         "parameters": [
           {
-            "$ref": "#/components/parameters/TEAM_ID"
+            "name": "TEAM_ID",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
           }
-        },
-        "tags": [
-          "Posts"
-        ]
+        }
       }
     },
     "/posts/mine": {
       "get": {
-        "summary": "Get My Post",
-        "description": "A less exploitable reference for a logged-in user to view their own Team.\n\nUsed when showing the Manage Team page, to populate form fields.",
-        "operationId": "GetMyPost",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
         "tags": [
           "Posts"
-        ]
-      },
-      "put": {
-        "summary": "Update My Post",
-        "description": "Update a Team with the details a participant is able to change.",
-        "operationId": "UpdateMyPost",
-        "parameters": [],
+        ],
+        "summary": "Get My Post",
+        "description": "A less exploitable reference for a logged-in user to view their own Team.\n\nUsed when showing the Manage Team page, to populate form fields.",
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
           }
-        },
+        }
+      },
+      "put": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "Update My Post",
+        "description": "Update a Team with the details a participant is able to change.",
         "requestBody": {
-          "description": "Update a Team with the details a participant is able to change.",
-          "required": true,
           "content": {
-            "text/plain": {
+            "application/json": {
               "schema": {
-                "type": "string",
+                "type": "object",
                 "example": {
-                  "author": "TestValue2",
-                  "authorId": "TestValue2",
                   "description": "TestValue2",
-                  "languages": "TestValue2"
+                  "languages": "TestValue2",
+                  "skillsPossessed": null,
+                  "skillsSought": null,
+                  "preferredTools": null,
+                  "availability": null,
+                  "timezoneStr": null
                 }
-              },
-              "example": "{\n    \"author\": \"TestValue2\",\n    \"authorId\": \"TestValue2\",\n    \"description\": \"TestValue2\",\n    \"languages\": \"TestValue2\"\n}"
+              }
             }
           }
         },
-        "tags": [
-          "Posts"
-        ]
-      },
-      "delete": {
-        "summary": "Delete My Post",
-        "description": "Update a Team with the details a participant is able to change.",
-        "operationId": "DeleteMyPost",
-        "parameters": [],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
           }
-        },
+        }
+      },
+      "delete": {
         "tags": [
           "Posts"
-        ]
+        ],
+        "summary": "Delete My Post",
+        "description": "Update a Team with the details a participant is able to change.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     },
     "/posts/report": {
       "post": {
+        "tags": [
+          "Posts"
+        ],
         "summary": "Report Post",
         "description": "Report a Team as breaking site rules.",
-        "operationId": "ReportPost",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
         "requestBody": {
-          "description": "Report a Team as breaking site rules.",
-          "required": true,
           "content": {
-            "text/plain": {
+            "application/json": {
               "schema": {
-                "type": "string",
+                "type": "object",
                 "example": {
                   "teamId": 99999
                 }
-              },
-              "example": "{\n    \"teamId\": 99999\n}"
+              }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/bot/dm": {
+      "post": {
         "tags": [
-          "Posts"
-        ]
+          "Discord > Bot"
+        ],
+        "summary": "Send Channel DM request to bot",
+        "requestBody": {
+          "content": {}
+        },
+        "parameters": [
+          {
+            "name": "recipientUserId",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "91969935848251392"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     },
     "/api/users/@me": {
       "get": {
-        "summary": "User Info",
-        "operationId": "UserInfo",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
         "tags": [
           "Discord"
-        ]
+        ],
+        "summary": "User Info",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/users/@me/guilds/248204508960653312/member": {
+      "get": {
+        "tags": [
+          "Discord"
+        ],
+        "summary": "GMTK Server User Info",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     },
     "/api/users/@me/guilds": {
       "get": {
-        "summary": "User Guilds Info",
-        "operationId": "UserGuildsInfo",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
         "tags": [
           "Discord"
-        ]
+        ],
+        "summary": "User Guilds Info",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     },
     "/userinfo": {
       "get": {
-        "summary": "UserInfo",
-        "operationId": "UserInfo0",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
         "tags": [
           "Users"
-        ]
+        ],
+        "summary": "UserInfo",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     },
     "/hello": {
       "get": {
-        "summary": "Token Info",
-        "operationId": "TokenInfo",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
         "tags": [
           "Users"
-        ]
-      }
-    }
-  },
-  "components": {
-    "parameters": {
-      "description": {
-        "name": "description",
-        "in": "query",
-        "required": true,
-        "style": "form",
-        "schema": {
-          "type": "string",
-          "example": "moderator"
-        }
-      },
-      "skillsPossessed": {
-        "name": "skillsPossessed",
-        "in": "query",
-        "required": true,
-        "style": "form",
-        "schema": {
-          "type": "string",
-          "example": "ART_3D,SOUND_MUSIC"
-        }
-      },
-      "skillsSought": {
-        "name": "skillsSought",
-        "in": "query",
-        "required": true,
-        "style": "form",
-        "schema": {
-          "type": "string",
-          "example": "ART_2D,CODE"
-        }
-      },
-      "languages": {
-        "name": "languages",
-        "in": "query",
-        "required": true,
-        "style": "form",
-        "schema": {
-          "type": "string",
-          "example": "ja"
-        }
-      },
-      "availability": {
-        "name": "availability",
-        "in": "query",
-        "required": true,
-        "style": "form",
-        "schema": {
-          "type": "string",
-          "example": "part_time,full_time,minimal"
-        }
-      },
-      "sortBy": {
-        "name": "sortBy",
-        "in": "query",
-        "required": true,
-        "style": "form",
-        "schema": {
-          "type": "string",
-          "example": "createdAt"
-        }
-      },
-      "sortDir": {
-        "name": "sortDir",
-        "in": "query",
-        "required": true,
-        "style": "form",
-        "schema": {
-          "type": "string",
-          "example": "desc"
-        }
-      },
-      "TEAM_ID": {
-        "name": "TEAM_ID",
-        "in": "path",
-        "required": true,
-        "style": "simple",
-        "schema": {
-          "type": "string",
-          "example": "TEAM_ID"
+        ],
+        "summary": "Token Info",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
         }
       }
     },
-    "securitySchemes": {
-      "bearer": {
-        "type": "http",
-        "scheme": "bearer"
+    "/favourites": {
+      "post": {
+        "tags": [
+          "Favourites"
+        ],
+        "summary": "Add New Favourite",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "postId": -1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Favourites"
+        ],
+        "summary": "Remove Favourite",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     }
-  },
-  "security": [
-    {
-      "bearer": []
-    },
-    {
-      "bearer": []
-    }
-  ],
-  "tags": [],
-  "externalDocs": {
-    "url": "",
-    "description": ""
-  },
-  "warnings": [
-    "Two GET or two POST methods for the same path are not allowed in OpenAPI specification : post{{API_ADDRESS}}/admin/reports/clear"
-  ]
+  }
 }
