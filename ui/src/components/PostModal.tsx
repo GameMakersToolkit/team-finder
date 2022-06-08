@@ -53,31 +53,38 @@ export const PostModal: React.FC<Props> = ({ post, isModalOpen, setIsModalOpen, 
                 skills={post.skillsSought}
                 className="[--skill-color:theme(colors.accent1)] mt-4"
                 showText={showSkillText}
+                labelOnNewLine={true}
             />
             <SkillList
                 label="Brings:"
                 skills={post.skillsPossessed}
                 className="[--skill-color:theme(colors.accent2)] mt-4"
                 showText={showSkillText}
+                labelOnNewLine={true}
             />
-            <ToolList
-              tools={post.preferredTools}
-              label={"Preferred Tools:"}
-              className="mt-4"
-              showText={true}
-            />
-            <AvailabilityList
-              availability={post.availability}
-              label={"Availabilities"}
-              className="mt-4"
-              showText={true}
-            />
-            <LanguageList
-              languages={post.languages}
-              label={"Language(s):"}
-              className="mt-4"
-              showText={true}
-            />
+            <div className="grid gap-2 grid-cols-1 sm:grid-cols-3">
+                <ToolList
+                  tools={[...post.preferredTools, ...post.preferredTools]}
+                  label={"Preferred Tools:"}
+                  className="mt-4"
+                  showText={true}
+                  labelOnNewLine={true}
+                />
+                <AvailabilityList
+                  availability={post.availability}
+                  label={"Availabilities"}
+                  className="mt-4"
+                  showText={true}
+                  labelOnNewLine={true}
+                />
+                <LanguageList
+                  languages={post.languages}
+                  label={"Language(s):"}
+                  className="mt-4"
+                  showText={true}
+                  labelOnNewLine={true}
+                />
+            </div>
             <p className="mt-4">Timezones: {post.timezoneOffsets.map(t => (timezoneOffsetFromInt(t))).join(", ")}</p>
             <p className="mb-16 mt-4">{post.description}</p>
 

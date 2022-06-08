@@ -7,15 +7,16 @@ export const ToolList: React.FC<{
     tools: Tool[];
     label: React.ReactNode;
     className?: string;
-    showText: boolean
-}> = ({tools, label, className, showText}) => {
+    showText: boolean;
+    labelOnNewLine?: boolean;
+}> = ({tools, label, className, showText, labelOnNewLine}) => {
     if (tools.length == 0) {
         return null;
     }
 
     return (
         <dl className={cx("flex gap-1 flex-wrap text-lg", className)}>
-            <dt className={`py-1 ${showText ? "mr-1" : "block w-full sm:w-fit"}`}>{label}</dt>
+            <dt className={`py-1 ${labelOnNewLine ?  "block w-full" : "mr-1"}`}>{label}</dt>
             {tools.map((tool) => {
                 const info = toolInfoMap[tool];
                 return (
