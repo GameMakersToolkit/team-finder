@@ -2,7 +2,7 @@ import { PostApiResult } from "../../model/post";
 
 export const postsFixture: PostApiResult[] = [
   {
-    id: 1,
+    id: "1",
     author: "SlamBamActionman#1234",
     authorId: "1",
     title: "Example Post #1",
@@ -42,7 +42,7 @@ export const postsFixture: PostApiResult[] = [
     deletedAt: null,
   },
   {
-    id: 2,
+    id: "2",
     author: "Dotwo#1234",
     authorId: "2",
     title: "Join my amazing team!",
@@ -71,7 +71,7 @@ export const postsFixture: PostApiResult[] = [
     deletedAt: null,
   },
   {
-    id: 3,
+    id: "3",
     author: "GuitarKid#1234",
     authorId: "3",
     title: "Big post big post big post",
@@ -93,7 +93,7 @@ export const postsFixture: PostApiResult[] = [
     deletedAt: null,
   },
   {
-    id: 4,
+    id: "4",
     author: "MarkBrown#1234",
     authorId: "5",
     title: "If you can see this in a normal list, something is wrong",
@@ -119,7 +119,7 @@ export const postsFixture: PostApiResult[] = [
     deletedAt: "2021-09-04 11:00:00",
   },
   {
-    id: 5,
+    id: "5",
     author: "MarkBrown#1234",
     authorId: "5",
     title: "Game Mame's Tamekame",
