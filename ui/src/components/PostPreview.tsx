@@ -17,6 +17,8 @@ interface Props {
   showSkillText: boolean;
 }
 
+const postIcons = import.meta.globEager("./posts/*.svg");
+
 export const PostPreview: React.FC<Props> = ({
   post,
   className,
@@ -37,7 +39,6 @@ export const PostPreview: React.FC<Props> = ({
       )}
     >
       <PreviewTitle post={post} />
-      <FavouritePostIndicator post={post} className={`absolute right-2 top-2 text-4xl text-neutral-600 cursor-pointer`} />
       <SkillList
         label="Looking for:"
         skills={post.skillsSought}
@@ -96,20 +97,19 @@ export const PreviewTitle: React.FC<{ post: Post; }> = ({post}) => {
   const personIcons = import.meta.globEager("../model/post-assets/*.svg");
 
   return (
-    <>
-      <div className="relative">
-        <img
-          src={personIcons[`../model/post-assets/person.svg`].default}
-          className="absolute left-0 top-1 inline-block"
-          width={48}
-          height={48}
-        />
-        <span className="inline-block ml-14">
-          <h3 className="text-2xl">{post.author.substring(0, post.author.length - 5)}</h3>
-          <p>{post.size > 1 ? `and ${post.size} others are looking for members` : `is looking for members`}</p>
-        </span>
-      </div>
-    </>
+    <div className="flex justify-between">
+      <img
+        src={personIcons[`../model/post-assets/person.svg`].default}
+        className="inline-block"
+        width={48}
+        height={48}
+      />
+      <span className="inline-block grow">
+        <h3 className="text-2xl">{post.author.substring(0, post.author.length - 5)}</h3>
+        <p>{post.size > 1 ? `and ${post.size} others are looking for members` : `is looking for members`}</p>
+      </span>
+      <FavouritePostIndicator post={post} className={`right-2 top-2 text-4xl text-neutral-600 cursor-pointer`} />
+    </div>
   )
 };
 
@@ -128,8 +128,10 @@ export const FavouritePostIndicator: React.FC<{
         favouritePostMutation.mutate({ postId: post.id, isFavourite: post.isFavourite })
       }}
     >
-      {/* TODO: Replace with nice SVGs */}
-      {post.isFavourite ? `🤍` : `♡`}
+      <img
+        src={postIcons[`./posts/favourite-selected-${post.isFavourite === true}.svg`].default}
+        style={{width: "48px", height: "48px"}}
+      />
     </span>
   )
 }
