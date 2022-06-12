@@ -7,7 +7,9 @@ import { PostModal } from "./PostModal";
 import { SkillList } from "./SkillList";
 import { useBanUser, useDeletePost } from "../queries/admin";
 import { useFavouritePostMutation } from "../queries/posts";
-import {Tool} from "../model/tool";
+import { useAuth } from "../utils/AuthContext";
+import { toast } from "react-hot-toast";
+import { useUserInfo } from "../queries/userInfo";
 
 interface Props {
   post: Post;
@@ -117,19 +119,28 @@ export const FavouritePostIndicator: React.FC<{
   post: Post;
   className: string;
 }> = ({post, className}) => {
+  const auth = useAuth();
+  const userInfo = useUserInfo();
   const favouritePostMutation = useFavouritePostMutation();
+
+  const onClick = () => {
+    if (!auth || userInfo.isLoading) {
+      toast("You must be logged in to favourite a post", {icon: '🔒', id: "favourite-post-info"})
+      return
+    }
+
+    post.isFavourite = !post.isFavourite // Set isFavourite in local context to immediately update UI (without waiting for API response)
+    favouritePostMutation.mutate({ postId: post.id, isFavourite: post.isFavourite })
+  }
 
   return (
     <span
       data-post-id={post.id}
-      className={className}
-      onClick={() => {
-        post.isFavourite = !post.isFavourite // Set isFavourite in local context to immediately update UI (without waiting for API response)
-        favouritePostMutation.mutate({ postId: post.id, isFavourite: post.isFavourite })
-      }}
+      className={className + `${!auth && ' cursor-pointer'}`}
+      onClick={onClick}
     >
       <img
-        src={postIcons[`./posts/favourite-selected-${post.isFavourite === true}.svg`].default}
+        src={postIcons[`./posts/favourite-selected-${Boolean(post.isFavourite)}.svg`].default}
         style={{width: "48px", height: "48px"}}
       />
     </span>
