@@ -3,6 +3,7 @@ package com.gmtkgamejam.routing
 import com.auth0.jwt.JWT
 import com.gmtkgamejam.enumFromStringSafe
 import com.gmtkgamejam.models.*
+import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
 import com.gmtkgamejam.services.PostService
@@ -130,7 +131,7 @@ fun Application.configurePostRouting() {
             get("{id}") {
                 val post: PostItem? = call.parameters["id"]?.let { service.getPost(it) }
                 post?.let { return@get call.respond(it) }
-                call.respondText("Post not found", status = HttpStatusCode.NotFound)
+                call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
             }
 
             authenticate("auth-jwt") {
@@ -144,14 +145,14 @@ fun Application.configurePostRouting() {
                         ?.let {
                             data.authorId = it.discordId  // TODO: What about author name?
                             if (service.getPostByAuthorId(it.discordId) != null) {
-                                return@post call.respondText("Cannot have duplicate posts", status = HttpStatusCode.BadRequest)
+                                return@post call.respondJSON("Cannot have duplicate posts", status = HttpStatusCode.BadRequest)
                             }
                         }
                         ?.let { PostItem.fromCreateDto(data) }
                         ?.let {  service.createPost(it) }
                         ?.let { return@post call.respond(it) }
 
-                    call.respondText("Post could not be created", status = HttpStatusCode.NotFound)
+                    call.respondJSON("Post could not be created", status = HttpStatusCode.NotFound)
                 }
 
                 get("favourites") {
@@ -200,7 +201,7 @@ fun Application.configurePostRouting() {
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let { return@get call.respond(it) }
 
-                        call.respondText("Post not found", status = HttpStatusCode.NotFound)
+                        call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
                     }
 
                     put {
@@ -228,7 +229,7 @@ fun Application.configurePostRouting() {
                             }
 
                         // TODO: Replace BadRequest with contextual response
-                        call.respondText("Could not update Post", status = HttpStatusCode.BadRequest)
+                        call.respondJSON("Could not update Post", status = HttpStatusCode.BadRequest)
                     }
 
                     delete {
@@ -242,11 +243,11 @@ fun Application.configurePostRouting() {
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let {
                                 service.deletePost(it)
-                                return@delete call.respondText("Post deleted", status = HttpStatusCode.OK)
+                                return@delete call.respondJSON("Post deleted", status = HttpStatusCode.OK)
                             }
 
                         // TODO: Replace BadRequest with contextual response
-                        call.respondText("Could not delete Post", status = HttpStatusCode.BadRequest)
+                        call.respondJSON("Could not delete Post", status = HttpStatusCode.BadRequest)
                     }
                 }
 
@@ -261,7 +262,7 @@ fun Application.configurePostRouting() {
                             return@post call.respond(it)
                         }
 
-                        call.respondText("Post not found", status = HttpStatusCode.NotFound)
+                        call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
                     }
                 }
             }

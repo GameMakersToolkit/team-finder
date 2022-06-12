@@ -6,6 +6,7 @@ import com.gmtkgamejam.discord.getGuildInfoAsync
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
 import com.gmtkgamejam.models.UserInfo
+import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -28,7 +29,7 @@ fun Application.configureUserInfoRouting() {
                 val id = principal?.payload?.getClaim("id")?.asString()
                 val expiresAt = principal?.expiresAt?.time?.minus(System.currentTimeMillis())
 
-                call.respondText("Hello, id: $id and expires at: $expiresAt")
+                call.respondJSON("Hello, id: $id and expires at: $expiresAt")
             }
 
             get("/userinfo") {
@@ -72,7 +73,7 @@ fun Application.configureUserInfoRouting() {
                     }
                 }
 
-                call.respondText("Couldn't load token set from DB", status = HttpStatusCode.NotFound)
+                call.respondJSON("Couldn't load token set from DB", status = HttpStatusCode.NotFound)
             }
         }
     }

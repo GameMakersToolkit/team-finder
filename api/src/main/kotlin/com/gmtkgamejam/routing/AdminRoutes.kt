@@ -5,6 +5,7 @@ import com.gmtkgamejam.models.BannedUser
 import com.gmtkgamejam.models.PostItem
 import com.gmtkgamejam.models.admin.DeletePostDto
 import com.gmtkgamejam.models.admin.ReportedUsersClearDto
+import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AdminService
 import com.gmtkgamejam.services.PostService
 import io.ktor.application.*
@@ -41,7 +42,7 @@ fun Application.configureAdminRouting() {
                             return@post call.respond(it)
                         }
 
-                        call.respondText("Post not found", status = HttpStatusCode.NotFound)
+                        call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
                     }
                 }
                 route("/post") {
@@ -52,7 +53,7 @@ fun Application.configureAdminRouting() {
                             return@delete call.respond(it)
                         }
 
-                        call.respondText("Post not found", status = HttpStatusCode.NotFound)
+                        call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
                     }
                 }
                 route("/user") {
