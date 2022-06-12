@@ -107,7 +107,7 @@ export function useMyPostMutation(
 }
 
 export interface DeleteMyPostMutationVariables {
-  id: number;
+  id: string;
 }
 export function useDeleteMyPostMutation(
   opts?: UseMutationOptions<Post, Error, DeleteMyPostMutationVariables>
