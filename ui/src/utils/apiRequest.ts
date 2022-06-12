@@ -1,5 +1,6 @@
 import { importMetaEnv } from "../../src/utils/importMeta";
 import { useAuth, useAuthActions } from "./AuthContext";
+import { toast } from "react-hot-toast";
 
 interface ApiRequestOptions {
   method?: "GET" | "PUT" | "POST" | "DELETE";
@@ -57,7 +58,7 @@ export async function apiRequest<T>(
     options["body"] = JSON.stringify(apiRequestOptions.body);
   }
 
-  const res = await fetch(`${importMetaEnv().VITE_API_URL}${path}`, options);
+  const res = await fetch(`${importMetaEnv().VITE_API_URL}${path}/`, options);
   if (!res.ok) {
     if (res.status === 401) {
       dependencies.logout();
@@ -69,6 +70,11 @@ export async function apiRequest<T>(
     if (res.status === 404) {
       throw new NotFoundError();
     }
+
+    // TODO: Use error response body
+    const errorMessage = "An unknown error occurred."
+    toast(`Sorry, something went wrong.\n${errorMessage}`, {icon: '❌'})
+
     throw new Error(`${res.status} ${res.statusText}: ${await res.text()}`);
   }
   return res.json();
