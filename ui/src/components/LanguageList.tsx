@@ -6,15 +6,16 @@ export const LanguageList: React.FC<{
     languages: Language[];
     label: React.ReactNode;
     className?: string;
-    showText: boolean
-}> = ({languages, label, className, showText}) => {
+    showText: boolean;
+    labelOnNewLine?: boolean;
+}> = ({languages, label, className, showText, labelOnNewLine}) => {
     if (languages.length == 0) {
         return null;
     }
 
     return (
         <dl className={cx("flex gap-1 flex-wrap text-lg", className)}>
-            <dt className={`py-1 ${showText ? "mr-1" : "block w-full sm:w-fit"}`}>{label}</dt>
+            <dt className={`py-1 ${labelOnNewLine ?  "block w-full" : "mr-1"}`}>{label}</dt>
             {languages.map((language) => {
                 const info = languageInfoMap[language];
                 return (

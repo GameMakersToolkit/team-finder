@@ -7,15 +7,16 @@ export const SkillList: React.FC<{
     skills: Skill[];
     label: React.ReactNode;
     className?: string;
-    showText: boolean
-}> = ({skills, label, className, showText}) => {
+    showText: boolean;
+    labelOnNewLine?: boolean;
+}> = ({skills, label, className, showText, labelOnNewLine}) => {
     if (skills.length == 0) {
         return null;
     }
 
     return (
         <dl className={cx("flex gap-1 flex-wrap self-baseline items-baseline text-lg", className)}>
-            <dt className={`self-center ${showText ? "mr-1" : "block w-full sm:w-fit"}`}>{label}</dt>
+            <dt className={`self-center ${labelOnNewLine ?  "block w-full" : "mr-1"}`}>{label}</dt>
             {skills.map((skill) => {
                 const info = skillInfoMap[skill];
                 return (

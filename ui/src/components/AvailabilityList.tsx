@@ -7,15 +7,16 @@ export const AvailabilityList: React.FC<{
     availability: Availability;
     label: React.ReactNode;
     className?: string;
-    showText: boolean
-}> = ({availability, label, className, showText}) => {
+    showText: boolean;
+    labelOnNewLine?: boolean;
+}> = ({availability, label, className, showText, labelOnNewLine}) => {
     if (availability.length == 0) {
         return null;
     }
 
     return (
         <dl className={cx("flex gap-1 flex-wrap text-lg", className)}>
-            <dt className={`py-1 ${showText ? "mr-1" : "block w-full sm:w-fit"}`}>{label}</dt>
+            <dt className={`py-1 ${labelOnNewLine ?  "block w-full" : "mr-1"}`}>{label}</dt>
             <dd
                 key={availability}
                 className={`py-1 border-2 border-[color:var(--availability-color)] flex items-center ${showText ? "px-2 sm:px-1" : "px-1"}`}
