@@ -80,7 +80,7 @@ export const PostModal: React.FC<Props> = ({
         />
         <div className="grid gap-2 grid-cols-1 sm:grid-cols-3">
           <ToolList
-            tools={[...post.preferredTools, ...post.preferredTools]}
+            tools={post.preferredTools}
             label={'Preferred Tools:'}
             className="mt-4"
             showText={true}
