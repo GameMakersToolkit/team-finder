@@ -1,0 +1,1 @@
+export { FavouritePostIndicator } from "./FavouritePostIndicator";
