@@ -52,7 +52,7 @@ export const PostModal: React.FC<Props> = ({
     >
       <div>
         <h3 className="font-bold text-xl">
-          {post.title}
+          {post.author}
           <FavouritePostIndicator
             post={post}
             className={`ml-4 text-xl text-neutral-600 cursor-pointer`}
