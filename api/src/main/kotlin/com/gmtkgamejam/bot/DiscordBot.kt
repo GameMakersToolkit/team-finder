@@ -24,7 +24,8 @@ class DiscordBot {
             api = builder.login().join()
 
             // This is horrific, but it works for now!
-            channel = api.channels.filter { it.asServerChannel().get().name == "bot-spam" }[0].asServerTextChannel().get()
+            channel = api.channels.filter { it.asServerChannel().get().name == "jam-team-notifs" }[0].asServerTextChannel().get()
+            println("Discord bot is online and ready for action!")
         } catch (ex: Exception) {
             println("Discord bot could not be initialised - continuing...")
         }
