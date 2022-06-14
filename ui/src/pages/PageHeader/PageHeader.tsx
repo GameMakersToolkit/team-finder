@@ -1,47 +1,96 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useMedia } from "react-use";
+import defaultTheme from "tailwindcss/defaultTheme";
 import { useUserInfo } from "../../queries/userInfo";
 import { login } from "../../utils/login";
 import { useMyPostQuery } from "../../queries/my-post";
 
 const logos = import.meta.globEager("../../../public/logos/*.png");
-const navElementStylingRules = "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight ";
+const navElementStylingRules =
+  "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight ";
+
+interface LinkData {
+  label: string;
+  to: string;
+}
 
 export const PageHeader: React.FC = () => {
   const userInfo = useUserInfo();
   const myPostQuery = useMyPostQuery();
+
+  // Note: this assumes that we haven't made any changes to the
+  // default Tailwind theme's responsive breakpoints.
+  type TailwindScreenSizes = { [key: string]: string };
+  const largeScreenQuery = `(min-width: ${
+    (defaultTheme.screens as TailwindScreenSizes).lg
+  })`;
+  const isLargeScreen = useMedia(largeScreenQuery);
 
   const shouldDisplayLogin = !userInfo.data;
   const shouldDisplayAdminLink = userInfo.data?.isAdmin;
 
   const [isNavVisible, setNavVisibility] = useState(false);
 
+  const links: LinkData[] = [
+    {
+      label: "Home",
+      to: "/",
+    },
+    {
+      label: myPostQuery?.data ? `Edit my Post` : `Create a Post`,
+      to: "/my-post",
+    },
+    {
+      label: "About",
+      to: "/faq",
+    },
+  ];
+  if (shouldDisplayAdminLink) {
+    links.push({
+      label: "Admin tools",
+      to: "/admin",
+    });
+  }
+
   return (
     <div className="bg-black h-full mx-auto">
       {/* Static Inline Header */}
       <div className="flex flex-cols-2 justify-between border-b-2">
         <Link to="/">
-          <img src={logos['../../../public/logos/header.png'].default} width={100} alt={"GMTK Game Jam 2022 Team Finder"} />
+          <img
+            src={logos["../../../public/logos/header.png"].default}
+            width={100}
+            alt={"GMTK Game Jam 2022 Team Finder"}
+          />
         </Link>
         <div className="flex items-center">
-          {shouldDisplayLogin
-            ? (<button
-                className={`rounded-lg font-bold mr-4 px-5 py-1 bg-primary ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
-                onClick={login}
-                disabled={userInfo.isLoading}
-              >
+          {shouldDisplayLogin ? (
+            <button
+              className={`rounded-lg font-bold mr-4 px-5 py-1 bg-primary ${
+                userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
+              onClick={login}
+              disabled={userInfo.isLoading}
+            >
               {userInfo.isLoading ? "Loading..." : "Log In"}
-              </button>)
-            : (
-              <p className="mr-4">Welcome {userInfo.data?.username}! (<Link to="/logout" className="cursor-pointer hover:underline">Click to logout</Link>)</p>
-            )
-
-          }
-          <ShowHideNavButton
-            isNavVisible={isNavVisible}
-            setNavVisibility={setNavVisibility}
-          />
+            </button>
+          ) : (
+            <p className="mr-4">
+              Welcome {userInfo.data?.username}! (
+              <Link to="/logout" className="cursor-pointer hover:underline">
+                Click to logout
+              </Link>
+              )
+            </p>
+          )}
+          {!isLargeScreen && (
+            <ShowHideNavButton
+              isNavVisible={isNavVisible}
+              setNavVisibility={setNavVisibility}
+            />
+          )}
         </div>
       </div>
 
@@ -56,20 +105,16 @@ export const PageHeader: React.FC = () => {
             zIndex: 100,
           }}
         >
-          <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/">
-            Home
-          </Link>
-          <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/my-post">
-            {myPostQuery?.data ? `Edit my Post` : `Create a Post`}
-          </Link>
-          <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/faq">
-            FAQ
-          </Link>
-          {shouldDisplayAdminLink && (
-            <Link className={navElementStylingRules} onClick={() => setNavVisibility(false)} to="/admin">
-              Admin tools
+          {links.map((link) => (
+            <Link
+              key={link.to}
+              className={navElementStylingRules}
+              onClick={() => setNavVisibility(false)}
+              to={link.to}
+            >
+              {link.label}
             </Link>
-          )}
+          ))}
         </nav>
       )}
     </div>
