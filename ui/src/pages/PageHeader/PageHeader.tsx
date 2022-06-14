@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useMatch } from "react-router-dom";
 import { useState } from "react";
 import { useMedia } from "react-use";
 import defaultTheme from "tailwindcss/defaultTheme";
+import cx from "classnames";
 import { useUserInfo } from "../../queries/userInfo";
 import { login } from "../../utils/login";
 import { useMyPostQuery } from "../../queries/my-post";
@@ -66,23 +67,17 @@ export const PageHeader: React.FC = () => {
             alt={"GMTK Game Jam 2022 Team Finder"}
           />
         </Link>
+        {isLargeScreen && (
+          <div className="flex items-center">
+            {links.map((link) => (
+              <InlineNavLink key={link.to} linkData={link} />
+            ))}
+          </div>
+        )}
 
         {/* spacer */}
         <div className="flex-1" />
 
-        {isLargeScreen && (
-          <div className="flex items-center">
-            {links.map((link) => (
-              <Link
-                key={link.to}
-                className={navInlineElementStylingRules}
-                to={link.to}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        )}
         <div className="flex items-center">
           {shouldDisplayLogin ? (
             <button
@@ -136,6 +131,22 @@ export const PageHeader: React.FC = () => {
         </nav>
       )}
     </div>
+  );
+};
+
+export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
+  linkData,
+}) => {
+  const isMatch = useMatch({ path: linkData.to, end: true });
+  return (
+    <Link
+      className={cx(navInlineElementStylingRules, {
+        "bg-primary": isMatch,
+      })}
+      to={linkData.to}
+    >
+      {linkData.label}
+    </Link>
   );
 };
 
