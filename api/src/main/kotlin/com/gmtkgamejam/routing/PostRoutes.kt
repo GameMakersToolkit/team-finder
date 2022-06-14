@@ -30,14 +30,7 @@ fun Application.configurePostRouting() {
         params["description"]?.split(',')
             ?.filter(String::isNotBlank) // Filter out empty `&description=`
             // The regex is the easiest way to check if a description contains a given substring
-            ?.forEach {
-                filters.add(
-                    or(
-                        PostItem::title regex it.toRegex(RegexOption.IGNORE_CASE),
-                        PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE)
-                    )
-                )
-            }
+            ?.forEach { filters.add(PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE)) }
 
         params["skillsPossessed"]?.split(',')
             ?.filter(String::isNotBlank) // Filter out empty `&skillsPossessed=`
@@ -215,7 +208,6 @@ fun Application.configurePostRouting() {
                             ?.let {
                                 // FIXME: Don't just brute force update all given fields
                                 it.author = data.author ?: it.author // We don't expect user to change, but track username updates
-                                it.title = data.title ?: it.title
                                 it.description = data.description ?: it.description
                                 it.size = data.size ?: it.size
                                 it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed

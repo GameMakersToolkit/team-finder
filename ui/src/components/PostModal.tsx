@@ -8,7 +8,7 @@ import { ToolList } from './ToolList';
 import { LanguageList } from './LanguageList';
 import { AvailabilityList } from './AvailabilityList';
 import { timezoneOffsetFromInt } from '../model/timezone';
-import { FavouritePostIndicator } from './PostPreview';
+import { FavouritePostIndicator } from './FavouritePostIndicator';
 import { useCreateBotDmMutation } from '../queries/bot';
 
 interface Props {
