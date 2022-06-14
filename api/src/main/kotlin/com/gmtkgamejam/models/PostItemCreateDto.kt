@@ -9,7 +9,6 @@ import kotlinx.serialization.Serializable
 data class PostItemCreateDto(
     var author: String,
     var authorId: String,
-    var title: String,
     var description: String,
     var size: Int,
     var skillsPossessed: List<Skills>,
