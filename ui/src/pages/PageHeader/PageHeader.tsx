@@ -5,7 +5,6 @@ import { useUserInfo } from "../../queries/userInfo";
 import { login } from "../../utils/login";
 import { useMyPostQuery } from "../../queries/my-post";
 
-const logos = import.meta.globEager("../../../public/logos/*.png");
 const navElementStylingRules = "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight ";
 
 export const PageHeader: React.FC = () => {
@@ -22,7 +21,7 @@ export const PageHeader: React.FC = () => {
       {/* Static Inline Header */}
       <div className="flex flex-cols-2 justify-between border-b-2">
         <Link to="/">
-          <img src={logos['../../../public/logos/header.png'].default} width={100} alt={"GMTK Game Jam 2022 Team Finder"} />
+          <img src="/logos/header.png" width={100} alt={"GMTK Game Jam 2022 Team Finder"} />
         </Link>
         <div className="flex items-center">
           {shouldDisplayLogin
