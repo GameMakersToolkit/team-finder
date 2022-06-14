@@ -8,8 +8,9 @@ import { login } from "../../utils/login";
 import { useMyPostQuery } from "../../queries/my-post";
 
 const logos = import.meta.globEager("../../../public/logos/*.png");
-const navElementStylingRules =
-  "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight ";
+const navMenuElementStylingRules =
+  "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight";
+const navInlineElementStylingRules = `mr-2 border rounded leading-none py-2 px-2 hover:bg-primary-highlight`;
 
 interface LinkData {
   label: string;
@@ -57,7 +58,7 @@ export const PageHeader: React.FC = () => {
   return (
     <div className="bg-black h-full mx-auto">
       {/* Static Inline Header */}
-      <div className="flex flex-cols-2 justify-between border-b-2">
+      <div className="flex flex-cols-2 border-b-2">
         <Link to="/">
           <img
             src={logos["../../../public/logos/header.png"].default}
@@ -65,6 +66,23 @@ export const PageHeader: React.FC = () => {
             alt={"GMTK Game Jam 2022 Team Finder"}
           />
         </Link>
+
+        {/* spacer */}
+        <div className="flex-1" />
+
+        {isLargeScreen && (
+          <div className="flex items-center">
+            {links.map((link) => (
+              <Link
+                key={link.to}
+                className={navInlineElementStylingRules}
+                to={link.to}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        )}
         <div className="flex items-center">
           {shouldDisplayLogin ? (
             <button
@@ -96,7 +114,7 @@ export const PageHeader: React.FC = () => {
 
       {/* Toggleable navbar */}
       {/* TODO: Animate navbar visibility? */}
-      {isNavVisible && (
+      {isNavVisible && !isLargeScreen && (
         <nav
           className={
             "fixed w-full bg-black grid grid-cols-1 justify-items-center content-center px-4 py-4"
@@ -108,7 +126,7 @@ export const PageHeader: React.FC = () => {
           {links.map((link) => (
             <Link
               key={link.to}
-              className={navElementStylingRules}
+              className={navMenuElementStylingRules}
               onClick={() => setNavVisibility(false)}
               to={link.to}
             >
