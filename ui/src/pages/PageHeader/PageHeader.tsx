@@ -8,7 +8,6 @@ import { useUserInfo } from "../../queries/userInfo";
 import { login } from "../../utils/login";
 import { useMyPostQuery } from "../../queries/my-post";
 
-const logos = import.meta.globEager("../../../public/logos/*.png");
 const navMenuElementStylingRules =
   "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight";
 const navInlineElementStylingRules = `mr-2 border rounded leading-none py-2 px-2 hover:bg-primary-highlight`;
@@ -62,7 +61,7 @@ export const PageHeader: React.FC = () => {
       <div className="flex flex-cols-2 border-b-2">
         <Link to="/">
           <img
-            src={logos["../../../public/logos/header.png"].default}
+            src="/logos/header.png"
             width={100}
             alt={"GMTK Game Jam 2022 Team Finder"}
           />

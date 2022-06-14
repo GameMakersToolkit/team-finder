@@ -20,4 +20,11 @@ module.exports = {
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 
   testPathIgnorePatterns: ["<rootDir>/node_modules/"],
+
+  transform: {
+    "\\.[jt]sx?$": "babel-jest",
+    // static assets become just their filename, emulating Vite
+    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+      "<rootDir>/config/jestFileTransformer.js",
+  },
 };

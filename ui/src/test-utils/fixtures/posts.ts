@@ -5,7 +5,6 @@ export const postsFixture: PostApiResult[] = [
     id: "1",
     author: "SlamBamActionman#1234",
     authorId: "1",
-    title: "Example Post #1",
     description:
       "This is how your team will look like in the Team Finder list! (This is an example from a Jam Moderator)",
     size: 4,
@@ -45,7 +44,6 @@ export const postsFixture: PostApiResult[] = [
     id: "2",
     author: "Dotwo#1234",
     authorId: "2",
-    title: "Join my amazing team!",
     description:
       "This is some exciting text, that I couldn't be bothered to Lorem Ipsum! 日本語　テスト",
     size: 1,
@@ -74,7 +72,6 @@ export const postsFixture: PostApiResult[] = [
     id: "3",
     author: "GuitarKid#1234",
     authorId: "3",
-    title: "Big post big post big post",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     size: 2,
@@ -96,7 +93,6 @@ export const postsFixture: PostApiResult[] = [
     id: "4",
     author: "MarkBrown#1234",
     authorId: "5",
-    title: "If you can see this in a normal list, something is wrong",
     description:
       "A Team post, killed in it's prime, never to see the light of day...",
     size: 1,
@@ -122,7 +118,6 @@ export const postsFixture: PostApiResult[] = [
     id: "5",
     author: "MarkBrown#1234",
     authorId: "5",
-    title: "Game Mame's Tamekame",
     description: "A Team post that contains emoji: ♻️ ☎️ ❕✈️",
     size: 1,
     skillsPossessed: [

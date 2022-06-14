@@ -46,7 +46,6 @@ export function useMyPostQuery(
 }
 
 export interface MyPostMutationVariables {
-  title: string;
   description: string;
   size: number;
   skillsPossessed: Skill[];

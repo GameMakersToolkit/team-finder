@@ -13,7 +13,6 @@ data class PostItem (
     var author: String,
     var authorId: String,
 
-    var title: String,
     var description: String,
     var size: Int,
 
@@ -41,7 +40,6 @@ data class PostItem (
                 abs(ThreadLocalRandom.current().nextLong()).toString(), // We need to handle as string, otherwise we lose precision in JS
                 dto.author,
                 dto.authorId,
-                dto.title,
                 dto.description.take(2000),
                 dto.size,
                 dto.skillsPossessed,
