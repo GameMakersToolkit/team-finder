@@ -17,7 +17,6 @@ import { TimezoneOffset, timezoneOffsetFromInt } from "../../model/timezone";
 import { useAuth } from "../../utils/AuthContext";
 
 interface FormState {
-  title: string;
   description: string;
   size: number;
   skillsPossessed: Skill[];
@@ -41,7 +40,6 @@ export const MyPost: React.FC = () => {
   const deletePostMutation = useDeleteMyPostMutation();
 
   const [formState, setFormState] = React.useState<FormState>({
-    title: "",
     description: "",
     size: 1,
     skillsPossessed: [],
@@ -55,7 +53,6 @@ export const MyPost: React.FC = () => {
   React.useEffect(() => {
     if (myPostQuery.data) {
       const {
-        title,
         description,
         size,
         skillsPossessed,
@@ -66,7 +63,6 @@ export const MyPost: React.FC = () => {
         timezoneOffsets,
       } = myPostQuery.data;
       setFormState({
-        title,
         description,
         size,
         skillsPossessed,
@@ -100,22 +96,6 @@ export const MyPost: React.FC = () => {
       onSubmit={handleSubmit}
     >
       <h1 className="text-3xl my-4">{myPostQuery?.data ? `Edit Your Post` : `Create New Post`}</h1>
-
-      {/* Title */}
-      <label htmlFor="title" className="text-lg">
-        Post title - put something short and catchy!
-      </label>
-      <input
-        id="title"
-        type="text"
-        required={true}
-        className={commonStyling + ""}
-        disabled={disabled}
-        value={formState.title}
-        onChange={(e) =>
-          setFormState((prev) => ({ ...prev, title: e.target.value }))
-        }
-      />
 
       {/* Description */}
       <label htmlFor="description" className="text-lg">
