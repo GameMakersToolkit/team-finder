@@ -9,8 +9,4 @@
   input {
     @apply text-black;
   }
-
-  input[type="checkbox"]:checked {
-    filter: invert(0%) sepia(84%) saturate(863%) hue-rotate(351deg) brightness(93%) contrast(104%);
-  }
 }
