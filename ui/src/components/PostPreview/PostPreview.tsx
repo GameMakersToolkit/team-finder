@@ -103,7 +103,7 @@ export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
       <img src={personIcon} className="inline-block" width={48} height={48} />
       <span className="inline-block grow">
         <h3 className="text-2xl">
-          {post.author.substring(0, post.author.length - 5)}
+          {post.author}
         </h3>
         <p>
           {post.size > 1
