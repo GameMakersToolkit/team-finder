@@ -71,11 +71,11 @@ export async function apiRequest<T>(
       throw new NotFoundError();
     }
 
-    // TODO: Use error response body
-    const errorMessage = "An unknown error occurred."
-    toast.error(`Sorry, something went wrong.\n${errorMessage}`)
+    const body = await res.json()
+    const errorMessage = body?.message || "Sorry, something went wrong.\nAn unknown error occurred."
+    toast.error(`${errorMessage}`)
 
-    throw new Error(`${res.status} ${res.statusText}: ${await res.text()}`);
+    throw new Error(`${res.status} ${res.statusText}: ${errorMessage}`);
   }
   return res.json();
 }
