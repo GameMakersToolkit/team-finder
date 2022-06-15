@@ -75,10 +75,12 @@ fun Application.configureDiscordBotRouting() {
                     }
 
                     try {
+                        val sendTime = LocalDateTime.now()
+
                         bot.createContactUserPingMessage(recipientId, senderId)
-                        userIdMessageTimes[senderId] = LocalDateTime.now()
-                        userIdPerUserMessageTimes[Pair(senderId, recipientId).toString()] = LocalDateTime.now()
-                        logger.error("Sender [$senderId] has pinged Recipient [$recipientId]")
+                        userIdMessageTimes[senderId] = sendTime
+                        userIdPerUserMessageTimes[Pair(senderId, recipientId).toString()] = sendTime
+                        logger.error("Sender [$senderId] has pinged Recipient [$recipientId] at [$sendTime]")
                         return@post call.respond(it)
                     } catch (ex: Exception) {
                         logger.error("Could not create ping message: $ex")
