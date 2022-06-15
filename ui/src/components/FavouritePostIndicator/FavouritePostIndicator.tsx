@@ -41,6 +41,7 @@ export const FavouritePostIndicator: React.FC<{
         src={
           post.isFavourite ? favouriteSelectedIcon : favouriteNotSelectedIcon
         }
+        className="inline-block"
         style={{ width: "48px", height: "48px" }}
       />
     </span>
