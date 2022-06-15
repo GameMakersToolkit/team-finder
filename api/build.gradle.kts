@@ -29,6 +29,9 @@ dependencies {
     implementation("io.ktor:ktor-auth-jwt:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
+    // Logging support for Javacord
+    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.17.2")
+
     // Koin core features
     implementation("io.insert-koin:koin-ktor:$koin_version")
 

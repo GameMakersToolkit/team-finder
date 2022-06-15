@@ -14,10 +14,14 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import org.koin.ktor.ext.inject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 
 
 fun Application.configureDiscordBotRouting() {
+
+    val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     val authService = AuthService()
     val bot: DiscordBot by inject()
@@ -74,9 +78,10 @@ fun Application.configureDiscordBotRouting() {
                         bot.createContactUserPingMessage(recipientId, senderId)
                         userIdMessageTimes[senderId] = LocalDateTime.now()
                         userIdPerUserMessageTimes[Pair(senderId, recipientId).toString()] = LocalDateTime.now()
+                        logger.error("Sender [$senderId] has pinged Recipient [$recipientId]")
                         return@post call.respond(it)
                     } catch (ex: Exception) {
-                        println(ex.toString())
+                        logger.error("Could not create ping message: $ex")
                         return@post call.respondJSON("This message could not be sent, please inform the Team Finder Support group in Discord", status = HttpStatusCode.NotAcceptable)
                     }
                 }
