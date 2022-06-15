@@ -248,7 +248,7 @@ export const Home: React.FC = () => {
 
       <div className="block">
         <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
-        <span className="inline-block">({query?.data?.length} posts found)</span>
+        <span className="inline-block">({query?.isLoading ? `Loading, please wait...` : `${query?.data?.length} posts found`})</span>
       </div>
       <div className="grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{}}>
         {query.data?.map((post) => (
