@@ -10,8 +10,12 @@ import org.javacord.api.entity.message.MessageBuilder
 import org.javacord.api.entity.user.User
 import org.javacord.api.exception.DiscordException
 import org.javacord.api.exception.MissingPermissionsException
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class DiscordBot {
+
+    private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private lateinit var api: DiscordApi
 
@@ -25,9 +29,9 @@ class DiscordBot {
 
             // This is horrific, but it works for now!
             channel = api.channels.filter { it.asServerChannel().get().name == "jam-team-notifs" }[0].asServerTextChannel().get()
-            println("Discord bot is online and ready for action!")
+            logger.info("Discord bot is online and ready for action!")
         } catch (ex: Exception) {
-            println("Discord bot could not be initialised - continuing...")
+            logger.warn("Discord bot could not be initialised - continuing...")
         }
     }
 
@@ -46,7 +50,7 @@ class DiscordBot {
         // If the API hasn't authenticated, we either have technical issues, or the token wasn't set properly
         // (e.g. running locally). If so, just run like normal for now.
         if (!this::api.isInitialized) {
-            println("Skipping user permissions check because API isn't active")
+            logger.info("Skipping user permissions check because API isn't active")
             return true
         }
 
@@ -58,22 +62,22 @@ class DiscordBot {
          try {
             val user: User = api.getUserById(userId).await()
 
-            println("Trying to send user garbage message...")
+            logger.info("Trying to send user garbage message...")
 
             val messageResult = MessageBuilder()
                 .append("") // Intentionally left blank!
                 .send(user)
                 .await()
 
-            println("This shouldn't print, but you never know - message: $messageResult")
+            logger.error("This shouldn't print, but you never know - message: $messageResult")
         } catch (ex: MissingPermissionsException) {
             // A 403 response should only fire when the user has locked down DM permissions
-            println("User doesn't have contact perms set properly!")
+            logger.info("User doesn't have contact perms set properly!")
             didMessageFailBecausePerms = true
         } catch (ex: DiscordException) {
             // Any other response should indicate the message send attempt succeeded,
             // but failed because the message is garbage
-            println("User has correct contact perms active!")
+            logger.info("User has correct contact perms active!")
         }
 
         return !didMessageFailBecausePerms

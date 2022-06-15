@@ -15,9 +15,13 @@ import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import org.koin.ktor.ext.inject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.util.*
 
 fun Application.configureUserInfoRouting() {
+
+    val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     val bot: DiscordBot by inject()
     val service = AuthService()
@@ -66,7 +70,7 @@ fun Application.configureUserInfoRouting() {
                         val userinfo = UserInfo(user, guildInfo, true, hasPermissions)
                         return@get call.respond(userinfo)
                     } catch (e: Exception) {
-                        println("Exception thrown - user likely not in guild: $e")
+                        logger.warn("Exception thrown - user likely not in guild: $e")
 
                         val userinfo = UserInfo(user, null, false, hasPermissions)
                         return@get call.respond(userinfo)
