@@ -65,7 +65,7 @@ export const FAQ = () => {
     <>
       <main>
         <h2 className="font-medium leading-tight text-5xl p-8 text-center">
-          {`Welcome to the GMTK Game Jam ${currentYear} Team Finder!`}`
+          {`Welcome to the GMTK Game Jam ${currentYear} Team Finder!`}
         </h2>
         <div className="text-lg">
           <FAQHeading question="What is this website?">
