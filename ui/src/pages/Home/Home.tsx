@@ -17,6 +17,7 @@ import { isLanguage } from "../../model/language";
 import { LanguageSelector } from "../LanguageSelector";
 import { TimezoneOffsetSelector } from "../../components/TimezoneOffsetSelector";
 import { allTimezoneOffsets, TimezoneOffset, timezoneOffsetToInt } from "../../model/timezone";
+import { LoadingSpinner } from "./components/LoadingSpinner";
 
 export const Home: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -250,7 +251,10 @@ export const Home: React.FC = () => {
         <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
         <span className="inline-block">({query?.isLoading ? `Loading, please wait...` : `${query?.data?.length} posts found`})</span>
       </div>
-      <div className="grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{}}>
+
+      {query.isLoading && (<LoadingSpinner />)}
+
+      <div className="grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{minHeight: "50vh"}}>
         {query.data?.map((post) => (
           <PostPreview key={post.id} post={post} className="" showSkillText={showSkillText}/>
         ))}
