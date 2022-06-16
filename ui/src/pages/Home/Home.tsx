@@ -249,7 +249,7 @@ export const Home: React.FC = () => {
 
       <div className="block">
         <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
-        <span className="inline-block">({query?.isLoading ? `Loading, please wait...` : `${query?.data?.length} posts found`})</span>
+        <span className="inline-block">({query?.isLoading ? `Loading, please wait...` : `${query?.data?.length || 0} posts found`})</span>
       </div>
 
       {query.isLoading && (<LoadingSpinner />)}
