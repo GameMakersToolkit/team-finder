@@ -70,9 +70,6 @@ export function useMyPostMutation(
       );
       let result;
 
-      //  Cast timezones to int representation
-      console.log(variables)
-
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       variables.timezoneOffsets = variables.timezoneOffsets.map(str => timezoneOffsetToInt(str))

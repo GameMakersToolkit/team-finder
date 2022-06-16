@@ -1,16 +1,23 @@
 export const allLanguages = [
   "en", // English
-  "es", // Spanish
-  "fr", // French
-  "de", // German
-  "ru", // Russian
-  "pt", // Portuguese - TODO Brazillian vs Portugal?
-  "zh", // Chinese (Mandarin) 汉语 (官話) - TODO Which is correct?
-  "hi", // Hindi
-  "ar", // Arabic
-  "bn", // Bengali
-  "ja", // Japanese
   "ko", // Korean
+  "ja", // Japanese
+  "pt-BR", // Brazilian Portuguese
+  "es", // Spanish
+  "zh-Hans", // Chinese (Simplified)
+  "ru", // Russian
+  "de", // German
+  "fr", // French
+  "es-419", // Spanish (Latin America)
+  "it", // Italian
+  "zh-CN", // Chinese (China)
+  "pt", // Portuguese
+  "zh-TW", // Chinese (Taiwan)
+  "pl", // Polish
+  "vi", // Vietnamese
+  "ar", // Arabic
+  "tr", // Turkish
+  "id" // Indonesian
 ] as const;
 
 export type Language = typeof allLanguages[number];
@@ -27,48 +34,76 @@ export const languageInfoMap: Record<Language, LanguageInfo> = {
   en: {
     friendlyName: "English"
   },
-  // Spanish
-  es: {
-    friendlyName: "Español"
-  },
-  // French
-  fr: {
-    friendlyName: "Français"
-  },
-  // German
-  de: {
-    friendlyName: "Deutsch"
-  },
-  // Russian
-  ru: {
-    friendlyName: "Русский"
-  },
-  // Portuguese - TODO Brazillian vs Portugal?
-  pt: {
-    friendlyName: "Português"
-  },
-  // Chinese (Mandarin) 汉语 (官話) - TODO Which is correct?
-  zh: {
-    friendlyName: "汉语"
-  },
-  // Hindi
-  hi: {
-    friendlyName: "हिन्दी"
-  },
-  // Arabic
-  ar: {
-    friendlyName: "العربية"
-  },
-  // Bengali
-  bn: {
-    friendlyName: "বাংলা"
+  // Korean
+  ko: {
+    friendlyName: "조선말"
   },
   // Japanese
   ja: {
     friendlyName: "日本語"
   },
-  // Korean
-  ko: {
-    friendlyName: "조선말"
+  // Brazilian Portuguese
+  "pt-BR": {
+    friendlyName: "português do Brasil"
   },
+  // Spanish
+  es: {
+    friendlyName: "Español/Castellano"
+  },
+  // Chinese (Simplified)
+  "zh-Hans": {
+    friendlyName: "汉语"
+  },
+  // Russian
+  ru: {
+    friendlyName: "Русский"
+  },
+  // German
+  de: {
+    friendlyName: "Deutsch"
+  },
+  // French
+  fr: {
+    friendlyName: "Français"
+  },
+  // Spanish (Latin America)
+  "es-419": {
+    friendlyName: "Española latinoamericana/Español latinoamericano"
+  },
+  // Italian
+  it: {
+    friendlyName: "Italiano/Italiana"
+  },
+  // Chinese (China)
+  "zh-CN": {
+    friendlyName: "漢語"
+  },
+  // Portuguese
+  pt: {
+    friendlyName: "Português"
+  },
+  // Chinese (Taiwan)
+  "zh-TW": {
+    friendlyName: "國語"
+  },
+  // Polish
+  "pl": {
+    friendlyName: "Polski"
+  },
+  // Vietnamese
+  "vi": {
+    friendlyName: "Tiếng Việt"
+  },
+  // Arabic
+  "ar": {
+    friendlyName: "اَلْعَرَبِيَّةُ"
+  },
+  // Turkish
+  "tr": {
+    friendlyName: "Türkçe"
+  },
+  // Indonesian
+  "id": {
+    friendlyName: "Bahasa Indonesia"
+  }
 };

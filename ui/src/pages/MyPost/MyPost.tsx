@@ -1,6 +1,12 @@
 import * as React from "react";
 import { Button } from "../../components/Button";
-import { useDeleteMyPostMutation, useMyPostMutation, useMyPostQuery } from "../../queries/my-post";
+import {
+  DeleteMyPostMutationVariables,
+  MyPostMutationVariables,
+  useDeleteMyPostMutation,
+  useMyPostMutation,
+  useMyPostQuery
+} from "../../queries/my-post";
 import { useEnsureLoggedIn } from "../../utils/useEnsureLoggedIn";
 import { AvailabilitySelector } from "../AvailabilitySelector";
 import { allAvailabilities, Availability } from "../../model/availability";
@@ -15,6 +21,8 @@ import { Language } from "../../model/language";
 import { TimezoneOffsetSelector} from "../../components/TimezoneOffsetSelector";
 import { TimezoneOffset, timezoneOffsetFromInt } from "../../model/timezone";
 import { useAuth } from "../../utils/AuthContext";
+import { toast } from "react-hot-toast";
+import { Post } from "../../model/post";
 
 interface FormState {
   description: string;
@@ -36,8 +44,18 @@ export const MyPost: React.FC = () => {
   const myPostQuery = useMyPostQuery();
   const userInfo = useUserInfo();
 
-  const { mutate: save, isLoading: isSaving } = useMyPostMutation();
-  const deletePostMutation = useDeleteMyPostMutation();
+  const onSubmitSuccess = (data: Post, variables: MyPostMutationVariables, context: any) => {
+    const createdOrUpdatedStr = myPostQuery?.data ? "updated" : "created";
+    toast.success(`Post ${createdOrUpdatedStr} successfully!`);
+  }
+
+  const onDeleteSuccess = (data: Post, variables: DeleteMyPostMutationVariables, context: any) => {
+    toast.success(`Post deleted successfully!`);
+    setTimeout(() => window.location.reload(), 200);
+  }
+
+  const { mutate: save, isLoading: isSaving } = useMyPostMutation({onSuccess: onSubmitSuccess});
+  const deletePostMutation = useDeleteMyPostMutation({onSuccess: onDeleteSuccess});
 
   const [formState, setFormState] = React.useState<FormState>({
     description: "",
@@ -265,7 +283,7 @@ export const MyPost: React.FC = () => {
         {/* Submit */}
         <div className="flex mt-4">
           <Button type="submit" variant="primary" disabled={disabled} style={{color: "white"}}>
-            Save Post
+            {`${myPostQuery?.data ? "Update" : "Create"} Post`}
           </Button>
         </div>
       </div>
