@@ -1,6 +1,7 @@
 import { importMetaEnv } from "../../src/utils/importMeta";
 import { useAuth, useAuthActions } from "./AuthContext";
 import { toast } from "react-hot-toast";
+import { getHashCode } from "./fns";
 
 interface ApiRequestOptions {
   method?: "GET" | "PUT" | "POST" | "DELETE";
@@ -73,7 +74,8 @@ export async function apiRequest<T>(
 
     const body = await res.json()
     const errorMessage = body?.message || "Sorry, something went wrong.\nAn unknown error occurred."
-    toast.error(`${errorMessage}`)
+
+    toast.error(`${errorMessage}`, {id: getHashCode(errorMessage)})
 
     throw new Error(`${res.status} ${res.statusText}: ${errorMessage}`);
   }
