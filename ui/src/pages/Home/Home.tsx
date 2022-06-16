@@ -18,8 +18,15 @@ import { LanguageSelector } from "../LanguageSelector";
 import { TimezoneOffsetSelector } from "../../components/TimezoneOffsetSelector";
 import { allTimezoneOffsets, TimezoneOffset, timezoneOffsetToInt } from "../../model/timezone";
 import { LoadingSpinner } from "./components/LoadingSpinner";
+import { useAuth } from "../../utils/AuthContext";
+import { useUserInfo } from "../../queries/userInfo";
+import { toast } from "react-hot-toast";
 
 export const Home: React.FC = () => {
+  const auth = useAuth();
+  const userInfo = useUserInfo();
+  const isLoggedIn = auth && userInfo.data
+
   const [searchParams, setSearchParams] = useSearchParams();
   const updateSearchParam = useUpdateSearchParam(searchParams, setSearchParams);
 
@@ -141,8 +148,18 @@ export const Home: React.FC = () => {
       </div>
 
       <button
-        onClick={() => setShouldLimitToFavourites(!shouldLimitToFavourites)}
-        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${shouldLimitToFavourites ? "bg-primary" : "bg-lightbg"}`}
+        onClick={() => {
+          if (!isLoggedIn) {
+            toast("You must be logged in view your favourite posts", {
+              icon: "🔒",
+              id: "favourite-post-view-info",
+            });
+            return;
+          }
+
+          setShouldLimitToFavourites(!shouldLimitToFavourites)
+        }}
+        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${shouldLimitToFavourites ? "bg-primary" : "bg-lightbg"} ${!isLoggedIn && "cursor-not-allowed"}`}
       >
         Only Show Favourites
       </button>
