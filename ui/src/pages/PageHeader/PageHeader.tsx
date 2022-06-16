@@ -25,9 +25,9 @@ export const PageHeader: React.FC = () => {
   // default Tailwind theme's responsive breakpoints.
   type TailwindScreenSizes = { [key: string]: string };
   const largeScreenQuery = `(min-width: ${
-    (defaultTheme.screens as TailwindScreenSizes).lg
+    (defaultTheme.screens as TailwindScreenSizes).md
   })`;
-  const isLargeScreen = useMedia(largeScreenQuery);
+  const shouldShowHorizontalLinks = useMedia(largeScreenQuery);
 
   const shouldDisplayLogin = !userInfo.data;
   const shouldDisplayAdminLink = userInfo.data?.isAdmin;
@@ -66,7 +66,7 @@ export const PageHeader: React.FC = () => {
             alt={"GMTK Game Jam 2022 Team Finder"}
           />
         </Link>
-        {isLargeScreen && (
+        {shouldShowHorizontalLinks && (
           <div className="flex items-center">
             {links.map((link) => (
               <InlineNavLink key={link.to} linkData={link} />
@@ -97,7 +97,7 @@ export const PageHeader: React.FC = () => {
               )
             </p>
           )}
-          {!isLargeScreen && (
+          {!shouldShowHorizontalLinks && (
             <ShowHideNavButton
               isNavVisible={isNavVisible}
               setNavVisibility={setNavVisibility}
@@ -108,7 +108,7 @@ export const PageHeader: React.FC = () => {
 
       {/* Toggleable navbar */}
       {/* TODO: Animate navbar visibility? */}
-      {isNavVisible && !isLargeScreen && (
+      {isNavVisible && !shouldShowHorizontalLinks && (
         <nav
           className={
             "fixed w-full bg-black grid grid-cols-1 justify-items-center content-center px-4 py-4"
