@@ -264,6 +264,13 @@ export const Home: React.FC = () => {
         </>
       )}
 
+      <button
+        onClick={() => setSearchParams({})}
+        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
+      >
+        Clear Search
+      </button>
+
       <div className="block">
         <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
         <span className="inline-block">({query?.isLoading ? `Loading, please wait...` : `${query?.data?.length || 0} posts found`})</span>
