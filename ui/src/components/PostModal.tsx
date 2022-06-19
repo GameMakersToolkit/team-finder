@@ -51,19 +51,28 @@ export const PostModal: React.FC<Props> = ({
       contentLabel="Example Modal"
     >
       <div>
-        <h3 className="font-bold text-xl">
-          {post.author}
+        <div className="flex justify-between min-w-0">
+          <span className="inline-block" style={{width: "calc(100% - 100px)"}}>
+            <h3 className="font-bold text-xl overflow-hidden text-ellipsis">
+              {post.author}
+            </h3>
+            <p className="text-sm">
+              {post.size > 1
+                ? `and ${post.size} others are looking for members`
+                : `is looking for members`}
+            </p>
+          </span>
           <FavouritePostIndicator
             post={post}
-            className={`ml-4 text-xl text-neutral-600 cursor-pointer`}
+            className={`cursor-pointer`}
           />
           <span
-            className="float-right font-bold cursor-pointer"
+            className="text-2xl my-auto font-bold cursor-pointer"
             onClick={() => setIsModalOpen(false)}
           >
             X
           </span>
-        </h3>
+        </div>
         <SkillList
           label="Looking for:"
           skills={post.skillsSought}
