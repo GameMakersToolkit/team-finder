@@ -17,7 +17,8 @@ export const allLanguages = [
   "vi", // Vietnamese
   "ar", // Arabic
   "tr", // Turkish
-  "id" // Indonesian
+  "id", // Indonesian
+  "ot", // Other
 ] as const;
 
 export type Language = typeof allLanguages[number];
@@ -105,5 +106,9 @@ export const languageInfoMap: Record<Language, LanguageInfo> = {
   // Indonesian
   "id": {
     friendlyName: "Bahasa Indonesia"
-  }
+  },
+  // Other
+  ot: {
+    friendlyName: "Other/Not Listed"
+  },
 };
