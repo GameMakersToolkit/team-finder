@@ -99,13 +99,13 @@ export const PostPreview: React.FC<Props> = ({
 
 export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between min-w-0">
       <img src={personIcon} className="inline-block" width={48} height={48} />
-      <span className="inline-block grow">
-        <h3 className="text-2xl">
+      <span className="grow" style={{width: "calc(100% - 100px)"}}>
+        <h3 className="text-xl overflow-hidden text-ellipsis">
           {post.author}
         </h3>
-        <p>
+        <p className="text-sm">
           {post.size > 1
             ? `and ${post.size} others are looking for members`
             : `is looking for members`}
@@ -113,7 +113,7 @@ export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
       </span>
       <FavouritePostIndicator
         post={post}
-        className={`right-2 top-2 text-4xl text-neutral-600 cursor-pointer`}
+        className={`cursor-pointer`}
       />
     </div>
   );
