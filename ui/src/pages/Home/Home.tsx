@@ -96,7 +96,7 @@ export const Home: React.FC = () => {
   const query = usePostsList(searchOptions);
 
   return (
-    <div className="container mx-auto max-w-screen-xxl p-1">
+    <div className="container mx-auto max-w-screen-xxl p-1 px-4">
       <Onboarding />
 
       <h1 className="text-3xl my-4">Search for a post</h1>

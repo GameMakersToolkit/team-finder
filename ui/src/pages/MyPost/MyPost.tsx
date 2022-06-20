@@ -107,7 +107,7 @@ export const MyPost: React.FC = () => {
       {(userInfo.data?.hasContactPermsSet == false) && <IncorrectPermsSetModal isModalOpen={true} />}
 
     <form
-      className="container mx-auto max-w-screen-xxl p-1 pb-6"
+      className="container mx-auto max-w-screen-xxl p-1 px-4 pb-6"
       onSubmit={handleSubmit}
     >
       <h1 className="text-3xl my-4">{myPostQuery?.data ? `Edit Your Post` : `Create New Post`}</h1>
