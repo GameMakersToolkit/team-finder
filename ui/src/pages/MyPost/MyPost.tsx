@@ -35,9 +35,6 @@ interface FormState {
   timezoneOffsets: TimezoneOffset[];
 }
 
-const commonStyling =
-  "border-white border-2 bg-black text-white w-full py-1 px-2 mt-4 ";
-
 export const MyPost: React.FC = () => {
   useEnsureLoggedIn();
   const auth = useAuth();
@@ -127,7 +124,7 @@ export const MyPost: React.FC = () => {
         maxLength={2000}
         rows={5}
         required={true}
-        className={commonStyling + "min-h-[100px]"}
+        className={"min-h-[100px] border-white border-2 bg-black text-white w-full py-1 px-2 mt-4 sm:mb-4"}
         disabled={disabled}
         value={formState.description}
         onChange={(e) =>
@@ -136,13 +133,13 @@ export const MyPost: React.FC = () => {
       />
 
       {/* Size */}
-      <label htmlFor="size" className="text-lg inline-block w-[75%]">
+      <label htmlFor="size" className="text-lg inline-block sm:w-[75%]">
         How many people (including you) are currently working together?
       </label>
       <input
         id="size"
         type="number"
-        className={commonStyling + " inline-block w-[25%]"}
+        className={"inline-block sm:w-[25%] border-white border-2 bg-black text-white w-full py-1 px-2 mb-2"}
         disabled={disabled}
         value={formState.size}
         min="1"
