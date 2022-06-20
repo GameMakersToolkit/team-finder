@@ -39,7 +39,7 @@ class DiscordBot {
         val recipient: User = api.getUserById(recipientUserId).await()
         val sender: User = api.getUserById(senderUserId).await()
 
-        val messageContents = "${recipient.mentionTag}: ${sender.mentionTag} wants to get in contact about your Team Finder post!"
+        val messageContents = "Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!"
         // TODO: Validate message actually sent, give error otherwise
         channel.sendMessage(messageContents).await()
 
