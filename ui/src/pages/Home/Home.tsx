@@ -148,6 +148,13 @@ export const Home: React.FC = () => {
       </div>
 
       <button
+        onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
+      >
+        Advanced Search Options
+      </button>
+
+      <button
         onClick={() => {
           if (!isLoggedIn) {
             toast("You must be logged in view your favourite posts", {
@@ -165,11 +172,12 @@ export const Home: React.FC = () => {
       </button>
 
       <button
-        onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
-        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
+        onClick={() => setSearchParams({})}
+        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight bg-lightbg`}
       >
-        Advanced Search Options
+        Clear Search
       </button>
+
       {showAdvancedSearchOptions && (
         <>
           <div className="mt-2 lg:w-1/2">
@@ -263,13 +271,6 @@ export const Home: React.FC = () => {
           <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText}/>
         </>
       )}
-
-      <button
-        onClick={() => setSearchParams({})}
-        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
-      >
-        Clear Search
-      </button>
 
       <div className="block">
         <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
