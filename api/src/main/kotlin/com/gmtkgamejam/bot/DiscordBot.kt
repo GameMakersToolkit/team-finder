@@ -62,7 +62,7 @@ class DiscordBot {
          try {
             val user: User = api.getUserById(userId).await()
 
-            logger.info("Trying to send user garbage message...")
+            logger.debug("Trying to send user garbage message...")
 
             val messageResult = MessageBuilder()
                 .append("") // Intentionally left blank!
@@ -72,12 +72,12 @@ class DiscordBot {
             logger.error("This shouldn't print, but you never know - message: $messageResult")
         } catch (ex: MissingPermissionsException) {
             // A 403 response should only fire when the user has locked down DM permissions
-            logger.info("User doesn't have contact perms set properly!")
+            logger.debug("User doesn't have contact perms set properly!")
             didMessageFailBecausePerms = true
         } catch (ex: DiscordException) {
             // Any other response should indicate the message send attempt succeeded,
             // but failed because the message is garbage
-            logger.info("User has correct contact perms active!")
+            logger.debug("User has correct contact perms active!")
         }
 
         return !didMessageFailBecausePerms
