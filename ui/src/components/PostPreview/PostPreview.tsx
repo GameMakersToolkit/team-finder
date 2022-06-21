@@ -7,7 +7,10 @@ import { PostModal } from "../PostModal";
 import { SkillList } from "../SkillList";
 import { useBanUser, useDeletePost } from "../../queries/admin";
 import { FavouritePostIndicator } from "../FavouritePostIndicator";
-import personIcon from "./person.svg";
+import teamSize1Icon from "./icons/1.svg"
+import teamSize2Icon from "./icons/2.svg"
+import teamSize3Icon from "./icons/3.svg"
+import teamSize4PlusIcon from "./icons/4.svg"
 
 interface Props {
   post: Post;
@@ -100,14 +103,14 @@ export const PostPreview: React.FC<Props> = ({
 export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
   return (
     <div className="flex justify-between min-w-0">
-      <img src={personIcon} className="inline-block" width={48} height={48} />
+      <img src={getTeamSizeIcon(post.size)} className="inline-block" width={48} height={48} />
       <span className="grow" style={{width: "calc(100% - 100px)"}}>
         <h3 className="text-xl overflow-hidden text-ellipsis">
           {post.author}
         </h3>
         <p className="text-sm">
           {post.size > 1
-            ? `and ${post.size} others are looking for members`
+            ? `and ${post.size - 1} others are looking for members`
             : `is looking for members`}
         </p>
       </span>
@@ -118,3 +121,16 @@ export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
     </div>
   );
 };
+
+const getTeamSizeIcon = (size: number) => {
+  switch (size) {
+    case 1:
+      return teamSize1Icon;
+    case 2:
+      return teamSize2Icon;
+    case 3:
+      return teamSize3Icon;
+    default:
+      return teamSize4PlusIcon;
+  }
+}
