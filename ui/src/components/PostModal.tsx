@@ -59,7 +59,7 @@ export const PostModal: React.FC<Props> = ({
             </h3>
             <p className="text-sm">
               {post.size > 1
-                ? `and ${post.size} others are looking for members`
+                ? `and ${post.size - 1} others are looking for members`
                 : `is looking for members`}
             </p>
           </span>
