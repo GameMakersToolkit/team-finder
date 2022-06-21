@@ -47,6 +47,7 @@ export const PostModal: React.FC<Props> = ({
     <Modal
       isOpen={isModalOpen}
       style={modalStyles}
+      htmlOpenClassName="overflow-hidden"
       className="bg-darkbg text-white inset-4 p-4 font-sans"
       contentLabel="Example Modal"
     >
