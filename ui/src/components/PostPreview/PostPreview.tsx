@@ -103,7 +103,7 @@ export const PostPreview: React.FC<Props> = ({
 export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
   return (
     <div className="flex justify-between min-w-0">
-      <img src={getTeamSizeIcon(post.size)} className="inline-block" width={48} height={48} />
+      <img src={getTeamSizeIcon(post.size)} className="inline-block mr-2" width={48} height={48} />
       <span className="grow" style={{width: "calc(100% - 100px)"}}>
         <h3 className="text-xl overflow-hidden text-ellipsis">
           {post.author}
