@@ -87,6 +87,33 @@ export function usePostsList(
   );
 }
 
+const REPORT_POST_QUERY_KEY = ["posts", "report"] as const;
+
+export interface ReportPostMutationVariables {
+  id: string;
+}
+
+export function useReportPostMutation(
+    opts?: UseMutationOptions<void, Error, ReportPostMutationVariables>
+): UseMutationResult<void, Error, ReportPostMutationVariables> {
+  const apiRequest = useApiRequest();
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...opts,
+    mutationFn: async (variables) => {
+      const result = await apiRequest<void>("/posts/report", {
+        method: "POST",
+        body: variables,
+      });
+    },
+    mutationKey: ["posts", "report"],
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries(REPORT_POST_QUERY_KEY);
+      opts?.onSuccess?.(data, variables, context);
+    }
+  })
+}
+
 const FAVOURITE_POST_QUERY_KEY = ["posts", "favourite"] as const;
 
 export interface FavouritePostMutationVariables {

@@ -1,4 +1,4 @@
-import Modal, { Styles } from 'react-modal';
+import Modal, {Styles} from 'react-modal';
 import * as React from 'react';
 import { Post } from '../model/post';
 import { SkillList } from './SkillList';
@@ -10,6 +10,9 @@ import { AvailabilityList } from './AvailabilityList';
 import { timezoneOffsetFromInt } from '../model/timezone';
 import { FavouritePostIndicator } from './FavouritePostIndicator';
 import { useCreateBotDmMutation } from '../queries/bot';
+import { apiRequest } from '../utils/apiRequest';
+import { useReportPostMutation } from "../queries/posts";
+import { toast } from "react-hot-toast";
 
 interface Props {
   post: Post;
@@ -122,9 +125,56 @@ export const PostModal: React.FC<Props> = ({
         authorName={post.author}
         authorId={post.authorId}
       />
+      {/* report button */}
+      <ReportButton post={post}/>
     </Modal>
   );
 };
+
+const ReportButton: React.FC<{ post: Post }> = ({
+                                                    post
+                                                }) => {
+    const auth = useAuth();
+    const reportPostMutation = useReportPostMutation();
+
+    const onClick = (e: any) => {
+        e.preventDefault();
+
+        reportPostMutation.mutate({
+            id: post.id,
+        }, {
+            onSuccess: (data, variables, context) => {
+                toast("Thanks for reporting");
+                let d = [post.id];
+                const value = localStorage.getItem("reported");
+                if (value != null && value != "") d = d.concat(JSON.parse(value))
+                localStorage.setItem("reported", JSON.stringify(d));
+            }
+        });
+    };
+
+    const isReported: () => boolean = () => {
+        const value = localStorage.getItem("reported");
+        if (value == null || value == "") return false;
+        const data: Array<string> = JSON.parse(value);
+        return data.includes(post.id)
+    }
+
+    return (
+        <>
+            {auth &&
+                <div className="flex justify-between min-w-0">
+                {!isReported() &&
+                    <a className="hover:underline decoration-stone-50" href="#report" onClick={onClick}>Report post</a>
+                }
+                {isReported() &&
+                    <span>Thanks for reporting!</span>
+                }
+                </div>
+            }
+        </>
+    )
+}
 
 /**
  * Present Discord CTA to user
