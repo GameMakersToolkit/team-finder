@@ -52,7 +52,7 @@ export const PostPreview: React.FC<Props> = ({
         className="[--skill-color:theme(colors.accent2)]"
         showText={showSkillText}
       />
-      <p className="break-words">
+      <p className="break-words" style={{wordBreak: "break-word"}}>
         {post.description.length <= 210
           ? post.description
           : post.description.substring(0, 210) + "..."}
