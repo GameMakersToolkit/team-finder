@@ -17,6 +17,7 @@ import io.ktor.routing.*
 import org.bson.conversions.Bson
 import org.litote.kmongo.*
 import kotlin.reflect.full.memberProperties
+import kotlin.text.Regex.Companion.escape
 
 fun Application.configurePostRouting() {
 
@@ -29,8 +30,9 @@ fun Application.configurePostRouting() {
 
         params["description"]?.split(',')
             ?.filter(String::isNotBlank) // Filter out empty `&description=`
+            ?.map { it -> it.trim() }
             // The regex is the easiest way to check if a description contains a given substring
-            ?.forEach { filters.add(PostItem::description regex it.toRegex(RegexOption.IGNORE_CASE)) }
+            ?.forEach { filters.add(PostItem::description regex escape(it).toRegex(RegexOption.IGNORE_CASE)) }
 
         params["skillsPossessed"]?.split(',')
             ?.filter(String::isNotBlank) // Filter out empty `&skillsPossessed=`
