@@ -1,33 +1,33 @@
 import React from "react";
 import { StyledSelector } from "../../../components/StyledSelector/StyledSelector";
-import { allSortOrders, SortOrder, sortOrderInfoMap } from "../../../model/sortOrder";
+import { allSortBy, SortBy, sortByInfoMap } from "../../../model/sortBy";
 
 interface Props {
-  value: SortOrder;
-  onChange: (value: SortOrder) => void;
+  value: SortBy;
+  onChange: (value: SortBy) => void;
   id?: string;
 }
 
 interface Option {
-  value: SortOrder;
+  value: SortBy;
   label: React.ReactNode;
 }
 
-const options = allSortOrders.map((it) => ({
+const options = allSortBy.map((it) => ({
   value: it,
   label: (
     <span className="flex items-center">
-      <span>{sortOrderInfoMap[it].friendlyName}</span>
+      <span>{sortByInfoMap[it].friendlyName}</span>
     </span>
   ),
 }));
 
-const sortOrderMap = Object.fromEntries(
+const SortByMap = Object.fromEntries(
   options.map((it) => [it.value, it])
-) as Record<SortOrder, Option>;
+) as Record<SortBy, Option>;
 
 
-export function SortOrderSelector({ id, value, onChange }: Props): React.ReactElement {
+export function SortBySelector({ id, value, onChange }: Props): React.ReactElement {
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `.react-select__single-value {color: white!important;}`}} />
@@ -36,9 +36,9 @@ export function SortOrderSelector({ id, value, onChange }: Props): React.ReactEl
         isMulti={false}
         closeMenuOnSelect={true}
         options={options}
-        value={sortOrderMap[value]}
+        value={SortByMap[value]}
         onChange={(newValue) => onChange(newValue.value)}
       />
-    </>
+      </>
   );
 }
