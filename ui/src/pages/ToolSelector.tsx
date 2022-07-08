@@ -33,6 +33,7 @@ export function ToolSelector({ id, value, onChange }: Props): React.ReactElement
     <StyledSelector
       id={id}
       isMulti={true}
+      closeMenuOnSelect={false}
       options={options}
       value={value.map((it) => optionsMap[it])}
       onChange={(newValue) => onChange(newValue.map((it) => it.value))}
