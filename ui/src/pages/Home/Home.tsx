@@ -84,7 +84,7 @@ export const Home: React.FC = () => {
   const languagesFilter = searchParams.get("languages")?.split(",").filter(isLanguage);
   const toolsFilter = searchParams.get("tools")?.split(",").filter(isTool);
   const availabilityFilter = searchParams.get("availability")?.split(",").filter(isAvailability);
-  const sortOrderFilter = (searchParams.get("sortDir") || "asc") as SortOrder;
+  const sortOrderFilter = (searchParams.get("sortDir") || "desc") as SortOrder;
   const sortByFilter = (searchParams.get("sortBy") || "createdAt") as SortBy;
 
   const searchOptions: SearchOptions = {
@@ -282,7 +282,7 @@ export const Home: React.FC = () => {
       <SortingOptions
         sortByValue={sortByFilter ?? allSortBy[3]}
         sortByOnChange={(newSortOrder) => updateSearchParam("sortBy", newSortOrder)}
-        sortOrderValue={sortOrderFilter ?? allSortOrders[0]}
+        sortOrderValue={sortOrderFilter ?? allSortOrders[1]}
         sortOrderOnChange={(newSortOrder) => updateSearchParam("sortDir", newSortOrder)}
       />
 
