@@ -7,7 +7,6 @@ import cx from "classnames";
 import { useUserInfo } from "../../queries/userInfo";
 import { login } from "../../utils/login";
 import { useMyPostQuery } from "../../queries/my-post";
-import testingBanner from "./testing_banner.png";
 
 const navMenuElementStylingRules =
   "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight";
@@ -57,91 +56,80 @@ export const PageHeader: React.FC = () => {
   }
 
   return (
-    <>
-      <div className="bg-black h-full mx-auto">
-        {/* Static Inline Header */}
-        <div className="flex flex-cols-2 border-b-2">
-          <Link to="/">
-            <img
-              src="/logos/header.png"
-              width={100}
-              alt={"GMTK Game Jam 2022 Team Finder"}
-            />
-          </Link>
-          {shouldShowHorizontalLinks && (
-            <div className="flex items-center">
-              {links.map((link) => (
-                <InlineNavLink key={link.to} linkData={link} />
-              ))}
-            </div>
-          )}
-
-          {/* spacer */}
-          <div className="flex-1" />
-
+    <div className="bg-black h-full mx-auto">
+      {/* Static Inline Header */}
+      <div className="flex flex-cols-2 border-b-2">
+        <Link to="/">
+          <img
+            src="/logos/header.png"
+            width={100}
+            alt={"GMTK Game Jam 2022 Team Finder"}
+          />
+        </Link>
+        {shouldShowHorizontalLinks && (
           <div className="flex items-center">
-            {shouldDisplayLogin ? (
-              <button
-                className={`rounded-lg font-bold mr-4 px-5 py-1 bg-primary ${
-                  userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"
-                }`}
-                onClick={login}
-                disabled={userInfo.isLoading}
-              >
-                {userInfo.isLoading ? "Loading..." : "Log In"}
-              </button>
-            ) : (
-              <p className="mr-4">
-                Welcome {userInfo.data?.username}! (
-                <Link to="/logout" className="cursor-pointer hover:underline">
-                  Click to logout
-                </Link>
-                )
-              </p>
-            )}
-            {!shouldShowHorizontalLinks && (
-              <ShowHideNavButton
-                isNavVisible={isNavVisible}
-                setNavVisibility={setNavVisibility}
-              />
-            )}
-          </div>
-        </div>
-
-        {/* Toggleable navbar */}
-        {/* TODO: Animate navbar visibility? */}
-        {isNavVisible && !shouldShowHorizontalLinks && (
-          <nav
-            className={
-              "fixed w-full bg-black grid grid-cols-1 justify-items-center content-center px-4 py-4"
-            }
-            style={{
-              zIndex: 100,
-            }}
-          >
             {links.map((link) => (
-              <Link
-                key={link.to}
-                className={navMenuElementStylingRules}
-                onClick={() => setNavVisibility(false)}
-                to={link.to}
-              >
-                {link.label}
-              </Link>
+              <InlineNavLink key={link.to} linkData={link} />
             ))}
-          </nav>
+          </div>
         )}
+
+        {/* spacer */}
+        <div className="flex-1" />
+
+        <div className="flex items-center">
+          {shouldDisplayLogin ? (
+            <button
+              className={`rounded-lg font-bold mr-4 px-5 py-1 bg-primary ${
+                userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
+              onClick={login}
+              disabled={userInfo.isLoading}
+            >
+              {userInfo.isLoading ? "Loading..." : "Log In"}
+            </button>
+          ) : (
+            <p className="mr-4">
+              Welcome {userInfo.data?.username}! (
+              <Link to="/logout" className="cursor-pointer hover:underline">
+                Click to logout
+              </Link>
+              )
+            </p>
+          )}
+          {!shouldShowHorizontalLinks && (
+            <ShowHideNavButton
+              isNavVisible={isNavVisible}
+              setNavVisibility={setNavVisibility}
+            />
+          )}
+        </div>
       </div>
-      <div className="flex justify-center">
-        <img
-          src={testingBanner}
-          width={970/2}
-          height={250/2}
-          alt="Testing ends on July 8th"
-          className="rounded-full"
-        />
-      </div>
-    </>
+
+      {/* Toggleable navbar */}
+      {/* TODO: Animate navbar visibility? */}
+      {isNavVisible && !shouldShowHorizontalLinks && (
+        <nav
+          className={
+            "fixed w-full bg-black grid grid-cols-1 justify-items-center content-center px-4 py-4"
+          }
+          style={{
+            zIndex: 100,
+          }}
+        >
+          {links.map((link) => (
+            <Link
+              key={link.to}
+              className={navMenuElementStylingRules}
+              onClick={() => setNavVisibility(false)}
+              to={link.to}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      )}
+    </div>
   );
 };
 
