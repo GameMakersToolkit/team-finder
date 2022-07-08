@@ -38,9 +38,7 @@ class PostService : KoinComponent {
     }
 
     fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem> {
-        // TODO: Set to high value (config?) when running with more Posts in DB
-        val pageSize = 20
-        return col.find(filter).sort(sort).skip((page - 1) * pageSize).limit(pageSize).toList()
+        return col.find(filter).sort(sort).skip((page - 1) * pageSize).toList()
     }
 
     fun getPost(id: String) : PostItem? {
