@@ -103,10 +103,7 @@ fun Application.configurePostRouting() {
                     else ->     ascending(sortByField)
                 }
 
-                // Pagination
-                val page = params["page"]?.toInt() ?: 1
-
-                val posts = service.getPosts(and(getFilterFromParameters(params)), sort, page)
+                val posts = service.getPosts(and(getFilterFromParameters(params)), sort)
 
                 // Set isFavourite on posts for this user if they're logged in
                 call.request.header("Authorization")?.substring(7)
@@ -171,15 +168,12 @@ fun Application.configurePostRouting() {
                         else -> ascending(sortByField)
                     }
 
-                    // Pagination
-                    val page = params["page"]?.toInt() ?: 1
-
                     val favouritesFilters = mutableListOf<Bson>()
                     favourites?.postIds?.forEach {
                         favouritesFilters.add(and(PostItem::id eq it, PostItem::deletedAt eq null))
                     }
 
-                    val posts = service.getPosts(and(or(favouritesFilters), and(getFilterFromParameters(params))), sort, page)
+                    val posts = service.getPosts(and(or(favouritesFilters), and(getFilterFromParameters(params))), sort)
                     posts.map { post -> post.isFavourite = true }
 
                     call.respond(posts)
