@@ -21,6 +21,8 @@ import { LoadingSpinner } from "./components/LoadingSpinner";
 import { useAuth } from "../../utils/AuthContext";
 import { useUserInfo } from "../../queries/userInfo";
 import { toast } from "react-hot-toast";
+import {SortingOptions} from "./components/SortingOptions";
+import {allSortOrders, SortOrder } from "../../model/sortOrder";
 
 export const Home: React.FC = () => {
   const auth = useAuth();
@@ -81,6 +83,7 @@ export const Home: React.FC = () => {
   const languagesFilter = searchParams.get("languages")?.split(",").filter(isLanguage);
   const toolsFilter = searchParams.get("tools")?.split(",").filter(isTool);
   const availabilityFilter = searchParams.get("availability")?.split(",").filter(isAvailability);
+  const sortOrderFilter = (searchParams.get("sortDir") || "asc") as SortOrder;
 
   const searchOptions: SearchOptions = {
     limitToFavourites: shouldLimitToFavourites,
@@ -271,6 +274,11 @@ export const Home: React.FC = () => {
           <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText}/>
         </>
       )}
+
+      <SortingOptions
+        sortOrderValue={sortOrderFilter ?? allSortOrders[0]}
+        sortOrderOnChange={(newSortOrder) => updateSearchParam("sortDir", newSortOrder)}
+      />
 
       <div className="block">
         <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
