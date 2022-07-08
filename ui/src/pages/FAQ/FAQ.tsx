@@ -90,21 +90,20 @@ export const FAQ = () => {
           <FAQImage
             image={teamListImg}
             left={true}
-            question="How do I find teams to join?"
+            question="How do I find jammers to join?"
           >
-            <p>
-              If you are looking for a team to join, use the search tools on <Link className="hover:underline cursor-pointer" to="/my-post">the homepage to find a team.</Link>
+
+            <p>If you are looking for a team to join or for someone to join your team, use the search tools on
+              <Link className="hover:underline cursor-pointer" to="/my-post">the homepage</Link> to find other jammers!
             </p>
-            <p>
-              You can scroll through the list of teams that other jammers have
-              posted and filter them according to what skills they are looking
-              for.
-            </p>
-            <p>
-              Once you find a team that looks good, click the &quot;Message on
-              Discord&quot; button and a window will open to their Discord
-              profile where you can contact them.
-            </p>
+
+            <p>You can scroll through the list of posts that other jammers have made and filter
+              them according to what skills they/you are looking for.</p>
+
+            <p>Once you find a person or team that looks good, click the &quot;Message on Discord&quot; button and a window
+              will open to their Discord profile where you can contact them! Keep in mind that you need to be logged in
+              via your Discord on the Team Finder, otherwise the site won&apos;t know how to pair you up!</p>
+
             <p className="font-bold">
               Keep in mind that you need to be a member of the{" "}
               <Link className="hover:underline cursor-pointer" to={`/${discordInviteUrl}`}>GMTK Discord server</Link>{" "}
