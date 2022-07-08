@@ -95,12 +95,12 @@ fun Application.configurePostRouting() {
 
                 // Sorting
                 // TODO: Error handling
-                val sortByFieldName = params["sortBy"] ?: "id"
+                val sortByFieldName = params["sortBy"] ?: "createdAt"
                 val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
                 val sort = when(params["sortDir"].toString()) {
                     "asc" ->    ascending(sortByField)
                     "desc" ->   descending(sortByField)
-                    else ->     ascending(sortByField)
+                    else ->     descending(sortByField)
                 }
 
                 val posts = service.getPosts(and(getFilterFromParameters(params)), sort)
@@ -160,12 +160,12 @@ fun Application.configurePostRouting() {
 
                     // Sorting
                     // TODO: Error handling
-                    val sortByFieldName = params["sortBy"] ?: "id"
+                    val sortByFieldName = params["sortBy"] ?: "createdAt"
                     val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
                     val sort = when (params["sortDir"].toString()) {
                         "asc" -> ascending(sortByField)
                         "desc" -> descending(sortByField)
-                        else -> ascending(sortByField)
+                        else -> descending(sortByField)
                     }
 
                     val favouritesFilters = mutableListOf<Bson>()
