@@ -137,7 +137,7 @@ const ReportButton: React.FC<{ post: Post }> = ({
     const auth = useAuth();
     const reportPostMutation = useReportPostMutation();
 
-    const onClick = (e) => {
+    const onClick = (e: MouseEvent) => {
         e.preventDefault();
 
         reportPostMutation.mutate({
