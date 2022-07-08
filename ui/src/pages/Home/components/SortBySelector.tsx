@@ -37,7 +37,7 @@ export function SortBySelector({ id, value, onChange }: Props): React.ReactEleme
         closeMenuOnSelect={true}
         options={options}
         value={SortByMap[value]}
-        onChange={(newValue) => onChange(newValue.value)}
+        onChange={(newValue) => newValue && onChange(newValue.value)}
       />
       </>
   );
