@@ -32,6 +32,7 @@ export function LanguageSelector({ id, value, onChange }: Props): React.ReactEle
     <StyledSelector
       id={id}
       isMulti={true}
+      closeMenuOnSelect={false}
       options={options}
       value={value.map((it) => languagesMap[it])}
       onChange={(newValue) => onChange(newValue.map((it) => it.value))}
