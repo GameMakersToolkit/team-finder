@@ -37,14 +37,6 @@ const modalStyles: Styles = {
   },
 };
 
-const onReportPost = (post: Post) => {
-    apiRequest("/posts/report", {
-        logout: function (): void {
-            throw new Error('Function not implemented.');
-        }
-    }, {method: "POST", body: {id: post.id}})
-};
-
 export const PostModal: React.FC<Props> = ({
   post,
   isModalOpen,
