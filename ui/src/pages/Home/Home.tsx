@@ -24,6 +24,7 @@ import { toast } from "react-hot-toast";
 import { SortingOptions } from "./components/SortingOptions";
 import { allSortOrders, SortOrder } from "../../model/sortOrder";
 import { allSortBy, SortBy } from "../../model/sortBy";
+import { SearchMode, SearchModeSelector } from "./components/SearchModeSelector";
 
 export const Home: React.FC = () => {
   const auth = useAuth();
@@ -84,8 +85,12 @@ export const Home: React.FC = () => {
   const languagesFilter = searchParams.get("languages")?.split(",").filter(isLanguage);
   const toolsFilter = searchParams.get("tools")?.split(",").filter(isTool);
   const availabilityFilter = searchParams.get("availability")?.split(",").filter(isAvailability);
+
+  // I know these aren't filters, just keeping the naming convention for now
   const sortOrderFilter = (searchParams.get("sortDir") || "desc") as SortOrder;
   const sortByFilter = (searchParams.get("sortBy") || "createdAt") as SortBy;
+  const skillsPossessedSearchModeFilter = (searchParams.get("skillsPossessedSearchMode") || "and") as SearchMode;
+  const skillsSoughtSearchModeFilter = (searchParams.get("skillsSoughtSearchMode") || "and") as SearchMode;
 
   const searchOptions: SearchOptions = {
     limitToFavourites: shouldLimitToFavourites,
@@ -98,6 +103,8 @@ export const Home: React.FC = () => {
     timezones: searchParams.get("timezones") || undefined,
     sortDir: sortOrderFilter,
     sortBy: sortByFilter,
+    skillsPossessedSearchMode: skillsPossessedSearchModeFilter,
+    skillsSoughtSearchMode: skillsSoughtSearchModeFilter,
   };
 
   const query = usePostsList(searchOptions);
@@ -187,35 +194,59 @@ export const Home: React.FC = () => {
 
       {showAdvancedSearchOptions && (
         <>
-          <div className="mt-2 lg:w-1/2">
-            <label className="font-bold block" htmlFor="toolsFilter">
-              Preferred Engine(s):
-            </label>
-            <ToolSelector
-              id="toolsFilter"
-              value={toolsFilter ?? []}
-              onChange={(newList) => {
-                updateSearchParam(
-                  "tools",
-                  newList.length ? newList.join(",") : null
-                );
-              }}
-            />
+          <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 mt-2">
+            <div>
+              <label className="font-bold block" htmlFor="toolsFilter">
+                Preferred Engine(s):
+              </label>
+              <ToolSelector
+                id="toolsFilter"
+                value={toolsFilter ?? []}
+                onChange={(newList) => {
+                  updateSearchParam(
+                    "tools",
+                    newList.length ? newList.join(",") : null
+                  );
+                }}
+              />
+            </div>
+            <div>
+              <label className="font-bold block" htmlFor="toolsFilter">
+                Language(s):
+              </label>
+              <LanguageSelector
+                id="languagesFilter"
+                value={languagesFilter ?? []}
+                onChange={(newList) => {
+                  updateSearchParam(
+                    "languages",
+                    newList.length ? newList.join(",") : null
+                  );
+                }}
+              />
+            </div>
           </div>
-          <div className="mt-2 lg:w-1/2">
-            <label className="font-bold block" htmlFor="toolsFilter">
-              Language(s):
-            </label>
-            <LanguageSelector
-              id="languagesFilter"
-              value={languagesFilter ?? []}
-              onChange={(newList) => {
-                updateSearchParam(
-                  "languages",
-                  newList.length ? newList.join(",") : null
-                );
-              }}
-            />
+          <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 mt-4">
+            <div>
+              <label className="font-bold block" htmlFor="skillsPossessedSearchModeSelector">
+                When searching for skills you need:
+              </label>
+              <SearchModeSelector
+                id="skillsPossessedSearchModeSelector"
+                value={skillsPossessedSearchModeFilter ?? "and"}
+                onChange={(newSearchMode) => updateSearchParam("skillsPossessedSearchMode", newSearchMode)}
+              />
+            </div>
+            <div>
+              <label className="font-bold block" htmlFor="skillsSoughtSearchModeSelector">
+                When searching for skills you are have:
+              </label>
+              <SearchModeSelector
+                id="skillsSoughtSearchModeSelector"
+                value={skillsSoughtSearchModeFilter ?? "and"}
+                onChange={(newSearchMode) => updateSearchParam("skillsSoughtSearchMode", newSearchMode)}
+              />
+            </div>
           </div>
           <div className="mt-4">
             <span className="mb-2 block sm:inline md:inline lg:inline">

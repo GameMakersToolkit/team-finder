@@ -17,6 +17,7 @@ import { Skill } from "../model/skill";
 import { Tool } from "../model/tool";
 import { toQueryString, useApiRequest } from "../utils/apiRequest";
 import { sortArrayImmutably } from "../utils/fns";
+import {SearchMode} from "../pages/Home/components/SearchModeSelector";
 
 export type SortByOption = keyof Post;
 export interface SearchOptions {
@@ -30,6 +31,8 @@ export interface SearchOptions {
   timezones?: string;
   sortBy?: SortByOption;
   sortDir?: "asc" | "desc";
+  skillsPossessedSearchMode?: SearchMode;
+  skillsSoughtSearchMode?: SearchMode;
 }
 
 type PostsListQueryKey = ["posts", "list", SearchOptions];
