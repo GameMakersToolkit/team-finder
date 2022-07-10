@@ -16,13 +16,13 @@ data class PostItem (
     var description: String,
     var size: Int,
 
-    var skillsPossessed: List<Skills>?,
-    var skillsSought: List<Skills>?,
+    var skillsPossessed: Set<Skills>?,
+    var skillsSought: Set<Skills>?,
 
-    var preferredTools: List<Tools>?,
+    var preferredTools: Set<Tools>?,
     var availability: Availability,
-    var timezoneOffsets: List<Int>,
-    var languages: List<String>,
+    var timezoneOffsets: Set<Int>,
+    var languages: Set<String>,
 
     var reportCount: Int,
 
