@@ -46,7 +46,7 @@ data class PostItem (
                 dto.skillsSought,
                 dto.preferredTools,
                 dto.availability,
-                dto.timezoneOffsets,
+                dto.timezoneOffsets.filter { it >= -12 && it <= 12 }.toSet(),
                 dto.languages,
                 0,
                 currentDatetime,

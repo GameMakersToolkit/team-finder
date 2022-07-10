@@ -137,6 +137,7 @@ fun Application.configurePostRouting() {
                     authService.getTokenSet(id)
                         ?.let {
                             data.authorId = it.discordId  // TODO: What about author name?
+                            data.timezoneOffsets = data.timezoneOffsets.filter { tz -> tz >= -12 && tz <= 12 }.toSet()
                             if (service.getPostByAuthorId(it.discordId) != null) {
                                 return@post call.respondJSON("Cannot have duplicate posts", status = HttpStatusCode.BadRequest)
                             }
@@ -211,7 +212,7 @@ fun Application.configurePostRouting() {
                                 it.skillsSought = data.skillsSought ?: it.skillsSought
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
                                 it.availability = data.availability ?: it.availability
-                                it.timezoneOffsets = data.timezoneOffsets ?: it.timezoneOffsets
+                                it.timezoneOffsets = (data.timezoneOffsets ?: it.timezoneOffsets).filter { tz -> tz >= -12 && tz <= 12 }.toSet()
 
                                 service.updatePost(it)
                                 return@put call.respond(it)
