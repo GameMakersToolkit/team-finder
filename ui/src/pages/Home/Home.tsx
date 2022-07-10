@@ -143,6 +143,14 @@ export const Home: React.FC = () => {
               );
             }}
           />
+          <div className="mt-2">
+            <SearchModeSelector
+              id="skillsPossessedSearchModeSelector"
+              value={skillsPossessedSearchModeFilter ?? "and"}
+              className="py-1 text-sm"
+              onChange={(newSearchMode) => updateSearchParam("skillsPossessedSearchMode", newSearchMode)}
+            />
+          </div>
         </div>
         <div className="mt-2">
           <label className="font-bold block" htmlFor="skillsSoughtFilter">
@@ -158,6 +166,15 @@ export const Home: React.FC = () => {
               );
             }}
           />
+
+          <div className="mt-2">
+            <SearchModeSelector
+              id="skillsSoughtSearchModeSelector"
+              value={skillsSoughtSearchModeFilter ?? "and"}
+              className="py-1 text-sm"
+              onChange={(newSearchMode) => updateSearchParam("skillsSoughtSearchMode", newSearchMode)}
+            />
+          </div>
         </div>
       </div>
 
@@ -223,28 +240,6 @@ export const Home: React.FC = () => {
                     newList.length ? newList.join(",") : null
                   );
                 }}
-              />
-            </div>
-          </div>
-          <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 mt-4">
-            <div>
-              <label className="font-bold block" htmlFor="skillsPossessedSearchModeSelector">
-                When searching for skills you need:
-              </label>
-              <SearchModeSelector
-                id="skillsPossessedSearchModeSelector"
-                value={skillsPossessedSearchModeFilter ?? "and"}
-                onChange={(newSearchMode) => updateSearchParam("skillsPossessedSearchMode", newSearchMode)}
-              />
-            </div>
-            <div>
-              <label className="font-bold block" htmlFor="skillsSoughtSearchModeSelector">
-                When searching for skills you are have:
-              </label>
-              <SearchModeSelector
-                id="skillsSoughtSearchModeSelector"
-                value={skillsSoughtSearchModeFilter ?? "and"}
-                onChange={(newSearchMode) => updateSearchParam("skillsSoughtSearchMode", newSearchMode)}
               />
             </div>
           </div>
