@@ -16,6 +16,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import org.bson.conversions.Bson
 import org.litote.kmongo.*
+import kotlin.math.min
 import kotlin.reflect.full.memberProperties
 import kotlin.text.Regex.Companion.escape
 
@@ -136,6 +137,7 @@ fun Application.configurePostRouting() {
                     authService.getTokenSet(id)
                         ?.let {
                             data.authorId = it.discordId  // TODO: What about author name?
+                            data.timezoneOffsets = data.timezoneOffsets.filter { tz -> tz >= -12 && tz <= 12 }.toSet()
                             if (service.getPostByAuthorId(it.discordId) != null) {
                                 return@post call.respondJSON("Cannot have duplicate posts", status = HttpStatusCode.BadRequest)
                             }
@@ -205,12 +207,12 @@ fun Application.configurePostRouting() {
                                 // FIXME: Don't just brute force update all given fields
                                 it.author = data.author ?: it.author // We don't expect user to change, but track username updates
                                 it.description = data.description ?: it.description
-                                it.size = data.size ?: it.size
+                                it.size = min(data.size ?: it.size, 20) // Limit team sizes to 20 people
                                 it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
                                 it.skillsSought = data.skillsSought ?: it.skillsSought
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
                                 it.availability = data.availability ?: it.availability
-                                it.timezoneOffsets = data.timezoneOffsets ?: it.timezoneOffsets
+                                it.timezoneOffsets = (data.timezoneOffsets ?: it.timezoneOffsets).filter { tz -> tz >= -12 && tz <= 12 }.toSet()
 
                                 service.updatePost(it)
                                 return@put call.respond(it)
