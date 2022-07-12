@@ -35,17 +35,21 @@ fun Application.configurePostRouting() {
             // The regex is the easiest way to check if a description contains a given substring
             ?.forEach { filters.add(PostItem::description regex escape(it).toRegex(RegexOption.IGNORE_CASE)) }
 
+        val skillsPossessedSearchMode = params["skillsPossessedSearchMode"] ?: "and"
         params["skillsPossessed"]?.split(',')
             ?.filter(String::isNotBlank) // Filter out empty `&skillsPossessed=`
             ?.mapNotNull { enumFromStringSafe<Skills>(it) }
             ?.map { PostItem::skillsPossessed contains it }
-            ?.let(filters::addAll)
+            ?.let { if (skillsPossessedSearchMode == "and") and(it) else or(it) }
+            ?.let(filters::add)
 
+        val skillsSoughtSearchMode = params["skillsSoughtSearchMode"] ?: "and"
         params["skillsSought"]?.split(',')
             ?.filter(String::isNotBlank) // Filter out empty `&skillsSought=`
             ?.mapNotNull { enumFromStringSafe<Skills>(it) }
             ?.map { PostItem::skillsSought contains it }
-            ?.let(filters::addAll)
+            ?.let { if (skillsSoughtSearchMode == "and") and(it) else or(it) }
+            ?.let(filters::add)
 
         params["tools"]?.split(',')
             ?.filter(String::isNotBlank) // Filter out empty `&skillsSought=`
