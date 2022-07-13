@@ -31,6 +31,8 @@ export const PostPreview: React.FC<Props> = ({
   const deletePostMutation = useDeletePost();
   const banUserMutation = useBanUser();
 
+  const description = post.description.length > 210 ? post.description.substring(0, 207) + "..." : post.description
+
   return (
     <article
       id={"post-" + post.id}
@@ -52,11 +54,9 @@ export const PostPreview: React.FC<Props> = ({
         className="[--skill-color:theme(colors.accent2)]"
         showText={showSkillText}
       />
-      <p className="break-words" style={{wordBreak: "break-word"}}>
-        {post.description.length <= 210
-          ? post.description
-          : post.description.substring(0, 210) + "..."}
-      </p>
+      <div className="break-words" style={{wordBreak: "break-word"}}>
+        {description.split("\n").map(line => <p className="mb-1">{line}</p>)}
+      </div>
 
       <PostModal
         post={post}
