@@ -118,7 +118,10 @@ export const PostModal: React.FC<Props> = ({
           Timezones:{' '}
           {post.timezoneOffsets.map((t) => timezoneOffsetFromInt(t)).join(', ')}
         </p>
-        <p className="mb-16 mt-4 break-words" style={{wordBreak: "break-word"}}>{post.description}</p>
+
+        <div className="mb-16 mt-4 break-words" style={{wordBreak: "break-word"}}>
+          {post.description.split("\n").map(line => <p className="mb-1">{line}</p>)}
+        </div>
       </div>
 
       <MessageOnDiscordButton
