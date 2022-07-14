@@ -239,7 +239,7 @@ export const Home: React.FC = () => {
             </div>
             <div>
               <label className="font-bold block" htmlFor="skillsSoughtSearchModeSelector">
-                When searching for skills you are have:
+                When searching for skills you have:
               </label>
               <SearchModeSelector
                 id="skillsSoughtSearchModeSelector"
