@@ -6,13 +6,13 @@ import com.gmtkgamejam.models.BotDmDto
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.toJsonElement
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.auth.jwt.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -35,7 +35,7 @@ fun Application.configureDiscordBotRouting() {
     val userRateLimitTimeOutInSeconds = Config.getString("bot.userRateLimit").toLong()
 
     // User A can't ping User B more than once per X seconds
-     val perUserTimeoutInSeconds = Config.getString("bot.perRecipientRateLimit").toLong()
+    val perUserTimeoutInSeconds = Config.getString("bot.perRecipientRateLimit").toLong()
 
     fun canUserSendMessage(userId: String): Boolean {
         val currentDateTime = LocalDateTime.now()
@@ -61,17 +61,26 @@ fun Application.configureDiscordBotRouting() {
                     val principal = call.principal<JWTPrincipal>()!!
                     val id = principal.payload.getClaim("id").asString()
 
-                    val tokenSet = authService.getTokenSet(id) ?: return@post call.respondJSON("Your request couldn't be authorised", status = HttpStatusCode.Unauthorized)
+                    val tokenSet = authService.getTokenSet(id) ?: return@post call.respondJSON(
+                        "Your request couldn't be authorised",
+                        status = HttpStatusCode.Unauthorized
+                    )
 
                     val senderId = tokenSet.discordId
                     val recipientId = data.recipientId
 
                     if (!canUserSendMessageToThisUser(senderId, recipientId)) {
-                        return@post call.respondJSON("You can't message a single user again so quickly", status = HttpStatusCode.TooManyRequests)
+                        return@post call.respondJSON(
+                            "You can't message a single user again so quickly",
+                            status = HttpStatusCode.TooManyRequests
+                        )
                     }
 
-                    if (!canUserSendMessage(senderId)){
-                        return@post call.respondJSON("You are sending too many messages - please wait a few minutes and try again", status = HttpStatusCode.TooManyRequests)
+                    if (!canUserSendMessage(senderId)) {
+                        return@post call.respondJSON(
+                            "You are sending too many messages - please wait a few minutes and try again",
+                            status = HttpStatusCode.TooManyRequests
+                        )
                     }
 
                     try {
@@ -84,7 +93,10 @@ fun Application.configureDiscordBotRouting() {
                         return@post call.respond(it)
                     } catch (ex: Exception) {
                         logger.error("Could not create ping message: $ex")
-                        return@post call.respondJSON("This message could not be sent, please inform the Team Finder Support group in Discord", status = HttpStatusCode.NotAcceptable)
+                        return@post call.respondJSON(
+                            "This message could not be sent, please inform the Team Finder Support group in Discord",
+                            status = HttpStatusCode.NotAcceptable
+                        )
                     }
                 }
 

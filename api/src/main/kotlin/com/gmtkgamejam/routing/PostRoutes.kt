@@ -7,13 +7,13 @@ import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
 import com.gmtkgamejam.services.PostService
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.auth.jwt.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import org.bson.conversions.Bson
 import org.litote.kmongo.*
 import kotlin.math.min
@@ -75,22 +75,22 @@ fun Application.configurePostRouting() {
             val timezoneStart: Int = timezoneRange[0].toInt()
             val timezoneEnd: Int = timezoneRange[1].toInt()
 
-                    val timezones: MutableList<Int> = mutableListOf<Int>()
-                    if (timezoneStart < timezoneEnd) {
-                        // UTC-2 -> UTC+2 should be: [-2, -1, 0, 1, 2]
-                        timezones.addAll((timezoneStart..timezoneEnd))
-                    } else {
-                        // UTC+9 -> UTC-9 should be: [9, 10, 11, 12, -12, -11, -10, -9]
-                        timezones.addAll((timezoneStart..12))
-                        timezones.addAll((-12..timezoneEnd))
-                    }
+            val timezones: MutableList<Int> = mutableListOf<Int>()
+            if (timezoneStart < timezoneEnd) {
+                // UTC-2 -> UTC+2 should be: [-2, -1, 0, 1, 2]
+                timezones.addAll((timezoneStart..timezoneEnd))
+            } else {
+                // UTC+9 -> UTC-9 should be: [9, 10, 11, 12, -12, -11, -10, -9]
+                timezones.addAll((timezoneStart..12))
+                timezones.addAll((-12..timezoneEnd))
+            }
 
-                    // Add all timezone searches as eq checks
-                    // It's brute force, but easier to confirm
-                    timezones
-                        .map { PostItem::timezoneOffsets contains it }
-                        .let { filters.add(or(it)) }
-                }
+            // Add all timezone searches as eq checks
+            // It's brute force, but easier to confirm
+            timezones
+                .map { PostItem::timezoneOffsets contains it }
+                .let { filters.add(or(it)) }
+        }
 
         return filters
     }
@@ -104,10 +104,10 @@ fun Application.configurePostRouting() {
                 // TODO: Error handling
                 val sortByFieldName = params["sortBy"] ?: "createdAt"
                 val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
-                val sort = when(params["sortDir"].toString()) {
-                    "asc" ->    ascending(sortByField)
-                    "desc" ->   descending(sortByField)
-                    else ->     descending(sortByField)
+                val sort = when (params["sortDir"].toString()) {
+                    "asc" -> ascending(sortByField)
+                    "desc" -> descending(sortByField)
+                    else -> descending(sortByField)
                 }
 
                 val posts = service.getPosts(and(getFilterFromParameters(params)), sort)
@@ -143,11 +143,14 @@ fun Application.configurePostRouting() {
                             data.authorId = it.discordId  // TODO: What about author name?
                             data.timezoneOffsets = data.timezoneOffsets.filter { tz -> tz >= -12 && tz <= 12 }.toSet()
                             if (service.getPostByAuthorId(it.discordId) != null) {
-                                return@post call.respondJSON("Cannot have duplicate posts", status = HttpStatusCode.BadRequest)
+                                return@post call.respondJSON(
+                                    "Cannot have duplicate posts",
+                                    status = HttpStatusCode.BadRequest
+                                )
                             }
                         }
                         ?.let { PostItem.fromCreateDto(data) }
-                        ?.let {  service.createPost(it) }
+                        ?.let { service.createPost(it) }
                         ?.let { return@post call.respond(it) }
 
                     call.respondJSON("Post could not be created", status = HttpStatusCode.NotFound)
@@ -209,14 +212,17 @@ fun Application.configurePostRouting() {
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let {
                                 // FIXME: Don't just brute force update all given fields
-                                it.author = data.author ?: it.author // We don't expect user to change, but track username updates
+                                it.author = data.author
+                                    ?: it.author // We don't expect user to change, but track username updates
                                 it.description = data.description ?: it.description
                                 it.size = min(data.size ?: it.size, 20) // Limit team sizes to 20 people
                                 it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
                                 it.skillsSought = data.skillsSought ?: it.skillsSought
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
                                 it.availability = data.availability ?: it.availability
-                                it.timezoneOffsets = (data.timezoneOffsets ?: it.timezoneOffsets).filter { tz -> tz >= -12 && tz <= 12 }.toSet()
+                                it.timezoneOffsets =
+                                    (data.timezoneOffsets ?: it.timezoneOffsets).filter { tz -> tz >= -12 && tz <= 12 }
+                                        .toSet()
 
                                 service.updatePost(it)
                                 return@put call.respond(it)

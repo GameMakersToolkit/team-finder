@@ -5,12 +5,13 @@ val logback_version: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.5.30"
-    kotlin("plugin.serialization") version "1.5.21"
+    kotlin("jvm") version "1.7.10"
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 group = "com.gmtkgamejam"
-version = "0.0.1"
+version = "1.0.1"
+
 application {
     mainClass.set("com.gmtkgamejam.ApplicationKt")
 }
@@ -18,15 +19,8 @@ application {
 repositories {
     mavenCentral()
 }
+
 dependencies {
-    implementation("io.ktor:ktor-server-core:$ktor_version")
-    implementation("io.ktor:ktor-server-netty:$ktor_version")
-    implementation("io.ktor:ktor-auth:$ktor_version")
-    implementation("io.ktor:ktor-serialization:$ktor_version")
-    implementation("io.ktor:ktor-client-core:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
-    implementation("io.ktor:ktor-client-serialization:$ktor_version")
-    implementation("io.ktor:ktor-auth-jwt:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
     // Logging support for Javacord
@@ -36,11 +30,31 @@ dependencies {
     implementation("io.insert-koin:koin-ktor:$koin_version")
 
     // DB
-    implementation("org.litote.kmongo:kmongo:4.2.8")
+    implementation("org.litote.kmongo:kmongo:4.6.1")
 
     // Discord bot
     implementation("org.javacord:javacord:3.4.0")
 
-    testImplementation("io.ktor:ktor-server-tests:$ktor_version")
+    // Ktor server core, auth, etc
+    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-auth-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-cors:$ktor_version")
+
+    // Ktor core for making web requests
+    implementation("io.ktor:ktor-client-core-jvm:$ktor_version")
+    implementation("io.ktor:ktor-client-cio-jvm:$ktor_version")
+
+    // Ktor serialisation
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    // HTTP serialisation for HttpClient making external requests
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-client-content-negotiation-jvm:$ktor_version")
+    // HTTP serialisation for receiving requests from the front end
+    implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
+    testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
 }

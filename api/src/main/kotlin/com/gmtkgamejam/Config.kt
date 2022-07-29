@@ -1,6 +1,6 @@
 package com.gmtkgamejam
 
-import io.ktor.config.*
+import io.ktor.server.config.*
 
 // Use object to make Config a singleton reference
 // I truly hate that Ktor makes me do this

@@ -2,15 +2,17 @@ package com.gmtkgamejam.discord
 
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
+import kotlinx.serialization.json.Json
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 
 fun discordHttpClient(): HttpClient {
     return HttpClient(CIO) {
-        install(JsonFeature) {
-            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
-                isLenient = true
+        install(ContentNegotiation) {
+            json(Json {
                 ignoreUnknownKeys = true
+                isLenient = true
+                prettyPrint = true
             })
         }
     }
