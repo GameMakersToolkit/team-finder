@@ -8,12 +8,12 @@ import com.gmtkgamejam.discord.refreshTokenAsync
 import com.gmtkgamejam.models.UserInfo
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.auth.jwt.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

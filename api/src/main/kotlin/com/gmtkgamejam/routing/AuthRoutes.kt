@@ -6,10 +6,10 @@ import com.gmtkgamejam.Config
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.models.AuthTokenSet
 import com.gmtkgamejam.services.AuthService
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import java.security.SecureRandom
 import java.util.*
 
@@ -41,7 +41,14 @@ fun Application.configureAuthRouting() {
 
                 call.principal<OAuthAccessTokenResponse.OAuth2>()?.let {
                     val user = getUserInfoAsync(it.accessToken)
-                    val tokenSet = AuthTokenSet(randomId, user.id, it.accessToken, it.tokenType, Date(System.currentTimeMillis() + it.expiresIn), it.refreshToken)
+                    val tokenSet = AuthTokenSet(
+                        randomId,
+                        user.id,
+                        it.accessToken,
+                        it.tokenType,
+                        Date(System.currentTimeMillis() + it.expiresIn),
+                        it.refreshToken
+                    )
                     service.storeTokenSet(tokenSet)
 
                     val redirectTarget = Config.getString("ui.host")
@@ -52,7 +59,7 @@ fun Application.configureAuthRouting() {
     }
 }
 
-fun getSecureId() : String {
+fun getSecureId(): String {
     // Arbitrary array size, but inflated to give overflow in case byte->string encoding drops any characters
     val bytes = ByteArray(64)
     SecureRandom().nextBytes(bytes)
