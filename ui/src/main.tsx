@@ -18,12 +18,12 @@ ReactDOM.render(
   <React.StrictMode>
     <Context>
       <React.Suspense fallback={null}>
-        {/*<PageHeader />*/}
+        <PageHeader />
         <AppRoutes />
-        {/*<Toaster*/}
-        {/*  position="bottom-center"*/}
-        {/*  reverseOrder={false}*/}
-        {/*/>*/}
+        <Toaster
+          position="bottom-center"
+          reverseOrder={false}
+        />
       </React.Suspense>
       <ReactQueryDevtools />
     </Context>
