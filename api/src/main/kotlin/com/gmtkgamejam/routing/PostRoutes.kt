@@ -134,11 +134,9 @@ fun Application.configurePostRouting() {
             authenticate("auth-jwt") {
 
                 post {
-                    val principal = call.principal<JWTPrincipal>()!!
-                    val id = principal.payload.getClaim("id").asString()
-
                     val data = call.receive<PostItemCreateDto>()
-                    authService.getTokenSet(id)
+
+                    authService.getTokenSet(call)
                         ?.let {
                             data.authorId = it.discordId  // TODO: What about author name?
                             data.timezoneOffsets = data.timezoneOffsets.filter { tz -> tz >= -12 && tz <= 12 }.toSet()
@@ -158,10 +156,8 @@ fun Application.configurePostRouting() {
 
                 get("favourites") {
                     val params = call.parameters
-                    val principal = call.principal<JWTPrincipal>()!!
-                    val id = principal.payload.getClaim("id").asString()
 
-                    val favourites = authService.getTokenSet(id)
+                    val favourites = authService.getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
 
                     // Exit early if the user don't have any favourites set
@@ -180,7 +176,7 @@ fun Application.configurePostRouting() {
                     }
 
                     val favouritesFilters = mutableListOf<Bson>()
-                    favourites?.postIds?.forEach {
+                    favourites.postIds.forEach {
                         favouritesFilters.add(and(PostItem::id eq it, PostItem::deletedAt eq null))
                     }
 
@@ -192,10 +188,7 @@ fun Application.configurePostRouting() {
 
                 route("/mine") {
                     get {
-                        val principal = call.principal<JWTPrincipal>()!!
-                        val id = principal.payload.getClaim("id").asString()
-
-                        authService.getTokenSet(id)
+                        authService.getTokenSet(call)
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let { return@get call.respond(it) }
 
@@ -203,12 +196,9 @@ fun Application.configurePostRouting() {
                     }
 
                     put {
-                        val principal = call.principal<JWTPrincipal>()!!
-                        val id = principal.payload.getClaim("id").asString()
-
                         val data = call.receive<PostItemUpdateDto>()
 
-                        authService.getTokenSet(id)
+                        authService.getTokenSet(call)
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let {
                                 // FIXME: Don't just brute force update all given fields
@@ -233,13 +223,7 @@ fun Application.configurePostRouting() {
                     }
 
                     delete {
-                        // TODO: Should this DTO exist at all? No data being used.
-                        val data = call.receive<PostItemDeleteDto>()
-
-                        val principal = call.principal<JWTPrincipal>()!!
-                        val id = principal.payload.getClaim("id").asString()
-
-                        authService.getTokenSet(id)
+                        authService.getTokenSet(call)
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let {
                                 service.deletePost(it)

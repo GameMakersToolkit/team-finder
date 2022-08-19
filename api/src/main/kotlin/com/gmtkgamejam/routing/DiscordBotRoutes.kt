@@ -58,10 +58,8 @@ fun Application.configureDiscordBotRouting() {
             route("/bot") {
                 post("/dm") {
                     val data = call.receive<BotDmDto>()
-                    val principal = call.principal<JWTPrincipal>()!!
-                    val id = principal.payload.getClaim("id").asString()
 
-                    val tokenSet = authService.getTokenSet(id) ?: return@post call.respondJSON(
+                    val tokenSet = authService.getTokenSet(call) ?: return@post call.respondJSON(
                         "Your request couldn't be authorised",
                         status = HttpStatusCode.Unauthorized
                     )
