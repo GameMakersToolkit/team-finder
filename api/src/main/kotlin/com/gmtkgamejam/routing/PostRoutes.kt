@@ -95,22 +95,22 @@ fun Application.configurePostRouting() {
         return filters
     }
 
+    fun getSortFromParameters(params: Parameters): Bson {
+        val sortByFieldName = params["sortBy"] ?: "createdAt"
+        val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
+        return when (params["sortDir"].toString()) {
+            "asc" -> ascending(sortByField)
+            "desc" -> descending(sortByField)
+            else -> descending(sortByField)
+        }
+    }
+
     routing {
         route("/posts") {
             get {
                 val params = call.parameters
 
-                // Sorting
-                // TODO: Error handling
-                val sortByFieldName = params["sortBy"] ?: "createdAt"
-                val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
-                val sort = when (params["sortDir"].toString()) {
-                    "asc" -> ascending(sortByField)
-                    "desc" -> descending(sortByField)
-                    else -> descending(sortByField)
-                }
-
-                val posts = service.getPosts(and(getFilterFromParameters(params)), sort)
+                val posts = service.getPosts(and(getFilterFromParameters(params)), getSortFromParameters(params))
 
                 // Set isFavourite on posts for this user if they're logged in
                 call.request.header("Authorization")?.substring(7)
@@ -165,22 +165,18 @@ fun Application.configurePostRouting() {
                         return@get call.respond(emptyList<PostItem>())
                     }
 
-                    // Sorting
-                    // TODO: Error handling
-                    val sortByFieldName = params["sortBy"] ?: "createdAt"
-                    val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
-                    val sort = when (params["sortDir"].toString()) {
-                        "asc" -> ascending(sortByField)
-                        "desc" -> descending(sortByField)
-                        else -> descending(sortByField)
-                    }
-
                     val favouritesFilters = mutableListOf<Bson>()
                     favourites.postIds.forEach {
                         favouritesFilters.add(and(PostItem::id eq it, PostItem::deletedAt eq null))
                     }
 
-                    val posts = service.getPosts(and(or(favouritesFilters), and(getFilterFromParameters(params))), sort)
+                    val posts = service.getPosts(
+                        and(
+                            or(favouritesFilters),
+                            and(getFilterFromParameters(params))
+                        ),
+                        getSortFromParameters(params)
+                    )
                     posts.map { post -> post.isFavourite = true }
 
                     call.respond(posts)
