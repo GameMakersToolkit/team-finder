@@ -55,7 +55,7 @@ export const PostPreview: React.FC<Props> = ({
         showText={showSkillText}
       />
       <div className="break-words" style={{wordBreak: "break-word"}}>
-        {description.split("\n").map(line => <p className="mb-1">{line}</p>)}
+        {description.split("\n").map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
       </div>
 
       <PostModal

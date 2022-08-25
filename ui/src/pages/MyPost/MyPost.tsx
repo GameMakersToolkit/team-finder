@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Button } from "../../components/Button";
 import {
-  DeleteMyPostMutationVariables,
-  MyPostMutationVariables,
   useDeleteMyPostMutation,
   useMyPostMutation,
   useMyPostQuery
@@ -22,7 +20,6 @@ import { TimezoneOffsetSelector} from "../../components/TimezoneOffsetSelector";
 import { TimezoneOffset, timezoneOffsetFromInt } from "../../model/timezone";
 import { useAuth } from "../../utils/AuthContext";
 import { toast } from "react-hot-toast";
-import { Post } from "../../model/post";
 
 interface FormState {
   description: string;
@@ -41,12 +38,12 @@ export const MyPost: React.FC = () => {
   const myPostQuery = useMyPostQuery();
   const userInfo = useUserInfo();
 
-  const onSubmitSuccess = (data: Post, variables: MyPostMutationVariables, context: any) => {
+  const onSubmitSuccess = () => {
     const createdOrUpdatedStr = myPostQuery?.data ? "updated" : "created";
     toast.success(`Post ${createdOrUpdatedStr} successfully!`);
   }
 
-  const onDeleteSuccess = (data: Post, variables: DeleteMyPostMutationVariables, context: any) => {
+  const onDeleteSuccess = () => {
     toast.success(`Post deleted successfully!`);
     setTimeout(() => window.location.reload(), 200);
   }

@@ -66,7 +66,7 @@ export const Home: React.FC = () => {
 
     setPreviousTimezoneOffsetStart(timezoneOffsetStart)
     setPreviousTimezoneOffsetEnd(timezoneOffsetEnd)
-  }, [timezoneOffsetStart, timezoneOffsetEnd, usingCustomTimezones])
+  }, [timezoneOffsetStart, timezoneOffsetEnd, usingCustomTimezones, updateSearchParam, previousTimezoneOffsetStart, previousTimezoneOffsetEnd])
 
   const [description, setDescription] = useThrottleState(
     searchParams.get("description") ?? "",

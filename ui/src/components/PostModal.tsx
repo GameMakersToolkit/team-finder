@@ -120,7 +120,7 @@ export const PostModal: React.FC<Props> = ({
         </p>
 
         <div className="mb-16 mt-4 break-words" style={{wordBreak: "break-word"}}>
-          {post.description.split("\n").map(line => <p className="mb-1">{line}</p>)}
+          {post.description.split("\n").map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
         </div>
       </div>
 
@@ -140,13 +140,13 @@ const ReportButton: React.FC<{ post: Post }> = ({
     const auth = useAuth();
     const reportPostMutation = useReportPostMutation();
 
-    const onClick = (e: any) => {
+    const onClick = (e: { preventDefault(): void }) => {
         e.preventDefault();
 
         reportPostMutation.mutate({
             id: post.id,
         }, {
-            onSuccess: (data, variables, context) => {
+            onSuccess: () => {
                 toast("Thanks for reporting");
                 let d = [post.id];
                 const value = localStorage.getItem("reported");
