@@ -95,22 +95,22 @@ fun Application.configurePostRouting() {
         return filters
     }
 
+    fun getSortFromParameters(params: Parameters): Bson {
+        val sortByFieldName = params["sortBy"] ?: "createdAt"
+        val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
+        return when (params["sortDir"].toString()) {
+            "asc" -> ascending(sortByField)
+            "desc" -> descending(sortByField)
+            else -> descending(sortByField)
+        }
+    }
+
     routing {
         route("/posts") {
             get {
                 val params = call.parameters
 
-                // Sorting
-                // TODO: Error handling
-                val sortByFieldName = params["sortBy"] ?: "createdAt"
-                val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
-                val sort = when (params["sortDir"].toString()) {
-                    "asc" -> ascending(sortByField)
-                    "desc" -> descending(sortByField)
-                    else -> descending(sortByField)
-                }
-
-                val posts = service.getPosts(and(getFilterFromParameters(params)), sort)
+                val posts = service.getPosts(and(getFilterFromParameters(params)), getSortFromParameters(params))
 
                 // Set isFavourite on posts for this user if they're logged in
                 call.request.header("Authorization")?.substring(7)
@@ -134,11 +134,9 @@ fun Application.configurePostRouting() {
             authenticate("auth-jwt") {
 
                 post {
-                    val principal = call.principal<JWTPrincipal>()!!
-                    val id = principal.payload.getClaim("id").asString()
-
                     val data = call.receive<PostItemCreateDto>()
-                    authService.getTokenSet(id)
+
+                    authService.getTokenSet(call)
                         ?.let {
                             data.authorId = it.discordId  // TODO: What about author name?
                             data.timezoneOffsets = data.timezoneOffsets.filter { tz -> tz >= -12 && tz <= 12 }.toSet()
@@ -158,10 +156,8 @@ fun Application.configurePostRouting() {
 
                 get("favourites") {
                     val params = call.parameters
-                    val principal = call.principal<JWTPrincipal>()!!
-                    val id = principal.payload.getClaim("id").asString()
 
-                    val favourites = authService.getTokenSet(id)
+                    val favourites = authService.getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
 
                     // Exit early if the user don't have any favourites set
@@ -169,22 +165,18 @@ fun Application.configurePostRouting() {
                         return@get call.respond(emptyList<PostItem>())
                     }
 
-                    // Sorting
-                    // TODO: Error handling
-                    val sortByFieldName = params["sortBy"] ?: "createdAt"
-                    val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
-                    val sort = when (params["sortDir"].toString()) {
-                        "asc" -> ascending(sortByField)
-                        "desc" -> descending(sortByField)
-                        else -> descending(sortByField)
-                    }
-
                     val favouritesFilters = mutableListOf<Bson>()
-                    favourites?.postIds?.forEach {
+                    favourites.postIds.forEach {
                         favouritesFilters.add(and(PostItem::id eq it, PostItem::deletedAt eq null))
                     }
 
-                    val posts = service.getPosts(and(or(favouritesFilters), and(getFilterFromParameters(params))), sort)
+                    val posts = service.getPosts(
+                        and(
+                            or(favouritesFilters),
+                            and(getFilterFromParameters(params))
+                        ),
+                        getSortFromParameters(params)
+                    )
                     posts.map { post -> post.isFavourite = true }
 
                     call.respond(posts)
@@ -192,10 +184,7 @@ fun Application.configurePostRouting() {
 
                 route("/mine") {
                     get {
-                        val principal = call.principal<JWTPrincipal>()!!
-                        val id = principal.payload.getClaim("id").asString()
-
-                        authService.getTokenSet(id)
+                        authService.getTokenSet(call)
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let { return@get call.respond(it) }
 
@@ -203,12 +192,9 @@ fun Application.configurePostRouting() {
                     }
 
                     put {
-                        val principal = call.principal<JWTPrincipal>()!!
-                        val id = principal.payload.getClaim("id").asString()
-
                         val data = call.receive<PostItemUpdateDto>()
 
-                        authService.getTokenSet(id)
+                        authService.getTokenSet(call)
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let {
                                 // FIXME: Don't just brute force update all given fields
@@ -233,13 +219,7 @@ fun Application.configurePostRouting() {
                     }
 
                     delete {
-                        // TODO: Should this DTO exist at all? No data being used.
-                        val data = call.receive<PostItemDeleteDto>()
-
-                        val principal = call.principal<JWTPrincipal>()!!
-                        val id = principal.payload.getClaim("id").asString()
-
-                        authService.getTokenSet(id)
+                        authService.getTokenSet(call)
                             ?.let { service.getPostByAuthorId(it.discordId) }
                             ?.let {
                                 service.deletePost(it)

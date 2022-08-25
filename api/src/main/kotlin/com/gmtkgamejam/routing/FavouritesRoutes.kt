@@ -21,12 +21,9 @@ fun Application.configureFavouritesRouting() {
         authenticate("auth-jwt") {
             route("/favourites") {
                 post {
-                    val principal = call.principal<JWTPrincipal>()!!
-                    val id = principal.payload.getClaim("id").asString()
-
                     val postToFavourite = call.receive<FavouritesDto>()
 
-                    authService.getTokenSet(id)
+                    authService.getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
                         ?.also { it.postIds.add(postToFavourite.postId) }
                         ?.let { favouritesService.saveFavourites(it) }
@@ -35,12 +32,9 @@ fun Application.configureFavouritesRouting() {
                     call.respondJSON("Favourite couldn't be added", status = HttpStatusCode.BadRequest)
                 }
                 delete {
-                    val principal = call.principal<JWTPrincipal>()!!
-                    val id = principal.payload.getClaim("id").asString()
-
                     val postToUnFavourite = call.receive<FavouritesDto>()
 
-                    authService.getTokenSet(id)
+                    authService.getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
                         ?.also { it.postIds.remove(postToUnFavourite.postId) }
                         ?.let { favouritesService.saveFavourites(it) }
