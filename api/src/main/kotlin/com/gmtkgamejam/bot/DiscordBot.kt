@@ -21,15 +21,21 @@ class DiscordBot {
 
     private lateinit var channel: ServerTextChannel
 
+    private val approvedUsers: MutableList<String> = mutableListOf()
+
     init {
         val token = Config.getString("bot.token")
         val builder = DiscordApiBuilder().setToken(token)
+
+        val channelName = Config.getString("bot.pingChannel")
+
         try {
             api = builder.login().join()
 
-            // This is horrific, but it works for now!
-            channel = api.channels.filter { it.asServerChannel().get().name == "jam-team-notifs" }[0].asServerTextChannel().get()
+            channel = api.getServerTextChannelsByNameIgnoreCase(channelName).first()
             logger.info("Discord bot is online and ready for action!")
+        } catch (ex: NoSuchElementException) { // NoSuchElementException triggered by calling `.first()` on Collection
+            logger.warn("Discord bot could not connect to pingChannel [$channelName] - ping message integration offline.")
         } catch (ex: Exception) {
             logger.warn("Discord bot could not be initialised - continuing...")
         }
@@ -52,6 +58,11 @@ class DiscordBot {
         if (!this::api.isInitialized) {
             logger.info("Skipping user permissions check because API isn't active")
             return true
+        }
+
+        // Exit early if user has already been approved to avoid swamping Discord
+        if (approvedUsers.contains(userId)) {
+            return true;
         }
 
         return trySendMessage(userId)
@@ -78,6 +89,7 @@ class DiscordBot {
             // Any other response should indicate the message send attempt succeeded,
             // but failed because the message is garbage
             logger.debug("User has correct contact perms active!")
+            approvedUsers.add(userId)
         }
 
         return !didMessageFailBecausePerms

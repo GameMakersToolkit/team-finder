@@ -1,23 +1,15 @@
 import {
-  useQuery,
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-  UseQueryOptions,
-  UseQueryResult,
   useQueryClient,
 } from "react-query";
-import { Availability } from "../model/availability";
 import {
   Post,
   PostApiResult,
   postFromApiResult,
 } from "../model/post";
-import { Skill } from "../model/skill";
-import { expectNotFound, useApiRequest } from "../utils/apiRequest";
-import { useAuth } from "../utils/AuthContext";
-import { useUserInfo } from "./userInfo";
-import {TimezoneOffset, timezoneOffsetInfoMap, timezoneOffsetToInt} from "../model/timezone";
+import { useApiRequest } from "../utils/apiRequest";
 
 const CREATE_BOT_DM_QUERY_KEY = ["bot", "dm"] as const;
 
