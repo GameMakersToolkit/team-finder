@@ -21,6 +21,8 @@ class DiscordBot {
 
     private lateinit var channel: ServerTextChannel
 
+    private val approvedUsers: MutableList<String> = mutableListOf()
+
     init {
         val token = Config.getString("bot.token")
         val builder = DiscordApiBuilder().setToken(token)
@@ -54,6 +56,11 @@ class DiscordBot {
             return true
         }
 
+        // Exit early if user has already been approved to avoid swamping Discord
+        if (approvedUsers.contains(userId)) {
+            return true;
+        }
+
         return trySendMessage(userId)
     }
 
@@ -78,6 +85,7 @@ class DiscordBot {
             // Any other response should indicate the message send attempt succeeded,
             // but failed because the message is garbage
             logger.debug("User has correct contact perms active!")
+            approvedUsers.add(userId)
         }
 
         return !didMessageFailBecausePerms
