@@ -26,12 +26,16 @@ class DiscordBot {
     init {
         val token = Config.getString("bot.token")
         val builder = DiscordApiBuilder().setToken(token)
+
+        val channelName = Config.getString("bot.pingChannel")
+
         try {
             api = builder.login().join()
 
-            val channelName = Config.getString("bot.pingChannel")
             channel = api.getServerTextChannelsByNameIgnoreCase(channelName).first()
             logger.info("Discord bot is online and ready for action!")
+        } catch (ex: NoSuchElementException) { // NoSuchElementException triggered by calling `.first()` on Collection
+            logger.warn("Discord bot could not connect to pingChannel [$channelName] - ping message integration offline.")
         } catch (ex: Exception) {
             logger.warn("Discord bot could not be initialised - continuing...")
         }
