@@ -104,7 +104,7 @@ export function useReportPostMutation(
   return useMutation({
     ...opts,
     mutationFn: async (variables) => {
-      const result = await apiRequest<void>("/posts/report", {
+      await apiRequest<void>("/posts/report", {
         method: "POST",
         body: variables,
       });

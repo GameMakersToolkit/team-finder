@@ -17,7 +17,7 @@ import { Skill } from "../model/skill";
 import { expectNotFound, useApiRequest } from "../utils/apiRequest";
 import { useAuth } from "../utils/AuthContext";
 import { useUserInfo } from "./userInfo";
-import {TimezoneOffset, timezoneOffsetInfoMap, timezoneOffsetToInt} from "../model/timezone";
+import { timezoneOffsetToInt } from "../model/timezone";
 
 const MY_POST_QUERY_KEY = ["posts", "mine"] as const;
 const DELETE_MY_POST_QUERY_KEY = ["posts", "mine", "delete"] as const;
