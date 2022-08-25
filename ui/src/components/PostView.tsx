@@ -14,7 +14,7 @@ import { useUserInfo } from "../queries/userInfo";
 import { useCreateBotDmMutation } from "../queries/bot";
 import { login } from "../utils/login";
 
-export const PostView: React.FC<{post: Post, onClick: () => void}> = ({post, onClick}) => {
+export const PostView: React.FC<{post: Post}> = ({post}) => {
   return (
     <>
       <div className="p-4">
@@ -28,12 +28,6 @@ export const PostView: React.FC<{post: Post, onClick: () => void}> = ({post, onC
                 ? `and ${post.size - 1} others are looking for members`
                 : `is looking for members`}
             </p>
-          </span>
-          <span
-            className="text-2xl my-auto font-bold cursor-pointer"
-            onClick={() => onClick()}
-          >
-            X
           </span>
           <FavouritePostIndicator
             post={post}

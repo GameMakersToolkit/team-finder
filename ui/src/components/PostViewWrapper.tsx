@@ -20,7 +20,7 @@ export const PostViewWrapper: React.FC = () => {
 
   return (
     <div className="mx-8">
-      <PostView post={post} onClick={() => window.location.replace("/")} />
+      <PostView post={post} />
     </div>
   )
 }

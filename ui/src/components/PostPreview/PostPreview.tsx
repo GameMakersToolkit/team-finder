@@ -2,8 +2,6 @@ import * as React from "react";
 import cx from "classnames";
 import { Post } from "../../model/post";
 import { Button } from "../Button";
-import { useState } from "react";
-import { PostModal } from "../PostModal";
 import { SkillList } from "../SkillList";
 import { useBanUser, useDeletePost } from "../../queries/admin";
 import { FavouritePostIndicator } from "../FavouritePostIndicator";
@@ -11,6 +9,7 @@ import teamSize1Icon from "./icons/1.svg"
 import teamSize2Icon from "./icons/2.svg"
 import teamSize3Icon from "./icons/3.svg"
 import teamSize4PlusIcon from "./icons/4.svg"
+import {Link} from "react-router-dom";
 
 interface Props {
   post: Post;
@@ -27,7 +26,6 @@ export const PostPreview: React.FC<Props> = ({
   adminId,
   showSkillText,
 }) => {
-  const [isModelOpen, setIsModelOpen] = useState(false);
   const deletePostMutation = useDeletePost();
   const banUserMutation = useBanUser();
 
@@ -58,12 +56,6 @@ export const PostPreview: React.FC<Props> = ({
         {description.split("\n").map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
       </div>
 
-      <PostModal
-        post={post}
-        isModalOpen={isModelOpen}
-        setIsModalOpen={setIsModelOpen}
-        showSkillText={showSkillText}
-      />
       <div className={`flex ${adminView ? "justify-between" : "justify-end"}`}>
         {adminView && (
           <>
@@ -87,14 +79,15 @@ export const PostPreview: React.FC<Props> = ({
             </Button>
           </>
         )}
-        <Button
-          className="justify-self-end self-end"
-          variant="primary"
-          onClick={() => setIsModelOpen(true)}
-          style={{ color: "white" }}
-        >
-          More
-        </Button>
+
+        <div className="bg-primary-highlight hover:bg-primary text-darkbg">
+          <Link
+            className="text-lg text-white py-2 px-8 block"
+            to={`/${post.id}`}
+          >
+            More
+          </Link>
+        </div>
       </div>
     </article>
   );
