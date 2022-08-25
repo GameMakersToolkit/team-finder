@@ -10,9 +10,9 @@ import { AvailabilityList } from './AvailabilityList';
 import { timezoneOffsetFromInt } from '../model/timezone';
 import { FavouritePostIndicator } from './FavouritePostIndicator';
 import { useCreateBotDmMutation } from '../queries/bot';
-import { apiRequest } from '../utils/apiRequest';
 import { useReportPostMutation } from "../queries/posts";
 import { toast } from "react-hot-toast";
+import { useUserInfo } from "../queries/userInfo";
 
 interface Props {
   post: Post;
@@ -191,6 +191,9 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({
   authorId,
 }) => {
   const isLoggedIn = Boolean(useAuth());
+  const userInfo = useUserInfo();
+  const userCanPingAuthor = isLoggedIn && !userInfo.isLoading && userInfo.data?.isInDiscordServer
+
   const createBotDmMutation = useCreateBotDmMutation();
 
   return (
@@ -218,8 +221,7 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({
 
         <br />
 
-        {/* TODO: Rate limiting on a per-user basis */}
-        {isLoggedIn && (
+        {userCanPingAuthor && (
           <span
             className="mb-6 p-2 rounded inline-flex cursor-pointer border"
             style={{ borderColor: '#5865F2' }}
