@@ -27,8 +27,8 @@ class DiscordBot {
         try {
             api = builder.login().join()
 
-            // This is horrific, but it works for now!
-            channel = api.channels.filter { it.asServerChannel().get().name == "jam-team-notifs" }[0].asServerTextChannel().get()
+            val channelName = Config.getString("bot.pingChannel")
+            channel = api.getServerTextChannelsByNameIgnoreCase(channelName).first()
             logger.info("Discord bot is online and ready for action!")
         } catch (ex: Exception) {
             logger.warn("Discord bot could not be initialised - continuing...")
