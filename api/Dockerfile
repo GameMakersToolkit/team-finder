@@ -7,11 +7,6 @@ COPY gradle/ /opt/code/gradle
 COPY gradlew /opt/code/gradlew
 COPY settings.gradle.kts gradle.properties* /opt/code/
 
-# Add ca-cert for mongodo+src connections to remote
-ARG CERT="ca-certificate.crt"
-COPY $CERT /opt/code/
-RUN keytool -importcert -file /opt/code/$CERT -alias /opt/code/$CERT -cacerts -storepass changeit -noprompt
-
 WORKDIR /opt/code/
 
 # Download/unpack gradle dependencies as early as possible in order to cache image
