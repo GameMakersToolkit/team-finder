@@ -1,35 +1,60 @@
-FROM openjdk:11-jdk-slim
+## Build stage image ##
+FROM amazoncorretto:11-alpine AS builder
 
-# Install packages: unzip (as its not always available)
-RUN apt-get update && apt-get -y install unzip
+# Required for strip-debug to work
+RUN apk add --no-cache binutils
 
-COPY gradle/ /opt/code/gradle
-COPY gradlew /opt/code/gradlew
-COPY settings.gradle.kts gradle.properties* /opt/code/
+# Build small JRE image
+# This tiny JRE lets us use alpine:latest for the prod image below to cut down filesize
+RUN $JAVA_HOME/bin/jlink \
+         --verbose \
+         --add-modules ALL-MODULE-PATH \
+         --strip-debug \
+         --no-man-pages \
+         --no-header-files \
+         --compress=2 \
+         --output /customjre
 
 WORKDIR /opt/code/
 
-# Download/unpack gradle dependencies as early as possible in order to cache image
-# Ignore any build failures (no source code has been copied yet) - we're justing trying to cache the gradle bin
-RUN ./gradlew help
+COPY gradle/ ./gradle
+COPY gradlew ./gradlew
+
+# Resolve gradle and cache in early image layer
+RUN ./gradlew
+
+
+COPY settings.gradle.kts gradle.properties* ./
 
 # Copy code and build artefact
-COPY build.gradle.kts /opt/code/build.gradle.kts
+COPY build.gradle.kts ./build.gradle.kts
 
 # Download dependencies in order to save that build time later
-RUN ./gradlew build
+RUN ./gradlew dependencies
 
-COPY src/ /opt/code/src
+COPY src/ ./src
 
 # Do the actual build, now we have source code
-RUN ./gradlew build --build-cache
+RUN ./gradlew build
+
+
+
+
+## Production build image ##
+FROM alpine:latest AS team-finder
+
+ENV JAVA_HOME=/jre
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+COPY --from=builder /customjre $JAVA_HOME
+
+# The files/folders are the fully-qualified app name (com.gmtkgamejam.api-x.y.z) - shorten here for ease of use
+COPY --from=builder /opt/code/build/distributions/com.gmtkgamejam.api*.zip ./api.zip
 
 # Extract distribution
-# The files/folders are the fully-qualified app name (com.gmtkgamejam.api-x.y.z) - shorten here for ease of use
-RUN mv /opt/code/build/distributions/com.gmtkgamejam.api*.zip ./api.zip
 RUN unzip api.zip && mv com.gmtkgamejam* api
 
 EXPOSE 8080
 
 # Start application from /bin/bash script
-CMD ["/opt/code/api/bin/com.gmtkgamejam.api"]
+CMD ["./api/bin/com.gmtkgamejam.api"]
