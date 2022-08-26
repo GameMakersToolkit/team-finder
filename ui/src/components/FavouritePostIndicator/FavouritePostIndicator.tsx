@@ -41,6 +41,7 @@ export const FavouritePostIndicator: React.FC<{
         src={
           post.isFavourite ? favouriteSelectedIcon : favouriteNotSelectedIcon
         }
+        alt={post.isFavourite ? `Click to remove ${post.author}'s post from your favourites` : `Click to add ${post.author}'s post to your favourites`}
         className="inline-block"
         style={{ width: "40px", height: "40px", minWidth: "40px" }}
       />

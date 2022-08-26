@@ -3,13 +3,12 @@ package com.gmtkgamejam
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import com.gmtkgamejam.Config
 import com.gmtkgamejam.discord.discordHttpClient
 import com.gmtkgamejam.services.AuthService
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import io.ktor.http.*
 
 @Suppress("unused")
 fun Application.authModule() {

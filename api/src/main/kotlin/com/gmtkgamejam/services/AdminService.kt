@@ -1,16 +1,12 @@
 package com.gmtkgamejam.services
 
-import com.gmtkgamejam.models.AuthTokenSet
 import com.gmtkgamejam.models.BannedUser
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
-import com.mongodb.client.model.UpdateOptions
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollectionOfName
-import org.litote.kmongo.updateOne
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

@@ -7,10 +7,9 @@ import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
 import com.gmtkgamejam.services.PostService
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
-import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -27,7 +26,7 @@ fun Application.configurePostRouting() {
     val favouritesService = FavouritesService()
 
     fun getFilterFromParameters(params: Parameters): List<Bson> {
-        val filters = mutableListOf<Bson>(PostItem::deletedAt eq null)
+        val filters = mutableListOf(PostItem::deletedAt eq null)
 
         params["description"]?.split(',')
             ?.filter(String::isNotBlank) // Filter out empty `&description=`
@@ -75,7 +74,7 @@ fun Application.configurePostRouting() {
             val timezoneStart: Int = timezoneRange[0].toInt()
             val timezoneEnd: Int = timezoneRange[1].toInt()
 
-            val timezones: MutableList<Int> = mutableListOf<Int>()
+            val timezones: MutableList<Int> = mutableListOf()
             if (timezoneStart < timezoneEnd) {
                 // UTC-2 -> UTC+2 should be: [-2, -1, 0, 1, 2]
                 timezones.addAll((timezoneStart..timezoneEnd))
@@ -114,8 +113,7 @@ fun Application.configurePostRouting() {
 
                 // Set isFavourite on posts for this user if they're logged in
                 call.request.header("Authorization")?.substring(7)
-                    ?.let { JWT.decode(it) }
-                    ?.let { it.getClaim("id").asString() }
+                    ?.let { JWT.decode(it) }?.getClaim("id")?.asString()
                     ?.let { authService.getTokenSet(it) }
                     ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
                     ?.let { favouritesList ->

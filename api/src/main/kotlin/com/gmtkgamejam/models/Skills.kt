@@ -1,6 +1,6 @@
 package com.gmtkgamejam.models
 
-enum class Skills() {
+enum class Skills {
     ART_2D,
     ART_3D,
     CODE,
