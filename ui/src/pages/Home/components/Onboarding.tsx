@@ -2,8 +2,10 @@ import React from "react";
 import { useUserInfo } from "../../../queries/userInfo";
 import { useAuth } from "../../../utils/AuthContext";
 import { login } from "../../../utils/login";
+import {importMetaEnv} from "../../../utils/importMeta";
 
-export const discordInviteUrl = "https://discord.gg/TGHj6FCJVy"
+const discordGroupName = importMetaEnv().VITE_DISCORD_NAME;
+const discordGroupInviteUrl = importMetaEnv().VITE_DISCORD_INVITE_URL;
 
 const onboardingMessageBoxStyle = "bg-lightbg my-4 px-2 py-6"
 
@@ -22,8 +24,8 @@ export const Onboarding: React.FC = () => {
   const userIsInDiscordServer = userInfo.data?.isInDiscordServer;
   if (!userIsInDiscordServer) return (
     <div className={onboardingMessageBoxStyle}>
-      <p className="text-center">You need to be in the GMTK Discord server to contact other users -
-        <a href={discordInviteUrl} className="font-bold underline">click here to join!</a>
+      <p className="text-center">You need to be in the {discordGroupName} Discord server to contact other users -&nbsp;
+        <a href={discordGroupInviteUrl} className="font-bold underline">click here to join!</a>
       </p>
     </div>
   )
