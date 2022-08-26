@@ -1,10 +1,13 @@
 import React from "react";
 import teamListImg from "./team-list.png";
 import addTeamFormImg from "./add-team-form.png";
-import {Link} from "react-router-dom";
-import {discordInviteUrl} from "../Home/components/Onboarding";
+import { Link } from "react-router-dom";
+import { importMetaEnv } from "../../utils/importMeta";
 
-const currentYear = new Date().getFullYear();
+const discordGroupName = importMetaEnv().VITE_DISCORD_NAME;
+const discordGroupInviteUrl = importMetaEnv().VITE_DISCORD_INVITE_URL;
+const jamName = importMetaEnv().VITE_JAM_NAME;
+const jamUrl = importMetaEnv().VITE_JAM_URL;
 
 const FAQHeading: React.FC<{ question: string }> = ({ question, children }) => {
   return (
@@ -65,14 +68,16 @@ export const FAQ = () => {
     <>
       <main>
         <h2 className="font-medium leading-tight text-5xl p-8 text-center">
-          {`Welcome to the GMTK Game Jam ${currentYear} Team Finder!`}
+          {`Welcome to the ${jamName} Team Finder!`}
         </h2>
         <div className="text-lg">
           <FAQHeading question="What is this website?">
             <p className="pt-6">
               {`Welcome to the Team Finder! You can use this website to find other game jam participants to team up with
-              for the GMTK ${currentYear} Game Jam! Browse the post list or make a post of your own!`}
+              for the ${jamName}! Browse the post list or make a post of your own!`}
             </p>
+
+            {discordGroupName === "GMTK" && (<>
             <p className="pt-4">
               <span className="italic">This is not run by Mark Brown!</span>{" "}
               Mark gave his blessing for us to use his shiny logos and branding,
@@ -84,6 +89,7 @@ export const FAQ = () => {
               becoming more community-driven - please do not contact Mark with
               questions about the Team Finder!
             </p>
+            </>)}
 
           </FAQHeading>
 
@@ -106,7 +112,7 @@ export const FAQ = () => {
 
             <p className="font-bold">
               Keep in mind that you need to be a member of the{" "}
-              <Link className="hover:underline cursor-pointer" to={`/${discordInviteUrl}`}>GMTK Discord server</Link>{" "}
+              <Link className="hover:underline cursor-pointer" to={`/${discordGroupInviteUrl}`}>{discordGroupName} Discord server</Link>{" "}
               to be able to contact them!
             </p>
           </FAQImage>
@@ -154,20 +160,20 @@ export const FAQ = () => {
               <FAQTextItem question="Can I report team posts?">
                 <p>
                   Yes! If you have any moderation concerns, use the Report function
-                  or contact the Jam Moderators on the GMTK Discord server. If you
+                  or contact the Jam Moderators on the {discordGroupName} Discord server. If you
                   are encountering technical problems, please tag{" "}
                   <span className="text-accent1">@Team Finder Tech Support</span> on
-                  the GMTK Discord server.
+                  the {discordGroupName} Discord server.
                 </p>
               </FAQTextItem>
 
-              <FAQTextItem question={`What is the GMTK Game Jam ${currentYear}, anyway?`}>
+              <FAQTextItem question={`What is the ${jamName}, anyway?`}>
                 <p>
                   Please see{" "}
                   <a
                     style={{ textDecorationThickness: "3px" }}
                     className="text-accent1 underline hover:text-accent2"
-                    href={`https://itch.io/jam/gmtk-jam-${currentYear}`}
+                    href={jamUrl}
                   >
                     the official itch.io page for details
                   </a>

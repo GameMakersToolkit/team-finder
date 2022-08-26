@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useQueryClient } from "react-query";
 
-const LOCAL_STORAGE_KEY = "gmtkjam_auth";
+const LOCAL_STORAGE_KEY = "team_finder_auth";
 
 export interface AuthContextValue {
   currentState: AuthState | null;

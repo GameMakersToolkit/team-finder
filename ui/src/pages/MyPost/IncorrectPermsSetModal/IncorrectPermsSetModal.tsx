@@ -3,6 +3,13 @@ import Modal, { Styles } from "react-modal";
 import step1Image from "./step-1.png";
 import step2Image from "./step-2.png";
 import step3Image from "./step-3.png";
+import {importMetaEnv} from "../../../utils/importMeta";
+
+const discordGroupName = importMetaEnv().VITE_DISCORD_NAME;
+const discordGroupInviteUrl = importMetaEnv().VITE_DISCORD_INVITE_URL;
+const jamName = importMetaEnv().VITE_JAM_NAME;
+const jamUrl = importMetaEnv().VITE_JAM_URL;
+
 
 interface Props {
   isModalOpen: boolean;
@@ -35,18 +42,18 @@ export const IncorrectPermsSetModal: React.FC<Props> = ({ isModalOpen }) => {
       </h3>
       <p>
         Your privacy settings mean other jam participants can&apos;t message you
-        directly. You need to allow DMs from other members of the GMTK server
+        directly. You need to allow DMs from other members of the {discordGroupName} server
         before you can create a post.
       </p>
 
       <div className="flex items-start">
         <div className={stepImageStyles}>
           <p className="mb-2 text-sm font-italics text-center">
-            1: Open the GMTK Discord server
+            1: Open the {discordGroupName} Discord server
           </p>
           <img
             src={step1Image}
-            alt="Open the GMTK Discord server"
+            alt={`Open the {discordGroupName} Discord server`}
             style={{ width: "90%", margin: "0 auto" }}
           />
         </div>
