@@ -1,4 +1,4 @@
-package com.gmtkgamejam.routing;
+package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.models.BanUnbanUserDto
 import com.gmtkgamejam.models.BannedUser
@@ -8,9 +8,9 @@ import com.gmtkgamejam.models.admin.ReportedUsersClearDto
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AdminService
 import com.gmtkgamejam.services.PostService
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
-import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -18,8 +18,6 @@ import org.litote.kmongo.and
 import org.litote.kmongo.descending
 import org.litote.kmongo.eq
 import org.litote.kmongo.gt
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 fun Application.configureAdminRouting() {
 

@@ -5,7 +5,6 @@ import kotlinx.coroutines.future.await
 import org.javacord.api.DiscordApi
 import org.javacord.api.DiscordApiBuilder
 import org.javacord.api.entity.channel.ServerTextChannel
-import org.javacord.api.entity.message.Message
 import org.javacord.api.entity.message.MessageBuilder
 import org.javacord.api.entity.user.User
 import org.javacord.api.exception.DiscordException
@@ -41,15 +40,13 @@ class DiscordBot {
         }
     }
 
-    suspend fun createContactUserPingMessage(recipientUserId: String, senderUserId: String): Boolean {
+    suspend fun createContactUserPingMessage(recipientUserId: String, senderUserId: String) {
         val recipient: User = api.getUserById(recipientUserId).await()
         val sender: User = api.getUserById(senderUserId).await()
 
         val messageContents = "Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!"
         // TODO: Validate message actually sent, give error otherwise
         channel.sendMessage(messageContents).await()
-
-        return true
     }
 
     suspend fun doesUserHaveValidPermissions(userId: String): Boolean {
@@ -62,7 +59,7 @@ class DiscordBot {
 
         // Exit early if user has already been approved to avoid swamping Discord
         if (approvedUsers.contains(userId)) {
-            return true;
+            return true
         }
 
         return trySendMessage(userId)

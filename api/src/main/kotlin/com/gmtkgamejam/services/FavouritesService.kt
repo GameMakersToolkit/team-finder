@@ -1,7 +1,6 @@
 package com.gmtkgamejam.services
 
 import com.gmtkgamejam.models.AuthTokenSet
-import com.gmtkgamejam.models.BannedUser
 import com.gmtkgamejam.models.FavouritesList
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
@@ -12,8 +11,6 @@ import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollectionOfName
 import org.litote.kmongo.updateOne
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class FavouritesService : KoinComponent {
 
