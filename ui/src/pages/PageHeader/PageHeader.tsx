@@ -7,6 +7,9 @@ import cx from "classnames";
 import { useUserInfo } from "../../queries/userInfo";
 import { login } from "../../utils/login";
 import { useMyPostQuery } from "../../queries/my-post";
+import {importMetaEnv} from "../../utils/importMeta";
+
+const jamName = importMetaEnv().VITE_JAM_NAME;
 
 const navMenuElementStylingRules =
   "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight";
@@ -63,7 +66,7 @@ export const PageHeader: React.FC = () => {
           <img
             src="/logos/header.png"
             width={100}
-            alt={"GMTK Game Jam 2022 Team Finder"}
+            alt={jamName + " Team Finder logo"}
           />
         </Link>
         {shouldShowHorizontalLinks && (
