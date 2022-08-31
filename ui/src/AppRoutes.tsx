@@ -5,12 +5,14 @@ import { FAQ } from "./pages/FAQ/FAQ";
 import { Home } from "./pages/Home/Home";
 import { Admin } from "./pages/Admin/Admin";
 import { Logout } from "./pages/Logout/Logout";
+import { PostViewWrapper } from "./components/PostViewWrapper";
 
 const MyPost = React.lazy(() => import("./pages/MyPost"));
 
 export const AppRoutes: React.FC = () => (
   <Routes>
     <Route path="/" element={<Home />} />
+    <Route path="/:postId" element={<PostViewWrapper />} />
     <Route path="/admin" element={<Admin />} />
     <Route path="/my-post" element={<MyPost />} />
     <Route path="/faq" element={<FAQ />} />

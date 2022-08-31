@@ -90,6 +90,30 @@ export function usePostsList(
   );
 }
 
+export function usePostById(
+  searchOptions: { postId: string },
+  queryOptions?: UseQueryOptions<
+    PostApiResult,
+    Error,
+    Post,
+    ["posts", "get",  { postId: string }]
+  >
+): UseQueryResult<Post, Error> {
+  const apiRequest = useApiRequest();
+
+  return useQuery(
+    ["posts", "get", searchOptions],
+    () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      return apiRequest<PostApiResult>(`/posts/${searchOptions.postId}`);
+    },
+    {
+      ...queryOptions,
+      select: (post: PostApiResult) => postFromApiResult(post),
+    }
+  );
+}
+
 const REPORT_POST_QUERY_KEY = ["posts", "report"] as const;
 
 export interface ReportPostMutationVariables {

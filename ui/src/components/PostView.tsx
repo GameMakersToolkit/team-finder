@@ -1,60 +1,23 @@
-import Modal, {Styles} from 'react-modal';
-import * as React from 'react';
-import { Post } from '../model/post';
-import { SkillList } from './SkillList';
-import { useAuth } from '../utils/AuthContext';
-import { login } from '../utils/login';
-import { ToolList } from './ToolList';
-import { LanguageList } from './LanguageList';
-import { AvailabilityList } from './AvailabilityList';
-import { timezoneOffsetFromInt } from '../model/timezone';
-import { FavouritePostIndicator } from './FavouritePostIndicator';
-import { useCreateBotDmMutation } from '../queries/bot';
-import { useReportPostMutation } from "../queries/posts";
+import * as React from "react";
+import { useParams } from "react-router-dom";
+import {usePostById, useReportPostMutation} from "../queries/posts";
+import { FavouritePostIndicator } from "./FavouritePostIndicator";
+import { SkillList } from "./SkillList";
+import { ToolList } from "./ToolList";
+import { AvailabilityList } from "./AvailabilityList";
+import { LanguageList } from "./LanguageList";
+import { timezoneOffsetFromInt } from "../model/timezone";
+import { Post } from "../model/post";
+import { useAuth } from "../utils/AuthContext";
 import { toast } from "react-hot-toast";
 import { useUserInfo } from "../queries/userInfo";
+import { useCreateBotDmMutation } from "../queries/bot";
+import { login } from "../utils/login";
 
-interface Props {
-  post: Post;
-  isModalOpen: boolean;
-  setIsModalOpen: (isOpen: boolean) => void;
-  showSkillText: boolean;
-}
-
-interface CTAProps {
-  authorName: string;
-  authorId: string;
-}
-
-const modalStyles: Styles = {
-  content: {
-    overflow: 'scroll',
-    position: 'absolute',
-    height: 'calc(100vh - 32px)',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-};
-
-export const PostModal: React.FC<Props> = ({
-  post,
-  isModalOpen,
-  setIsModalOpen,
-  showSkillText,
-}) => {
-  // Bind Modal to specific element for accessibility behaviour
-  Modal.setAppElement(`#root`);
-
+export const PostView: React.FC<{post: Post}> = ({post}) => {
   return (
-    <Modal
-      isOpen={isModalOpen}
-      style={modalStyles}
-      htmlOpenClassName="overflow-hidden"
-      className="bg-darkbg text-white inset-4 p-4 font-sans"
-      contentLabel="Example Modal"
-    >
-      <div>
+    <>
+      <div className="p-4">
         <div className="flex justify-between min-w-0">
           <span className="inline-block" style={{width: "calc(100% - 100px)"}}>
             <h3 className="font-bold text-xl overflow-hidden text-ellipsis">
@@ -70,25 +33,19 @@ export const PostModal: React.FC<Props> = ({
             post={post}
             className={`cursor-pointer`}
           />
-          <span
-            className="text-2xl my-auto font-bold cursor-pointer"
-            onClick={() => setIsModalOpen(false)}
-          >
-            X
-          </span>
         </div>
         <SkillList
           label="Looking for:"
           skills={post.skillsSought}
           className="[--skill-color:theme(colors.accent1)] mt-4"
-          showText={showSkillText}
+          showText={true}
           labelOnNewLine={true}
         />
         <SkillList
           label="Brings:"
           skills={post.skillsPossessed}
           className="[--skill-color:theme(colors.accent2)] mt-4"
-          showText={showSkillText}
+          showText={true}
           labelOnNewLine={true}
         />
         <div className="grid gap-2 grid-cols-1 sm:grid-cols-3">
@@ -130,53 +87,60 @@ export const PostModal: React.FC<Props> = ({
       />
       {/* report button */}
       <ReportButton post={post}/>
-    </Modal>
-  );
-};
+    </>
+  )
+}
+
 
 const ReportButton: React.FC<{ post: Post }> = ({
-                                                    post
-                                                }) => {
-    const auth = useAuth();
-    const reportPostMutation = useReportPostMutation();
+  post
+}) => {
+  const auth = useAuth();
+  const reportPostMutation = useReportPostMutation();
 
-    const onClick = (e: { preventDefault(): void }) => {
-        e.preventDefault();
+  const onClick = (e: { preventDefault(): void }) => {
+    e.preventDefault();
 
-        reportPostMutation.mutate({
-            id: post.id,
-        }, {
-            onSuccess: () => {
-                toast("Thanks for reporting");
-                let d = [post.id];
-                const value = localStorage.getItem("reported");
-                if (value != null && value != "") d = d.concat(JSON.parse(value))
-                localStorage.setItem("reported", JSON.stringify(d));
-            }
-        });
-    };
-
-    const isReported: () => boolean = () => {
+    reportPostMutation.mutate({
+      id: post.id,
+    }, {
+      onSuccess: () => {
+        toast("Thanks for reporting");
+        let d = [post.id];
         const value = localStorage.getItem("reported");
-        if (value == null || value == "") return false;
-        const data: Array<string> = JSON.parse(value);
-        return data.includes(post.id)
-    }
+        if (value != null && value != "") d = d.concat(JSON.parse(value))
+        localStorage.setItem("reported", JSON.stringify(d));
+      }
+    });
+  };
 
-    return (
-        <>
-            {auth &&
-                <div className="flex justify-between min-w-0">
-                {!isReported() &&
-                    <a className="hover:underline decoration-stone-50" href="#report" onClick={onClick}>Report post</a>
-                }
-                {isReported() &&
-                    <span>Thanks for reporting!</span>
-                }
-                </div>
+  const isReported: () => boolean = () => {
+    const value = localStorage.getItem("reported");
+    if (value == null || value == "") return false;
+    const data: Array<string> = JSON.parse(value);
+    return data.includes(post.id)
+  }
+
+  return (
+    <>
+      {auth &&
+          <div className="flex justify-between min-w-0">
+            {!isReported() &&
+                <a className="hover:underline decoration-stone-50" href="#report" onClick={onClick}>Report post</a>
             }
-        </>
-    )
+            {isReported() &&
+                <span>Thanks for reporting!</span>
+            }
+          </div>
+      }
+    </>
+  )
+}
+
+
+interface CTAProps {
+  authorName: string;
+  authorId: string;
 }
 
 /**
