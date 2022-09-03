@@ -11,4 +11,4 @@ mongoimport --host db --port 27017 \
 
 # We run the init-mongo script against the 'admin' collection,
 # as that's where the user is defined/authenticated against
-mongo db:27017/admin /init-mongo.js
+mongosh db:27017/admin /init-mongo.js
