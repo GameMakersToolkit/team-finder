@@ -18,6 +18,9 @@ export const PostView: React.FC<{post: Post}> = ({post}) => {
   return (
     <>
       <div className="p-4">
+        <div className="mb-2">
+          <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>← Back to list</a>
+        </div>
         <div className="flex justify-between min-w-0">
           <span className="inline-block" style={{width: "calc(100% - 100px)"}}>
             <h3 className="font-bold text-xl overflow-hidden text-ellipsis">
