@@ -8,12 +8,19 @@ import { Logout } from "./pages/Logout/Logout";
 import { PostViewWrapper } from "./components/PostViewWrapper";
 import { AfterJam } from "./pages/AfterJam/AfterJam";
 import { JamState } from "./utils/jamState";
+import { BeforeJam } from "./pages/BeforeJam/BeforeJam";
 
 const MyPost = React.lazy(() => import("./pages/MyPost"));
 
 export const AppRoutes: React.FC<{jamState: JamState}> = ({jamState}) => {
 
-  // TODO: JamState.Before
+  if (jamState == JamState.Before) {
+    return (
+      <Routes>
+        <Route path="*" element={<BeforeJam/>}/>
+      </Routes>
+    )
+  }
 
   if (jamState == JamState.After) {
       return (
