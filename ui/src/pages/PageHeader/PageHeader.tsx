@@ -10,6 +10,7 @@ import { useMyPostQuery } from "../../queries/my-post";
 import {importMetaEnv} from "../../utils/importMeta";
 
 const jamName = importMetaEnv().VITE_JAM_NAME;
+const jamUrl = importMetaEnv().VITE_JAM_URL;
 
 const navMenuElementStylingRules =
   "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight";
@@ -51,6 +52,14 @@ export const PageHeader: React.FC = () => {
       to: "/faq",
     },
   ];
+
+  if (jamUrl) {
+    links.push({
+      label: "Jam page",
+      to: jamUrl
+    })
+  }
+
   if (shouldDisplayAdminLink) {
     links.push({
       label: "Admin tools",
@@ -140,6 +149,13 @@ export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
   linkData,
 }) => {
   const isMatch = useMatch({ path: linkData.to, end: true });
+
+  if (linkData.to.includes("://")) {
+    return (
+      <a href={linkData.to} className={navInlineElementStylingRules}>{linkData.label}</a>
+    )
+  }
+
   return (
     <Link
       className={cx(navInlineElementStylingRules, {
