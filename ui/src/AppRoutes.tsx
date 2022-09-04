@@ -6,19 +6,34 @@ import { Home } from "./pages/Home/Home";
 import { Admin } from "./pages/Admin/Admin";
 import { Logout } from "./pages/Logout/Logout";
 import { PostViewWrapper } from "./components/PostViewWrapper";
+import { AfterJam } from "./pages/AfterJam/AfterJam";
+import { JamState } from "./utils/jamState";
 
 const MyPost = React.lazy(() => import("./pages/MyPost"));
 
-export const AppRoutes: React.FC = () => (
-  <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/:postId" element={<PostViewWrapper />} />
-    <Route path="/admin" element={<Admin />} />
-    <Route path="/my-post" element={<MyPost />} />
-    <Route path="/faq" element={<FAQ />} />
-    <Route path="/login/authorized" element={<AuthCallback />} />
-    <Route path="/logout" element={<Logout />} />
-    {/* TODO: replace with a proper Not Found page */}
-    <Route path="*" element={<p>u wot m8</p>} />
-  </Routes>
-);
+export const AppRoutes: React.FC<{jamState: JamState}> = ({jamState}) => {
+
+  // TODO: JamState.Before
+
+  if (jamState == JamState.After) {
+      return (
+        <Routes>
+          <Route path="*" element={<AfterJam/>}/>
+        </Routes>
+      )
+  }
+
+  return (
+    <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/:postId" element={<PostViewWrapper/>}/>
+        <Route path="/admin" element={<Admin/>}/>
+        <Route path="/my-post" element={<MyPost/>}/>
+        <Route path="/faq" element={<FAQ/>}/>
+        <Route path="/login/authorized" element={<AuthCallback/>}/>
+        <Route path="/logout" element={<Logout/>}/>
+        {/* TODO: replace with a proper Not Found page */}
+        <Route path="*" element={<p>u wot m8</p>}/>
+    </Routes>
+  )
+};

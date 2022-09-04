@@ -16,6 +16,12 @@ interface ImportMetaEnv {
   VITE_JAM_URL: string;
 
   /** OPTIONAL ENVIRONMENT VARIABLES */
+  // String of when the event starts and website automatically becomes active
+  VITE_JAM_START: string;
+
+  // String of when the event ends and website automatically becomes inactive
+  VITE_JAM_END: string;
+
   // Sentry.io DSN URL for analytics tracking
   VITE_SENTRY_DSN: string;
 }
