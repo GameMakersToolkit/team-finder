@@ -19,7 +19,7 @@ export const AfterJam: React.FC = () => {
           style={{margin: "0 auto"}}
           src="/logos/header.png"
           width={400}
-          alt={"GMTK Game Jam 2022 Team Finder"}
+          alt={`${jamName} Team Finder`}
         />
 
         <h1 className="text-3xl my-4 text-center font-bold px-2">Thanks for using the Team Finder!</h1>

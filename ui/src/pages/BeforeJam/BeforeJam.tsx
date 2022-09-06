@@ -31,13 +31,12 @@ export const BeforeJam: React.FC = () => {
           style={{margin: "0 auto"}}
           src="/logos/header.png"
           width={400}
-          alt={"GMTK Game Jam 2022 Team Finder"}
+          alt={`${jamName} Team Finder`}
         />
 
         <h1 className="text-3xl my-4 text-center font-bold px-2">{`The ${jamName} Team Finder opens soon!`}</h1>
         <h2 className="text-2xl my-2 text-center px-2">Check back in:</h2>
         <h2 className="text-xl my-2 text-center px-2">{getCountdown(time)}</h2>
-        {/*<p className="mb-2 text-center px-2">{`The Team Finder will return in ${nextYear} with next year's jam.`}</p>*/}
       </div>
     </div>
   );
