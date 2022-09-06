@@ -15,19 +15,11 @@ const MyPost = React.lazy(() => import("./pages/MyPost"));
 export const AppRoutes: React.FC<{jamState: JamState}> = ({jamState}) => {
 
   if (jamState == JamState.Before) {
-    return (
-      <Routes>
-        <Route path="*" element={<BeforeJam/>}/>
-      </Routes>
-    )
+    return (<BeforeJam/>)
   }
 
   if (jamState == JamState.After) {
-      return (
-        <Routes>
-          <Route path="*" element={<AfterJam/>}/>
-        </Routes>
-      )
+      return (<AfterJam/>)
   }
 
   return (
