@@ -9,8 +9,9 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     // Periodically check state so that transitions between states happen automatically
-    setInterval(() => setJamState(getJamState()), 1000)
-  })
+    const jamStateCheck = setInterval(() => setJamState(getJamState()), 1000)
+    return () => clearTimeout(jamStateCheck)
+  }, [])
 
   return (
     <>
