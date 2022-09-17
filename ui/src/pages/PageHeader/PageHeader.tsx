@@ -8,6 +8,7 @@ import { useUserInfo } from "../../queries/userInfo";
 import { login } from "../../utils/login";
 import { useMyPostQuery } from "../../queries/my-post";
 import {importMetaEnv} from "../../utils/importMeta";
+import { JamState } from "../../utils/jamState";
 
 const jamName = importMetaEnv().VITE_JAM_NAME;
 
@@ -20,7 +21,7 @@ interface LinkData {
   to: string;
 }
 
-export const PageHeader: React.FC = () => {
+export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
   const userInfo = useUserInfo();
   const myPostQuery = useMyPostQuery();
 
@@ -36,6 +37,11 @@ export const PageHeader: React.FC = () => {
   const shouldDisplayAdminLink = userInfo.data?.isAdmin;
 
   const [isNavVisible, setNavVisibility] = useState(false);
+
+  if (jamState == JamState.Before || jamState == JamState.After) {
+    return (<></>);
+  }
+
 
   const links: LinkData[] = [
     {
