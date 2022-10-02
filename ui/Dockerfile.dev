@@ -8,7 +8,8 @@ ENV NODE_ENV production
 
 # Thin-install app dependencies
 COPY package.json package-lock.json ./
-RUN npm install --silent
+# Dependencies will be installed in docker-entrypoint.sh, so after the volume mount
+# RUN npm install --silent
 
 # Add app; non-prod files still useful for local dev
 COPY . ./
