@@ -109,6 +109,16 @@ export const Home: React.FC = () => {
 
   const query = usePostsList(searchOptions);
 
+  if (searchParams.get("error")) {
+    toast("Sorry, something went wrong logging you in: " + searchParams.get("error_description"), {
+      icon: "⛔",
+      id: "auth-failure-reason",
+    });
+
+    // Delete all search params; there's extra OAuth2 guff in there because Ktor is a chore to work with
+    setSearchParams([]);
+  }
+
   return (
     <div className="container mx-auto max-w-screen-xxl p-1 px-4">
       <Onboarding />

@@ -9,6 +9,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import java.net.URLEncoder
 
 @Suppress("unused")
 fun Application.authModule() {
@@ -19,15 +20,35 @@ fun Application.authModule() {
         oauth("auth-oauth-discord") {
             urlProvider = { Config.getString("api.host") + "/callback" }
             providerLookup = {
-                OAuthServerSettings.OAuth2ServerSettings(
-                    name = "discord",
-                    authorizeUrl = "https://discord.com/api/oauth2/authorize",
-                    accessTokenUrl = "https://discord.com/api/oauth2/token",
-                    requestMethod = HttpMethod.Post,
-                    clientId = Config.getString("secrets.discord.client.id"),
-                    clientSecret = Config.getString("secrets.discord.client.secret"),
-                    defaultScopes = listOf("identify", "guilds.members.read")
-                )
+                val queryParams = this.request.queryParameters
+
+                // If the auth fails and redirects back to the API, we need to exit out back to the UI
+                // Otherwise we'll infinitely loop against Discord
+                val authAlreadyFailed = queryParams.contains("error")
+                if (authAlreadyFailed) {
+                    val uiHost = Config.getString("ui.host")
+                    val error = queryParams["error"]
+                    val description = URLEncoder.encode(queryParams["error_description"], "UTF-8")
+
+                    // Grim-but-functional way to kick the user back to the UI instead of getting stuck in a loop
+                    OAuthServerSettings.OAuth2ServerSettings(
+                        name = "authorisation-failure",
+                        authorizeUrl = "$uiHost/?error=$error&error_description=$description",
+                        accessTokenUrl = "",
+                        clientId = "",
+                        clientSecret = "",
+                    )
+                } else {
+                    OAuthServerSettings.OAuth2ServerSettings(
+                        name = "discord",
+                        authorizeUrl = "https://discord.com/api/oauth2/authorize",
+                        accessTokenUrl = "https://discord.com/api/oauth2/token",
+                        requestMethod = HttpMethod.Post,
+                        clientId = Config.getString("secrets.discord.client.id"),
+                        clientSecret = Config.getString("secrets.discord.client.secret"),
+                        defaultScopes = listOf("identify", "guilds.members.read")
+                    )
+                }
             }
             client = discordHttpClient()
         }
