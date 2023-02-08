@@ -1,5 +1,5 @@
 ## Build stage image ##
-FROM amazoncorretto:11-alpine AS builder
+FROM amazoncorretto:12-alpine AS builder
 
 # Required for strip-debug to work
 RUN apk add --no-cache binutils
