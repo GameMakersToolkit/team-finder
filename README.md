@@ -88,7 +88,8 @@ If you prefer to run the apps natively, you'll need to run the **UI**, **API** a
   * **Windows**: `gradlew.bat build`  
   * **Mac/Linux**: `./gradlew build` 
 * Run the app (substitute in environment variables as appropriate)
-  * `DATABASE_URL="..." ADMIN_DISCORD_IDS="..." DISCORD_CLIENT_ID="..." DISCORD_CLIENT_SECRET="..." DISCORD_BOT_TOKEN="..." API_URL="..." UI_URL="..." ./gradlew run`
+  * **Mac/Linux** `DATABASE_URL="..." ADMIN_DISCORD_IDS="..." DISCORD_CLIENT_ID="..." DISCORD_CLIENT_SECRET="..." DISCORD_BOT_TOKEN="..." API_URL="..." UI_URL="..." ./gradlew run`
+  * **Windows (PowerShell)**  `$env:DISCORD_CLIENT_ID = "..."; $env:DISCORD_CLIENT_SECRET = "..."; $env:DISCORD_BOT_TOKEN = "..."; $env:DATABASE_URL="..."; $env:API_URL = "..."; $env:UI_URL = "..."; $env:ADMIN_DISCORD_IDS="..." ./gradlew.bat run`
 
 If you're using the remote database (or a local DB with authentication), you'll likely need to import the certificate
 locally. See https://docs.oracle.com/javase/tutorial/security/toolfilex/rstep1.html (or something newer) to import
