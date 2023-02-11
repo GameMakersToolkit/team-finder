@@ -30,7 +30,7 @@ dependencies {
     implementation("io.insert-koin:koin-ktor:$koin_version")
 
     // DB
-    implementation("org.litote.kmongo:kmongo:4.6.1")
+    implementation("org.litote.kmongo:kmongo:4.8.0")
 
     // Discord bot
     implementation("org.javacord:javacord:3.4.0")
