@@ -1,35 +1,28 @@
 package com.gmtkgamejam.services
 
-import com.gmtkgamejam.models.AuthTokenSet
+import com.gmtkgamejam.models.FavouritePostDto
 import com.gmtkgamejam.models.FavouritesList
-import com.mongodb.client.MongoClient
-import com.mongodb.client.MongoCollection
-import com.mongodb.client.model.UpdateOptions
+import com.gmtkgamejam.repositories.FavouritesRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
-import org.litote.kmongo.getCollectionOfName
-import org.litote.kmongo.updateOne
 
 class FavouritesService : KoinComponent {
-
-    private val client: MongoClient by inject()
-
-    private val col: MongoCollection<FavouritesList>
-
-    init {
-        val database = client.getDatabase("team-finder")
-        col = database.getCollectionOfName("favourites")
-    }
+    private val repository: FavouritesRepository by inject()
 
     fun getFavouritesByUserId(discordId: String): FavouritesList {
-        return col.findOne(FavouritesList::discordId eq discordId) ?: FavouritesList(discordId)
+        return repository.getFavouritesByUserId(discordId) ?: FavouritesList(discordId)
     }
 
-    fun saveFavourites(favourites: FavouritesList) {
-        col.updateOne(AuthTokenSet::discordId eq favourites.discordId, favourites, UpdateOptions().upsert(true))
+    fun saveFavourites(favourites: FavouritesList): FavouritesList {
+        repository.saveFavourites(favourites)
+        return favourites
     }
 
+    fun addPostAsFavourite(discordId: String, post: FavouritePostDto) =
+        this.saveFavourites((repository.getFavouritesByUserId(discordId) ?: FavouritesList(discordId))
+            .also {
+                it.postIds.add(post.id)
+            }
+        )
 }
 

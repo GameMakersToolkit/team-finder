@@ -1,6 +1,6 @@
 package com.gmtkgamejam.routing
 
-import com.gmtkgamejam.models.FavouritesDto
+import com.gmtkgamejam.models.FavouritePostDto
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
@@ -20,22 +20,22 @@ fun Application.configureFavouritesRouting() {
         authenticate("auth-jwt") {
             route("/favourites") {
                 post {
-                    val postToFavourite = call.receive<FavouritesDto>()
+                    val postToFavourite = call.receive<FavouritePostDto>()
 
-                    authService.getTokenSet(call)
-                        ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
-                        ?.also { it.postIds.add(postToFavourite.postId) }
-                        ?.let { favouritesService.saveFavourites(it) }
-                        ?.let { return@post call.respond(it) }
+                    val tokenSet = authService.getTokenSet(call)
+                        ?: return@post call.respond(
+                            status = HttpStatusCode.BadRequest,
+                            mapOf("message" to "Failed to favourite post.")
+                        )
 
-                    call.respondJSON("Favourite couldn't be added", status = HttpStatusCode.BadRequest)
+                    return@post call.respond(favouritesService.addPostAsFavourite(tokenSet.discordId, postToFavourite))
                 }
                 delete {
-                    val postToUnFavourite = call.receive<FavouritesDto>()
+                    val postToUnFavourite = call.receive<FavouritePostDto>()
 
                     authService.getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
-                        ?.also { it.postIds.remove(postToUnFavourite.postId) }
+                        ?.also { it.postIds.remove(postToUnFavourite.id) }
                         ?.let { favouritesService.saveFavourites(it) }
                         ?.let { return@delete call.respond(it) }
 
