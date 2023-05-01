@@ -141,6 +141,33 @@ export function useReportPostMutation(
   })
 }
 
+const REPORT_DMS_POST_QUERY_KEY = ["posts", "report-unable-to-contact"] as const;
+
+export interface ReportBrokenDMsPostMutationVariables {
+  id: string;
+}
+
+export function useReportBrokenDMsPostMutation(
+    opts?: UseMutationOptions<void, Error, ReportBrokenDMsPostMutationVariables>
+): UseMutationResult<void, Error, ReportBrokenDMsPostMutationVariables> {
+  const apiRequest = useApiRequest();
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...opts,
+    mutationFn: async (variables) => {
+      await apiRequest<void>("/posts/report-unable-to-contact", {
+        method: "POST",
+        body: variables,
+      });
+    },
+    mutationKey: ["posts", "report-unable-to-contact"],
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries(REPORT_DMS_POST_QUERY_KEY);
+      opts?.onSuccess?.(data, variables, context);
+    }
+  })
+}
+
 const FAVOURITE_POST_QUERY_KEY = ["posts", "favourite"] as const;
 
 export interface FavouritePostMutationVariables {

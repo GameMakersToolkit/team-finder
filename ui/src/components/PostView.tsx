@@ -1,5 +1,6 @@
 import * as React from "react";
-import {useReportPostMutation} from "../queries/posts";
+import { useParams } from "react-router-dom";
+import { useReportPostMutation, useReportBrokenDMsPostMutation } from "../queries/posts";
 import { FavouritePostIndicator } from "./FavouritePostIndicator";
 import { SkillList } from "./SkillList";
 import { ToolList } from "./ToolList";
@@ -13,7 +14,7 @@ import { useUserInfo } from "../queries/userInfo";
 import { useCreateBotDmMutation } from "../queries/bot";
 import { login } from "../utils/login";
 
-export const PostView: React.FC<{post: Post}> = ({post}) => {
+export const PostView: React.FC<{ post: Post }> = ({ post }) => {
   return (
     <>
       <div className="p-4">
@@ -21,7 +22,7 @@ export const PostView: React.FC<{post: Post}> = ({post}) => {
           <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>← Back to list</a>
         </div>
         <div className="flex justify-between min-w-0">
-          <span className="inline-block" style={{width: "calc(100% - 100px)"}}>
+          <span className="inline-block" style={{ width: "calc(100% - 100px)" }}>
             <h3 className="font-bold text-xl overflow-hidden text-ellipsis">
               {post.author}
             </h3>
@@ -78,7 +79,7 @@ export const PostView: React.FC<{post: Post}> = ({post}) => {
           {post.timezoneOffsets.map((t) => timezoneOffsetFromInt(t)).join(', ')}
         </p>
 
-        <div className="mb-16 mt-4 break-words" style={{wordBreak: "break-word"}}>
+        <div className="mb-16 mt-4 break-words" style={{ wordBreak: "break-word" }}>
           {post.description.split("\n").map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
         </div>
       </div>
@@ -86,9 +87,12 @@ export const PostView: React.FC<{post: Post}> = ({post}) => {
       <MessageOnDiscordButton
         authorName={post.author}
         authorId={post.authorId}
+        unableToContactCount={post.unableToContactCount}
       />
       {/* report button */}
-      <ReportButton post={post}/>
+      <ReportButton post={post} />
+
+      <ReportBrokenDMsButton post={post} />
     </>
   )
 }
@@ -126,14 +130,59 @@ const ReportButton: React.FC<{ post: Post }> = ({
   return (
     <>
       {auth &&
-          <div className="flex justify-between min-w-0">
-            {!isReported() &&
-                <a className="hover:underline decoration-stone-50" href="#report" onClick={onClick}>Report post</a>
-            }
-            {isReported() &&
-                <span>Thanks for reporting!</span>
-            }
-          </div>
+        <div className="flex justify-between min-w-0">
+          {!isReported() &&
+            <a className="hover:underline decoration-stone-50" href="#report" onClick={onClick}>Report post</a>
+          }
+          {isReported() &&
+            <span>Thanks for reporting!</span>
+          }
+        </div>
+      }
+    </>
+  )
+}
+
+const ReportBrokenDMsButton: React.FC<{ post: Post }> = ({
+  post
+}) => {
+  const auth = useAuth();
+  const reportMutation = useReportBrokenDMsPostMutation();
+
+  const onClick = (e: { preventDefault(): void }) => {
+    e.preventDefault();
+
+    reportMutation.mutate({
+      id: post.id,
+    }, {
+      onSuccess: () => {
+        toast("Thanks for letting us know!");
+        let d = [post.id];
+        const value = localStorage.getItem("reported_dms");
+        if (value != null && value != "") d = d.concat(JSON.parse(value))
+        localStorage.setItem("reported_dms", JSON.stringify(d));
+      }
+    });
+  };
+
+  const isReported: () => boolean = () => {
+    const value = localStorage.getItem("reported_dms");
+    if (value == null || value == "") return false;
+    const data: Array<string> = JSON.parse(value);
+    return data.includes(post.id)
+  }
+
+  return (
+    <>
+      {auth &&
+        <div className="flex justify-between min-w-0">
+          {!isReported() &&
+            <a className="hover:underline decoration-stone-50" href="#report" onClick={onClick}>Discord button not working?</a>
+          }
+          {isReported() &&
+            <span>Thanks, we'll look into this.</span>
+          }
+        </div>
       }
     </>
   )
@@ -143,6 +192,7 @@ const ReportButton: React.FC<{ post: Post }> = ({
 interface CTAProps {
   authorName: string;
   authorId: string;
+  unableToContactCount: number
 }
 
 /**
@@ -155,56 +205,78 @@ interface CTAProps {
 const MessageOnDiscordButton: React.FC<CTAProps> = ({
   authorName,
   authorId,
+  unableToContactCount,
 }) => {
   const isLoggedIn = Boolean(useAuth());
   const userInfo = useUserInfo();
+  const canPostAuthorBeDMd = unableToContactCount < 5; // Arbitrary number
   const userCanPingAuthor = isLoggedIn && !userInfo.isLoading && userInfo.data?.isInDiscordServer
 
   const createBotDmMutation = useCreateBotDmMutation();
 
-    return (
-        <>
-            {/* TODO: Position this relative to bottom of frame? */}
-            <div className="text-center">
-                <span
-                    className="mb-6 p-2 rounded inline-flex cursor-pointer"
-                    style={{background: '#5865F2'}}
-                >
-                    {isLoggedIn ?
-                        <a target="_blank"
-                           rel="noreferrer"
-                           href={`https://discord.com/users/${authorId}`}
-                           onClick={login}
-                           className="text-sm"
-                        >
-                            Message {authorName} on Discord{' '}
-                            <>(Log in to continue)</>
-                        </a>
-                        : <></>
-                    }
-                </span>
+  const fallbackPingMessage = canPostAuthorBeDMd ? "Direct Message button not working?" : "This post's author cannot receive direct messages"
 
-                <br/>
+  return (
+    <>
+      {/* TODO: Position this relative to bottom of frame? */}
+      <div className="text-center">
+        {canPostAuthorBeDMd && <><PrimaryCta authorId={authorId} authorName={authorName} isLoggedIn={isLoggedIn} /><br /></>}
+        {userCanPingAuthor ? <FallbackPingCta authorId={authorId} createBotDmMutation={createBotDmMutation} message={fallbackPingMessage} /> : <p>Sorry, you can't contact this user right now.<br />Please log in and make sure you've joined the discord server!</p>}
+      </div>
+    </>
+  );
+};
 
-                {userCanPingAuthor ?
-                    <span
-                        className="mb-6 p-2 rounded inline-flex cursor-pointer border"
-                        style={{borderColor: '#5865F2'}}
-                    >
-                        <a
-                            target="_blank"
-                            rel="noreferrer"
-                            onClick={() => createBotDmMutation.mutate({recipientId: authorId})}
-                            className="text-sm"
-                        >
-                            Direct Message button not working?
-                            <br/>
-                            Click here to ping them in the channel
-                        </a>
-                    </span>
-                    : <></>
-                }
-            </div>
-        </>
-    );
+
+const PrimaryCta: React.FC<{ authorId: string, authorName: string, isLoggedIn: boolean }> = ({
+  authorId,
+  authorName,
+  isLoggedIn,
+}) => {
+  return (
+    <span
+      className="mb-6 p-2 rounded inline-flex cursor-pointer"
+      style={{ background: '#5865F2' }}
+    >
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={
+          isLoggedIn ? `https://discord.com/users/${authorId}` : undefined
+        }
+        onClick={!isLoggedIn ? login : undefined}
+        className="text-sm"
+      >
+        Message {authorName} on Discord{' '}
+        {!isLoggedIn && <>(Log in to continue)</>}
+      </a>
+    </span >
+  );
+};
+
+
+const FallbackPingCta: React.FC<{ authorId: string, createBotDmMutation: any, message: string }> = ({
+  authorId,
+  createBotDmMutation,
+  message,
+}) => {
+  return (
+    <span
+      className="mb-6 p-2 rounded inline-flex cursor-pointer border"
+      style={{ borderColor: '#5865F2' }}
+    >
+      <a
+        target="_blank"
+        rel="noreferrer"
+        onClick={() =>
+          createBotDmMutation.mutate({ recipientId: authorId })
+        }
+        className="text-sm"
+      >
+        {message}
+        <br />
+        Click here to ping them in the channel
+      </a>
+    </span>
+  );
 };

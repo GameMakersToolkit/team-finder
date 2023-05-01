@@ -19,6 +19,7 @@ export interface Post {
   languages: Language[];
   isFavourite: boolean;
   reportCount: number;
+  unableToContactCount: number;
   createdAt: Date;
   updatedAt: Date | null;
   deletedAt: Date | null;
