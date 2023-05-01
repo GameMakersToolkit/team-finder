@@ -48,6 +48,7 @@
       "es"
     ],
     "reportCount": 0,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -102,6 +103,7 @@
       "ot"
     ],
     "reportCount": 6,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -141,6 +143,7 @@
       "ko"
     ],
     "reportCount": 0,
+    "unableToContactCount": 5,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -194,6 +197,7 @@
       "zh-TW"
     ],
     "reportCount": 2,
+    "unableToContactCount": 19,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -240,6 +244,7 @@
       "en"
     ],
     "reportCount": 0,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -299,6 +304,7 @@
       "en"
     ],
     "reportCount": 7,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -358,6 +364,7 @@
       "de"
     ],
     "reportCount": 9,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -403,6 +410,7 @@
       "de"
     ],
     "reportCount": 1,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -448,6 +456,7 @@
       "id"
     ],
     "reportCount": 1,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -500,6 +509,7 @@
       "pt"
     ],
     "reportCount": 1,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -566,6 +576,7 @@
       "ja"
     ],
     "reportCount": 5,
+    "unableToContactCount": 34,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -620,6 +631,7 @@
       "es"
     ],
     "reportCount": 10,
+    "unableToContactCount": 2,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -674,6 +686,7 @@
       "zh-TW"
     ],
     "reportCount": 4,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -735,6 +748,7 @@
       "es-419"
     ],
     "reportCount": 9,
+    "unableToContactCount": 2,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -788,6 +802,7 @@
       "en"
     ],
     "reportCount": 8,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -843,6 +858,7 @@
       "ko"
     ],
     "reportCount": 9,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -904,6 +920,7 @@
       "ja"
     ],
     "reportCount": 4,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -958,6 +975,7 @@
       "vi"
     ],
     "reportCount": 1,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1007,6 +1025,7 @@
       "zh-CN"
     ],
     "reportCount": 1,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1067,6 +1086,7 @@
       "id"
     ],
     "reportCount": 3,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1130,6 +1150,7 @@
       "it"
     ],
     "reportCount": 4,
+    "unableToContactCount": 9,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1175,6 +1196,7 @@
       "ar"
     ],
     "reportCount": 9,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1216,6 +1238,7 @@
       "ja"
     ],
     "reportCount": 9,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1272,6 +1295,7 @@
       "ja"
     ],
     "reportCount": 5,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1322,6 +1346,7 @@
       "de"
     ],
     "reportCount": 0,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1383,6 +1408,7 @@
       "fr"
     ],
     "reportCount": 3,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1433,6 +1459,7 @@
       "it"
     ],
     "reportCount": 7,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1470,6 +1497,7 @@
       "ko"
     ],
     "reportCount": 0,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1515,6 +1543,7 @@
       "ot"
     ],
     "reportCount": 0,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
@@ -1575,6 +1604,7 @@
       "pl"
     ],
     "reportCount": 2,
+    "unableToContactCount": 0,
     "createdAt": "2022-09-03 09:51:17",
     "updatedAt": "2022-09-03 09:51:17",
     "deletedAt": null
