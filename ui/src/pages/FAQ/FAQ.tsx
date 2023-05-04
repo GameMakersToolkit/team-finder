@@ -9,7 +9,12 @@ const discordGroupInviteUrl = importMetaEnv().VITE_DISCORD_INVITE_URL;
 const jamName = importMetaEnv().VITE_JAM_NAME;
 const jamUrl = importMetaEnv().VITE_JAM_URL;
 
-const FAQHeading: React.FC<{ question: string }> = ({ question, children }) => {
+type Props = {
+  children: string | JSX.Element | JSX.Element[];
+  question: string;
+}
+
+const FAQHeading: React.FC<Props> = ({ question, children }) => {
   return (
     <div className="grid place-items-center bg-gray-900">
       <div className="py-12 w-5/6">
@@ -24,6 +29,7 @@ const FAQImage: React.FC<{
   question: string;
   left?: boolean;
   image: string;
+  children: string | JSX.Element | JSX.Element[]
 }> = ({ question, left, image, children }) => {
   return (
     <div className="py-16 odd:bg-gray-900">
@@ -51,7 +57,7 @@ const FAQImage: React.FC<{
   );
 };
 
-const FAQTextItem: React.FC<{ question: string }> = ({
+const FAQTextItem: React.FC<Props> = ({
   question,
   children,
 }) => {
@@ -77,7 +83,7 @@ export const FAQ = () => {
               for the ${jamName}! Browse the post list or make a post of your own!`}
             </p>
 
-            {discordGroupName === "GMTK" && (<>
+            {discordGroupName === "GMTK" ? (<>
             <p className="pt-4">
               <span className="italic">This is not run by Mark Brown!</span>{" "}
               Mark gave his blessing for us to use his shiny logos and branding,
@@ -89,7 +95,7 @@ export const FAQ = () => {
               becoming more community-driven - please do not contact Mark with
               questions about the Team Finder!
             </p>
-            </>)}
+            </>) : <></>}
 
           </FAQHeading>
 

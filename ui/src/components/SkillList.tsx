@@ -28,7 +28,7 @@ export const SkillList: React.FC<{
                             skill={skill}
                             className={`w-5 text-[color:var(--skill-color)] ${showText && "mr-1"}`}
                             aria-hidden={true}
-                        />
+                            />
                         {showText && <span className="text-sm">{info.friendlyName}</span>}
                     </dd>
                 );

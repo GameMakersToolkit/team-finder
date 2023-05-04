@@ -11,7 +11,11 @@ const queryClient = new QueryClient({
   },
 });
 
-export const Context: React.FC = ({ children }) => (
+type Props = {
+    children: string | JSX.Element | JSX.Element[]
+};
+
+export const Context: React.FC<Props> = ({ children }) => (
   <Router>
     <AuthContextProvider>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
