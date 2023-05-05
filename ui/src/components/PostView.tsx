@@ -210,7 +210,9 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({
   const isLoggedIn = Boolean(useAuth());
   const userInfo = useUserInfo();
   const canPostAuthorBeDMd = unableToContactCount < 5; // Arbitrary number
-  const userCanPingAuthor = isLoggedIn && !userInfo.isLoading && userInfo.data?.isInDiscordServer
+
+  const userShouldSeePingButton = isLoggedIn && !userInfo.isLoading;
+  const userCanPingAuthor = userInfo.data?.isInDiscordServer;
 
   const createBotDmMutation = useCreateBotDmMutation();
 
@@ -221,7 +223,17 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({
       {/* TODO: Position this relative to bottom of frame? */}
       <div className="text-center">
         {canPostAuthorBeDMd && <><PrimaryCta authorId={authorId} authorName={authorName} isLoggedIn={isLoggedIn} /><br /></>}
-        {userCanPingAuthor ? <FallbackPingCta authorId={authorId} createBotDmMutation={createBotDmMutation} message={fallbackPingMessage} /> : <p>Sorry, you can't contact this user right now.<br />Please log in and make sure you've joined the discord server!</p>}
+
+        {/* If the user isn't logged in, don't display anything at all; it just looks kinda bad */}
+        {userShouldSeePingButton
+          ? (
+            <>{userCanPingAuthor
+              ? <FallbackPingCta authorId={authorId} createBotDmMutation={createBotDmMutation} message={fallbackPingMessage} />
+              : <p>Sorry, you can't contact this user right now.<br />Please make sure you've joined the discord server!</p>
+            }</>
+          )
+          : <></>
+        }
       </div>
     </>
   );
