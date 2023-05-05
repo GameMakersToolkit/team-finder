@@ -1,8 +1,17 @@
 import { importMetaEnv } from "./importMeta";
 
-export enum JamState {Before, During, After}
+export enum JamState { Before, During, After }
 
 export const getJamState = () => {
+  const searchParams = new URL(window.location.toString()).searchParams;
+  const overrideStateParam: string = searchParams.get("js") || "";
+  if (overrideStateParam) {
+    // Enum key needs begins with a capital letter,
+    // and bafflingly this is still apparently the only way to do this
+    const overrideStateKey = overrideStateParam.charAt(0).toUpperCase() + overrideStateParam.slice(1) as keyof typeof JamState
+    return JamState[overrideStateKey] as JamState;
+  }
+
   const currentDate = new Date();
 
   // If an end date hasn't been given, never show the BeforeJam view
