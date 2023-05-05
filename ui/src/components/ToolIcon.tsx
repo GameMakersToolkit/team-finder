@@ -6,7 +6,7 @@ const transparent =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 const Spacer = () => <img src={transparent} width={512} height={512} alt="" />;
 
-interface Props extends Omit<ReactSVGProps, "ref"> {
+interface Props extends Pick<ReactSVGProps, "aria-hidden" | "className"> {
   tool: Tool;
 }
 export const ToolIcon: React.FC<Props> = ({ tool, ...props }) => (

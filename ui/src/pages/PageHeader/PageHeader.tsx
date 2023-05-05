@@ -99,7 +99,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
             </button>
           ) : (
             <p className="mr-4">
-              Welcome {userInfo.data?.username}! (
+              Welcome {userInfo.data?.username as string}! (
               <Link to="/logout" className="cursor-pointer hover:underline">
                 Click to logout
               </Link>

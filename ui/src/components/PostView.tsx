@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useParams } from "react-router-dom";
-import {usePostById, useReportPostMutation} from "../queries/posts";
+import {useReportPostMutation} from "../queries/posts";
 import { FavouritePostIndicator } from "./FavouritePostIndicator";
 import { SkillList } from "./SkillList";
 import { ToolList } from "./ToolList";
@@ -163,51 +162,49 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({
 
   const createBotDmMutation = useCreateBotDmMutation();
 
-  return (
-    <>
-      {/* TODO: Position this relative to bottom of frame? */}
-      <div className="text-center">
-        {/* Span wraps anchor in case text splits onto two lines - we want one whole button shape */}
-        <span
-          className="mb-6 p-2 rounded inline-flex cursor-pointer"
-          style={{ background: '#5865F2' }}
-        >
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href={
-              isLoggedIn ? `https://discord.com/users/${authorId}` : undefined
-            }
-            onClick={!isLoggedIn ? login : undefined}
-            className="text-sm"
-          >
-            Message {authorName} on Discord{' '}
-            {!isLoggedIn && <>(Log in to continue)</>}
-          </a>
-        </span>
+    return (
+        <>
+            {/* TODO: Position this relative to bottom of frame? */}
+            <div className="text-center">
+                <span
+                    className="mb-6 p-2 rounded inline-flex cursor-pointer"
+                    style={{background: '#5865F2'}}
+                >
+                    {isLoggedIn ?
+                        <a target="_blank"
+                           rel="noreferrer"
+                           href={`https://discord.com/users/${authorId}`}
+                           onClick={login}
+                           className="text-sm"
+                        >
+                            Message {authorName} on Discord{' '}
+                            <>(Log in to continue)</>
+                        </a>
+                        : <></>
+                    }
+                </span>
 
-        <br />
+                <br/>
 
-        {userCanPingAuthor && (
-          <span
-            className="mb-6 p-2 rounded inline-flex cursor-pointer border"
-            style={{ borderColor: '#5865F2' }}
-          >
-            <a
-              target="_blank"
-              rel="noreferrer"
-              onClick={() =>
-                createBotDmMutation.mutate({ recipientId: authorId })
-              }
-              className="text-sm"
-            >
-              Direct Message button not working?
-              <br />
-              Click here to ping them in the channel
-            </a>
-          </span>
-        )}
-      </div>
-    </>
-  );
+                {userCanPingAuthor ?
+                    <span
+                        className="mb-6 p-2 rounded inline-flex cursor-pointer border"
+                        style={{borderColor: '#5865F2'}}
+                    >
+                        <a
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={() => createBotDmMutation.mutate({recipientId: authorId})}
+                            className="text-sm"
+                        >
+                            Direct Message button not working?
+                            <br/>
+                            Click here to ping them in the channel
+                        </a>
+                    </span>
+                    : <></>
+                }
+            </div>
+        </>
+    );
 };
