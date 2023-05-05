@@ -180,7 +180,7 @@ const ReportBrokenDMsButton: React.FC<{ post: Post }> = ({
             <a className="hover:underline decoration-stone-50" href="#report" onClick={onClick}>Discord button not working?</a>
           }
           {isReported() &&
-            <span>Thanks, we'll look into this.</span>
+            <span>Thanks, we&apos;ll look into this.</span>
           }
         </div>
       }
@@ -229,7 +229,7 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({
           ? (
             <>{userCanPingAuthor
               ? <FallbackPingCta authorId={authorId} createBotDmMutation={createBotDmMutation} message={fallbackPingMessage} />
-              : <p>Sorry, you can't contact this user right now.<br />Please make sure you've joined the discord server!</p>
+              : <p>Sorry, you can&apos;t contact this user right now.<br />Please make sure you&apos;ve joined the discord server!</p>
             }</>
           )
           : <></>
