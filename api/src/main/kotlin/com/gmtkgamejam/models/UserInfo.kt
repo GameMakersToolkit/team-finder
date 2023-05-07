@@ -3,8 +3,6 @@ package com.gmtkgamejam.models
 import com.gmtkgamejam.Config
 import kotlinx.serialization.Serializable
 
-private val guildId: String = Config.getString("jam.guildId")
-
 private val adminIds: List<String> = Config.getList("jam.adminIds")
 
 @Serializable
@@ -17,9 +15,9 @@ data class UserInfo(
     val isAdmin: Boolean
 ) {
 
-    constructor(discordUserInfo: DiscordUserInfo, guildInfo: JamGuildUserInfo?, isInDiscordServer: Boolean, hasContactPermsSet: Boolean) : this(
+    constructor(discordUserInfo: DiscordUserInfo, displayName: String, isInDiscordServer: Boolean, hasContactPermsSet: Boolean) : this(
         discordUserInfo.id,
-        guildInfo?.nick ?: discordUserInfo.username,
+        displayName,
         discordUserInfo.avatar,
         isInDiscordServer,
         hasContactPermsSet,

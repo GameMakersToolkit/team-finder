@@ -2,7 +2,6 @@ package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.Config
 import com.gmtkgamejam.bot.DiscordBot
-import com.gmtkgamejam.discord.getGuildInfoAsync
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
 import com.gmtkgamejam.models.UserInfo
@@ -61,20 +60,13 @@ fun Application.configureUserInfoRouting() {
 
                     // TODO: Risk of rate limiting from Discord
                     val user = getUserInfoAsync(accessToken)
+
+                    val displayName = bot.getDisplayNameForUser(user.id)
                     val hasPermissions = bot.doesUserHaveValidPermissions(user.id)
+                    val isUserInGuild = bot.isUserInGuild(user.id)
 
-                    try {
-                        // If the user doesn't belong to the jam guild, this call will return a 404
-                        val guildInfo = getGuildInfoAsync(accessToken)
-
-                        val userinfo = UserInfo(user, guildInfo, true, hasPermissions)
-                        return@get call.respond(userinfo)
-                    } catch (e: Exception) {
-                        logger.warn("Exception thrown - user likely not in guild: $e")
-
-                        val userinfo = UserInfo(user, null, false, hasPermissions)
-                        return@get call.respond(userinfo)
-                    }
+                    val userinfo = UserInfo(user, displayName, isUserInGuild, hasPermissions)
+                    return@get call.respond(userinfo)
                 }
 
                 call.respondJSON("Couldn't load token set from DB", status = HttpStatusCode.NotFound)
