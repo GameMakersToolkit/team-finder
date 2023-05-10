@@ -243,6 +243,21 @@ fun Application.configurePostRouting() {
                         call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
                     }
                 }
+
+                route("/report-unable-to-contact")
+                {
+                    post {
+                        val data = call.receive<PostItemUnableToContactReportDto>()
+
+                        service.getPost(data.id)?.let {
+                            it.unableToContactCount++
+                            service.updatePost(it)
+                            return@post call.respond(it)
+                        }
+
+                        call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
+                    }
+                }
             }
         }
     }
