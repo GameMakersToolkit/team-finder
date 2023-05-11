@@ -5,7 +5,9 @@ import kotlinx.coroutines.future.await
 import org.javacord.api.DiscordApi
 import org.javacord.api.DiscordApiBuilder
 import org.javacord.api.entity.channel.ServerTextChannel
+import org.javacord.api.entity.intent.Intent
 import org.javacord.api.entity.message.MessageBuilder
+import org.javacord.api.entity.server.Server
 import org.javacord.api.entity.user.User
 import org.javacord.api.exception.DiscordException
 import org.javacord.api.exception.MissingPermissionsException
@@ -18,18 +20,22 @@ class DiscordBot {
 
     private lateinit var api: DiscordApi
 
+    private lateinit var server: Server
+
     private lateinit var channel: ServerTextChannel
 
     private val approvedUsers: MutableList<String> = mutableListOf()
 
     init {
         val token = Config.getString("bot.token")
-        val builder = DiscordApiBuilder().setToken(token)
+        val builder = DiscordApiBuilder().setToken(token).setIntents(Intent.GUILD_MEMBERS)
 
+        val guildId = Config.getString("jam.guildId")
         val channelName = Config.getString("bot.pingChannel")
 
         try {
             api = builder.login().join()
+            server = api.getServerById(guildId).get()
 
             channel = api.getServerTextChannelsByNameIgnoreCase(channelName).first()
             logger.info("Discord bot is online and ready for action!")
@@ -37,6 +43,7 @@ class DiscordBot {
             logger.warn("Discord bot could not connect to pingChannel [$channelName] - ping message integration offline.")
         } catch (ex: Exception) {
             logger.warn("Discord bot could not be initialised - continuing...")
+            logger.warn(ex.toString())
         }
     }
 
@@ -90,6 +97,20 @@ class DiscordBot {
         }
 
         return !didMessageFailBecausePerms
+    }
+
+    fun isUserInGuild(userId: String): Boolean {
+        return server.getMemberById(userId).isPresent
+    }
+
+    fun getDisplayNameForUser(userId: String): String {
+        val baseUserName = api.getUserById(userId).get().name
+
+        return try {
+            server.getMemberById(userId).get().getNickname(server).get()
+        } catch (ex: NoSuchElementException) {
+            baseUserName
+        }
     }
 
 }

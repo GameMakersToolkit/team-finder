@@ -33,7 +33,7 @@ dependencies {
     implementation("org.litote.kmongo:kmongo:4.8.0")
 
     // Discord bot
-    implementation("org.javacord:javacord:3.4.0")
+    implementation("org.javacord:javacord:3.8.0")
 
     // Ktor server core, auth, etc
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
