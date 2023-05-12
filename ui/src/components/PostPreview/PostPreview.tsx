@@ -60,13 +60,13 @@ export const PostPreview: React.FC<Props> = ({
         {adminView && (
           <>
             <Button
-              style={{ backgroundColor: "red" }}
+              style={{ backgroundColor: "red", maxHeight: "3em" }}
               onClick={() => deletePostMutation.mutate({ postId: post.id })}
             >
               Delete Post
             </Button>
             <Button
-              style={{ backgroundColor: "red" }}
+              style={{ backgroundColor: "red", maxHeight: "3em" }}
               onClick={() => {
                 deletePostMutation.mutate({ postId: post.id });
                 banUserMutation.mutate({
@@ -80,9 +80,9 @@ export const PostPreview: React.FC<Props> = ({
           </>
         )}
 
-        <div className="bg-primary-highlight hover:bg-primary text-darkbg">
+        <div className="bg-primary-highlight hover:bg-primary text-darkbg self-end" style={{ maxHeight: "3em" }}>
           <Link
-            className="text-lg text-white py-2 px-8 block"
+            className="text-lg text-white py-2 px-8 block self-end"
             to={`/${post.id}`}
           >
             More
