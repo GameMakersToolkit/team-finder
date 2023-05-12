@@ -1,6 +1,6 @@
 package com.gmtkgamejam.services
 
-import com.gmtkgamejam.models.BannedUser
+import com.gmtkgamejam.models.admin.BannedUser
 import com.gmtkgamejam.repositories.AdminRepository
 import org.junit.AfterClass
 import org.junit.Before

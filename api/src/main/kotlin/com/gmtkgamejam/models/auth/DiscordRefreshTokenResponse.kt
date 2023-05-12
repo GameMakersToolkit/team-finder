@@ -1,4 +1,4 @@
-package com.gmtkgamejam.models
+package com.gmtkgamejam.models.auth
 
 import kotlinx.serialization.Serializable
 

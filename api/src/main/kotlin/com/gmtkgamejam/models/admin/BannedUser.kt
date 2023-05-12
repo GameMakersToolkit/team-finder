@@ -1,4 +1,6 @@
-package com.gmtkgamejam.models
+package com.gmtkgamejam.models.admin
+
+import com.gmtkgamejam.models.admin.dtos.BanUnbanUserDto
 
 data class BannedUser(
     val discordId: String,

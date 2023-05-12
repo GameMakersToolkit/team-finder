@@ -4,7 +4,7 @@ import com.gmtkgamejam.Config
 import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
-import com.gmtkgamejam.models.UserInfo
+import com.gmtkgamejam.models.auth.UserInfo
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import io.ktor.server.application.*

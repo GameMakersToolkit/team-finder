@@ -1,6 +1,6 @@
 package com.gmtkgamejam.repositories
 
-import com.gmtkgamejam.models.BannedUser
+import com.gmtkgamejam.models.admin.BannedUser
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import org.litote.kmongo.eq

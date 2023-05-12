@@ -1,4 +1,4 @@
-package com.gmtkgamejam.models
+package com.gmtkgamejam.models.posts
 
 enum class Skills {
     ART_2D,

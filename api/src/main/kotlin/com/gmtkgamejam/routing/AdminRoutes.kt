@@ -1,10 +1,10 @@
 package com.gmtkgamejam.routing
 
-import com.gmtkgamejam.models.BanUnbanUserDto
-import com.gmtkgamejam.models.BannedUser
-import com.gmtkgamejam.models.PostItem
-import com.gmtkgamejam.models.admin.DeletePostDto
-import com.gmtkgamejam.models.admin.ReportedUsersClearDto
+import com.gmtkgamejam.models.admin.dtos.BanUnbanUserDto
+import com.gmtkgamejam.models.admin.BannedUser
+import com.gmtkgamejam.models.posts.PostItem
+import com.gmtkgamejam.models.admin.dtos.DeletePostDto
+import com.gmtkgamejam.models.admin.dtos.ReportedUsersClearDto
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AdminService
 import com.gmtkgamejam.services.PostService

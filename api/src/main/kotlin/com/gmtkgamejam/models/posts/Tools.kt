@@ -1,4 +1,4 @@
-package com.gmtkgamejam.models
+package com.gmtkgamejam.models.posts
 
 // For the time being, Tool == Engine
 enum class Tools {

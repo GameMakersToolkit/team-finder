@@ -1,5 +1,6 @@
-package com.gmtkgamejam.models
+package com.gmtkgamejam.models.posts
 
+import com.gmtkgamejam.models.posts.dtos.PostItemCreateDto
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.gmtkgamejam.Config
 import com.gmtkgamejam.discord.getUserInfoAsync
-import com.gmtkgamejam.models.AuthTokenSet
+import com.gmtkgamejam.models.auth.AuthTokenSet
 import com.gmtkgamejam.services.AuthService
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

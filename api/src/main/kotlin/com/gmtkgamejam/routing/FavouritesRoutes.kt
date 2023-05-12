@@ -1,6 +1,6 @@
 package com.gmtkgamejam.routing
 
-import com.gmtkgamejam.models.FavouritePostDto
+import com.gmtkgamejam.models.posts.dtos.FavouritePostDto
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
