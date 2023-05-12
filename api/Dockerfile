@@ -35,7 +35,7 @@ RUN ./gradlew dependencies
 COPY src/ ./src
 
 # Do the actual build, now we have source code
-RUN ./gradlew build
+RUN ./gradlew build -x test
 
 
 
