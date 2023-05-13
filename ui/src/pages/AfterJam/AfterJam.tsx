@@ -2,7 +2,7 @@ import React from "react";
 import { importMetaEnv } from "../../utils/importMeta";
 
 const jamName = importMetaEnv().VITE_JAM_NAME;
-const nextYear = new Date().getFullYear() + 1
+const nextYear = new Date(importMetaEnv().VITE_JAM_END).getFullYear() + 1;
 
 export const AfterJam: React.FC = () => {
   return (
