@@ -22,11 +22,11 @@ export const SkillList: React.FC<{
                 return (
                     <dd
                         key={skill}
-                        className={`py-1 border-2 border-[color:var(--skill-color)] flex items-center ${showText ? "px-2 sm:px-1" : "px-1"}`}
+                        className={`py-1 border-2 border-[color:var(--skill-color)] bg-[color:var(--skill-color)] rounded-xl flex items-center ${showText ? "px-2 sm:px-1" : "px-1"}`}
                     >
                         <SkillIcon
                             skill={skill}
-                            className={`w-5 text-[color:var(--skill-color)] ${showText && "mr-1"}`}
+                            className={`w-5 text-white ${showText && "mr-1"}`}
                             aria-hidden={true}
                             />
                         {showText && <span className="text-sm">{info.friendlyName}</span>}

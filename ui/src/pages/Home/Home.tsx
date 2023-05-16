@@ -335,7 +335,7 @@ export const Home: React.FC = () => {
 
       {query.isLoading && (<LoadingSpinner />)}
 
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{minHeight: "50vh"}}>
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4" style={{minHeight: "50vh"}}>
         {query.data?.map((post) => (
           <PostPreview key={post.id} post={post} className="" showSkillText={showSkillText}/>
         ))}

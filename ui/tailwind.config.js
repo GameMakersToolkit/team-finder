@@ -18,10 +18,10 @@ module.exports = {
         darkbg: colors.neutral["800"],
         lightbg: colors.gray["600"],
         'lightbg-highlight': colors.gray["500"],
-        primary: "#ff680a",
-        'primary-highlight': "#cc570a",
-        accent1: colors.fuchsia["500"],
-        accent2: colors.yellow["500"],
+        primary: "#0072ff",
+        'primary-highlight': "#00CBFF",
+        accent1: "#ff5c0a",
+        accent2: "#ff1200",
       },
       typography: (theme) => ({
         DEFAULT: {

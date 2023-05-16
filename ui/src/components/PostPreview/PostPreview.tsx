@@ -35,7 +35,7 @@ export const PostPreview: React.FC<Props> = ({
     <article
       id={"post-" + post.id}
       className={cx(
-        "relative border-2 border-white p-2 grid grid-flow-row auto-cols-auto gap-y-2",
+        "relative bg-neutral-900 border-2 border-neutral-900 rounded-xl p-2 grid grid-flow-row auto-cols-auto gap-y-2",
         className
       )}
     >
@@ -56,7 +56,7 @@ export const PostPreview: React.FC<Props> = ({
         {description.split("\n").map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
       </div>
 
-      <div className={`flex ${adminView ? "justify-between" : "justify-end"}`}>
+      <div className={`${adminView ? "flex justify-between" : "text-center"}`}>
         {adminView && (
           <>
             <Button
@@ -80,9 +80,9 @@ export const PostPreview: React.FC<Props> = ({
           </>
         )}
 
-        <div className="bg-primary-highlight hover:bg-primary text-darkbg self-end" style={{ maxHeight: "3em" }}>
+        <div className="inline-block border-2 border-orange-400 rounded-xl text-orange-400 py-2 px-4 self-end" style={{ maxHeight: "3em" }}>
           <Link
-            className="text-lg text-white py-2 px-8 block self-end"
+            className="text-lg text-orange-400 font-bold"
             to={`/${post.id}`}
           >
             More
@@ -100,12 +100,12 @@ export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
       <span className="grow" style={{width: "calc(100% - 100px)"}}>
         <h3 className="text-xl overflow-hidden text-ellipsis whitespace-nowrap">
           {post.author}
+          <span className="text-sm">
+            {post.size > 1
+              ? ` and ${post.size - 1} others`
+              : ``}
+          </span>
         </h3>
-        <p className="text-sm">
-          {post.size > 1
-            ? `and ${post.size - 1} others are looking for members`
-            : `is looking for members`}
-        </p>
       </span>
       <FavouritePostIndicator
         post={post}
