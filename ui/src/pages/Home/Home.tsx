@@ -121,7 +121,6 @@ export const Home: React.FC = () => {
 
   const jamName = importMetaEnv().VITE_JAM_NAME;
   const countdown = getCountdownComponents(time);
-  console.log(countdown)
   const query = usePostsList(searchOptions);
 
   if (searchParams.get("error")) {
@@ -149,13 +148,13 @@ export const Home: React.FC = () => {
           </div>
           <div className="inline-block w-1/2 text-center">
             <div className="bg-red-600 border-red-600 border-2 rounded-xl inline-block p-3">
-                <span className="text-5xl">{`${countdown.days}: `}</span>
-                <span className="text-5xl">{`${countdown.hours}: `}</span>
-                <span className="text-5xl">{`${countdown.minutes} `}</span>
+                <span className="text-5xl">{`${countdown.days.toString().padStart(2, '0')}: `}</span>
+                <span className="text-5xl">{`${countdown.hours.toString().padStart(2, '0')}: `}</span>
+                <span className="text-5xl">{`${countdown.minutes.toString().padStart(2, '0')} `}</span>
             </div>
             <p className="text-center py-3">
-              <span className="mr-3 font-bold text-xl">Days</span>
-              <span className="mr-3 font-bold text-xl">Hours</span>
+              <span className="mr-4 font-bold text-xl">Days</span>
+              <span className="mr-4 font-bold text-xl">Hours</span>
               <span className=" font-bold text-xl">Minutes</span>
             </p>
             <p className="text-center">Left until the jam starts</p>

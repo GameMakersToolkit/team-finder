@@ -10,15 +10,23 @@ import { useMyPostQuery } from "../../queries/my-post";
 import {importMetaEnv} from "../../utils/importMeta";
 import { JamState } from "../../utils/jamState";
 
+// TODO: Use both
+import favouriteSelectedIcon from "./../../components/FavouritePostIndicator/favourite-selected-true.svg";
+import favouriteNotSelectedIcon from "./../../components/FavouritePostIndicator/favourite-selected-false.svg";
+
+import myPostIcon from "./icons/my-post.svg"
+
 const jamName = importMetaEnv().VITE_JAM_NAME;
 
 const navMenuElementStylingRules =
   "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight";
-const navInlineElementStylingRules = `mr-2 border rounded leading-none py-2 px-2 hover:bg-primary-highlight`;
+const navInlineElementStylingRules = `mr-2 text-gray-400 leading-none py-2 px-2 hover:font-bold hover:text-white`;
 
 interface LinkData {
   label: string;
-  to: string;
+  to?: string;
+  icon?: string;
+  onClick?: void;
 }
 
 export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
@@ -42,28 +50,6 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
     return (<></>);
   }
 
-
-  const links: LinkData[] = [
-    {
-      label: "Home",
-      to: "/",
-    },
-    {
-      label: myPostQuery?.data ? `Edit my Post` : `Create a Post`,
-      to: "/my-post",
-    },
-    {
-      label: "About",
-      to: "/faq",
-    },
-  ];
-  if (shouldDisplayAdminLink) {
-    links.push({
-      label: "Admin tools",
-      to: "/admin",
-    });
-  }
-
   return (
     <div className="bg-black h-full mx-auto">
       {/* Static Inline Header */}
@@ -77,9 +63,8 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
         </Link>
         {shouldShowHorizontalLinks && (
           <div className="flex items-center">
-            {links.map((link) => (
-              <InlineNavLink key={link.to} linkData={link} />
-            ))}
+            <InlineNavLink key={"About"} linkData={{to: "/about", label: "About"}} />
+            {shouldDisplayAdminLink && <InlineNavLink key={"Admin"} linkData={{to: "/admin", label: "Admin"}} />}
           </div>
         )}
 
@@ -87,6 +72,10 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
         <div className="flex-1" />
 
         <div className="flex items-center">
+          <InlineNavLink key={"Edit"} linkData={{to: "/my-post", icon: myPostIcon}} />
+          {/* TODO: Toggle icon, make onclick do something */}
+          <InlineNavLink key={"Bookmarks"} linkData={{onClick: () => {}, icon: favouriteNotSelectedIcon}} />
+
           {shouldDisplayLogin ? (
             <button
               className={`rounded-lg font-bold mr-4 px-5 py-1 bg-primary ${
@@ -145,17 +134,41 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
 export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
   linkData,
 }) => {
-  const isMatch = useMatch({ path: linkData.to, end: true });
-  return (
-    <Link
-      className={cx(navInlineElementStylingRules, {
-        "bg-primary": isMatch,
-      })}
-      to={linkData.to}
-    >
-      {linkData.label}
-    </Link>
-  );
+  const isMatch = linkData.to && useMatch({ path: linkData.to, end: true });
+
+  if (linkData.to) {
+    return (
+      <Link
+        className={cx(navInlineElementStylingRules, {
+          "font-bold": isMatch,
+        })}
+        to={linkData.to}
+      >
+        {linkData.icon
+          ? (<img
+            src={linkData.icon}
+            className="inline-block"
+            style={{ width: "26px", height: "26px", minWidth: "26px" }}
+            />)
+         : linkData.label}
+      </Link>
+    );
+  }
+
+  if (linkData.icon) {
+    return (
+      <span
+      className={``}
+      onClick={linkData.onClick}
+      >
+        <img
+          src={linkData.icon}
+          className="inline-block mr-2"
+          style={{ width: "26px", height: "26px", minWidth: "26px" }}
+        />
+    </span>
+    )
+  }
 };
 
 const ShowHideNavButton: React.FC<{
