@@ -123,7 +123,7 @@ export const Home: React.FC = () => {
     <div className="container mx-auto max-w-screen-xxl p-1 px-4">
       <Onboarding />
 
-      <h1 className="text-3xl my-4">Search for a post</h1>
+      <h1 className="text-xl my-2 font-bold text-center">Find people to jam with:</h1>
 
       <div>
         <label className="font-bold block" htmlFor="descriptionFilter">
@@ -132,7 +132,8 @@ export const Home: React.FC = () => {
         <input
           id="descriptionFilter"
           type="text"
-          className="bg-black border-2 border-white text-white p-2 w-full h-[36px]"
+          placeholder="Search for keywords in a post"
+          className="input p-2 w-full h-[36px]"
           value={description}
           onChange={(e) => setDescription(e.currentTarget.value)}
         />

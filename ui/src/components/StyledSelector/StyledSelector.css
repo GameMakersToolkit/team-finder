@@ -1,10 +1,10 @@
 @layer components {
   .styled-selector .react-select__control {
-    @apply bg-black border-2 border-white rounded-none;
+    @apply bg-gray-300 border-2 border-gray-300 rounded-xl placeholder-gray-600;
   }
 
   .styled-selector .react-select__control:hover {
-    @apply border-white;
+    @apply border-blue-600;
   }
 
   .styled-selector .react-select__input-container {

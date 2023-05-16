@@ -6,8 +6,8 @@
 @tailwind utilities;
 
 @layer base {
-  input {
-    @apply text-black;
+  .input {
+    @apply bg-gray-300 border-2 border-gray-300 rounded-xl placeholder-gray-600 text-gray-900;
   }
 }
 

@@ -121,7 +121,7 @@ export const MyPost: React.FC = () => {
         maxLength={2000}
         rows={5}
         required={true}
-        className={"min-h-[100px] border-white border-2 bg-black text-white w-full py-1 px-2 mt-4 sm:mb-4"}
+        className={"input min-h-[100px] w-full py-1 px-2 mt-4 sm:mb-4"}
         disabled={disabled}
         value={formState.description}
         onChange={(e) =>
