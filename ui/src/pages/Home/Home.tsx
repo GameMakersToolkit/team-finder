@@ -361,7 +361,7 @@ export const Home: React.FC = () => {
         </>
       )}
 
-      <div className="block">
+      <div className="block" style={{overflow: "auto"}}>
         <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
 
         <SortingOptions
