@@ -1,6 +1,6 @@
 package com.gmtkgamejam.discord
 
-import com.gmtkgamejam.models.DiscordUserInfo
+import com.gmtkgamejam.models.auth.DiscordUserInfo
 import io.ktor.client.call.body
 import io.ktor.client.request.*
 import io.ktor.http.*

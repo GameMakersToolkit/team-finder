@@ -1,6 +1,6 @@
 package com.gmtkgamejam.discord
 
-import com.gmtkgamejam.models.DiscordRefreshTokenResponse
+import com.gmtkgamejam.models.auth.DiscordRefreshTokenResponse
 import io.ktor.client.call.body
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*

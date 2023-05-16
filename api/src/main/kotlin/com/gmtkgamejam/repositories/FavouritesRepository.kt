@@ -1,7 +1,7 @@
 package com.gmtkgamejam.repositories
 
-import com.gmtkgamejam.models.AuthTokenSet
-import com.gmtkgamejam.models.FavouritesList
+import com.gmtkgamejam.models.auth.AuthTokenSet
+import com.gmtkgamejam.models.posts.FavouritesList
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.UpdateOptions

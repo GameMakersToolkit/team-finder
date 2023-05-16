@@ -1,7 +1,7 @@
 package com.gmtkgamejam.services
 
-import com.gmtkgamejam.models.BannedUser
-import com.gmtkgamejam.models.PostItem
+import com.gmtkgamejam.models.admin.BannedUser
+import com.gmtkgamejam.models.posts.PostItem
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import org.bson.conversions.Bson

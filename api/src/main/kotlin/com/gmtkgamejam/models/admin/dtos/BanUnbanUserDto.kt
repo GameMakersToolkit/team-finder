@@ -1,4 +1,4 @@
-package com.gmtkgamejam.models
+package com.gmtkgamejam.models.admin.dtos
 
 import kotlinx.serialization.Serializable
 

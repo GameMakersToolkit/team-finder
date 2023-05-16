@@ -1,5 +1,8 @@
-package com.gmtkgamejam.models
+package com.gmtkgamejam.models.posts.dtos
 
+import com.gmtkgamejam.models.posts.Availability
+import com.gmtkgamejam.models.posts.Skills
+import com.gmtkgamejam.models.posts.Tools
 import kotlinx.serialization.Serializable
 
 /**

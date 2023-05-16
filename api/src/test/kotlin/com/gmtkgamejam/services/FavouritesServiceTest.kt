@@ -1,7 +1,7 @@
 package com.gmtkgamejam.services
 
-import com.gmtkgamejam.models.FavouritePostDto
-import com.gmtkgamejam.models.FavouritesList
+import com.gmtkgamejam.models.posts.dtos.FavouritePostDto
+import com.gmtkgamejam.models.posts.FavouritesList
 import com.gmtkgamejam.repositories.FavouritesRepository
 import com.gmtkgamejam.repositories.FavouritesRepositoryImpl
 import com.mongodb.ConnectionString

@@ -2,7 +2,7 @@ package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.Config
 import com.gmtkgamejam.bot.DiscordBot
-import com.gmtkgamejam.models.BotDmDto
+import com.gmtkgamejam.models.bot.dtos.BotDmDto
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.toJsonElement
