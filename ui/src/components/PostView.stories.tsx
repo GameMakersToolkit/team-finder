@@ -28,6 +28,7 @@ export const Default: Story = {
             languages: ["en"],
             isFavourite: false,
             reportCount: 0,
+            unableToContactCount: 0,
             createdAt: new Date(),
             updatedAt: new Date(),
             deletedAt: new Date()
