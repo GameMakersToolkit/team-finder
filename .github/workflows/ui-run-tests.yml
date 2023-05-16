@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 16.9
+          node-version: 16.15
           cache: 'npm'
           # This is passed into the `actions/cache` action under the hood,
           # and doesn't appear to be affected by `working-directory: ui`
