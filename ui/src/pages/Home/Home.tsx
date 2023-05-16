@@ -321,16 +321,15 @@ export const Home: React.FC = () => {
         </>
       )}
 
-      <SortingOptions
-        sortByValue={sortByFilter ?? allSortBy[3]}
-        sortByOnChange={(newSortOrder) => updateSearchParam("sortBy", newSortOrder)}
-        sortOrderValue={sortOrderFilter ?? allSortOrders[1]}
-        sortOrderOnChange={(newSortOrder) => updateSearchParam("sortDir", newSortOrder)}
-      />
-
       <div className="block">
         <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
-        <span className="inline-block">({query?.isLoading ? `Loading, please wait...` : `${query?.data?.length || 0} posts found`})</span>
+
+        <SortingOptions
+          sortByValue={sortByFilter ?? allSortBy[3]}
+          sortByOnChange={(newSortOrder) => updateSearchParam("sortBy", newSortOrder)}
+          sortOrderValue={sortOrderFilter ?? allSortOrders[1]}
+          sortOrderOnChange={(newSortOrder) => updateSearchParam("sortDir", newSortOrder)}
+        />
       </div>
 
       {query.isLoading && (<LoadingSpinner />)}
