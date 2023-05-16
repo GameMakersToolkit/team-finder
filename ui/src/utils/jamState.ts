@@ -4,7 +4,14 @@ export enum JamState { Before, During, After }
 
 export const getJamState = () => {
   const searchParams = new URL(window.location.toString()).searchParams;
-  const overrideStateParam: string = searchParams.get("js") || "";
+  const overrideStateParam: string = searchParams.get("js") || localStorage.getItem("js") || "";
+
+  // If we've got one, set it in localStorage
+  // We'll track this in localStorage so it works during redirects
+  if (overrideStateParam) {
+    localStorage.setItem("js", overrideStateParam);
+  }
+
   if (overrideStateParam) {
     // Enum key needs begins with a capital letter,
     // and bafflingly this is still apparently the only way to do this
