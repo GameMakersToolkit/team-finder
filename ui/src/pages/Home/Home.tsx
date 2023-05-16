@@ -25,6 +25,8 @@ import { SortingOptions } from "./components/SortingOptions";
 import { allSortOrders, SortOrder } from "../../model/sortOrder";
 import { allSortBy, SortBy } from "../../model/sortBy";
 import { SearchMode, SearchModeSelector } from "./components/SearchModeSelector";
+import { importMetaEnv } from "../../utils/importMeta";
+import { getCountdownComponents } from "../../utils/countdown";
 
 export const Home: React.FC = () => {
   const auth = useAuth();
@@ -44,6 +46,16 @@ export const Home: React.FC = () => {
   const [previousTimezoneOffsetStart, setPreviousTimezoneOffsetStart] = useState<TimezoneOffset[]>()
   const [timezoneOffsetEnd, setTimezoneOffsetEnd] = useState<TimezoneOffset[]>([allTimezoneOffsets[24]])
   const [previousTimezoneOffsetEnd, setPreviousTimezoneOffsetEnd] = useState<TimezoneOffset[]>()
+
+  const [time, setTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(Date.now()), 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   useEffect(() => {
     // If a timezone selector is empty (user has removed value but not replaced it), don't try to update query
     if (timezoneOffsetStart.length === 0 || timezoneOffsetEnd.length === 0) {
@@ -107,6 +119,9 @@ export const Home: React.FC = () => {
     skillsSoughtSearchMode: skillsSoughtSearchModeFilter,
   };
 
+  const jamName = importMetaEnv().VITE_JAM_NAME;
+  const countdown = getCountdownComponents(time);
+  console.log(countdown)
   const query = usePostsList(searchOptions);
 
   if (searchParams.get("error")) {
@@ -121,6 +136,32 @@ export const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto max-w-screen-xxl p-1 px-4">
+      <div className="mb-32">
+          <div className="inline-block w-1/2">
+            <img
+              className="pt-16 px-16 pb-4"
+              src="/logos/header.png"
+              width={"100%"}
+              alt={jamName + " Team Finder logo"}
+            />
+            <p className="text-center">{`Welcome to the ${jamName} Team Finder!`}</p>
+            <p className="text-center">Create a post or search below to find a team.</p>
+          </div>
+          <div className="inline-block w-1/2 text-center">
+            <div className="bg-red-600 border-red-600 border-2 rounded-xl inline-block p-3">
+                <span className="text-5xl">{`${countdown.days}: `}</span>
+                <span className="text-5xl">{`${countdown.hours}: `}</span>
+                <span className="text-5xl">{`${countdown.minutes} `}</span>
+            </div>
+            <p className="text-center py-3">
+              <span className="mr-3 font-bold text-xl">Days</span>
+              <span className="mr-3 font-bold text-xl">Hours</span>
+              <span className=" font-bold text-xl">Minutes</span>
+            </p>
+            <p className="text-center">Left until the jam starts</p>
+          </div>
+      </div>
+
       <Onboarding />
 
       <h1 className="text-xl my-2 font-bold text-center">Find people to jam with:</h1>

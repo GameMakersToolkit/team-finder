@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { importMetaEnv } from "../../utils/importMeta";
+import { getCountdownComponents } from "../../utils/countdown";
 
 const jamName = importMetaEnv().VITE_JAM_NAME;
-
-// Set the date we're counting down to
-const jamStartDate = new Date(importMetaEnv().VITE_JAM_START);
 
 export const BeforeJam: React.FC = () => {
 
@@ -43,22 +41,13 @@ export const BeforeJam: React.FC = () => {
 }
 
 const getCountdown = (time: number) => {
-  // Find the distance between now and the countdown date
-  const distance = jamStartDate.getTime() - time;
-
-  // Time calculations for days, hours, minutes and seconds
-  const weeks =   Math.floor(distance / (1000 * 60 * 60 * 24 * 7));
-  const days =    Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours =   Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  const components = getCountdownComponents(time);
 
   // Display the result in the element with id="demo"
   return <>
-    {weeks > 0 && (<span className="mr-4">{weeks.toString()}w</span>)}
-    {days > 0 && (<span className="mr-4">{days.toString()}d</span>)}
-    <span className="mr-4">{hours.toString().padStart(2, '0')}h</span>
-    <span className="mr-4">{minutes.toString().padStart(2, '0')}m</span>
-    <span className="mr-4">{seconds.toString().padStart(2, '0')}s</span>
+    {components.days > 0 && (<span className="mr-4">{components.days.toString()}d</span>)}
+    <span className="mr-4">{components.hours.toString().padStart(2, '0')}h</span>
+    <span className="mr-4">{components.minutes.toString().padStart(2, '0')}m</span>
+    <span className="mr-4">{components.seconds.toString().padStart(2, '0')}s</span>
   </>;
 }
