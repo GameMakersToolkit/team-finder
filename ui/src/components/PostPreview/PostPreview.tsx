@@ -35,7 +35,7 @@ export const PostPreview: React.FC<Props> = ({
     <article
       id={"post-" + post.id}
       className={cx(
-        "relative bg-grey-500 border-2 border-neutral-900 rounded-xl p-2 grid grid-flow-row auto-cols-auto gap-y-2",
+        "relative bg-grey-500 border-2 border-neutral-900 rounded-xl p-4 grid grid-flow-row auto-cols-auto gap-y-2",
         className
       )}
     >
@@ -96,7 +96,7 @@ export const PostPreview: React.FC<Props> = ({
 export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
   return (
     <div className="flex justify-between min-w-0">
-      <img src={getTeamSizeIcon(post.size)} className="inline-block mr-2" width={48} height={48} style={{maxHeight: "48px"}}  alt={`This team contains ${post.size} people`}/>
+      <img src={getTeamSizeIcon(post.size)} className="inline-block mr-2" width={32} height={32} style={{maxHeight: "32px"}}  alt={`This team contains ${post.size} people`}/>
       <span className="grow" style={{width: "calc(100% - 100px)"}}>
         <h3 className="text-xl overflow-hidden text-ellipsis whitespace-nowrap">
           {post.author}
