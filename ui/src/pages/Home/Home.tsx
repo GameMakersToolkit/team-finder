@@ -37,7 +37,6 @@ export const Home: React.FC = () => {
   const updateSearchParam = useUpdateSearchParam(searchParams, setSearchParams);
 
   const [showSkillText, setShowSkillText] = useState(true)
-  const [shouldLimitToFavourites, setShouldLimitToFavourites] = useState(false)
   const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false)
 
   const [usingCustomTimezones, setUsingCustomTimezones] = useState(false);
@@ -48,6 +47,8 @@ export const Home: React.FC = () => {
   const [previousTimezoneOffsetEnd, setPreviousTimezoneOffsetEnd] = useState<TimezoneOffset[]>()
 
   const [time, setTime] = useState(Date.now());
+
+  const shouldLimitToFavourites = searchParams.get("favourites") || false;
 
   useEffect(() => {
     const interval = setInterval(() => setTime(Date.now()), 1000);
@@ -135,22 +136,22 @@ export const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto max-w-screen-xxl p-1 px-4">
-      <div className="mb-32">
-          <div className="inline-block w-1/2">
+      <div className="mb-8 sm:mb-8">
+          <div className="inline-block w-full sm:w-1/2 pb-8">
             <img
-              className="pt-16 px-16 pb-4"
+              className="m-auto pt-16 px-16 pb-4"
               src="/logos/header.png"
-              width={"100%"}
+              width={"70%"}
               alt={jamName + " Team Finder logo"}
             />
             <p className="text-center">{`Welcome to the ${jamName} Team Finder!`}</p>
             <p className="text-center">Create a post or search below to find a team.</p>
           </div>
-          <div className="inline-block w-1/2 text-center">
+          <div className="inline-block w-full sm:w-1/2 text-center">
             <div className="bg-red-600 border-red-600 border-2 rounded-xl inline-block p-3">
-                <span className="text-5xl">{`${countdown.days.toString().padStart(2, '0')}: `}</span>
-                <span className="text-5xl">{`${countdown.hours.toString().padStart(2, '0')}: `}</span>
-                <span className="text-5xl">{`${countdown.minutes.toString().padStart(2, '0')} `}</span>
+                <span className="text-4xl">{`${countdown.days.toString().padStart(2, '0')}: `}</span>
+                <span className="text-4xl">{`${countdown.hours.toString().padStart(2, '0')}: `}</span>
+                <span className="text-4xl">{`${countdown.minutes.toString().padStart(2, '0')} `}</span>
             </div>
             <p className="text-center py-3">
               <span className="mr-4 font-bold text-xl">Days</span>
@@ -165,24 +166,24 @@ export const Home: React.FC = () => {
 
       <h1 className="text-xl my-2 font-bold text-center">Find people to jam with:</h1>
 
-      <div>
+      <div className="sm:w-1/2 m-auto mb-2">
         <label className="font-bold block" htmlFor="descriptionFilter">
-          Description
+          Keywords
         </label>
         <input
           id="descriptionFilter"
           type="text"
           placeholder="Search for keywords in a post"
-          className="input p-2 w-full h-[36px]"
+          className="input px-2 py-1 w-full h-[36px]"
           value={description}
           onChange={(e) => setDescription(e.currentTarget.value)}
         />
       </div>
       {/* The labels here seem back-to-front because 'sought'/'possessed' are from the perspective of the team */}
-      <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+      <div className="sm:w-1/2 m-auto grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         <div className="mt-2">
           <label className="font-bold block" htmlFor="skillsPossessedFilter">
-            I need:
+            I&apos;m looking for:
           </label>
           <SkillSelector
             id="skillsPossessedFilter"
@@ -212,14 +213,8 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      <button
-        onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
-        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${showAdvancedSearchOptions ? "bg-primary" : "bg-lightbg"}`}
-      >
-        Advanced Search Options
-      </button>
-
-      <button
+       <div className="sm:w-1/2 m-auto text-center">
+      {/*<button
         onClick={() => {
           if (!isLoggedIn) {
             toast("You must be logged in view your favourite posts", {
@@ -234,18 +229,27 @@ export const Home: React.FC = () => {
         className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${shouldLimitToFavourites ? "bg-primary" : "bg-lightbg"} ${!isLoggedIn && "cursor-not-allowed"}`}
       >
         Only Show Favourites
-      </button>
+      </button>*/}
 
       <button
         onClick={() => setSearchParams({})}
-        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight bg-lightbg`}
+        className={`rounded border text-white px-2 py-1 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight bg-lightbg`}
       >
         Clear Search
       </button>
 
+      <button
+        onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+        className={`text-orange-500 p-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
+      >
+        More options <span>{showAdvancedSearchOptions ? '⌄' : '⌃'}</span>
+      </button>
+
+      </div>
+
       {showAdvancedSearchOptions && (
         <>
-          <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 mt-2">
+          <div className="sm:w-1/2 m-auto mb-2 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mt-2">
             <div>
               <label className="font-bold block" htmlFor="toolsFilter">
                 Preferred Engine(s):
@@ -277,7 +281,7 @@ export const Home: React.FC = () => {
               />
             </div>
           </div>
-          <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 mt-4">
+          <div className="sm:w-1/2 m-auto mb-2 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mt-4">
             <div>
               <label className="font-bold block" htmlFor="skillsPossessedSearchModeSelector">
                 When searching for skills you need:
@@ -299,7 +303,7 @@ export const Home: React.FC = () => {
               />
             </div>
           </div>
-          <div className="mt-4">
+          <div className="sm:w-1/2 m-auto mb-2 mt-4">
             <span className="mb-2 block sm:inline md:inline lg:inline">
               <input
                 id="use-all-timezones-checkbox"
@@ -316,7 +320,7 @@ export const Home: React.FC = () => {
               </label>
             </span>
 
-            <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+            <div className="grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
               <div className={`${usingCustomTimezones ? "cursor-pointer" : "cursor-not-allowed"}`}>
                 <label className={`font-bold block ${usingCustomTimezones ? "text-white" : "text-gray-400"}`} htmlFor="timezoneStart">
                   Earliest Timezone:
@@ -341,7 +345,7 @@ export const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="mt-2">
+          <div className="sm:w-1/2 m-auto mb-2 mt-2">
             <label className="font-bold block" htmlFor="toolsFilter">
               Availability (select all that apply):
             </label>
@@ -355,9 +359,9 @@ export const Home: React.FC = () => {
                   newList.length ? newList.join(",") : null
                 );
               }}/>
-          </div>
 
-          <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText}/>
+            <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText}/>
+          </div>
         </>
       )}
 

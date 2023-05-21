@@ -15,8 +15,8 @@ interface Props {
 
 const getLabel = (mode: SearchMode) => {
   return mode == "and"
-    ? "Show results for ALL skills"
-    : "Show results for ANY skills";
+    ? "Only results with all skills"
+    : "Results for any skills";
 }
 
 export function SearchModeSelector({
@@ -32,18 +32,27 @@ export function SearchModeSelector({
     <>
       <div id={id}>
         {allSearchModes.map((option: SearchMode) => (
-          <input
-            key={option}
-            type="button"
-            role="checkbox"
-            aria-checked={value == option}
-            value={getLabel(option)}
-            className={`rounded border text-white cursor-pointer p-2 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${
-              value == option ? "bg-primary" : "bg-lightbg"
-            }`}
-            data-search-mode={option}
-            onClick={() => onChange(option)}
-          />
+          <div>
+              <input
+                id={`${id}-${option}`}
+                name={id}
+                key={option}
+                type="radio"
+                role="radio"
+                aria-checked={value == option}
+                className={`text-white cursor-pointer p-2 mr-2 mb-2 w-full sm:w-fit`}
+                data-search-mode={option}
+                onClick={() => onChange(option)}
+              />
+              <label
+                htmlFor={`${id}-${option}`}
+                value={option}
+                className={`text-white cursor-pointer p-2 mr-2 mb-2 w-full sm:w-fit`}
+                data-search-mode={option}
+              >
+                {getLabel(option)}
+              </label>
+          </div>
         ))}
       </div>
     </>
