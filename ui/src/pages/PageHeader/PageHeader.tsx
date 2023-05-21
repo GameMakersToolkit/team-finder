@@ -12,8 +12,6 @@ import {importMetaEnv} from "../../utils/importMeta";
 import { JamState } from "../../utils/jamState";
 import { useSearchParams } from "react-router-dom";
 import { useUpdateSearchParam } from "../../utils/searchParam";
-
-// TODO: Use both
 import favouriteSelectedIcon from "./icons/bookmark-selected.svg";
 import favouriteNotSelectedIcon from "./icons/bookmark-unselected.svg";
 
