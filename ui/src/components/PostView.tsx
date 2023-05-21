@@ -17,10 +17,10 @@ import { login } from "../utils/login";
 export const PostView: React.FC<{ post: Post }> = ({ post }) => {
   return (
     <>
-      <div className="p-4">
-        <div className="mb-2">
-          <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>← Back to list</a>
-        </div>
+    <div className="py-4 text-xl">
+        <span className="text-grey-200 mr-2">Search results</span>
+        <span className="mr-2">&gt;</span>
+        <span>{post.author}</span>
     </div>
     <div className="bg-grey-500 rounded-xl p-4">
         <div className="flex justify-between min-w-0">
@@ -42,28 +42,21 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
         <SkillList
           label="Looking for:"
           skills={post.skillsSought}
-          className="[--skill-color:theme(colors.accent1)] mt-4"
+          className="[--skill-color:theme(colors.blue-800)] mt-4"
           showText={true}
           labelOnNewLine={true}
         />
         <SkillList
           label="Brings:"
           skills={post.skillsPossessed}
-          className="[--skill-color:theme(colors.accent2)] mt-4"
+          className="[--skill-color:theme(colors.blue-900)] mt-4"
           showText={true}
           labelOnNewLine={true}
         />
-        <div className="grid gap-2 grid-cols-1 sm:grid-cols-3">
+        <div className="grid gap-2 grid-cols-1 sm:grid-cols-4">
           <ToolList
             tools={post.preferredTools}
             label={'Preferred Tools:'}
-            className="mt-4"
-            showText={true}
-            labelOnNewLine={true}
-          />
-          <AvailabilityList
-            availability={post.availability}
-            label={'Availabilities'}
             className="mt-4"
             showText={true}
             labelOnNewLine={true}
@@ -75,11 +68,25 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
             showText={true}
             labelOnNewLine={true}
           />
+          <AvailabilityList
+            availability={post.availability}
+            label={'Availabilities'}
+            className="mt-4"
+            showText={true}
+            labelOnNewLine={true}
+          />
+          <dl className="text-lg mt-4">
+              <dt className={`py-1 block w-full`}>
+                Timezones
+              </dt>
+              <dd
+                  key={'timezones'}
+                  className={`py-1 text-sm`}
+              >
+                {post.timezoneOffsets.map((t) => timezoneOffsetFromInt(t)).join(', ')}
+              </dd>
+          </dl>
         </div>
-        <p className="mt-4">
-          Timezones:{' '}
-          {post.timezoneOffsets.map((t) => timezoneOffsetFromInt(t)).join(', ')}
-        </p>
 
         <div className="mb-16 mt-4 break-words" style={{ wordBreak: "break-word" }}>
           {post.description.split("\n").map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
@@ -90,10 +97,18 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
         authorId={post.authorId}
         unableToContactCount={post.unableToContactCount}
       />
-      {/* report button */}
-      <ReportButton post={post} />
 
-      <ReportBrokenDMsButton post={post} />
+      <div className="p-4 flex justify-between">
+        <div className="mb-2">
+          <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>&lt; Back to search results</a>
+        </div>
+
+        <div className="mb-2">
+            <ReportButton post={post} />
+        </div>
+      </div>
+
+{/*       <ReportBrokenDMsButton post={post} /> */}
 
       </div>
     </>
@@ -135,7 +150,7 @@ const ReportButton: React.FC<{ post: Post }> = ({
       {auth &&
         <div className="flex justify-between min-w-0">
           {!isReported() &&
-            <a className="hover:underline decoration-stone-50" href="#report" onClick={onClick}>Report post</a>
+            <a className="font-bold underline cursor-pointer" href="#report" onClick={onClick}><span>&#9873;</span> Report post</a>
           }
           {isReported() &&
             <span>Thanks for reporting!</span>
@@ -219,7 +234,7 @@ const MessageOnDiscordButton: React.FC<CTAProps> = ({
 
   const createBotDmMutation = useCreateBotDmMutation();
 
-  const fallbackPingMessage = canPostAuthorBeDMd ? "Direct Message button not working?" : "This post's author cannot receive direct messages"
+  const fallbackPingMessage = canPostAuthorBeDMd ? "Message button not working?" : "This post's author cannot receive direct messages"
 
   return (
     <>
@@ -250,8 +265,7 @@ const PrimaryCta: React.FC<{ authorId: string, authorName: string, isLoggedIn: b
 }) => {
   return (
     <span
-      className="mb-6 p-2 rounded inline-flex cursor-pointer"
-      style={{ background: '#5865F2' }}
+      className="mb-6 px-6 py-2 bg-blue-200 border-blue-200 rounded-xl text-grey-900 font-bold inline-flex cursor-pointer"
     >
       <a
         target="_blank"
@@ -276,10 +290,14 @@ const FallbackPingCta: React.FC<{ authorId: string, createBotDmMutation: any, me
   message,
 }) => {
   return (
+  <>
+    <p className="mb-2">{message}</p>
+
+
     <span
-      className="mb-6 p-2 rounded inline-flex cursor-pointer border"
-      style={{ borderColor: '#5865F2' }}
+      className="mb-6 p-2 rounded inline-flex cursor-pointer rounded-xl border border-blue-200 text-blue-200"
     >
+
       <a
         target="_blank"
         rel="noreferrer"
@@ -288,10 +306,9 @@ const FallbackPingCta: React.FC<{ authorId: string, createBotDmMutation: any, me
         }
         className="text-sm"
       >
-        {message}
-        <br />
-        Click here to ping them in the channel
+        Ping them on Discord
       </a>
     </span>
+    </>
   );
 };

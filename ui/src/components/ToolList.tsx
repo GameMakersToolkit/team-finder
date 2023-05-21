@@ -22,11 +22,11 @@ export const ToolList: React.FC<{
                 return (
                     <dd
                         key={tool}
-                        className={`py-1 border-2 border-[color:var(--tool-color)] flex items-center ${showText ? "px-2 sm:px-1" : "px-1"}`}
+                        className={`py-1 border-2 border-grey-400 bg-grey-400 rounded-xl flex items-center px-2 sm:px-1 py-1 flex items-center ${showText ? "px-2 sm:px-1" : "px-1"}`}
                     >
                         <ToolIcon
                             tool={tool}
-                            className={`w-5 text-[color:var(--tool-color)] ${showText && "mr-1"}`}
+                            className={`w-5 text-white ${showText && "mr-1"}`}
                             aria-hidden={true}
                         />
                         {showText && <span className="text-sm">{info.friendlyName}</span>}

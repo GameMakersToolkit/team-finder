@@ -21,7 +21,7 @@ export const LanguageList: React.FC<{
                 return (
                     <dd
                         key={language}
-                        className={`py-1 border-2 border-[color:var(--language-color)] flex items-center ${showText ? "px-2 sm:px-1" : "px-1"}`}
+                        className={`py-1 border-2 rounded-xl border-grey-600 bg-grey-600 flex items-center ${showText ? "px-2 sm:px-1" : "px-1"}`}
                     >
                         {showText && <span className="text-sm">{info.friendlyName}</span>}
                     </dd>

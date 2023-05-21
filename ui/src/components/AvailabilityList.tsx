@@ -15,11 +15,11 @@ export const AvailabilityList: React.FC<{
     }
 
     return (
-        <dl className={cx("flex gap-1 flex-wrap text-lg", className)}>
+        <dl className={cx("text-lg", className)}>
             <dt className={`py-1 ${labelOnNewLine ?  "block w-full" : "mr-1"}`}>{label}</dt>
             <dd
                 key={availability}
-                className={`py-1 border-2 border-[color:var(--availability-color)] flex items-center ${showText ? "px-2 sm:px-1" : "px-1"}`}
+                className={`py-1`}
             >
                 {showText && <span className="text-sm">{availabilityInfoMap[availability].friendlyName}</span>}
             </dd>
