@@ -23,7 +23,7 @@ const jamName = importMetaEnv().VITE_JAM_NAME;
 
 const navMenuElementStylingRules =
   "w-full py-2 border mb-2 rounded text-center hover:bg-primary-highlight";
-const navInlineElementStylingRules = `mr-2 text-gray-400 leading-none py-2 px-2 hover:font-bold hover:text-white`;
+const navInlineElementStylingRules = `mr-2 text-blue-300 leading-none py-2 px-2 hover:font-bold hover:text-white`;
 
 interface LinkData {
   label: string;
@@ -54,7 +54,8 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
 
   const [isNavVisible, setNavVisibility] = useState(false);
 
-  const bookmarkIconOnClick = (shouldLimitToFavourites) => {
+  const bookmarkIconOnClick = () => {
+  console.log("skldf")
     if (!isLoggedIn) {
       toast("You must be logged in view your favourite posts", {
         icon: "🔒",
@@ -87,6 +88,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
         </Link>
         {shouldShowHorizontalLinks && (
           <div className="flex items-center">
+            <InlineNavLink key={"Home"} linkData={{to: "/", label: "Home"}} />
             <InlineNavLink key={"About"} linkData={{to: "/about", label: "About"}} />
             {shouldDisplayAdminLink && <InlineNavLink key={"Admin"} linkData={{to: "/admin", label: "Admin"}} />}
           </div>
@@ -96,19 +98,18 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
         <div className="flex-1" />
 
         <div className="flex items-center">
-          <InlineNavLink key={"Edit"} linkData={{to: "/my-post", icon: myPostIcon}} />
-          {/* TODO: Toggle icon, make onclick do something */}
-          <InlineNavLink key={"Bookmarks"} linkData={{onClick: () => {bookmarkIconOnClick(shouldLimitToFavourites)}, icon: favouriteNotSelectedIcon}} />
+          <InlineNavLink key={"Bookmarks"} linkData={{onClick: bookmarkIconOnClick, icon: shouldLimitToFavourites ? favouriteNotSelectedIcon : favouriteSelectedIcon, style: "border border-blue-300 rounded-xl"}} />
+          <InlineNavLink key={"Edit"} linkData={{to: "/my-post", icon: myPostIcon, label: 'Create post',  style: "border border-blue-300 rounded-xl"}} />
 
           {shouldDisplayLogin ? (
             <button
-              className={`rounded-lg font-bold mr-4 px-5 py-1 bg-primary ${
+              className={`rounded-lg border border-blue-300 bg-blue-300 text-black font-bold mr-4 px-5 py-1 ${
                 userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"
               }`}
               onClick={login}
               disabled={userInfo.isLoading}
             >
-              {userInfo.isLoading ? "Loading..." : "Log In"}
+              {userInfo.isLoading ? "Loading..." : "Login"}
             </button>
           ) : (
             <p className="mr-4">
@@ -160,39 +161,48 @@ export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
 }) => {
   const isMatch = linkData.to && useMatch({ path: linkData.to, end: true });
 
-  if (linkData.to) {
+    // <Link> always adds a href which messes up the onclick behaviour
+    if (linkData.onClick) {
+        return (
+            <button
+                className={cx(navInlineElementStylingRules, linkData.style, {
+                    "font-bold": isMatch,
+                })}
+                to={linkData.to}
+                onClick={linkData.onClick}
+            >
+                {linkData.icon && (
+                  <img
+                    src={linkData.icon}
+                    className="inline-block"
+                    style={{ width: "20px", height: "20px" }}
+                  />
+                )}
+
+                {linkData.label}
+            </button>
+        )
+    }
+
     return (
       <Link
-        className={cx(navInlineElementStylingRules, {
+        className={cx(navInlineElementStylingRules, linkData.style, {
           "font-bold": isMatch,
         })}
         to={linkData.to}
+        onClick={linkData.onClick}
       >
-        {linkData.icon
-          ? (<img
+        {linkData.icon && (
+           <img
             src={linkData.icon}
             className="inline-block"
-            style={{ width: "26px", height: "26px", minWidth: "26px" }}
-            />)
-         : linkData.label}
+            style={{ width: "20px", height: "20px" }}
+            />
+        )}
+
+        {linkData.label}
       </Link>
     );
-  }
-
-  if (linkData.icon) {
-    return (
-      <span
-      className={``}
-      onClick={linkData.onClick}
-      >
-        <img
-          src={linkData.icon}
-          className="inline-block mr-2"
-          style={{ width: "26px", height: "26px", minWidth: "26px" }}
-        />
-    </span>
-    )
-  }
 };
 
 const ShowHideNavButton: React.FC<{
