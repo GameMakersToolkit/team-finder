@@ -20,7 +20,7 @@
   }
 
   .styled-selector .react-select__option--is-focused {
-    @apply bg-grey-50 text-grey-900;
+    @apply bg-grey-200 text-grey-900;
   }
 
   .styled-selector .react-select__multi-value {
