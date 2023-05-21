@@ -14,8 +14,8 @@ import { useSearchParams } from "react-router-dom";
 import { useUpdateSearchParam } from "../../utils/searchParam";
 
 // TODO: Use both
-import favouriteSelectedIcon from "./../../components/FavouritePostIndicator/favourite-selected-true.svg";
-import favouriteNotSelectedIcon from "./../../components/FavouritePostIndicator/favourite-selected-false.svg";
+import favouriteSelectedIcon from "./icons/bookmark-selected.svg";
+import favouriteNotSelectedIcon from "./icons/bookmark-unselected.svg";
 
 import myPostIcon from "./icons/my-post.svg"
 
@@ -54,8 +54,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
 
   const [isNavVisible, setNavVisibility] = useState(false);
 
-  const bookmarkIconOnClick = () => {
-  console.log("skldf")
+  const bookmarkIconOnClick = (favourites) => {
     if (!isLoggedIn) {
       toast("You must be logged in view your favourite posts", {
         icon: "🔒",
@@ -64,10 +63,11 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
       return;
     }
 
-    setShouldLimitToFavourites(!shouldLimitToFavourites)
+    setShouldLimitToFavourites(favourites)
     // Using 'null' instead of 'false' will delete the key and automatically toggle
     // apiRequest() from /posts to /favourites and back again
-    updateSearchParam("favourites", shouldLimitToFavourites ? shouldLimitToFavourites : null)
+    updateSearchParam("favourites", favourites ? favourites : null)
+    console.log("Why the f doesn't this work")
   }
 
 
@@ -98,7 +98,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
         <div className="flex-1" />
 
         <div className="flex items-center">
-          <InlineNavLink key={"Bookmarks"} linkData={{onClick: bookmarkIconOnClick, icon: shouldLimitToFavourites ? favouriteNotSelectedIcon : favouriteSelectedIcon, style: "border border-blue-300 rounded-xl"}} />
+          <InlineNavLink key={"Bookmarks"} linkData={{onClick: () => bookmarkIconOnClick(!shouldLimitToFavourites), icon: shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon, style: "border border-blue-300 rounded-xl"}} />
           <InlineNavLink key={"Edit"} linkData={{to: "/my-post", icon: myPostIcon, label: 'Create post',  style: "border border-blue-300 rounded-xl"}} />
 
           {shouldDisplayLogin ? (
