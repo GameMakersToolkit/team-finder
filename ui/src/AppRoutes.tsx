@@ -28,7 +28,7 @@ export const AppRoutes: React.FC<{jamState: JamState}> = ({jamState}) => {
         <Route path="/:postId" element={<PostViewWrapper/>}/>
         <Route path="/admin" element={<Admin/>}/>
         <Route path="/my-post" element={<MyPost/>}/>
-        <Route path="/faq" element={<FAQ/>}/>
+        <Route path="/about" element={<FAQ/>}/>
         <Route path="/login/authorized" element={<AuthCallback/>}/>
         <Route path="/logout" element={<Logout/>}/>
         {/* TODO: replace with a proper Not Found page */}
