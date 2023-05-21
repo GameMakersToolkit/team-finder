@@ -35,7 +35,7 @@ fun Application.configureFavouritesRouting() {
 
                     authService.getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
-                        ?.also { it.postIds.remove(postToUnFavourite.id) }
+                        ?.also { it.postIds.remove(postToUnFavourite.postId) }
                         ?.let { favouritesService.saveFavourites(it) }
                         ?.let { return@delete call.respond(it) }
 

@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class FavouritePostDto (
-    var id: String,
+    var postId: String,
 )

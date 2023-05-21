@@ -21,7 +21,7 @@ class FavouritesService : KoinComponent {
     fun addPostAsFavourite(discordId: String, post: FavouritePostDto) =
         this.saveFavourites((repository.getFavouritesByUserId(discordId) ?: FavouritesList(discordId))
             .also {
-                it.postIds.add(post.id)
+                it.postIds.add(post.postId)
             }
         )
 }
