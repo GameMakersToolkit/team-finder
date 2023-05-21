@@ -1,33 +1,33 @@
 @layer components {
   .styled-selector .react-select__control {
-    @apply bg-gray-300 border-2 border-gray-300 rounded-xl placeholder-gray-600;
+    @apply bg-grey-50 border-2 border-grey-50 rounded-xl placeholder-gray-600;
   }
 
   .styled-selector .react-select__control:hover {
     @apply border-blue-600;
   }
 
+  .styled-selector .react-select__input {
+    @apply bg-grey-50
+  }
+
   .styled-selector .react-select__input-container {
-    @apply text-white;
+    @apply text-black;
   }
 
   .styled-selector .react-select__menu {
-    @apply bg-lightbg rounded-none;
+    @apply bg-grey-50 rounded-none text-grey-900;
   }
 
   .styled-selector .react-select__option--is-focused {
-    @apply bg-lightbg-highlight;
-  }
-
-  .styled-selector .react-select__control--is-disabled {
-    @apply bg-darkbg;
+    @apply bg-grey-50;
   }
 
   .styled-selector .react-select__multi-value {
-    @apply bg-lightbg;
+    @apply bg-grey-50 text-grey-900;
   }
 
   .styled-selector .react-select__multi-value__label {
-    @apply text-white;
+    @apply bg-grey-50 text-grey-900;
   }
 }

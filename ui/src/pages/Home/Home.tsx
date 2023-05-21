@@ -136,6 +136,9 @@ export const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto max-w-screen-xxl p-1 px-4">
+
+      <Onboarding />
+
       <div className="mb-8 sm:mb-8">
           <div className="inline-block w-full sm:w-1/2 pb-8">
             <img
@@ -162,11 +165,10 @@ export const Home: React.FC = () => {
           </div>
       </div>
 
-      <Onboarding />
+      <div className="rounded-xl bg-grey-500 py-4 px-2">
 
       <h1 className="text-xl my-2 font-bold text-center">Find people to jam with:</h1>
 
-      <div className="sm:w-1/2 m-auto mb-2">
         <label className="font-bold block" htmlFor="descriptionFilter">
           Keywords
         </label>
@@ -178,9 +180,8 @@ export const Home: React.FC = () => {
           value={description}
           onChange={(e) => setDescription(e.currentTarget.value)}
         />
-      </div>
       {/* The labels here seem back-to-front because 'sought'/'possessed' are from the perspective of the team */}
-      <div className="sm:w-1/2 m-auto grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+      <div className="bg-grey-500 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         <div className="mt-2">
           <label className="font-bold block" htmlFor="skillsPossessedFilter">
             I&apos;m looking for:
@@ -213,7 +214,7 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-       <div className="sm:w-1/2 m-auto text-center">
+       <div className="text-center">
       {/*<button
         onClick={() => {
           if (!isLoggedIn) {
@@ -233,14 +234,14 @@ export const Home: React.FC = () => {
 
       <button
         onClick={() => setSearchParams({})}
-        className={`rounded border text-white px-2 py-1 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight bg-lightbg`}
+        className={`border rounded-xl text-white px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
       >
         Clear Search
       </button>
 
       <button
         onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
-        className={`text-orange-500 p-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
+        className={`border rounded-xl border-blue-200 text-blue-200 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
       >
         More options <span>{showAdvancedSearchOptions ? '⌄' : '⌃'}</span>
       </button>
@@ -249,7 +250,7 @@ export const Home: React.FC = () => {
 
       {showAdvancedSearchOptions && (
         <>
-          <div className="sm:w-1/2 m-auto mb-2 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mt-2">
+          <div className="mb-2 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mt-2">
             <div>
               <label className="font-bold block" htmlFor="toolsFilter">
                 Preferred Engine(s):
@@ -281,7 +282,7 @@ export const Home: React.FC = () => {
               />
             </div>
           </div>
-          <div className="sm:w-1/2 m-auto mb-2 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mt-4">
+          <div className="mb-2 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mt-4">
             <div>
               <label className="font-bold block" htmlFor="skillsPossessedSearchModeSelector">
                 When searching for skills you need:
@@ -303,7 +304,7 @@ export const Home: React.FC = () => {
               />
             </div>
           </div>
-          <div className="sm:w-1/2 m-auto mb-2 mt-4">
+          <div className="mb-2 mt-4">
             <span className="mb-2 block sm:inline md:inline lg:inline">
               <input
                 id="use-all-timezones-checkbox"
@@ -345,7 +346,7 @@ export const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="sm:w-1/2 m-auto mb-2 mt-2">
+          <div className="mb-2 mt-2">
             <label className="font-bold block" htmlFor="toolsFilter">
               Availability (select all that apply):
             </label>
@@ -364,6 +365,8 @@ export const Home: React.FC = () => {
           </div>
         </>
       )}
+
+      </div>
 
       <div className="block" style={{overflow: "auto"}}>
         <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>

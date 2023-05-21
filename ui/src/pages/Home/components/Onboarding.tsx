@@ -7,7 +7,7 @@ import {importMetaEnv} from "../../../utils/importMeta";
 const discordGroupName = importMetaEnv().VITE_DISCORD_NAME;
 const discordGroupInviteUrl = importMetaEnv().VITE_DISCORD_INVITE_URL;
 
-const onboardingMessageBoxStyle = "bg-lightbg my-4 px-2 py-6"
+const onboardingMessageBoxStyle = "bg-blue-100 rounded-xl text-black mt-6 px-4 py-2"
 
 export const Onboarding: React.FC = () => {
   const isLoggedIn = Boolean(useAuth());
@@ -16,15 +16,14 @@ export const Onboarding: React.FC = () => {
 
   if (!isLoggedIn) return (
     <div className={onboardingMessageBoxStyle}>
-      <p className="text-center">Welcome to the Team Finder! <a onClick={login} className="font-bold underline">Log in with Discord to get started!</a>
-      </p>
+      <p className=""><a onClick={login} className="font-bold underline">Login</a> to message posters, create a post and bookmark posts.</p>
     </div>
   )
 
   const userIsInDiscordServer = userInfo.data?.isInDiscordServer;
   if (!userIsInDiscordServer) return (
     <div className={onboardingMessageBoxStyle}>
-      <p className="text-center">You need to be in the {discordGroupName} Discord server to contact other users -&nbsp;
+      <p className="">You need to be in the {discordGroupName} Discord server to contact other users -&nbsp;
         <a href={discordGroupInviteUrl} className="font-bold underline">click here to join!</a>
       </p>
     </div>

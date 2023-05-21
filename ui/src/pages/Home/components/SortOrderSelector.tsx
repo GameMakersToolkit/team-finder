@@ -30,7 +30,9 @@ const sortOrderMap = Object.fromEntries(
 export function SortOrderSelector({ id, value, onChange }: Props): React.ReactElement {
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `.react-select__single-value {color: white!important;}`}} />
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        `}} />
       <StyledSelector
         id={id}
         isMulti={false}

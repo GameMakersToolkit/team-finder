@@ -35,7 +35,7 @@ export const PostPreview: React.FC<Props> = ({
     <article
       id={"post-" + post.id}
       className={cx(
-        "relative bg-neutral-900 border-2 border-neutral-900 rounded-xl p-2 grid grid-flow-row auto-cols-auto gap-y-2",
+        "relative bg-grey-500 border-2 border-neutral-900 rounded-xl p-2 grid grid-flow-row auto-cols-auto gap-y-2",
         className
       )}
     >
@@ -43,13 +43,13 @@ export const PostPreview: React.FC<Props> = ({
       <SkillList
         label="Looking for:"
         skills={post.skillsSought}
-        className="[--skill-color:theme(colors.accent1)]"
+        className="[--skill-color:theme(colors.blue-800)]"
         showText={showSkillText}
       />
       <SkillList
         label="Brings:"
         skills={post.skillsPossessed}
-        className="[--skill-color:theme(colors.accent2)]"
+        className="[--skill-color:theme(colors.blue-900)]"
         showText={showSkillText}
       />
       <div className="break-words" style={{wordBreak: "break-word"}}>
@@ -80,12 +80,12 @@ export const PostPreview: React.FC<Props> = ({
           </>
         )}
 
-        <div className="inline-block border-2 border-orange-400 rounded-xl text-orange-400 py-2 px-4 self-end" style={{ maxHeight: "3em" }}>
+        <div className="inline-block border-2 border-blue-200 rounded-xl text-orange-400 py-2 px-4 self-end" style={{ maxHeight: "3em" }}>
           <Link
-            className="text-lg text-orange-400 font-bold"
+            className="text-lg text-blue-200 font-bold"
             to={`/${post.id}`}
           >
-            More
+            See more &gt;
           </Link>
         </div>
       </div>

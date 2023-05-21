@@ -21,6 +21,8 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
         <div className="mb-2">
           <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>← Back to list</a>
         </div>
+    </div>
+    <div className="bg-grey-500 rounded-xl p-4">
         <div className="flex justify-between min-w-0">
           <span className="inline-block" style={{ width: "calc(100% - 100px)" }}>
             <h3 className="font-bold text-xl overflow-hidden text-ellipsis">
@@ -82,7 +84,6 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
         <div className="mb-16 mt-4 break-words" style={{ wordBreak: "break-word" }}>
           {post.description.split("\n").map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
         </div>
-      </div>
 
       <MessageOnDiscordButton
         authorName={post.author}
@@ -93,6 +94,8 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
       <ReportButton post={post} />
 
       <ReportBrokenDMsButton post={post} />
+
+      </div>
     </>
   )
 }
