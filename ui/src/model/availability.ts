@@ -15,8 +15,8 @@ export interface AvailabilityInfo {
 }
 
 export const availabilityInfoMap: Record<Availability, AvailabilityInfo> = {
-  MINIMAL:    {friendlyName: "A few hours"},
-  PART_TIME:  {friendlyName: "Up to four hours a day"},
-  FULL_TIME:  {friendlyName: "Up to eight hours a day"},
-  OVERTIME:   {friendlyName: "As much time as I can spare"},
+  MINIMAL:    {friendlyName: "Less than 4 hours per day"},
+  PART_TIME:  {friendlyName: "4 hours per day"},
+  FULL_TIME:  {friendlyName: "8 hours per day"},
+  OVERTIME:   {friendlyName: "More than 8 hours per day"},
 };

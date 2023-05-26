@@ -1,4 +1,5 @@
 import React from "react";
+import './ViewOptions.css';
 
 export const ViewOptions: React.FC<{
   showSkillText: boolean;
@@ -6,23 +7,25 @@ export const ViewOptions: React.FC<{
 }> = ({showSkillText, setShowSkillText}) => {
   return (
     <>
-      <h3>View Options</h3>
+      <h3 className="font-bold">Display Options</h3>
 
-      <span className="mb-2 block sm:inline md:inline lg:inline">
-        <input
-          id="show-skill-names-checkbox"
-          type="checkbox"
-          onChange={() => setShowSkillText(!showSkillText)}
-          checked={showSkillText}
-          className={`mr-2`}
-        />
+      <div className="mb-2 block">
         <label
-          className="w-full"
+          className="switch mr-2"
           htmlFor="show-skill-names-checkbox"
         >
-          Show skill names
+          <input
+            id="show-skill-names-checkbox"
+            type="checkbox"
+            onChange={() => setShowSkillText(!showSkillText)}
+            checked={showSkillText}
+            className={`mr-2`}
+          />
+          <span className="slider round"></span>
         </label>
-      </span>
+
+        <span>Display skill names</span>
+      </div>
     </>
   )
 }

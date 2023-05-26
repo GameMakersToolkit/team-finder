@@ -347,21 +347,28 @@ export const Home: React.FC = () => {
             </div>
           </div>
           <div className="mb-2 mt-2">
-            <label className="font-bold block" htmlFor="toolsFilter">
-              Availability (select all that apply):
-            </label>
-            <AvailabilitySelector
-              id="availabilityFilter"
-              value={availabilityFilter ?? []}
-              allowMultiple={true}
-              onChange={(newList) => {
-                updateSearchParam(
-                  "availability",
-                  newList.length ? newList.join(",") : null
-                );
-              }}/>
 
-            <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText}/>
+            <div className="inline-block">
+              <div className="mr-4">
+                <label className="font-bold block" htmlFor="toolsFilter">
+                  Availability (select all that apply):
+                </label>
+                <AvailabilitySelector
+                  id="availabilityFilter"
+                  value={availabilityFilter ?? []}
+                  allowMultiple={true}
+                  onChange={(newList) => {
+                    updateSearchParam(
+                      "availability",
+                      newList.length ? newList.join(",") : null
+                    );
+                  }}/>
+              </div>
+            </div>
+
+            <div className="inline-block">
+                <ViewOptions showSkillText={showSkillText} setShowSkillText={setShowSkillText}/>
+            </div>
           </div>
         </>
       )}
