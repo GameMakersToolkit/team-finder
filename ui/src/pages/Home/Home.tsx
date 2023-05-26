@@ -45,7 +45,7 @@ export const Home: React.FC = () => {
   const [timezoneOffsetEnd, setTimezoneOffsetEnd] = useState<TimezoneOffset[]>([allTimezoneOffsets[24]])
   const [previousTimezoneOffsetEnd, setPreviousTimezoneOffsetEnd] = useState<TimezoneOffset[]>()
 
-  const shouldLimitToFavourites = searchParams.get("favourites") || false;
+  const shouldLimitToFavourites = searchParams.get("bookmarked") || false;
 
   useEffect(() => {
     // If a timezone selector is empty (user has removed value but not replaced it), don't try to update query
@@ -181,7 +181,7 @@ export const Home: React.FC = () => {
             onClick={() => {
                 const params = {}
                 if (shouldLimitToFavourites) {
-                    params.favourites = true
+                    params.bookmarked = true
                 }
                 setSearchParams(params)
             }}

@@ -54,7 +54,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
 
   const bookmarkIconOnClick = (favourites) => {
     if (!isLoggedIn) {
-      toast("You must be logged in view your favourite posts", {
+      toast("You must be logged in view your bookmarked posts", {
         icon: "🔒",
         id: "favourite-post-view-info",
       });
@@ -64,7 +64,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
     setShouldLimitToFavourites(favourites)
     // Using 'null' instead of 'false' will delete the key and automatically toggle
     // apiRequest() from /posts to /favourites and back again
-    updateSearchParam("favourites", favourites ? favourites : null)
+    updateSearchParam("bookmarked", favourites ? favourites : null)
   }
 
 

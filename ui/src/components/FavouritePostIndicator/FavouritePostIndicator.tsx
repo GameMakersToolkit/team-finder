@@ -17,7 +17,7 @@ export const FavouritePostIndicator: React.FC<{
 
   const onClick = () => {
     if (!auth || userInfo.isLoading) {
-      toast("You must be logged in to favourite a post", {
+      toast("You must be logged in to bookmark a post", {
         icon: "🔒",
         id: "favourite-post-info",
       });
@@ -41,7 +41,7 @@ export const FavouritePostIndicator: React.FC<{
         src={
           post.isFavourite ? favouriteSelectedIcon : favouriteNotSelectedIcon
         }
-        alt={post.isFavourite ? `Click to remove ${post.author}'s post from your favourites` : `Click to add ${post.author}'s post to your favourites`}
+        alt={post.isFavourite ? `Click to remove ${post.author}'s post from your bookmarks` : `Click to add ${post.author}'s post to your bookmarks`}
         className="inline-block"
         style={{ width: "28px", height: "28px", minWidth: "28px" }}
       />
