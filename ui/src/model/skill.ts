@@ -5,7 +5,8 @@ export const allSkills = [
   "ART_3D",
   "CODE",
   "DESIGN_PRODUCTION",
-  "SOUND_MUSIC",
+  "MUSIC",
+  "SFX",
   "TESTING_SUPPORT",
   "TEAM_LEAD",
   "OTHER",
@@ -42,9 +43,13 @@ export const skillInfoMap: Record<Skill, SkillInfo> = {
     friendlyName: "Other",
     icon: getSkillIcon("OTHER"),
   },
-  SOUND_MUSIC: {
-    friendlyName: "Sound & Music",
-    icon: getSkillIcon("SOUND_MUSIC"),
+  SFX: {
+    friendlyName: "SFX",
+    icon: getSkillIcon("SFX"),
+  },
+  MUSIC: {
+    friendlyName: "Music",
+    icon: getSkillIcon("MUSIC"),
   },
   TEAM_LEAD: {
     friendlyName: "Team Lead",

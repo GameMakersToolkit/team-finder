@@ -5,7 +5,8 @@ enum class Skills {
     ART_3D,
     CODE,
     DESIGN_PRODUCTION,
-    SOUND_MUSIC,
+    SFX,
+    MUSIC,
     TESTING_SUPPORT,
     TEAM_LEAD,
     OTHER;

@@ -168,7 +168,7 @@
 							"query": [
 								{
 									"key": "skillsPossessed",
-									"value": "ART_3D,SOUND_MUSIC",
+									"value": "ART_3D,SFX,MUSIC",
 									"disabled": true
 								},
 								{

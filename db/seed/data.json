@@ -14,7 +14,8 @@
       "TESTING_SUPPORT",
       "DESIGN_PRODUCTION",
       "CODE",
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "ART_2D",
       "OTHER"
     ],
@@ -68,7 +69,7 @@
     ],
     "skillsSought": [
       "TESTING_SUPPORT",
-      "SOUND_MUSIC",
+      "SFX",
       "CODE",
       "ART_2D",
       "DESIGN_PRODUCTION"
@@ -116,7 +117,7 @@
     "size": 17,
     "skillsPossessed": [
       "TEAM_LEAD",
-      "SOUND_MUSIC",
+      "MUSIC",
       "OTHER",
       "CODE",
       "TESTING_SUPPORT"
@@ -124,7 +125,7 @@
     "skillsSought": [
       "ART_2D",
       "TEAM_LEAD",
-      "SOUND_MUSIC"
+      "SFX"
     ],
     "preferredTools": [
       "PICO_8",
@@ -156,7 +157,6 @@
     "size": 14,
     "skillsPossessed": [
       "ART_3D",
-      "SOUND_MUSIC",
       "CODE",
       "OTHER"
     ],
@@ -165,7 +165,8 @@
       "TEAM_LEAD",
       "CODE",
       "ART_2D",
-      "SOUND_MUSIC"
+      "SFX",
+      "MUSIC"
     ],
     "preferredTools": [
       "PICO_8",
@@ -257,7 +258,8 @@
     "size": 19,
     "skillsPossessed": [
       "ART_3D",
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "DESIGN_PRODUCTION",
       "TESTING_SUPPORT",
       "OTHER"
@@ -265,9 +267,6 @@
     "skillsSought": [
       "CODE",
       "TEAM_LEAD",
-      "TESTING_SUPPORT",
-      "SOUND_MUSIC",
-      "DESIGN_PRODUCTION",
       "ART_2D",
       "ART_3D",
       "OTHER"
@@ -425,7 +424,6 @@
       "TEAM_LEAD",
       "CODE",
       "OTHER",
-      "SOUND_MUSIC",
       "ART_3D",
       "ART_2D",
       "TESTING_SUPPORT",
@@ -433,7 +431,8 @@
     ],
     "skillsSought": [
       "ART_3D",
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "ART_2D"
     ],
     "preferredTools": [
@@ -471,7 +470,6 @@
       "TEAM_LEAD",
       "DESIGN_PRODUCTION",
       "OTHER",
-      "SOUND_MUSIC",
       "TESTING_SUPPORT",
       "ART_3D",
       "CODE"
@@ -526,11 +524,9 @@
       "OTHER",
       "TESTING_SUPPORT",
       "ART_2D",
-      "SOUND_MUSIC",
       "CODE"
     ],
     "skillsSought": [
-      "SOUND_MUSIC",
       "TESTING_SUPPORT",
       "ART_2D",
       "ART_3D",
@@ -589,7 +585,8 @@
     "size": 9,
     "skillsPossessed": [
       "ART_3D",
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "OTHER",
       "TESTING_SUPPORT",
       "DESIGN_PRODUCTION",
@@ -644,7 +641,6 @@
     "size": 16,
     "skillsPossessed": [
       "ART_3D",
-      "SOUND_MUSIC",
       "TEAM_LEAD",
       "TESTING_SUPPORT"
     ],
@@ -698,16 +694,14 @@
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse maximus finibus mauris vel dapibus. Aenean sodales sapien nec ullamcorper porta.\nProin quis est eu magna euismod elementum. Aenean volutpat lacinia urna vitae elementum.",
     "size": 4,
     "skillsPossessed": [
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "CODE",
       "ART_3D",
       "ART_2D"
     ],
     "skillsSought": [
       "DESIGN_PRODUCTION",
-      "SOUND_MUSIC",
-      "CODE",
-      "ART_3D",
       "TEAM_LEAD",
       "OTHER",
       "ART_2D",
@@ -823,7 +817,8 @@
       "OTHER",
       "CODE",
       "DESIGN_PRODUCTION",
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "TESTING_SUPPORT"
     ],
     "preferredTools": [
@@ -870,14 +865,12 @@
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse maximus finibus mauris vel dapibus. Aenean sodales sapien nec ullamcorper porta.\nProin quis est eu magna euismod elementum. Aenean volutpat lacinia urna vitae elementum.",
     "size": 18,
     "skillsPossessed": [
-      "SOUND_MUSIC",
       "TEAM_LEAD",
       "DESIGN_PRODUCTION",
       "TESTING_SUPPORT"
     ],
     "skillsSought": [
       "TESTING_SUPPORT",
-      "SOUND_MUSIC",
       "ART_3D",
       "ART_2D",
       "OTHER",
@@ -987,7 +980,7 @@
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse maximus finibus mauris vel dapibus. Aenean sodales sapien nec ullamcorper porta.\nProin quis est eu magna euismod elementum. Aenean volutpat lacinia urna vitae elementum.",
     "size": 7,
     "skillsPossessed": [
-      "SOUND_MUSIC",
+      "MUSIC",
       "TESTING_SUPPORT",
       "CODE"
     ],
@@ -1039,7 +1032,6 @@
     "skillsPossessed": [
       "DESIGN_PRODUCTION",
       "ART_2D",
-      "SOUND_MUSIC",
       "CODE",
       "OTHER",
       "TESTING_SUPPORT",
@@ -1049,8 +1041,6 @@
     "skillsSought": [
       "OTHER",
       "ART_3D",
-      "TESTING_SUPPORT",
-      "SOUND_MUSIC",
       "TEAM_LEAD",
       "ART_2D"
     ],
@@ -1101,20 +1091,14 @@
       "TEAM_LEAD",
       "ART_3D",
       "DESIGN_PRODUCTION",
-      "SOUND_MUSIC",
       "CODE",
       "ART_2D",
       "TESTING_SUPPORT",
       "OTHER"
     ],
     "skillsSought": [
-      "ART_3D",
-      "OTHER",
-      "ART_2D",
-      "TESTING_SUPPORT",
-      "DESIGN_PRODUCTION",
-      "CODE",
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "TEAM_LEAD"
     ],
     "preferredTools": [
@@ -1171,7 +1155,8 @@
     ],
     "skillsSought": [
       "CODE",
-      "SOUND_MUSIC"
+      "SFX",
+      "MUSIC"
     ],
     "preferredTools": [
       "UNREAL",
@@ -1211,7 +1196,8 @@
       "ART_2D",
       "TEAM_LEAD",
       "TESTING_SUPPORT",
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "CODE",
       "OTHER",
       "ART_3D"
@@ -1250,7 +1236,8 @@
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse maximus finibus mauris vel dapibus. Aenean sodales sapien nec ullamcorper porta.\nProin quis est eu magna euismod elementum. Aenean volutpat lacinia urna vitae elementum.",
     "size": 20,
     "skillsPossessed": [
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "ART_3D",
       "ART_2D",
       "CODE",
@@ -1260,8 +1247,6 @@
       "TEAM_LEAD"
     ],
     "skillsSought": [
-      "OTHER",
-      "SOUND_MUSIC",
       "DESIGN_PRODUCTION",
       "ART_3D",
       "CODE",
@@ -1309,13 +1294,12 @@
     "skillsPossessed": [
       "ART_2D",
       "DESIGN_PRODUCTION",
-      "SOUND_MUSIC",
       "CODE",
       "OTHER"
     ],
     "skillsSought": [
       "OTHER",
-      "SOUND_MUSIC",
+      "SFX",
       "TEAM_LEAD"
     ],
     "preferredTools": [
@@ -1359,13 +1343,13 @@
     "size": 3,
     "skillsPossessed": [
       "OTHER",
-      "SOUND_MUSIC",
       "DESIGN_PRODUCTION",
       "TESTING_SUPPORT"
     ],
     "skillsSought": [
       "OTHER",
-      "SOUND_MUSIC",
+      "SFX",
+      "MUSIC",
       "DESIGN_PRODUCTION",
       "CODE",
       "ART_2D"
@@ -1425,14 +1409,14 @@
       "OTHER",
       "TESTING_SUPPORT",
       "TEAM_LEAD",
-      "SOUND_MUSIC",
+      "SFX",
       "ART_3D",
       "ART_2D"
     ],
     "skillsSought": [
       "OTHER",
       "CODE",
-      "SOUND_MUSIC",
+      "MUSIC",
       "ART_2D",
       "TESTING_SUPPORT",
       "TEAM_LEAD",
@@ -1479,7 +1463,8 @@
     ],
     "skillsSought": [
       "TESTING_SUPPORT",
-      "SOUND_MUSIC"
+      "SFX",
+      "MUSIC"
     ],
     "preferredTools": [
       "UNITY",
@@ -1514,7 +1499,6 @@
     ],
     "skillsSought": [
       "DESIGN_PRODUCTION",
-      "SOUND_MUSIC",
       "OTHER",
       "TEAM_LEAD",
       "TESTING_SUPPORT",

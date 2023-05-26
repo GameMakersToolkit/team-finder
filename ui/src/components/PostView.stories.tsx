@@ -21,7 +21,7 @@ export const Default: Story = {
             description: 'This is a free form description',
             size: 3,
             skillsPossessed: ["ART_2D", "CODE", "OTHER"],
-            skillsSought: ["SOUND_MUSIC", "DESIGN_PRODUCTION"],
+            skillsSought: ["SFX", "MUSIC", "DESIGN_PRODUCTION"],
             preferredTools: ["UNITY", "GODOT"],
             availability: "MINIMAL",
             timezoneOffsets: [-5, 0, 1, 2, 3],
