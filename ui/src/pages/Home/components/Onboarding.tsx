@@ -7,7 +7,7 @@ import {importMetaEnv} from "../../../utils/importMeta";
 const discordGroupName = importMetaEnv().VITE_DISCORD_NAME;
 const discordGroupInviteUrl = importMetaEnv().VITE_DISCORD_INVITE_URL;
 
-const onboardingMessageBoxStyle = "bg-blue-100 rounded-xl text-black mt-6 px-4 py-2"
+const onboardingMessageBoxStyle = "bg-blue-100 rounded-xl text-black mt-6 px-4 py-2 mb-4"
 
 export const Onboarding: React.FC = () => {
   const isLoggedIn = Boolean(useAuth());

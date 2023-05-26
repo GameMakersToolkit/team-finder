@@ -5,7 +5,7 @@ const Footer: React.FC<Props> = ({}) => {
 
 
   return (
-    <div id="footer" style={{position: "fixed", bottom: "0", width: "100%", height: "64px", backgroundImage: "linear-gradient(-30deg, #111827, #275a80)", alignItems: "center", justifyContent: "center", display: "flex"}}>
+    <div id="footer" className="mt-6 w-full h-[64px] flex justify-center items-center" style={{backgroundImage: "linear-gradient(-30deg, #111827, #275a80)"}}>
       <div className="px-4 border-r-2 border-[#28eaf1] h-[32px]">
           <a className="block" style={{position: "relative", top: "50%", transform: "translateY(-50%)"}} href="https://www.youtube.com/@GMTK">
             <img className="hover:scale-125" src={youtubeIcon} alt="GMTK Channel" style={{width:"32px"}} />
