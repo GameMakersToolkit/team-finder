@@ -10,11 +10,11 @@ export interface SortOrderInfo {
 }
 
 export const sortOrderInfoMap: Record<SortOrder, SortOrderInfo> = {
-  asc:  {friendlyName: "Oldest -> Newest"},
-  desc: {friendlyName: "Newest -> Oldest"},
+  asc:  {friendlyName: `Oldest → Newest`},
+  desc: {friendlyName: `Newest → Oldest`},
 };
 
 export const numericSortOrderInfoMap: Record<SortOrder, SortOrderInfo> = {
-  asc: {friendlyName: "Least -> Most"},
-  desc: {friendlyName: "Most -> Least"},
+  asc: {friendlyName: `Least → Most`},
+  desc: {friendlyName: `Most → Least`},
 }
