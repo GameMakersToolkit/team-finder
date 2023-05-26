@@ -1,4 +1,5 @@
 import discordIcon from "./icons/discord.svg";
+import gmtkIcon from "./icons/gmtk-letter-logo.png";
 import youtubeIcon from "./icons/youtube.svg";
 
 const Footer: React.FC<Props> = ({}) => {
@@ -14,7 +15,7 @@ const Footer: React.FC<Props> = ({}) => {
 
       <div className="px-4 border-r-2 border-[#28eaf1] h-[32px]">
           <a className="block" style={{position: "relative", top: "50%", transform: "translateY(-50%)"}} href="https://itch.io/jam/gmtk-2023">
-            <img className="hover:scale-125" src="../favicon.png" alt="GMTK Game Jam" style={{width:"32px"}} />
+            <img className="hover:scale-125" src={gmtkIcon} alt="GMTK Game Jam" style={{width:"32px"}} />
           </a>
       </div>
       <div className="px-4 h-[32px]">
