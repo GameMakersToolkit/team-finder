@@ -26,8 +26,6 @@ export const PostPreview: React.FC<Props> = ({
   adminId,
   showSkillText,
 }) => {
-  console.log("POST " + post.id + " PREVIEW IS RERENDERING")
-
   const deletePostMutation = useDeletePost();
   const banUserMutation = useBanUser();
 
