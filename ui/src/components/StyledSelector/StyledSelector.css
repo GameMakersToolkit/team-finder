@@ -1,33 +1,60 @@
 @layer components {
-  .styled-selector .react-select__control {
-    @apply bg-grey-50 border-2 border-grey-50 rounded-xl placeholder-gray-600;
-  }
+  .styled-selector {
+    /* Whole input field */
+    .react-select__control {
+      @apply bg-grey-50 border-2 border-grey-50 rounded-xl;
 
-  .styled-selector .react-select__control:hover {
-    @apply border-blue-600;
-  }
+      /* Placeholder text */
+      .react-select__placeholder {
+        @apply text-grey-900;
+      }
 
-  .styled-selector .react-select__input {
-    @apply bg-grey-50
-  }
+      &:hover {
+        @apply border-blue-600 text-blue-600;
 
-  .styled-selector .react-select__input-container {
-    @apply text-black;
-  }
+        /* Placeholder text */
+        .react-select__placeholder {
+          @apply text-blue-600;
+        }
 
-  .styled-selector .react-select__menu {
-    @apply bg-grey-50 rounded-none text-grey-900;
-  }
+        /* Buttons on right hand side */
+        .react-select__indicator {
+          @apply text-blue-600;
+        }
+      }
+    }
 
-  .styled-selector .react-select__option--is-focused {
-    @apply bg-grey-200 text-grey-900;
-  }
+    /* Buttons on right hand side */
+    .react-select__indicator {
+      @apply text-grey-900;
+    }
 
-  .styled-selector .react-select__multi-value {
-    @apply bg-grey-50 text-grey-900;
-  }
+    /* Placeholder text */
+    .react-select__placeholder {
+      @apply text-blue-700;
+    }
 
-  .styled-selector .react-select__multi-value__label {
-    @apply bg-grey-50 text-grey-900;
+    /* Placeholder text when dropdown open */
+    .react-select__control--menu-is-open {
+      .react-select__placeholder,   /* Placeholder text */
+      .react-select__indicator {    /* Buttons on right hand side */
+        @apply text-blue-900;
+      }
+    }
+
+    .react-select__menu ,     /* Open dropdown menu itself */
+    .react-select__option {   /* Open dropdown elements */
+      @apply bg-grey-200 rounded text-grey-900;
+    }
+
+    /* Open dropdown on hover of single item */
+    .react-select__option--is-focused {
+      @apply bg-blue-700;
+    }
+
+    .react-select__multi-value,           /* 'X' button of element in input after selection */
+    .react-select__multi-value__label {   /* Icon/text of element in input after selection */
+      @apply bg-blue-700 text-white rounded;
+    }
   }
 }

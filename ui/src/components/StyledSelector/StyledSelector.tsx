@@ -10,6 +10,7 @@ export function StyledSelector<
     <Select
       className="styled-selector"
       classNamePrefix="react-select"
+      placeholder="Select option(s)"
       {...props}
     />
   );
