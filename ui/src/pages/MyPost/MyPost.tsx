@@ -275,7 +275,7 @@ export const MyPost: React.FC = () => {
         </div>
 
         {/* Submit */}
-        <div className="flex mt-4">
+        <div className="flex mt-4 bg-blue-700">
           <Button type="submit" variant="primary" disabled={disabled} style={{color: "white"}}>
             {`${myPostQuery?.data ? "Update" : "Create"} Post`}
           </Button>
