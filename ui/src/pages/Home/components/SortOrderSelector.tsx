@@ -1,12 +1,10 @@
 import React from "react";
 import { StyledSelector } from "../../../components/StyledSelector/StyledSelector";
-import { allSortOrders, SortOrder, sortOrderInfoMap } from "../../../model/sortOrder";
-
-import ascIcon from "./icons/sort-asc.svg";
-import descIcon from "./icons/sort-desc.svg";
+import { allSortOrders, SortOrder, sortOrderInfoMap, numericSortOrderInfoMap } from "../../../model/sortOrder";
 
 interface Props {
   value: SortOrder;
+  sortByValue: string;
   onChange: (value: SortOrder) => void;
   id?: string;
 }
@@ -16,26 +14,26 @@ interface Option {
   label: React.ReactNode;
 }
 
-const icons = {
-    "asc": ascIcon,
-    "desc": descIcon,
+const getOptions = (sortByValue) => {
+    return allSortOrders.map((sortOrder) => {
+        const labelText = sortByValue == "size" ? numericSortOrderInfoMap[sortOrder].friendlyName : sortOrderInfoMap[sortOrder].friendlyName
+        return ({
+          value: sortOrder,
+          label: (
+            <span className="flex items-center">
+              <span>{labelText}</span>
+            </span>
+          )
+        })
+    });
 }
-
-const options = allSortOrders.map((it) => ({
-  value: it,
-  label: (
-    <span className="flex items-center">
-        <img src={icons[it]} className="inline-block" width={20} height={20} style={{maxHeight: "20px"}}  alt={`Sort results ${sortOrderInfoMap[it].friendlyName}`}/>
-    </span>
-  ),
-}));
-
-const sortOrderMap = Object.fromEntries(
-  options.map((it) => [it.value, it])
+const getSortOrderMap = (sortByValue) => Object.fromEntries(
+  getOptions(sortByValue).map((it) => [it.value, it])
 ) as Record<SortOrder, Option>;
 
 
-export function SortOrderSelector({ id, value, onChange }: Props): React.ReactElement {
+export function SortOrderSelector({ id, value, sortByValue, onChange }: Props): React.ReactElement {
+console.log(sortByValue)
   return (
     <>
       <style dangerouslySetInnerHTML={{
@@ -45,9 +43,9 @@ export function SortOrderSelector({ id, value, onChange }: Props): React.ReactEl
         id={id}
         isMulti={false}
         closeMenuOnSelect={true}
-        options={options}
-        value={sortOrderMap[value]}
-        onChange={(newValue) => newValue && onChange(newValue.value)}
+        options={getOptions(sortByValue)}
+        value={getSortOrderMap(sortByValue)[value]}
+        onChange={(newValue) => onChange(newValue.value)}
       />
     </>
   );

@@ -15,7 +15,7 @@ export const SortingOptions: React.FC<{
       Sort
       <span className="sm:inline-flex mx-2"><SortBySelector value={sortByValue} onChange={sortByOnChange}/></span>
       by
-      <span className="sm:inline-flex mx-2"><SortOrderSelector value={sortOrderValue} onChange={sortOrderOnChange}/></span>
+      <span className="sm:inline-flex mx-2"><SortOrderSelector sortByValue={sortByValue} value={sortOrderValue} onChange={sortOrderOnChange}/></span>
     </div>
   )
 }

@@ -1,6 +1,4 @@
 export const allSortBy = [
-  "id",
-  "authorId",
   "size",
   "createdAt",
   "updatedAt",
@@ -13,9 +11,7 @@ export interface SortByInfo {
 }
 
 export const sortByInfoMap: Record<SortBy, SortByInfo> = {
-  id:  {friendlyName: "Post ID"},
-  authorId: {friendlyName: "Jammer"},
   size: {friendlyName: "Team Size"},
-  createdAt: {friendlyName: "Creation Date"},
+  createdAt: {friendlyName: "Date Created"},
   updatedAt: {friendlyName: "Last Updated"},
 };
