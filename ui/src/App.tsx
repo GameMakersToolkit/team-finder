@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getJamState, JamState } from "./utils/jamState";
 import PageHeader from "./pages/PageHeader";
 import { AppRoutes } from "./AppRoutes";
+import Footer from "./pages/Footer/Footer";
 import { Toaster } from "react-hot-toast";
 
 export const App: React.FC = () => {
@@ -17,6 +18,7 @@ export const App: React.FC = () => {
     <>
       <PageHeader jamState={jamState} />
       <AppRoutes jamState={jamState} />
+      <Footer />
       <Toaster
         position="bottom-center"
         reverseOrder={false}

@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Add node binaries to $PATH for libraries
 ENV PATH /app/node_modules/.bin:$PATH
-ENV NODE_ENV production
+ENV NODE_ENV development
 
 # Thin-install app dependencies
 COPY package.json package-lock.json ./

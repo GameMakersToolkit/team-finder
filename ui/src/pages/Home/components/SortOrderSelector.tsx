@@ -33,7 +33,6 @@ const getSortOrderMap = (sortByValue) => Object.fromEntries(
 
 
 export function SortOrderSelector({ id, value, sortByValue, onChange }: Props): React.ReactElement {
-console.log(sortByValue)
   return (
     <>
       <style dangerouslySetInnerHTML={{
