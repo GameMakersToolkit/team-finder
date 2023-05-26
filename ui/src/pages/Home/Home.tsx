@@ -26,7 +26,6 @@ import { allSortOrders, SortOrder } from "../../model/sortOrder";
 import { allSortBy, SortBy } from "../../model/sortBy";
 import { SearchMode, SearchModeSelector } from "./components/SearchModeSelector";
 import { importMetaEnv } from "../../utils/importMeta";
-import { getCountdownComponents } from "../../utils/countdown";
 
 export const Home: React.FC = () => {
   const auth = useAuth();
@@ -46,16 +45,7 @@ export const Home: React.FC = () => {
   const [timezoneOffsetEnd, setTimezoneOffsetEnd] = useState<TimezoneOffset[]>([allTimezoneOffsets[24]])
   const [previousTimezoneOffsetEnd, setPreviousTimezoneOffsetEnd] = useState<TimezoneOffset[]>()
 
-  const [time, setTime] = useState(Date.now());
-
   const shouldLimitToFavourites = searchParams.get("favourites") || false;
-
-  useEffect(() => {
-    const interval = setInterval(() => setTime(Date.now()), 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   useEffect(() => {
     // If a timezone selector is empty (user has removed value but not replaced it), don't try to update query
@@ -120,8 +110,6 @@ export const Home: React.FC = () => {
     skillsSoughtSearchMode: skillsSoughtSearchModeFilter,
   };
 
-  const jamName = importMetaEnv().VITE_JAM_NAME;
-  const countdown = getCountdownComponents(time);
   const query = usePostsList(searchOptions);
 
   if (searchParams.get("error")) {
@@ -139,33 +127,7 @@ export const Home: React.FC = () => {
 
       <Onboarding />
 
-      <div className="mb-8 sm:mb-8">
-          <div className="inline-block w-full sm:w-1/2 pb-8">
-            <img
-              className="m-auto pt-16 px-16 pb-4"
-              src="/logos/header.png"
-              width={"70%"}
-              alt={jamName + " Team Finder logo"}
-            />
-            <p className="text-center">{`Welcome to the ${jamName} Team Finder!`}</p>
-            <p className="text-center">Create a post or search below to find a team.</p>
-          </div>
-          <div className="inline-block w-full sm:w-1/2 text-center">
-            <div className="bg-red-600 border-red-600 border-2 rounded-xl inline-block p-3">
-                <span className="text-4xl">{`${countdown.days.toString().padStart(2, '0')}: `}</span>
-                <span className="text-4xl">{`${countdown.hours.toString().padStart(2, '0')}: `}</span>
-                <span className="text-4xl">{`${countdown.minutes.toString().padStart(2, '0')} `}</span>
-            </div>
-            <p className="text-center py-3">
-              <span className="mr-4 font-bold text-xl">Days</span>
-              <span className="mr-4 font-bold text-xl">Hours</span>
-              <span className=" font-bold text-xl">Minutes</span>
-            </p>
-            <p className="text-center">Left until the jam starts</p>
-          </div>
-      </div>
-
-      <div className="rounded-xl bg-grey-500 py-4 px-2">
+      <div className="rounded-xl bg-grey-500 py-4 px-4">
 
       <h1 className="text-xl my-2 font-bold text-center">Find people to jam with:</h1>
 
@@ -215,36 +177,25 @@ export const Home: React.FC = () => {
       </div>
 
        <div className="text-center">
-      {/*<button
-        onClick={() => {
-          if (!isLoggedIn) {
-            toast("You must be logged in view your favourite posts", {
-              icon: "🔒",
-              id: "favourite-post-view-info",
-            });
-            return;
-          }
+          <button
+            onClick={() => {
+                const params = {}
+                if (shouldLimitToFavourites) {
+                    params.favourites = true
+                }
+                setSearchParams(params)
+            }}
+            className={`border rounded-xl text-white px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
+          >
+            Clear Search
+          </button>
 
-          setShouldLimitToFavourites(!shouldLimitToFavourites)
-        }}
-        className={`rounded border text-white p-2 mt-4 mr-2 mb-2 w-full sm:w-fit hover:bg-primary-highlight ${shouldLimitToFavourites ? "bg-primary" : "bg-lightbg"} ${!isLoggedIn && "cursor-not-allowed"}`}
-      >
-        Only Show Favourites
-      </button>*/}
-
-      <button
-        onClick={() => setSearchParams({})}
-        className={`border rounded-xl text-white px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
-      >
-        Clear Search
-      </button>
-
-      <button
-        onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
-        className={`border rounded-xl border-blue-200 text-blue-200 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
-      >
-        More options <span>{showAdvancedSearchOptions ? '⌄' : '⌃'}</span>
-      </button>
+          <button
+            onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+            className={`border rounded-xl border-blue-200 text-blue-200 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
+          >
+            More options <span>{showAdvancedSearchOptions ? '⌄' : '⌃'}</span>
+          </button>
 
       </div>
 

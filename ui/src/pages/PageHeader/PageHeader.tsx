@@ -65,7 +65,6 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
     // Using 'null' instead of 'false' will delete the key and automatically toggle
     // apiRequest() from /posts to /favourites and back again
     updateSearchParam("favourites", favourites ? favourites : null)
-    console.log("Why the f doesn't this work")
   }
 
 
@@ -74,13 +73,14 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
   }
 
   return (
-    <div className="bg-black h-full mx-auto">
+    <div className="bg-black h-full mx-auto p-2 mb-6">
       {/* Static Inline Header */}
-      <div className="flex flex-cols-2 border-b-2">
+      <div className="flex flex-cols-2">
         <Link to="/">
           <img
             src="/logos/header.png"
-            width={100}
+            width="40"
+            height="40"
             alt={jamName + " Team Finder logo"}
           />
         </Link>

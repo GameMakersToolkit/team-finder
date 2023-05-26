@@ -85,6 +85,7 @@ export function usePostsList(
     },
     {
       ...queryOptions,
+      staleTime: 60000, // 60 seconds, enough time that toggling Favourites on/off doesn't have a huge delay
       select: (posts: PostApiResult[]) => posts.map(postFromApiResult),
     }
   );
