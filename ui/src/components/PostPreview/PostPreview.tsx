@@ -95,16 +95,14 @@ export const PostPreview: React.FC<Props> = ({
 
 export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
   return (
-    <div className="flex justify-between min-w-0">
-      <img src={getTeamSizeIcon(post.size)} className="inline-block mr-2" width={32} height={32} style={{maxHeight: "32px"}}  alt={`This team contains ${post.size} people`}/>
+    <div className="flex justify-between min-w-0 mb-4">
+      <img src={getTeamSizeIcon(post.size)} className="inline-block mr-2" width={28} height={28} style={{maxHeight: "28px"}}  alt={`This team contains ${post.size} people`}/>
       <span className="grow" style={{width: "calc(100% - 100px)"}}>
-        <h3 className="text-xl overflow-hidden text-ellipsis whitespace-nowrap">
+        <h3 className="text-lg font-bold overflow-hidden text-ellipsis whitespace-nowrap">
           {post.author}
-          <span className="text-sm">
-            {post.size > 1
-              ? ` and ${post.size - 1} others`
-              : ``}
-          </span>
+          <p className="absolute font-normal text-sm left-[16px] top-[48px]">
+            {post.size > 1 ? ` and ${post.size - 1} others are` : `is`} looking for members
+          </p>
         </h3>
       </span>
       <FavouritePostIndicator
@@ -122,8 +120,7 @@ const getTeamSizeIcon = (size: number) => {
     case 2:
       return teamSize2Icon;
     case 3:
-      return teamSize3Icon;
     default:
-      return teamSize4PlusIcon;
+      return teamSize3Icon;
   }
 }

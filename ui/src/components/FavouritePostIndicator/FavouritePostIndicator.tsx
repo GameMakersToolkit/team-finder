@@ -43,7 +43,7 @@ export const FavouritePostIndicator: React.FC<{
         }
         alt={post.isFavourite ? `Click to remove ${post.author}'s post from your favourites` : `Click to add ${post.author}'s post to your favourites`}
         className="inline-block"
-        style={{ width: "32px", height: "32px", minWidth: "32px" }}
+        style={{ width: "28px", height: "28px", minWidth: "28px" }}
       />
     </span>
   );
