@@ -40,7 +40,7 @@ export function SearchModeSelector({
                 type="radio"
                 role="radio"
                 aria-checked={value == option}
-                className={`text-white cursor-pointer p-2 mr-2 mb-2 w-full sm:w-fit`}
+                className={`text-white cursor-pointer p-2 mr-2 mb-2 `}
                 data-search-mode={option}
                 onClick={() => onChange(option)}
               />
