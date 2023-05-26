@@ -110,46 +110,15 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
               {userInfo.isLoading ? "Loading..." : "Login"}
             </button>
           ) : (
-            <p className="mr-4">
-              Welcome {userInfo.data?.username as string}! (
-              <Link to="/logout" className="cursor-pointer hover:underline">
-                Click to logout
+            <p className="sm:mr-4 text-xs sm:text-base">
+              Welcome {userInfo.data?.username as string}!
+              <Link to="/logout" className="block sm:inline sm:ml-1 cursor-pointer hover:underline">
+                (Click here to logout)
               </Link>
-              )
             </p>
-          )}
-          {!shouldShowHorizontalLinks && (
-            <ShowHideNavButton
-              isNavVisible={isNavVisible}
-              setNavVisibility={setNavVisibility}
-            />
           )}
         </div>
       </div>
-
-      {/* Toggleable navbar */}
-      {/* TODO: Animate navbar visibility? */}
-      {isNavVisible && !shouldShowHorizontalLinks && (
-        <nav
-          className={
-            "fixed w-full bg-black grid grid-cols-1 justify-items-center content-center px-4 py-4"
-          }
-          style={{
-            zIndex: 100,
-          }}
-        >
-          {links.map((link) => (
-            <Link
-              key={link.to}
-              className={navMenuElementStylingRules}
-              onClick={() => setNavVisibility(false)}
-              to={link.to}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-      )}
     </div>
   );
 };
@@ -202,28 +171,3 @@ export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
       </Link>
     );
 };
-
-const ShowHideNavButton: React.FC<{
-  isNavVisible: boolean;
-  setNavVisibility: (isNavVisible: boolean) => void;
-}> = ({ isNavVisible, setNavVisibility }) => (
-  <button
-    className="flex-initial h-full w-16 border-l-2"
-    onClick={() => setNavVisibility(!isNavVisible)}
-    style={{
-      borderImage:
-        "linear-gradient(to bottom, #fd04f2 0% 33%, #f9fd03 33% 66%, #3abaf6 66% 100%) 2",
-    }}
-  >
-    <div className="py-1">
-      <svg
-        className="fill-current h-8 mx-auto"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <title>Menu</title>
-        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-      </svg>
-    </div>
-  </button>
-);
