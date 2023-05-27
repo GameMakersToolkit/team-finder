@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useSearchParams } from "react-router-dom";
 import { PostPreview } from "../../components/PostPreview";
+import SiteIntro from "./components/SiteIntro";
 import { isSkill } from "../../model/skill";
 import { SearchOptions, usePostsList } from "../../queries/posts";
 import { useUpdateSearchParam } from "../../utils/searchParam";
@@ -127,6 +128,8 @@ export const Home: React.FC = () => {
     <div className="container mx-auto max-w-screen-xxl p-1 px-4">
 
       <Onboarding />
+
+      <SiteIntro />
 
       <div className="rounded-xl bg-grey-500 py-4 px-4">
 
