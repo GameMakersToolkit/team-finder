@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useReportPostMutation, useReportBrokenDMsPostMutation } from "../queries/posts";
 import { FavouritePostIndicator } from "./FavouritePostIndicator";
 import { SkillList } from "./SkillList";
@@ -16,10 +16,13 @@ import { login } from "../utils/login";
 import { iiicon } from "../utils/iiicon";
 
 export const PostView: React.FC<{ post: Post }> = ({ post }) => {
+
+  const navigate = useNavigate();
+
   return (
     <>
     <div className="py-4 text-xl">
-        <span className="text-grey-200 mr-2">Search results</span>
+        <a className="text-grey-200 mr-2 cursor-pointer hover:underline" onClick={() => navigate(-1)}>Search results</a>
         <span className="mr-2">{iiicon('right-arrow', "#FFFFFF", 16, 16)}</span>
         <span>{post.author}</span>
     </div>
