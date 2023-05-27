@@ -44,7 +44,7 @@ export const PostPreview: React.FC<Props> = ({
       <SkillList
         label="Looking for:"
         skills={post.skillsSought}
-        className="[--skill-color:theme(colors.blue-800)]"
+        className="[--skill-color:theme(colors.blue-800)] mt-1"
         showText={showSkillText}
       />
       <SkillList
@@ -101,10 +101,10 @@ export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
       <span className="grow" style={{width: "calc(100% - 100px)"}}>
         <h3 className="text-lg font-bold overflow-hidden text-ellipsis whitespace-nowrap">
           {post.author}
-          <p className="absolute font-normal text-sm left-[16px] top-[48px]">
-            {post.size > 1 ? ` and ${post.size - 1} others are` : `is`} looking for members
-          </p>
         </h3>
+        <p className="absolute font-normal text-sm left-[16px] top-[48px]">
+          {post.size > 1 ? ` and ${post.size - 1} others are` : `is`} looking for members
+        </p>
       </span>
       <FavouritePostIndicator
         post={post}
