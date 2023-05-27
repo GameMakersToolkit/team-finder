@@ -121,7 +121,7 @@ export const FAQ = () => {
             id="how-to-use"
           >
 
-            <p>If you are looking for a team to join or for someone to join your team, use the search tools on
+            <p>If you are looking for a team to join or for someone to join your team, use the search tools on&nbsp;
               <Link className="hover:underline cursor-pointer" to="/my-post">the homepage</Link> to find other jammers!
             </p>
 
