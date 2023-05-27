@@ -194,12 +194,20 @@ export const Home: React.FC = () => {
             Clear Search
           </button>
 
-          <button
-            onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
-            className={`border rounded-xl border-blue-200 text-blue-200 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
-          >
-            More options {showAdvancedSearchOptions ? iiicon('down-arrow', '#8ae7ff') : iiicon('up-arrow', '#8ae7ff')}
-          </button>
+          {showAdvancedSearchOptions
+          ? <button
+              onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+              className={`border rounded-xl border-blue-200 text-blue-200 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
+            >
+              Fewer options {iiicon('up-arrow', '#8ae7ff')}
+            </button>
+          : <button
+              onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+              className={`border rounded-xl border-blue-200 text-blue-200 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
+            >
+              More options {iiicon('down-arrow', '#8ae7ff')}
+            </button>
+          }
 
       </div>
 
