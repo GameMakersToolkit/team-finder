@@ -16,7 +16,7 @@ const SiteIntro = () => {
           <div className="inline-block w-full sm:w-1/2 pb-8">
             <img
               className="m-auto pt-8 px-16 pb-4"
-              src="/logos/header.png"
+              src="/logos/full.png"
               width={"300px"}
               alt={jamName + " Team Finder logo"}
             />

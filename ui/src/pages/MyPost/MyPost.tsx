@@ -217,14 +217,9 @@ export const MyPost: React.FC = () => {
 
 
       {/* Timezone */}
+      <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
       <div className="mt-2">
-        <label className="font-bold block" htmlFor="toolsFilter">
-          What timezone are you based in?<br/>
-          <span className="text-xs">
-            Timezone is an optional way for other participants to find people who will be awake/online at roughly
-            the same of day.
-          </span>
-        </label>
+      <label className="font-bold block" htmlFor="toolsFilter">What timezone are you based in?</label>
         <TimezoneOffsetSelector
           id="timezoneOffsets"
           value={myPostQuery.isFetched ? formState.timezoneOffsets : []}
@@ -235,24 +230,29 @@ export const MyPost: React.FC = () => {
            }))
           }
         />
+        <span className="text-xs">
+          Timezone is an optional way for other participants to find people who will be awake/online at roughly
+          the same of day.
+        </span>
       </div>
 
-      {/* Availability */}
-      <div className="mt-2">
-        <label className="font-bold block" htmlFor="toolsFilter">
-          How much time are you looking to spend?
-        </label>
-        <AvailabilitySelector
-          id="availabilityFilter"
-          allowMultiple={false}
-          disabled={disabled}
-          // Don't have anything selected while loading the form
-          // to avoid visual jank
-          value={myPostQuery.isFetched ? [formState.availability] : []}
-          onChange={(availability) =>
-            setFormState((prev) => ({ ...prev, availability: availability[0] }))
-          }
-        />
+        {/* Availability */}
+        <div className="mt-2">
+          <label className="font-bold block mb-[6px]" htmlFor="toolsFilter">
+            How much time are you looking to spend?
+          </label>
+          <AvailabilitySelector
+            id="availabilityFilter"
+            allowMultiple={false}
+            disabled={disabled}
+            // Don't have anything selected while loading the form
+            // to avoid visual jank
+            value={myPostQuery.isFetched ? [formState.availability] : []}
+            onChange={(availability) =>
+              setFormState((prev) => ({ ...prev, availability: availability[0] }))
+            }
+          />
+        </div>
       </div>
 
       <div className={`flex ${myPostQuery?.data ? "justify-between" : "justify-end"}`}>
