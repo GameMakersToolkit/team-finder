@@ -17,7 +17,6 @@ interface Option {
 const getOptions = (sortByValue) => {
     return allSortOrders.map((sortOrder) => {
         const labelText = sortByValue == "size" ? numericSortOrderInfoMap[sortOrder].friendlyName : sortOrderInfoMap[sortOrder].friendlyName
-        console.log(labelText)
         return ({
           value: sortOrder,
           label: (
