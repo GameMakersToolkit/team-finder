@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import teamListImg from "./team-list.png";
 import addTeamFormImg from "./add-team-form.png";
 import { Link } from "react-router-dom";
@@ -26,13 +26,14 @@ const FAQHeading: React.FC<Props> = ({ question, children }) => {
 };
 
 const FAQImage: React.FC<{
+  id?: string;
   question: string;
   left?: boolean;
   image: string;
   children: string | JSX.Element | JSX.Element[]
-}> = ({ question, left, image, children }) => {
+}> = ({ id, question, left, image, children }) => {
   return (
-    <div className="py-16 odd:bg-gray-900">
+    <div id={id} className="py-16 odd:bg-gray-900">
       <div className="container m-auto px-6 md:px-12 xl:px-6">
         <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
           {left && (
@@ -70,6 +71,20 @@ const FAQTextItem: React.FC<Props> = ({
 };
 
 export const FAQ = () => {
+  // We have to jump to 'how-to-use' manually because the Link attribute doesn't want to behave
+  const jumpToHash = () => {
+    const hashParts = window.location.hash.split('#').filter(a => !!a);
+    console.log("hashParts", hashParts);
+    if (hashParts.length > 0) {
+      const hash = hashParts[0];
+      document.querySelector(`#${hash}`).scrollIntoView();
+    }
+  }
+
+  useEffect(() => {
+    jumpToHash()
+  }, []);
+
   return (
     <>
       <main>
@@ -103,6 +118,7 @@ export const FAQ = () => {
             image={teamListImg}
             left={true}
             question="How do I find jammers to join?"
+            id="how-to-use"
           >
 
             <p>If you are looking for a team to join or for someone to join your team, use the search tools on

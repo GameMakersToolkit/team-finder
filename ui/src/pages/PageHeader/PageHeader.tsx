@@ -88,6 +88,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
           <div className="flex items-center">
             <InlineNavLink key={"Home"} linkData={{to: "/", label: "Home"}} />
             <InlineNavLink key={"About"} linkData={{to: "/about", label: "About"}} />
+            <InlineNavLink key={"How to use"} linkData={{to: "/about#how-to-use", label: "How to use"}} />
             {shouldDisplayAdminLink && <InlineNavLink key={"Admin"} linkData={{to: "/admin", label: "Admin"}} />}
           </div>
         )}
