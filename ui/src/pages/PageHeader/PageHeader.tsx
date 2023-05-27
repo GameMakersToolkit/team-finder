@@ -37,7 +37,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const updateSearchParam = useUpdateSearchParam(searchParams, setSearchParams);
-  const [shouldLimitToFavourites, setShouldLimitToFavourites] = useState(false)
+  const [shouldLimitToFavourites, setShouldLimitToFavourites] = useState(searchParams.get("bookmarked") || false)
 
   // Note: this assumes that we haven't made any changes to the
   // default Tailwind theme's responsive breakpoints.
