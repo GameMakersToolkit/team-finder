@@ -47,7 +47,7 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
           labelOnNewLine={true}
         />
         <SkillList
-          label="Brings:"
+          label="Can do:"
           skills={post.skillsPossessed}
           className="[--skill-color:theme(colors.blue-900)] mt-4"
           showText={true}

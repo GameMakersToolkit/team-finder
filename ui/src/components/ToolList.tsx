@@ -15,7 +15,7 @@ export const ToolList: React.FC<{
     }
 
     return (
-        <dl className={cx("flex gap-1 flex-wrap text-lg", className)}>
+        <dl className={cx("flex gap-[8px] flex-wrap text-lg", className)}>
             <dt className={`py-1 ${labelOnNewLine ?  "block w-full" : "mr-1"}`}>{label}</dt>
             {tools.map((tool) => {
                 const info = toolInfoMap[tool];

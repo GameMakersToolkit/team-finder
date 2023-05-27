@@ -47,7 +47,7 @@ export const PostPreview: React.FC<Props> = ({
         showText={showSkillText}
       />
       <SkillList
-        label="Brings:"
+        label="Can do:"
         skills={post.skillsPossessed}
         className="[--skill-color:theme(colors.blue-900)]"
         showText={showSkillText}
