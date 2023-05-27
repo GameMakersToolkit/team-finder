@@ -130,13 +130,13 @@ export const MyPost: React.FC = () => {
       />
 
       {/* Size */}
-      <label htmlFor="size" className="text-lg inline-block sm:w-[75%]">
+      <label htmlFor="size" className="text-lg mr-4">
         How many people (including you) are currently working together?
       </label>
       <input
         id="size"
         type="number"
-        className={"inline-block sm:w-[25%] border-white border-2 bg-black text-white w-full py-1 px-2 mb-2"}
+        className={"w-full sm:w-auto border-white border-2 bg-black text-white py-1 px-2 mb-2 text-end"}
         disabled={disabled}
         value={formState.size}
         min="1"
