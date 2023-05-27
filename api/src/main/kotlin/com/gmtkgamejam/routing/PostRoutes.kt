@@ -132,6 +132,16 @@ fun Application.configurePostRouting() {
 
             get("{id}") {
                 val post: PostItem? = call.parameters["id"]?.let { service.getPost(it) }
+
+                // Set isFavourite on posts for this user if they're logged in
+                call.request.header("Authorization")?.substring(7)
+                    ?.let { JWT.decode(it) }?.getClaim("id")?.asString()
+                    ?.let { authService.getTokenSet(it) }
+                    ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
+                    ?.let { favouritesList ->
+                        post?.isFavourite = favouritesList.postIds.contains(post?.id)
+                    }
+
                 post?.let { return@get call.respond(it) }
                 call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
             }
