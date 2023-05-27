@@ -112,7 +112,7 @@ export const MyPost: React.FC = () => {
       {/* Description */}
       <label htmlFor="description" className="text-lg">
         Write a brief summary of what you&apos;re looking for that isn&apos;t
-        covered by the rest of the form
+        covered by the rest of the form:
       </label>
       <br />
       <small>{2000 - formState.description.length} characters remaining</small>
