@@ -138,7 +138,7 @@ export const Home: React.FC = () => {
         <input
           id="descriptionFilter"
           type="text"
-          placeholder="Search for keywords in a post"
+          placeholder="Search for keywords in a post (e.g. 'retro', 'platformer', 'top down')"
           className="input px-2 py-1 w-full h-[36px]"
           value={description}
           onChange={(e) => setDescription(e.currentTarget.value)}
