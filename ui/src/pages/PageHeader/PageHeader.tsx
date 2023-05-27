@@ -73,7 +73,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
   }
 
   return (
-    <div className="bg-black h-full mx-auto p-2 mb-6">
+    <div className="h-[64px] mx-auto p-2 mb-4" style={{backgroundImage: "linear-gradient(180deg, #042e62, #000000)"}}>
       {/* Static Inline Header */}
       <div className="flex flex-cols-2">
         <Link to="/">
