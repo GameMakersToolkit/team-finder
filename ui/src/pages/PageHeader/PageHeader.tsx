@@ -51,6 +51,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
   const shouldDisplayAdminLink = userInfo.data?.isAdmin;
 
   const [isNavVisible, setNavVisibility] = useState(false);
+  const isOnHomePage = window.location.pathname === "/"
 
   const bookmarkIconOnClick = (favourites) => {
     if (!isLoggedIn) {
@@ -97,7 +98,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
         <div className="flex-1" />
 
         <div className="flex items-center">
-          <InlineNavLink key={"Bookmarks"} linkData={{onClick: () => bookmarkIconOnClick(!shouldLimitToFavourites), icon: shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon, style: "border border-blue-300 rounded-xl"}} />
+          {isOnHomePage && <InlineNavLink key={"Bookmarks"} linkData={{onClick: () => bookmarkIconOnClick(!shouldLimitToFavourites), icon: shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon, style: "border border-blue-300 rounded-xl"}} />}
           <InlineNavLink key={"Edit"} linkData={{to: "/my-post", icon: myPostIcon, label: 'Create post',  style: "border border-blue-300 rounded-xl"}} />
 
           {shouldDisplayLogin ? (
