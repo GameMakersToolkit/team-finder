@@ -74,7 +74,6 @@ export const FAQ = () => {
   // We have to jump to 'how-to-use' manually because the Link attribute doesn't want to behave
   const jumpToHash = () => {
     const hashParts = window.location.hash.split('#').filter(a => !!a);
-    console.log("hashParts", hashParts);
     if (hashParts.length > 0) {
       const hash = hashParts[0];
       document.querySelector(`#${hash}`).scrollIntoView();

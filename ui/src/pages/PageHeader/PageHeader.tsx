@@ -158,6 +158,7 @@ export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
           "font-bold": isMatch,
         })}
         to={linkData.to}
+        reloadDocument={Boolean(linkData.to.indexOf("#") !== -1)}
         onClick={linkData.onClick}
       >
         {linkData.icon && (
