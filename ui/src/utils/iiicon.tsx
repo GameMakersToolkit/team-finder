@@ -1,5 +1,5 @@
 export const iiicon = (icon: string, color: string, height = 24, width = 24) => {
-    const path = `/public/icons/${icon}.svg`
+    const path = `/icons/${icon}.svg`
 
     return (
         <span className={`masked-icon-${icon} inline-block`} style={{
