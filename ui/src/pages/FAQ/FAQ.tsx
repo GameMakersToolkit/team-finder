@@ -196,6 +196,7 @@ export const FAQ = () => {
                     style={{ textDecorationThickness: "3px" }}
                     className="text-accent1 underline hover:text-accent2"
                     href={jamUrl}
+                    target="_blank"
                   >
                     the official itch.io page for details
                   </a>
