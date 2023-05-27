@@ -26,6 +26,7 @@ import { allSortOrders, SortOrder } from "../../model/sortOrder";
 import { allSortBy, SortBy } from "../../model/sortBy";
 import { SearchMode, SearchModeSelector } from "./components/SearchModeSelector";
 import { importMetaEnv } from "../../utils/importMeta";
+import { iiicon } from "../../utils/iiicon";
 
 export const Home: React.FC = () => {
   const auth = useAuth();
@@ -194,7 +195,7 @@ export const Home: React.FC = () => {
             onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
             className={`border rounded-xl border-blue-200 text-blue-200 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit`}
           >
-            More options <span>{showAdvancedSearchOptions ? '⌄' : '⌃'}</span>
+            More options {showAdvancedSearchOptions ? iiicon('down-arrow', '#8ae7ff') : iiicon('up-arrow', '#8ae7ff')}
           </button>
 
       </div>

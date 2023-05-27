@@ -13,13 +13,14 @@ import { toast } from "react-hot-toast";
 import { useUserInfo } from "../queries/userInfo";
 import { useCreateBotDmMutation } from "../queries/bot";
 import { login } from "../utils/login";
+import { iiicon } from "../utils/iiicon";
 
 export const PostView: React.FC<{ post: Post }> = ({ post }) => {
   return (
     <>
     <div className="py-4 text-xl">
         <span className="text-grey-200 mr-2">Search results</span>
-        <span className="mr-2">&gt;</span>
+        <span className="mr-2">{iiicon('right-arrow', "#FFFFFF", 16, 16)}</span>
         <span>{post.author}</span>
     </div>
     <div className="bg-grey-500 rounded-xl p-4">
@@ -100,7 +101,10 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
 
       <div className="p-4 flex justify-between">
         <div className="mb-2">
-          <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>&lt; Back to search results</a>
+          {iiicon('left-arrow', "#FFFFFF")}
+          <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>
+            Back to search results
+          </a>
         </div>
 
         <div className="mb-2">

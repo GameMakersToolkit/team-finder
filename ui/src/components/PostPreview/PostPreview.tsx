@@ -10,6 +10,7 @@ import teamSize2Icon from "./icons/2.svg"
 import teamSize3Icon from "./icons/3.svg"
 import teamSize4PlusIcon from "./icons/4.svg"
 import {Link} from "react-router-dom";
+import { iiicon } from "../../utils/iiicon";
 
 interface Props {
   post: Post;
@@ -85,7 +86,7 @@ export const PostPreview: React.FC<Props> = ({
             className="text-lg text-blue-200 font-bold"
             to={`/${post.id}`}
           >
-            See more &gt;
+            See more {iiicon("right-arrow", "#8ae7ff")}
           </Link>
         </div>
       </div>

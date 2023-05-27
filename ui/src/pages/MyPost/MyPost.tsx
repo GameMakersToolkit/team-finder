@@ -261,6 +261,7 @@ export const MyPost: React.FC = () => {
           {myPostQuery?.data && (
             // TODO: Add visual cues for deleting (throbber, disabled etc)
             <Button
+              className="rounded-xl"
               style={{ backgroundColor: "red" }}
               type="button"
               variant="default"
@@ -275,7 +276,7 @@ export const MyPost: React.FC = () => {
         </div>
 
         {/* Submit */}
-        <div className="flex mt-4 bg-blue-700">
+        <div className="flex mt-4 bg-blue-700 rounded-xl">
           <Button type="submit" variant="primary" disabled={disabled} style={{color: "white"}}>
             {`${myPostQuery?.data ? "Update" : "Create"} Post`}
           </Button>

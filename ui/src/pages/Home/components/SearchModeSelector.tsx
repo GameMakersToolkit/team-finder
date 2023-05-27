@@ -32,7 +32,7 @@ export function SearchModeSelector({
     <>
       <div id={id}>
         {allSearchModes.map((option: SearchMode) => (
-          <div>
+          <div key={option}>
               <input
                 id={`${id}-${option}`}
                 name={id}
