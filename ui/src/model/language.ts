@@ -45,7 +45,7 @@ export const languageInfoMap: Record<Language, LanguageInfo> = {
   },
   // Brazilian Portuguese
   "pt-BR": {
-    friendlyName: "português do Brasil"
+    friendlyName: "Português do Brasil"
   },
   // Spanish
   es: {
@@ -69,11 +69,11 @@ export const languageInfoMap: Record<Language, LanguageInfo> = {
   },
   // Spanish (Latin America)
   "es-419": {
-    friendlyName: "Española latinoamericana/Español latinoamericano"
+    friendlyName: "Español latinoamericano"
   },
   // Italian
   it: {
-    friendlyName: "Italiano/Italiana"
+    friendlyName: "Italiano"
   },
   // Chinese (China)
   "zh-CN": {
