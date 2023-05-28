@@ -136,6 +136,7 @@ export const MyPost: React.FC = () => {
       <input
         id="size"
         type="number"
+        required={true}
         className={"w-full sm:w-auto border-white border-2 bg-black text-white py-1 px-2 mb-2 text-center"}
         disabled={disabled}
         value={formState.size}
