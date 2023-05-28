@@ -37,6 +37,7 @@ export function TimezoneOffsetSelector({ id, value, onChange, disabled }: Props)
       <StyledSelector
         id={id}
         isDisabled={disabled}
+        closeMenuOnSelect={false}
         isMulti={true}
         options={options}
         value={value.map((it) => optionsMap[it])}
