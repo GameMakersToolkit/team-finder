@@ -44,13 +44,13 @@ export const PostPreview: React.FC<Props> = ({
       <SkillList
         label="Looking for:"
         skills={post.skillsSought}
-        className="[--skill-color:theme(colors.blue-800)] mt-1"
+        className="[--skill-color:theme(colors.blue-700)] mt-1"
         showText={showSkillText}
       />
       <SkillList
         label="Can do:"
         skills={post.skillsPossessed}
-        className="[--skill-color:theme(colors.real-blue)]"
+        className="[--skill-color:theme(colors.indigo)]"
         showText={showSkillText}
       />
       <div className="break-words" style={{wordBreak: "break-word"}}>
