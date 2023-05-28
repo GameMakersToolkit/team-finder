@@ -50,7 +50,7 @@ export const PostPreview: React.FC<Props> = ({
       <SkillList
         label="Can do:"
         skills={post.skillsPossessed}
-        className="[--skill-color:theme(colors.blue-900)]"
+        className="[--skill-color:theme(colors.real-blue)]"
         showText={showSkillText}
       />
       <div className="break-words" style={{wordBreak: "break-word"}}>
