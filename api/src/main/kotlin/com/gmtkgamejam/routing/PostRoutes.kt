@@ -220,6 +220,7 @@ fun Application.configurePostRouting() {
                                 it.skillsPossessed = data.skillsPossessed ?: it.skillsPossessed
                                 it.skillsSought = data.skillsSought ?: it.skillsSought
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
+                                it.languages = data.languages ?: it.languages
                                 it.availability = data.availability ?: it.availability
                                 it.timezoneOffsets =
                                     (data.timezoneOffsets ?: it.timezoneOffsets).filter { tz -> tz >= -12 && tz <= 12 }
