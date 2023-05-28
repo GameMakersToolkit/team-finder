@@ -99,7 +99,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
 
         <div className="flex items-center">
           {isOnHomePage && <InlineNavLink key={"Bookmarks"} linkData={{onClick: () => bookmarkIconOnClick(!shouldLimitToFavourites), icon: shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon, style: "border border-blue-300 rounded-xl"}} />}
-          <InlineNavLink key={"Edit"} linkData={{to: "/my-post", icon: myPostIcon, label: 'Create post',  style: "border border-blue-300 rounded-xl"}} />
+          <InlineNavLink key={"Edit"} linkData={{to: "/my-post", icon: myPostIcon, label: myPostQuery?.data ? 'Edit post' : 'Create post',  style: "border border-blue-300 rounded-xl"}} />
 
           {shouldDisplayLogin ? (
             <button
