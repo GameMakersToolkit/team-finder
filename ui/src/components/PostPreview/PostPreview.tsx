@@ -31,6 +31,11 @@ export const PostPreview: React.FC<Props> = ({
   const banUserMutation = useBanUser();
 
   const description = post.description.length > 210 ? post.description.substring(0, 207) + "..." : post.description
+  const numberOfParasToDisplay = 4
+  const descriptionParagraphs = description.split("\n").splice(0, numberOfParasToDisplay)
+  if (description.split("\n").length > numberOfParasToDisplay) {
+    descriptionParagraphs.push("...")
+  }
 
   return (
     <article
@@ -54,7 +59,7 @@ export const PostPreview: React.FC<Props> = ({
         showText={showSkillText}
       />
       <div className="break-words" style={{wordBreak: "break-word"}}>
-        {description.split("\n").map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
+        {descriptionParagraphs.map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
       </div>
 
       <div className={`${adminView ? "flex justify-between" : "text-center"}`}>
