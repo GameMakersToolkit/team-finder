@@ -99,6 +99,15 @@ export const MyPost: React.FC = () => {
 
   const disabled = !auth || myPostQuery.isLoading || isSaving;
 
+  if (!auth) {
+    return (
+      <div className="container mx-auto max-w-screen-xxl p-1 px-4 pb-6">
+        <p className="text-center text-3xl mt-12 my-4">You need to be logged in to continue</p>
+        <p className="text-center text-2xl mt-4 my-4">Redirecting you to Discord to login...</p>
+      </div>
+    )
+  }
+
   return (
     <>
       {(userInfo.data?.hasContactPermsSet == false) && <IncorrectPermsSetModal isModalOpen={true} />}
