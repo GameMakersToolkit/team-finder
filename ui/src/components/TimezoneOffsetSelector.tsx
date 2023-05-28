@@ -7,6 +7,7 @@ interface Props {
   onChange: (value: TimezoneOffset[]) => void;
   id?: string;
   disabled?: boolean;
+  required?: boolean;
 }
 
 interface Option {
@@ -29,7 +30,7 @@ const optionsMap = Object.fromEntries(
 ) as Record<TimezoneOffset, Option>;
 
 
-export function TimezoneOffsetSelector({ id, value, onChange, disabled }: Props) : React.ReactElement {
+export function TimezoneOffsetSelector({ id, value, onChange, disabled, required }: Props) : React.ReactElement {
   return (
     <>
       {/* Force selected value to be readable; default styling uses very low-contrast text for single value selections */}
@@ -37,6 +38,7 @@ export function TimezoneOffsetSelector({ id, value, onChange, disabled }: Props)
       <StyledSelector
         id={id}
         isDisabled={disabled}
+        required={required}
         closeMenuOnSelect={false}
         isMulti={true}
         options={options}

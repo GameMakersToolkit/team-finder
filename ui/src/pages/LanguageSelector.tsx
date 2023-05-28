@@ -6,6 +6,7 @@ interface Props {
   value: Language[];
   onChange: (value: Language[]) => void;
   id?: string;
+  required?: boolean;
 }
 
 interface Option {
@@ -27,11 +28,12 @@ const languagesMap = Object.fromEntries(
 ) as Record<Language, Option>;
 
 
-export function LanguageSelector({ id, value, onChange }: Props): React.ReactElement {
+export function LanguageSelector({ id, value, onChange, required }: Props): React.ReactElement {
   return (
     <StyledSelector
       id={id}
       isMulti={true}
+      required={required}
       closeMenuOnSelect={false}
       options={options}
       value={value.map((it) => languagesMap[it])}

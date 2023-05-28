@@ -97,7 +97,7 @@ export const MyPost: React.FC = () => {
     save(formState);
   };
 
-  const disabled = !auth || myPostQuery.isLoading || isSaving || formState.timezoneOffsets.length == 0;
+  const disabled = !auth || myPostQuery.isLoading || isSaving;
 
   return (
     <>
@@ -189,6 +189,7 @@ export const MyPost: React.FC = () => {
           <LanguageSelector
             id="languagesFilter"
             value={formState.languages}
+            required={true}
             onChange={(languages) =>
               setFormState((prev) => ({
                 ...prev,
@@ -224,6 +225,7 @@ export const MyPost: React.FC = () => {
         <TimezoneOffsetSelector
           id="timezoneOffsets"
           value={myPostQuery.isFetched ? formState.timezoneOffsets : []}
+          required={true}
           onChange={(timezoneOffsets) =>
            setFormState((prev) => ({
              ...prev,
