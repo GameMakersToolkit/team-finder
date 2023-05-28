@@ -33,6 +33,7 @@ export function SortBySelector({ id, value, onChange }: Props): React.ReactEleme
       {/* Custom styling somehow being applied from the SortOrderSelector, dunno how */}
       <StyledSelector
         id={id}
+        aria-label="Selector for sorting search results"
         isMulti={false}
         closeMenuOnSelect={true}
         options={options}

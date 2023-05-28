@@ -155,6 +155,7 @@ export const Home: React.FC = () => {
           </label>
           <SkillSelector
             id="skillsPossessedFilter"
+            aria-label="Selector for skills you can bring"
             value={skillsPossessedFilter ?? []}
             onChange={(newList) => {
               updateSearchParam(
@@ -170,6 +171,7 @@ export const Home: React.FC = () => {
           </label>
           <SkillSelector
             id="skillsSoughtFilter"
+            aria-label="Selector for skills you are looking for"
             value={skillsSoughtFilter ?? []}
             onChange={(newList) => {
               updateSearchParam(

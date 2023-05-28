@@ -40,6 +40,7 @@ export function SortOrderSelector({ id, value, sortByValue, onChange }: Props): 
         `}} />
       <StyledSelector
         id={id}
+        aria-label="Selector for how to sort search results by a sort type"
         isMulti={false}
         closeMenuOnSelect={true}
         options={getOptions(sortByValue)}

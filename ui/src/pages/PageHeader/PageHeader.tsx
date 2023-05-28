@@ -28,6 +28,7 @@ interface LinkData {
   to?: string;
   icon?: string;
   onClick?: void;
+  alt?: string;
 }
 
 export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
@@ -98,7 +99,7 @@ export const PageHeader: React.FC<{jamState: JamState}> = ({jamState}) => {
         <div className="flex-1" />
 
         <div className="flex items-center">
-          {isOnHomePage && <InlineNavLink key={"Bookmarks"} linkData={{onClick: () => bookmarkIconOnClick(!shouldLimitToFavourites), icon: shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon, style: "border border-blue-300 rounded-xl"}} />}
+          {isOnHomePage && <InlineNavLink key={"Bookmarks"} linkData={{onClick: () => bookmarkIconOnClick(!shouldLimitToFavourites), icon: shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon, style: "border border-blue-300 rounded-xl", alt: shouldLimitToFavourites ? "Show all posts" : "Filter to your bookmarked posts"}} />}
           <InlineNavLink key={"Edit"} linkData={{to: "/my-post", icon: myPostIcon, label: myPostQuery?.data ? 'Edit post' : 'Create post',  style: "border border-blue-300 rounded-xl"}} />
 
           {shouldDisplayLogin ? (
@@ -130,6 +131,8 @@ export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
 }) => {
   const isMatch = linkData.to && useMatch({ path: linkData.to, end: true });
 
+  console.log(linkData)
+
     // <Link> always adds a href which messes up the onclick behaviour
     if (linkData.onClick) {
         return (
@@ -143,6 +146,7 @@ export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
                 {linkData.icon && (
                   <img
                     src={linkData.icon}
+                    alt={linkData.alt}
                     className="inline-block"
                     style={{ width: "20px", height: "20px" }}
                   />
@@ -165,6 +169,8 @@ export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
         {linkData.icon && (
            <img
             src={linkData.icon}
+            alt={linkData.alt}
+            aria-hidden={Boolean(linkData.label)}
             className="inline-block"
             style={{ width: "20px", height: "20px" }}
             />
