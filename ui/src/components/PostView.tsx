@@ -92,8 +92,8 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
           </dl>
         </div>
 
-        <div className="mb-16 mt-4 break-words" style={{ wordBreak: "break-word" }}>
-          {post.description.split("\n").map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
+        <div dir="auto" className="mb-16 mt-4 break-words" style={{ wordBreak: "break-word" }}>
+          {post.description.split("\n").map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
         </div>
 
       <MessageOnDiscordButton

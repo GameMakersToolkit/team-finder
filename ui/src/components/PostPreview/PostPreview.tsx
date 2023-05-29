@@ -59,7 +59,7 @@ export const PostPreview: React.FC<Props> = ({
         showText={showSkillText}
       />
       <div dir="auto" className="break-words" style={{wordBreak: "break-word"}}>
-        {descriptionParagraphs.map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
+        {descriptionParagraphs.map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)
       </div>
 
       <div className={`${adminView ? "flex justify-between" : "text-center"}`}>
