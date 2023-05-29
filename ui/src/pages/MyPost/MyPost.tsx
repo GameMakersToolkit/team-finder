@@ -127,6 +127,7 @@ export const MyPost: React.FC = () => {
       <small>{2000 - formState.description.length} characters remaining</small>
       <textarea
         id="description"
+        dir="auto"
         maxLength={2000}
         rows={5}
         required={true}

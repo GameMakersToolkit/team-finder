@@ -58,7 +58,7 @@ export const PostPreview: React.FC<Props> = ({
         className="[--skill-color:theme(colors.indigo)]"
         showText={showSkillText}
       />
-      <div className="break-words" style={{wordBreak: "break-word"}}>
+      <div dir="auto" className="break-words" style={{wordBreak: "break-word"}}>
         {descriptionParagraphs.map((line, idx) => <p key={idx} className="mb-1">{line}</p>)}
       </div>
 
@@ -104,7 +104,7 @@ export const PreviewTitle: React.FC<{ post: Post }> = ({ post }) => {
     <div className="flex justify-between min-w-0 mb-4">
       <img src={getTeamSizeIcon(post.size)} className="inline-block mr-2" width={28} height={28} style={{maxHeight: "28px"}}  alt={`This team contains ${post.size} people`}/>
       <span className="grow" style={{width: "calc(100% - 100px)"}}>
-        <h3 className="text-lg font-bold overflow-hidden text-ellipsis whitespace-nowrap">
+        <h3 dir="auto" className="text-lg font-bold overflow-hidden text-ellipsis whitespace-nowrap">
           {post.author}
         </h3>
         <p className="absolute font-normal text-sm left-[16px] top-[48px]">
