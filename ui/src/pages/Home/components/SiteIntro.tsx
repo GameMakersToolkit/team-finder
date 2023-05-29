@@ -6,7 +6,6 @@ const jamName = importMetaEnv().VITE_JAM_NAME;
 
 // Set the date we're counting down to
 const countdown = getCountdownComponents(Date.now())
-console.log(countdown)
 
 const SiteIntro = () => {
 

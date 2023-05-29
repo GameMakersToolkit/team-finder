@@ -131,8 +131,6 @@ export const InlineNavLink: React.FC<{ linkData: LinkData }> = ({
 }) => {
   const isMatch = linkData.to && useMatch({ path: linkData.to, end: true });
 
-  console.log(linkData)
-
     // <Link> always adds a href which messes up the onclick behaviour
     if (linkData.onClick) {
         return (
