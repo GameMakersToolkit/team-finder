@@ -54,7 +54,7 @@ export function AvailabilitySelector({
             aria-checked={value.includes(option.value)}
             value={option.label}
             disabled={disabled}
-            className={(value.includes(option.value) ? "bg-blue-700" : "bg-grey-100") + ` rounded-xl text-black text-sm cursor-pointer px-2 py-1 mr-2 mb-2 w-full sm:w-fit`}
+            className={(value.includes(option.value) ? "bg-blue-700" : "bg-grey-100") + ` rounded-xl text-black text-sm cursor-pointer px-2 py-1 mr-2 mb-2 w-full hover:bg-blue-50 hover:border-blue-50 sm:w-fit`}
             data-availability={option.value}
             onClick={() => toggleAvailability(option.value)}
           />
