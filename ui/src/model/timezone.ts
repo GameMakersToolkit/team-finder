@@ -33,6 +33,11 @@ export interface TimezoneOffsetInfo {
   label: string;
 }
 
+export const timezoneLabelFromInt = (int: number | string): string => {
+  const key = timezoneOffsetFromInt(int)
+  return timezoneOffsetInfoMap[key].label
+}
+
 export const timezoneOffsetFromInt = (int: number | string): string => {
   if (typeof int == "string") return int;
   return int < 0 ? `UTC${int}` : `UTC+${int}`;
@@ -42,7 +47,7 @@ export const timezoneOffsetToInt = (offset: string) => parseInt(offset.replace("
 export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> = {
   "UTC-12": {
     value: -12,
-    label: "UTC-12: United States Minor Outlying Islands",
+    label: "UTC-12: US Minor Outlying Islands",
   },
   "UTC-11": {
     value: -11,
@@ -54,59 +59,59 @@ export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> =
   },
   "UTC-9": {
     value: -9,
-    label: "UTC-9: Anchorage",
+    label: "UTC-9: Alaska (Islands)",
   },
   "UTC-8": {
     value: -8,
-    label: "UTC-8: Los Angeles, Vancouver, Tijuana",
+    label: "UTC-8: Anchorage",
   },
   "UTC-7": {
     value: -7,
-    label: "UTC-7: Denver, Edmonton, Ciudad Juárez",
+    label: "UTC-7: Los Angeles, Vancouver, Tijuana",
   },
   "UTC-6": {
     value: -6,
-    label: "UTC-6: Mexico City, Chicago, Winnipeg, San José",
+    label: "UTC-6: Denver, Mexico City, San José",
   },
   "UTC-5": {
     value: -5,
-    label: "UTC-5: New York, Toronto, Havana, Kingston",
+    label: "UTC-5: Chicago, Winnipeg",
   },
   "UTC-4": {
     value: -4,
-    label: "UTC-4: Santiago, Manaus, Caracas, Halifax",
+    label: "UTC-4: New York, Toronto, Havana, Santiago",
   },
   "UTC-3": {
     value: -3,
-    label: "UTC-3: São Paulo, Buenos Aires, Montevideo",
+    label: "UTC-3: Halifax, São Paulo, Buenos Aires",
   },
   "UTC-2": {
     value: -2,
-    label: "UTC-2: Fernando de Noronha, South Georgia and the South Sandwich Islands",
+    label: "UTC-2: Greenland, Fernando de Noronha",
   },
   "UTC-1": {
     value: -1,
-    label: "UTC-1: Cape Verde, Greenland, Azores",
+    label: "UTC-1: Cape Verde, Greenland",
   },
   "UTC+0": {
     value: 0,
-    label: "UTC+0: London, Dublin, Lisbon",
+    label: "UTC+0: Azores",
   },
   "UTC+1": {
     value: 1,
-    label: "UTC+1:  Berlin, Rome, Paris, Madrid, Warsaw",
+    label: "UTC+1: London, Dublin, Lisbon",
   },
   "UTC+2": {
     value: 2,
-    label: "UTC+2: Cairo, Johannesburg, Khartoum, Kyiv, Bucharest, Athens, Jerusalem, Sofia",
+    label: "UTC+2: Berlin, Rome, Paris, Madrid, Warsaw, Johannesburg",
   },
   "UTC+3": {
     value: 3,
-    label: "UTC+3: Moscow, Istanbul, Riyadh, Baghdad, Addis Ababa",
+    label: "UTC+3: Cairo, Kyiv, Bucharest, Athens, Moscow, Istanbul",
   },
   "UTC+4": {
     value: 4,
-    label: "UTC+4: Dubai, Baku, Tbilisi, Yerevan, Samara",
+    label: "UTC+4: Dubai, Baku, Tbilisi, Yerevan",
   },
   "UTC+5": {
     value: 5,
@@ -118,15 +123,15 @@ export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> =
   },
   "UTC+7": {
     value: 7,
-    label: "UTC+7: Jakarta, Ho Chi Minh City, Bangkok, Krasnoyarsk",
+    label: "UTC+7: Jakarta, Ho Chi Minh, Bangkok",
   },
   "UTC+8": {
     value: 8,
-    label: "UTC+8: Shanghai, Taipei, Kuala Lumpur, Singapore, Perth",
+    label: "UTC+8: Shanghai, Kuala Lumpur, Singapore",
   },
   "UTC+9": {
     value: 9,
-    label: "UTC+9: Tokyo, Seoul, Ambon, Chita",
+    label: "UTC+9: Tokyo, Seoul, Ambon",
   },
   "UTC+10": {
     value: 10,
@@ -138,6 +143,6 @@ export const timezoneOffsetInfoMap: Record<TimezoneOffset, TimezoneOffsetInfo> =
   },
   "UTC+12": {
     value: 12,
-    label: "UTC+12: Auckland, Suva, Petropavlovsk-Kamchatsky",
+    label: "UTC+12: Auckland, Suva",
   },
 };

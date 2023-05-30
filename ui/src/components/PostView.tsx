@@ -6,7 +6,7 @@ import { SkillList } from "./SkillList";
 import { ToolList } from "./ToolList";
 import { AvailabilityList } from "./AvailabilityList";
 import { LanguageList } from "./LanguageList";
-import { timezoneOffsetFromInt } from "../model/timezone";
+import { timezoneLabelFromInt } from "../model/timezone";
 import { Post } from "../model/post";
 import { useAuth } from "../utils/AuthContext";
 import { toast } from "react-hot-toast";
@@ -87,7 +87,7 @@ export const PostView: React.FC<{ post: Post }> = ({ post }) => {
                   key={'timezones'}
                   className={`py-1 text-sm`}
               >
-                {post.timezoneOffsets.map((t) => timezoneOffsetFromInt(t)).join(', ')}
+                {post.timezoneOffsets.map((t) => timezoneLabelFromInt(t)).join(', ')}
               </dd>
           </dl>
         </div>
