@@ -18,7 +18,7 @@ data class UserInfo(
     constructor(discordUserInfo: DiscordUserInfo, displayName: String, isInDiscordServer: Boolean, hasContactPermsSet: Boolean) : this(
         discordUserInfo.id,
         displayName,
-        discordUserInfo.avatar,
+        discordUserInfo.avatar ?: "no-avatar",
         isInDiscordServer,
         hasContactPermsSet,
         adminIds.contains(discordUserInfo.id)
