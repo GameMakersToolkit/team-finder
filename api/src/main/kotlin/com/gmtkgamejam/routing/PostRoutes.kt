@@ -132,6 +132,9 @@ fun Application.configurePostRouting() {
 
             get("{id}") {
                 val post: PostItem? = call.parameters["id"]?.let { service.getPost(it) }
+                if (post?.deletedAt != null) {
+                    call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
+                }
 
                 // Set isFavourite on posts for this user if they're logged in
                 call.request.header("Authorization")?.substring(7)
