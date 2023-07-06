@@ -20,6 +20,8 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
 import org.bson.conversions.Bson
 import org.litote.kmongo.*
 import kotlin.math.min
@@ -225,6 +227,7 @@ fun Application.configurePostRouting() {
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
                                 it.languages = data.languages ?: it.languages
                                 it.availability = data.availability ?: it.availability
+				it.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                                 it.timezoneOffsets =
                                     (data.timezoneOffsets ?: it.timezoneOffsets).filter { tz -> tz >= -12 && tz <= 12 }
                                         .toSet()
