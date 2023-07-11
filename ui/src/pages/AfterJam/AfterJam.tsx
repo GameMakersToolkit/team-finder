@@ -17,7 +17,7 @@ export const AfterJam: React.FC = () => {
         <img
           className="block"
           style={{margin: "0 auto"}}
-          src="/logos/header.png"
+          src="/logos/full.png"
           width={400}
           alt={`${jamName} Team Finder`}
         />
