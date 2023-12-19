@@ -5,8 +5,9 @@ val logback_version: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.7.10"
-    kotlin("plugin.serialization") version "1.7.10"
+    // No idea why I can't use $kotlin_version here
+    kotlin("jvm") version "1.9.21"
+    kotlin("plugin.serialization") version "1.9.21"
 }
 
 group = "com.gmtkgamejam"
@@ -30,7 +31,7 @@ dependencies {
     implementation("io.insert-koin:koin-ktor:$koin_version")
 
     // DB
-    implementation("org.litote.kmongo:kmongo:4.8.0")
+    implementation("org.litote.kmongo:kmongo:4.11.0")
 
     // Discord bot
     implementation("org.javacord:javacord:3.8.0")
