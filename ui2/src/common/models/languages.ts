@@ -1,6 +1,6 @@
-import {MultiSelectOption} from "./multiSelectOption.ts";
+import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
 
-export const languages: MultiSelectOption[] = [
+export const languages: CustomSelectOption[] = [
     {
         // English
         value: "en",

@@ -6,18 +6,19 @@
 
 import {FieldProps} from "formik";
 import Select from "react-select";
+import {ReactNode} from "react";
 
 export type OptionsType<OptionType> = OptionType[];
 export type ValueType<OptionType> = OptionType | OptionsType<OptionType> | null | undefined;
 
 
-interface Option {
-    label: string;
+export interface CustomSelectOption {
+    label: ReactNode;
     value: string;
 }
 
 interface CustomSelectProps extends FieldProps {
-    options: OptionsType<Option>;
+    options: OptionsType<CustomSelectOption>;
     isMulti?: boolean;
     className?: string;
     placeholder?: string;
@@ -31,12 +32,12 @@ export const CustomSelect = ({
      options,
      isMulti = false
  }: CustomSelectProps) => {
-    const onChange = (option: ValueType<Option | Option[]>) => {
+    const onChange = (option: ValueType<CustomSelectOption | CustomSelectOption[]>) => {
         form.setFieldValue(
             field.name,
             isMulti
-                ? (option as Option[]).map((item: Option) => item.value)
-                : (option as Option).value
+                ? (option as CustomSelectOption[]).map((item: CustomSelectOption) => item.value)
+                : (option as CustomSelectOption).value
         );
     };
 
