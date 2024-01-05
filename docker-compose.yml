@@ -25,6 +25,19 @@ services:
     volumes:
       - ./ui:/app
 
+  ui2:
+    container_name: team-finder-ui2
+    build:
+      context: ./ui2
+      dockerfile: Dockerfile.dev
+    restart: on-failure
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./ui2:/app
+
   db:
     image: mongo
     restart: always
