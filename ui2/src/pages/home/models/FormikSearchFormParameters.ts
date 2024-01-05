@@ -2,6 +2,7 @@ import {SearchParameters} from "./SearchParameters.ts";
 import {FormikErrors, FormikTouched} from "formik";
 import * as React from "react";
 
+// TODO: Update by removing the stuff not being used?
 export type FormikSearchFormParameters = {
     values: SearchParameters,
     errors: FormikErrors<SearchParameters>,

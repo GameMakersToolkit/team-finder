@@ -6,11 +6,13 @@ import {languages} from "../../../common/models/languages.ts";
 import {skills} from "../../../common/models/skills.tsx";
 import {tools} from "../../../common/models/engines.tsx";
 
-export const SearchForm: React.FC<{params: FormikSearchFormParameters}> = ({params}) => {
-    const {values, handleChange, handleBlur, handleSubmit} = params
+export const SearchForm: React.FC<{
+    params: FormikSearchFormParameters
+}> = ({params}) => {
+    const {values, handleChange, handleBlur} = params
 
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form>
             <input
                 type="text"
                 name="description"

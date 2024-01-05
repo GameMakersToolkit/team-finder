@@ -1,10 +1,11 @@
 import * as React from "react";
-import {Formik} from 'formik';
+import {Formik, useFormikContext} from 'formik';
 import {SearchParameters, searchParametersFromQueryString} from "../models/SearchParameters.ts";
 import {SearchForm} from "./SearchForm.tsx";
 import {useSearchParams} from "react-router-dom";
 import {FormikSearchFormParameters} from "../models/FormikSearchFormParameters.ts";
 import {removeEmpty} from "../../../utils.ts"
+import debounce from "just-debounce-it";
 
 export const SearchFormWrapper: React.FC = () => {
 
@@ -12,15 +13,7 @@ export const SearchFormWrapper: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const initialFormValues: SearchParameters = searchParametersFromQueryString(searchParams)
 
-    // @ts-ignore
-    const validateForm = (values) => {
-        const errors = {};
-        // Fill in here
-        return errors;
-    }
-
-    // @ts-ignore
-    const onSubmitForm = (values) => {
+    const onSubmitForm = (values: any) => {
         const formattedValues = removeEmpty({
             description: values['description'] || null,
             skillsPossessed: values['skillsPossessed']?.join(","),
@@ -35,11 +28,32 @@ export const SearchFormWrapper: React.FC = () => {
         <>
             <Formik
                 initialValues={ initialFormValues }
-                validate={ validateForm }
+                validate={ () => {} }
                 onSubmit={ onSubmitForm }
             >
-                {(params: FormikSearchFormParameters) => <SearchForm params={params} />}
+                {(params: FormikSearchFormParameters) => (
+                    <>
+                        <AutoSave debounceMs={50} />
+                        <SearchForm params={params} />
+                    </>
+                )}
             </Formik>
         </>
     )
 }
+
+
+const AutoSave: React.FC<{debounceMs: number}> = ({ debounceMs }) => {
+    const formik = useFormikContext();
+    const [_, setLastSaved] = React.useState("");
+    const debouncedSubmit = React.useCallback(
+        debounce(() => {formik.submitForm().then(() => setLastSaved(new Date().toISOString()))}, debounceMs),
+        [debounceMs, formik.submitForm]
+    );
+
+    React.useEffect(() => {
+        debouncedSubmit();
+    }, [debouncedSubmit, formik.values]);
+
+    return (<></>);
+};
