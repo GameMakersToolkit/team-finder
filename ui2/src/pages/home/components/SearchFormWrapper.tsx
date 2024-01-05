@@ -1,9 +1,10 @@
 import * as React from "react";
 import {Formik} from 'formik';
-import {SearchParameters, searchParametersFromQueryString} from "../Models/SearchParameters.ts";
+import {SearchParameters, searchParametersFromQueryString} from "../models/SearchParameters.ts";
 import {SearchForm} from "./SearchForm.tsx";
 import {useSearchParams} from "react-router-dom";
-import {FormikSearchFormParameters} from "../Models/FormikSearchFormParameters.ts";
+import {FormikSearchFormParameters} from "../models/FormikSearchFormParameters.ts";
+import {removeEmpty} from "../../../utils.ts"
 
 export const SearchFormWrapper: React.FC = () => {
 
@@ -20,7 +21,11 @@ export const SearchFormWrapper: React.FC = () => {
 
     // @ts-ignore
     const onSubmitForm = (values) => {
-        setSearchParams(values)
+        const formattedValues = removeEmpty({
+            description: values['description'] || null,
+            skillsPossessed: values['lookingFor']?.join(",")
+        })
+        setSearchParams(formattedValues)
     }
 
     return (

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {SearchFormWrapper} from "./Components/SearchFormWrapper.tsx";
+import {SearchFormWrapper} from "./components/SearchFormWrapper.tsx";
 
 export const Home: React.FC = () => {
     return (
