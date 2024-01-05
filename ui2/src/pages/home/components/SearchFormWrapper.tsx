@@ -2,19 +2,19 @@ import * as React from "react";
 import {Formik, useFormikContext} from 'formik';
 import {SearchParameters, searchParametersFromQueryString} from "../models/SearchParameters.ts";
 import {SearchForm} from "./SearchForm.tsx";
-import {useSearchParams} from "react-router-dom";
 import {FormikSearchFormParameters} from "../models/FormikSearchFormParameters.ts";
 import {removeEmpty} from "../../../utils.ts"
 import debounce from "just-debounce-it";
 
-export const SearchFormWrapper: React.FC = () => {
+export const SearchFormWrapper: React.FC<{
+    searchParams: URLSearchParams,
+    setSearchParams: (value: SearchParameters) => void
+}> = ({searchParams, setSearchParams}) => {
 
-    // @ts-ignore
-    const [searchParams, setSearchParams] = useSearchParams();
     const initialFormValues: SearchParameters = searchParametersFromQueryString(searchParams)
 
     const onSubmitForm = (values: any) => {
-        const formattedValues = removeEmpty({
+        const formattedValues: SearchParameters = removeEmpty({
             description: values['description'] || null,
             skillsPossessed: values['skillsPossessed']?.join(","),
             skillsSought: values['skillsSought']?.join(","),
