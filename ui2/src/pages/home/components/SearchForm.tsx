@@ -5,6 +5,7 @@ import CustomSelect from "./common/CustomSelect.tsx"
 import {languages} from "../../../common/models/languages.ts";
 import {skills} from "../../../common/models/skills.tsx";
 import {tools} from "../../../common/models/engines.tsx";
+import {timezones} from "../../../common/models/timezones.ts";
 
 export const SearchForm: React.FC<{
     params: FormikSearchFormParameters
@@ -52,6 +53,22 @@ export const SearchForm: React.FC<{
             <Field
                 name="languages"
                 options={languages}
+                component={CustomSelect}
+                placeholder={"Select option(s)"}
+                isMulti={true}
+            />
+
+            <Field
+                name="earliestTimezone"
+                options={timezones}
+                component={CustomSelect}
+                placeholder={"Select option(s)"}
+                isMulti={true}
+            />
+
+            <Field
+                name="latestTimezone"
+                options={timezones}
                 component={CustomSelect}
                 placeholder={"Select option(s)"}
                 isMulti={true}

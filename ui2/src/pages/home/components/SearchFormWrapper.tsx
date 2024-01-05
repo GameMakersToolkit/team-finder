@@ -20,6 +20,7 @@ export const SearchFormWrapper: React.FC = () => {
             skillsSought: values['skillsSought']?.join(","),
             languages: values['languages']?.join(","),
             tools: values['tools']?.join(","),
+            timezones: values['earliestTimezone'] && values['latestTimezone'] ? values['earliestTimezone'] + " " + values['latestTimezone'] : null,
         })
         setSearchParams(formattedValues)
     }
