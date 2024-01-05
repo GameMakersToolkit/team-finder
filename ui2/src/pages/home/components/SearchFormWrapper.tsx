@@ -23,7 +23,10 @@ export const SearchFormWrapper: React.FC = () => {
     const onSubmitForm = (values) => {
         const formattedValues = removeEmpty({
             description: values['description'] || null,
-            skillsPossessed: values['lookingFor']?.join(",")
+            skillsPossessed: values['skillsPossessed']?.join(","),
+            skillsSought: values['skillsSought']?.join(","),
+            languages: values['languages']?.join(","),
+            tools: values['tools']?.join(","),
         })
         setSearchParams(formattedValues)
     }

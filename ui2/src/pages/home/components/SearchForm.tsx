@@ -4,9 +4,10 @@ import {FormikSearchFormParameters} from "../models/FormikSearchFormParameters.t
 import CustomSelect from "./common/CustomSelect.tsx"
 import {languages} from "../../../common/models/languages.ts";
 import {skills} from "../../../common/models/skills.tsx";
+import {tools} from "../../../common/models/engines.tsx";
 
 export const SearchForm: React.FC<{params: FormikSearchFormParameters}> = ({params}) => {
-    const {values, errors, touched, handleChange, handleBlur, handleSubmit} = params
+    const {values, handleChange, handleBlur, handleSubmit} = params
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -17,7 +18,6 @@ export const SearchForm: React.FC<{params: FormikSearchFormParameters}> = ({para
                 onBlur={handleBlur}
                 value={values.description}
             />
-            {errors.description && touched.description && errors.description}
 
             <label htmlFor="skillsPossessed">I'm looking for:</label>
             <Field
@@ -32,6 +32,15 @@ export const SearchForm: React.FC<{params: FormikSearchFormParameters}> = ({para
             <Field
                 name="skillsSought"
                 options={skills}
+                component={CustomSelect}
+                placeholder={"Select option(s)"}
+                isMulti={true}
+            />
+
+            <label htmlFor="tools">Preferred Engine(s):</label>
+            <Field
+                name="tools"
+                options={tools}
                 component={CustomSelect}
                 placeholder={"Select option(s)"}
                 isMulti={true}
