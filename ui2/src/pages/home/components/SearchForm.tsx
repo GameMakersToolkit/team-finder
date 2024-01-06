@@ -22,23 +22,27 @@ export const SearchForm: React.FC<{
                 value={values.description}
             />
 
-            <label htmlFor="skillsPossessed">I'm looking for:</label>
-            <Field
-                name="skillsPossessed"
-                options={skills}
-                component={CustomSelect}
-                placeholder={"Select option(s)"}
-                isMulti={true}
-            />
+            <div className="c-form-block">
+                <label htmlFor="skillsPossessed">I'm looking for:</label>
+                <Field
+                    name="skillsPossessed"
+                    className="form-block__field"
+                    options={skills}
+                    component={CustomSelect}
+                    placeholder={"Select option(s)"}
+                    isMulti={true}
+                />
 
-            <label htmlFor="skillsSought">I can do:</label>
-            <Field
-                name="skillsSought"
-                options={skills}
-                component={CustomSelect}
-                placeholder={"Select option(s)"}
-                isMulti={true}
-            />
+                <label htmlFor="skillsSought">I can do:</label>
+                <Field
+                    name="skillsSought"
+                    className="form-block__field"
+                    options={skills}
+                    component={CustomSelect}
+                    placeholder={"Select option(s)"}
+                    isMulti={true}
+                />
+            </div>
 
             <label htmlFor="tools">Preferred Engine(s):</label>
             <Field

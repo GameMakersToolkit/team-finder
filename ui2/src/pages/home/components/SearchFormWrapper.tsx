@@ -27,18 +27,20 @@ export const SearchFormWrapper: React.FC<{
 
     return (
         <>
-            <Formik
-                initialValues={ initialFormValues }
-                validate={ () => {} }
-                onSubmit={ onSubmitForm }
-            >
-                {(params: FormikSearchFormParameters) => (
-                    <>
-                        <AutoSave debounceMs={50} />
-                        <SearchForm params={params} />
-                    </>
-                )}
-            </Formik>
+            <div className="c-form">
+                <Formik
+                    initialValues={ initialFormValues }
+                    validate={ () => {} }
+                    onSubmit={ onSubmitForm }
+                >
+                    {(params: FormikSearchFormParameters) => (
+                        <>
+                            <AutoSave debounceMs={50} />
+                            <SearchForm params={params} />
+                        </>
+                    )}
+                </Formik>
+            </div>
         </>
     )
 }

@@ -19,9 +19,11 @@ export const Home: React.FC = () => {
 
     return (
         <>
-            <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
+            <div className="container mx-auto max-w-screen-xxl p-1 px-4">
+                <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
-            {posts.length && posts.map(post => <pre>{JSON.stringify(post)}</pre>)}
+                {posts.length && posts.map(post => <pre>{JSON.stringify(post)}</pre>)}
+            </div>
         </>
     )
 }

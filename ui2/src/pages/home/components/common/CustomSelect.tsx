@@ -53,7 +53,7 @@ export const CustomSelect = ({
 
     return (
         <Select
-            className={className}
+            className={`styled-selector ${className}`}
             name={field.name}
             value={getValue()}
             onChange={onChange}
