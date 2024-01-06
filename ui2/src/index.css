@@ -1,10 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
 
+/* Base */
 @import "tailwindcss/base";
 @import url(base.css);
 
+/* Components */
 @import "tailwindcss/components";
+
+@import url(./common/components/PostTile.css);
+
+@import url(./pages/home/Home.css);
 @import url(./pages/home/components/SearchFormWrapper.css);
 @import url(./pages/home/components/SearchForm.css);
 
+/* Utilities */
 @import "tailwindcss/utilities";

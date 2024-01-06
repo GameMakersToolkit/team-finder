@@ -1,0 +1,13 @@
+@layer components {
+    .c-post-tile {
+        @apply relative bg-grey-500 border-2 border-neutral-900 rounded-xl p-4 grid grid-flow-row auto-cols-auto gap-y-2;
+
+        .post-tile__header {
+            @apply flex justify-between min-w-0 mb-4;
+
+            &.post-tile__header--title {
+                @apply text-lg font-bold overflow-hidden text-ellipsis whitespace-nowrap;
+            }
+        }
+    }
+}
