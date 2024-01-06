@@ -13,74 +13,93 @@ export const SearchForm: React.FC<{
     const {values, handleChange, handleBlur} = params
 
     return (
-        <Form>
-            <input
-                type="text"
-                name="description"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.description}
-            />
+        <>
+            <h2 className="text-xl my-2 font-bold text-center">Find people to jam with:</h2>
 
-            <div className="c-form-block">
-                <label htmlFor="skillsPossessed">I'm looking for:</label>
-                <Field
-                    name="skillsPossessed"
-                    className="form-block__field"
-                    options={skills}
-                    component={CustomSelect}
-                    placeholder={"Select option(s)"}
-                    isMulti={true}
+            <Form>
+                <label htmlFor="description">Keywords</label>
+                <input
+                    type="text"
+                    className="form-block__field w-full"
+                    name="description"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.description}
                 />
 
-                <label htmlFor="skillsSought">I can do:</label>
-                <Field
-                    name="skillsSought"
-                    className="form-block__field"
-                    options={skills}
-                    component={CustomSelect}
-                    placeholder={"Select option(s)"}
-                    isMulti={true}
-                />
-            </div>
+                <div className="c-form-block">
+                    <div>
+                        <label htmlFor="skillsPossessed">I'm looking for:</label>
+                        <Field
+                            name="skillsPossessed"
+                            className="form-block__field"
+                            options={skills}
+                            component={CustomSelect}
+                            placeholder={"Select option(s)"}
+                            isMulti={true}
+                        />
+                    </div>
 
-            <label htmlFor="tools">Preferred Engine(s):</label>
-            <Field
-                name="tools"
-                options={tools}
-                component={CustomSelect}
-                placeholder={"Select option(s)"}
-                isMulti={true}
-            />
+                    <div>
+                        <label htmlFor="skillsSought">I can do:</label>
+                        <Field
+                            name="skillsSought"
+                            className="form-block__field"
+                            options={skills}
+                            component={CustomSelect}
+                            placeholder={"Select option(s)"}
+                            isMulti={true}
+                        />
+                    </div>
+                </div>
 
-            <label htmlFor="languages">Language(s):</label>
-            <Field
-                name="languages"
-                options={languages}
-                component={CustomSelect}
-                placeholder={"Select option(s)"}
-                isMulti={true}
-            />
-
-            <Field
-                name="earliestTimezone"
-                options={timezones}
-                component={CustomSelect}
-                placeholder={"Select option(s)"}
-                isMulti={true}
-            />
-
-            <Field
-                name="latestTimezone"
-                options={timezones}
-                component={CustomSelect}
-                placeholder={"Select option(s)"}
-                isMulti={true}
-            />
-
-            <button type="submit">
-                Submit
-            </button>
-        </Form>
+                <div className="c-form-block">
+                    <div>
+                        <label htmlFor="tools">Preferred Engine(s):</label>
+                        <Field
+                            name="tools"
+                            className="form-block__field"
+                            options={tools}
+                            component={CustomSelect}
+                            placeholder={"Select option(s)"}
+                            isMulti={true}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="languages">Language(s):</label>
+                        <Field
+                            name="languages"
+                            className="form-block__field"
+                            options={languages}
+                            component={CustomSelect}
+                            placeholder={"Select option(s)"}
+                            isMulti={true}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="earliestTimezone">Earliest Timezone:</label>
+                        <Field
+                            name="earliestTimezone"
+                            className="form-block__field"
+                            options={timezones}
+                            component={CustomSelect}
+                            placeholder={"Select option(s)"}
+                            isMulti={true}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="latestTimezone">Latest Timezone:</label>
+                        <Field
+                            name="latestTimezone"
+                            className="form-block__field"
+                            options={timezones}
+                            component={CustomSelect}
+                            placeholder={"Select option(s)"}
+                            isMulti={true}
+                        />
+                    </div>
+                </div>
+            </Form>
+        </>
     )
 }
