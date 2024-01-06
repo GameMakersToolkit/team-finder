@@ -6,15 +6,15 @@ import {
   useMyPostQuery
 } from "../../queries/my-post";
 import { useEnsureLoggedIn } from "../../utils/useEnsureLoggedIn";
-import { AvailabilitySelector } from "../AvailabilitySelector";
+import { AvailabilitySelector } from "../../components/AvailabilitySelector";
 import { allAvailabilities, Availability } from "../../model/availability";
-import { SkillSelector } from "../SkillSelector";
+import { SkillSelector } from "../../components/SkillSelector";
 import { Skill } from "../../model/skill";
-import { ToolSelector } from "../ToolSelector";
+import { ToolSelector } from "../../components/ToolSelector";
 import { Tool } from "../../model/tool";
 import { useUserInfo } from "../../queries/userInfo";
 import { IncorrectPermsSetModal } from "./IncorrectPermsSetModal";
-import { LanguageSelector } from "../LanguageSelector";
+import { LanguageSelector } from "../../components/LanguageSelector";
 import { Language } from "../../model/language";
 import { TimezoneOffsetSelector} from "../../components/TimezoneOffsetSelector";
 import { TimezoneOffset, timezoneOffsetFromInt } from "../../model/timezone";
