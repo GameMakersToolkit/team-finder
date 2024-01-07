@@ -5,6 +5,7 @@ import {Header} from "./pages/components/Header.tsx";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {AuthContextProvider} from "./api/AuthContext.tsx";
 import {MyPostWrapper} from "./pages/mypost/MyPostWrapper.tsx";
+import {Callback} from "./pages/callback/Callback.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -23,6 +24,8 @@ export const AppRoutes: React.FC = () => {
                   <Routes>
                       <Route path="/" element={<Home/>}/>
                       <Route path="/my-post" element={<MyPostWrapper/>}/>
+                      <Route path="/login/authorized" element={<Callback/>}/>
+
                       {/* TODO: replace with a proper Not Found page */}
                       <Route path="*" element={<p>u wot m8</p>}/>
                   </Routes>
