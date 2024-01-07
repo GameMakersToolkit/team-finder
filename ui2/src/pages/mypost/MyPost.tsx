@@ -1,64 +1,47 @@
 import React from "react";
-import {Field, Form, Formik, FormikProps} from "formik";
-import {Post} from "../../common/models/post.ts";
-import {FormikSearchFormParameters} from "../home/models/FormikSearchFormParameters.ts";
-import {useAuth} from "../../api/AuthContext.tsx";
-import {useMyPostQuery} from "../../api/myPost.ts";
-import {useEnsureLoggedIn} from "../../api/ensureLoggedIn.ts";
+import {Button} from "../../common/components/Button.tsx";
+import {Field, Form, FormikProps} from "formik";
 import {skills} from "../../common/models/skills.tsx";
 import CustomSelect from "../home/components/common/CustomSelect.tsx";
 import {languages} from "../../common/models/languages.ts";
 import {tools} from "../../common/models/engines.tsx";
 import {timezones} from "../../common/models/timezones.ts";
+import {Post} from "../../common/models/post.ts";
 
-export const MyPost: React.FC = () => {
+export const MyPost: React.FC<{params: FormikProps<Post>}> = ({params}) => {
 
-    // useEnsureLoggedIn();
-    // const auth = useAuth();
-    // const myPostQuery = useMyPostQuery();
-
-    const initialValues: Post = {
-        description: "",
-        languages: ["en"]
-    }
-
-    const onSubmitForm = (values: any) => {
-
-    }
+    const {values, submitForm} = params;
 
     return (
-        <main>
-            <div className="c-form bg-black">
-                <Formik
-                    initialValues={ initialValues }
-                    onSubmit={ onSubmitForm }
-                >
-                    {(props: FormikProps<Post>) => (
-                        <>
-                            <h1 className="text-3xl my-4">Create New Post</h1>
-                            {/*<h1 className="text-3xl my-4">{myPostQuery?.data ? `Edit Your Post` : `Create New Post`}</h1>*/}
-                            <Form>
-                                <FieldDescription description={props.values.description} />
+        <Form>
+            <FieldDescription description={values.description} />
 
-                                <div className="c-form-block bg-black">
-                                    <FieldSkillsPossessed />
-                                    <FieldSkillsSought />
-                                </div>
-
-                                <div className="c-form-block bg-black">
-                                    <FieldLanguages />
-                                    <FieldTools />
-                                </div>
-
-                                <div className="c-form-block bg-black">
-                                    <FieldTimezones />
-                                </div>
-                            </Form>
-                        </>
-                    )}
-                </Formik>
+            <div className="c-form-block bg-black">
+                <FieldSkillsPossessed />
+                <FieldSkillsSought />
             </div>
-        </main>
+
+            <div className="c-form-block bg-black">
+                <FieldLanguages />
+                <FieldTools />
+            </div>
+
+            <div className="c-form-block bg-black">
+                <FieldTimezones />
+            </div>
+
+            <Button
+                className="mt-4 bg-blue-700 rounded-xl w-full sm:w-full md:w-auto md:float-right"
+                type="submit"
+                variant="primary"
+                disabled={false}
+                style={{color: "white"}}
+                onClick={submitForm}
+            >
+                Create Post
+                {/*{`${myPostQuery?.data ? "Update" : "Create"} Post`}*/}
+            </Button>
+        </Form>
     )
 }
 
