@@ -1,0 +1,8 @@
+@layer components {
+    .c-header {
+        @apply p-2 mb-4;
+        height: 64px;
+        margin: 0 auto;
+        background-image: linear-gradient(rgb(4, 46, 98), rgb(0, 0, 0));
+    }
+}

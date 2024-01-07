@@ -1,10 +1,13 @@
 import * as React from "react";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 import { Home } from "./pages/home/Home";
+import {Header} from "./pages/components/Header.tsx";
 
 export const AppRoutes: React.FC = () => {
   return (
       <BrowserRouter>
+          <Header />
+
           <Routes>
               <Route path="/" element={<Home/>}/>
               {/* TODO: replace with a proper Not Found page */}
