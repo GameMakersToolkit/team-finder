@@ -9,6 +9,8 @@
 
 @import url(./common/components/PostTile.css);
 
+@import url(./pages/components/Header.css);
+
 @import url(./pages/home/Home.css);
 @import url(./pages/home/components/SearchFormWrapper.css);
 @import url(./pages/home/components/SearchForm.css);
