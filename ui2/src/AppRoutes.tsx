@@ -4,6 +4,7 @@ import { Home } from "./pages/home/Home";
 import {Header} from "./pages/components/Header.tsx";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {AuthContextProvider} from "./api/AuthContext.tsx";
+import {MyPost} from "./pages/mypost/MyPost.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -21,6 +22,7 @@ export const AppRoutes: React.FC = () => {
 
                   <Routes>
                       <Route path="/" element={<Home/>}/>
+                      <Route path="/my-post" element={<MyPost/>}/>
                       {/* TODO: replace with a proper Not Found page */}
                       <Route path="*" element={<p>u wot m8</p>}/>
                   </Routes>

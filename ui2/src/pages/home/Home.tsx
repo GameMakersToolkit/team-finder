@@ -9,7 +9,7 @@ export const Home: React.FC = () => {
     const [posts, setPosts] = useState([])
 
     // Trigger API call every time query string changes
-    // Not sure we actually need react-query here, but I'm keeping it everywhere else for now to avoid unnecessary work
+    // Not sure if we actually need react-query here, but I'm keeping it everywhere else for now to avoid unnecessary work
     useEffect(() => {
         console.log("http://localhost:8080/posts?" + searchParams.toString())
         fetch("http://localhost:8080/posts?" + searchParams.toString())
@@ -20,14 +20,12 @@ export const Home: React.FC = () => {
     console.log(posts)
 
     return (
-        <>
-            <div className="container mx-auto max-w-screen-xxl p-1 px-4">
-                <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
+        <main>
+            <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
-                <div className="c-post-tiles">
+            <div className="c-post-tiles">
                 {posts.length && posts.map(post => <PostTile post={post} />)}
-                </div>
             </div>
-        </>
+        </main>
     )
 }
