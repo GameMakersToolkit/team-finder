@@ -1,6 +1,7 @@
 import {SearchParameters} from "./SearchParameters.ts";
 import {FormikErrors, FormikTouched} from "formik";
 import * as React from "react";
+import {FormikState} from "formik/dist/types";
 
 // TODO: Update by removing the stuff not being used?
 export type FormikSearchFormParameters = {
@@ -11,4 +12,5 @@ export type FormikSearchFormParameters = {
     handleBlur: {(e: React.FocusEvent<any, Element>): void, <T=any>(fieldOrEvent: T): T extends string ? ((e: any) => void) : void},
     handleSubmit: (e?: (React.FormEvent<HTMLFormElement> | undefined)) => void,
     isSubmitting: boolean,
+    resetForm: (nextState?: Partial<FormikState<SearchParameters>>) => void
 }

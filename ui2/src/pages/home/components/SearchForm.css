@@ -1,6 +1,6 @@
 @layer components {
     .c-form-block {
-        @apply text-grey-900 bg-grey-500 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2;
+        @apply text-grey-900 bg-grey-500 mb-4 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2;
     }
 
     .form-block__field {
@@ -9,5 +9,14 @@
         &:hover {
             @apply border-blue-600 text-blue-600;
         }
+    }
+
+    /* TODO: Refactor out common button styling somewhere */
+    #clear-search-button {
+        @apply border rounded-xl text-white px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit;
+    }
+
+    #advanced-options-button {
+        @apply border rounded-xl border-blue-200 text-blue-200 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit;
     }
 }
