@@ -227,7 +227,7 @@ fun Application.configurePostRouting() {
                                 it.preferredTools = data.preferredTools ?: it.preferredTools
                                 it.languages = data.languages ?: it.languages
                                 it.availability = data.availability ?: it.availability
-				it.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+				                it.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                                 it.timezoneOffsets =
                                     (data.timezoneOffsets ?: it.timezoneOffsets).filter { tz -> tz >= -12 && tz <= 12 }
                                         .toSet()

@@ -67,10 +67,6 @@ export function useMyPostMutation(
       );
       let result;
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      variables.timezoneOffsets = variables.timezoneOffsets.map(str => timezoneOffsetToInt(str))
-
       if (existing) {
         result = await apiRequest<PostApiResult>("/posts/mine", {
           method: "PUT",
@@ -100,7 +96,7 @@ export function useMyPostMutation(
 }
 
 export interface DeleteMyPostMutationVariables {
-  id: string;
+  postId: string;
 }
 export function useDeleteMyPostMutation(
   opts?: UseMutationOptions<Post, Error, DeleteMyPostMutationVariables>

@@ -8,13 +8,27 @@ import {tools} from "../../common/models/engines.tsx";
 import {timezones} from "../../common/models/timezones.ts";
 import {Post} from "../../common/models/post.ts";
 
-export const MyPost: React.FC<{params: FormikProps<Post>}> = ({params}) => {
+export const MyPost: React.FC<{
+    params: FormikProps<Post>,
+    author: string,
+    authorId: string,
+    hasPost: boolean
+}> = ({
+    params,
+    author,
+    authorId,
+    hasPost
+}) => {
 
     const {values, submitForm} = params;
 
     return (
         <Form>
             <FieldDescription description={values.description} />
+
+            {/* This is jank, improve this later with a look up on submit */}
+            <Field name="author" value={author} type="hidden" />
+            <Field name="authorId" value={authorId} type="hidden" />
 
             <div className="c-form-block bg-black">
                 <FieldSkillsPossessed />
@@ -32,14 +46,13 @@ export const MyPost: React.FC<{params: FormikProps<Post>}> = ({params}) => {
 
             <Button
                 className="mt-4 bg-blue-700 rounded-xl w-full sm:w-full md:w-auto md:float-right"
-                type="submit"
+                type="button"
                 variant="primary"
                 disabled={false}
                 style={{color: "white"}}
                 onClick={submitForm}
             >
-                Create Post
-                {/*{`${myPostQuery?.data ? "Update" : "Create"} Post`}*/}
+                {`${hasPost ? "Update" : "Create"} Post`}
             </Button>
         </Form>
     )
@@ -114,9 +127,9 @@ const FieldLanguages: React.FC = () => {
 const FieldTools: React.FC = () => {
     return (
         <div>
-            <label htmlFor="tools">What tools do you want to work with?</label>
+            <label htmlFor="preferredTools">What tools do you want to work with?</label>
             <Field
-                name="tools"
+                name="preferredTools"
                 className="form-block__field"
                 options={tools}
                 component={CustomSelect}
@@ -130,9 +143,9 @@ const FieldTools: React.FC = () => {
 const FieldTimezones: React.FC = () => {
     return (
         <div>
-            <label htmlFor="timezones">What timezone are you based in?</label>
+            <label htmlFor="timezoneOffsets">What timezone are you based in?</label>
             <Field
-                name="timezones"
+                name="timezoneOffsets"
                 className="form-block__field"
                 options={timezones}
                 component={CustomSelect}

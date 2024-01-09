@@ -8,7 +8,7 @@ export interface Post {
   skillsSought: string[];
   preferredTools: string[];
   availability: string;
-  timezoneOffsets: number[];
+  timezoneOffsets: string[];
   languages: string[];
   isFavourite: boolean;
   reportCount: number;
