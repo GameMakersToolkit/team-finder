@@ -1,26 +1,27 @@
 import * as React from "react";
-import {skills} from "../models/skills.tsx";
+import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
 
-export const SkillList: React.FC<{
-    skillsToDisplay: string[];
+export const OptionsListDisplay: React.FC<{
+    optionsToDisplay: string[];
+    totalOptions: CustomSelectOption[];
     label: React.ReactNode;
     className?: string;
-}> = ({skillsToDisplay, label, className}) => {
-    if (skillsToDisplay.length == 0) {
+}> = ({optionsToDisplay, totalOptions, label, className}) => {
+    if (optionsToDisplay.length == 0) {
         return null;
     }
 
     return (
         <dl className={"flex gap-[8px] flex-wrap self-baseline items-baseline text-lg " + className}>
             <dt className={`self-center mr-1`}>{label}</dt>
-            {skillsToDisplay.map((skill) => {
-                const info = skills.filter(s => s.value == skill)[0];
+            {optionsToDisplay.map((option) => {
+                const info = totalOptions.filter(s => s.value == option)[0];
                 return (
                     <dd
-                        key={skill}
+                        key={option}
                         className={`py-1 border-2 border-[color:var(--skill-color)] bg-[color:var(--skill-color)] rounded-xl flex items-center px-2 sm:px-1}`}
                     >
-                        <span className="text-sm">{info.label}</span>
+                        <span className="flex text-sm">{info?.label || "?"}</span>
                     </dd>
                 );
             })}

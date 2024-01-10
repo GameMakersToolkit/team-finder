@@ -1,60 +1,43 @@
 import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
-import {ReactSVG} from "react-svg";
-
-const toolIcons: Record<string, any> = import.meta.glob("../../assets/icons/tool/*.svg", { eager: true });
-
-const transparent = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-const Spacer = () => <img src={transparent} width={512} height={512} alt="" />;
+import {getOptionsListIcon} from "../utils/getOptionsListIcon.tsx";
 
 export const tools: CustomSelectOption[] = [
     {
         value: "UNITY",
-        label: (<>{getToolIcon("UNITY")} Unity</>),
+        label: (<>{getOptionsListIcon("UNITY", "tool")} Unity</>),
     },
     {
         value: "CONSTRUCT",
-        label: (<>{getToolIcon("CONSTRUCT")} Construct</>),
+        label: (<>{getOptionsListIcon("CONSTRUCT", "tool")} Construct</>),
     },
     {
         value: "GAME MAKER",
-        label: (<>{getToolIcon("GAME_MAKER_STUDIO")} Game Maker</>),
+        label: (<>{getOptionsListIcon("GAME_MAKER_STUDIO", "tool")} Game Maker</>),
     },
     {
         value: "GODOT",
-        label: (<>{getToolIcon("GODOT")} Godot</>),
+        label: (<>{getOptionsListIcon("GODOT", "tool")} Godot</>),
     },
     {
         value: "TWINE",
-        label: (<>{getToolIcon("TWINE")} Twine</>),
+        label: (<>{getOptionsListIcon("TWINE", "tool")} Twine</>),
     },
     {
         value: "BITSY",
-        label: (<>{getToolIcon("BITSY")} Bitsy</>),
+        label: (<>{getOptionsListIcon("BITSY", "tool")} Bitsy</>),
     },
     {
         value: "UNREAL",
-        label: (<>{getToolIcon("UNREAL")} Unreal</>),
+        label: (<>{getOptionsListIcon("UNREAL", "tool")} Unreal</>),
     },
     {
         value: "RPG MAKER",
-        label: (<>{getToolIcon("RPG_MAKER")} RPG Maker</>),
+        label: (<>{getOptionsListIcon("RPG_MAKER", "tool")} RPG Maker</>),
     },
     {
-        value: "PICO-8",
-        label: (<>{getToolIcon("PICO_8")} PICO-8</>),
+        value: "PICO_8",
+        label: (<>{getOptionsListIcon("PICO_8", "tool")} PICO-8</>),
     },
 ];
 
 
-function getToolIcon(tool: string) {
-    return <ReactSVG
-        src={toolIcons[`../../assets/icons/tool/${tool}.svg`].default}
-        title={tool}
-        loading={Spacer}
-        fallback={Spacer}
-        style={{
-            width: 20,
-            height: 20,
-        }}
-    />
-}

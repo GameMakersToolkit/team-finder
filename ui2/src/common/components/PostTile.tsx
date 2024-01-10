@@ -2,7 +2,8 @@ import React from "react";
 import {Post} from "../models/post.ts";
 import {TeamSizeIcon} from "./TeamSizeIcon.tsx";
 import {Link} from "react-router-dom";
-import {SkillList} from "./SkillList.tsx";
+import {OptionsListDisplay} from "./OptionsListDisplay.tsx";
+import {skills} from "../models/skills.tsx";
 
 export const PostTile: React.FC<{post: Post}> = ({post}) => {
     return (
@@ -22,8 +23,8 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                 </header>
 
                 <div className="post-tile__body">
-                    <SkillList skillsToDisplay={post.skillsSought} label={"Looking for:"} className={"[--skill-color:theme(colors.blue-700)]"}/>
-                    <SkillList skillsToDisplay={post.skillsPossessed} label={"Can do:"} className={"[--skill-color:theme(colors.indigo)]"}/>
+                    <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:theme(colors.blue-700)]"}/>
+                    <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:theme(colors.indigo)]"}/>
                     {getDescriptionParagraphs(post).map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
                 </div>
 

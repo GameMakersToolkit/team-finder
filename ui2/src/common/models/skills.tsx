@@ -1,60 +1,42 @@
 import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
-import {ReactSVG} from "react-svg";
+import {getOptionsListIcon} from "../utils/getOptionsListIcon.tsx";
 
-const skillIcons: Record<string, any> = import.meta.glob("../../assets/icons/skill/*.svg", { eager: true });
-
-const transparent = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-const Spacer = () => <img src={transparent} width={512} height={512} alt="" />;
 
 export const skills: CustomSelectOption[] = [
     {
         value: "ART_2D",
-        label: (<>{getSkillIcon("ART_2D")} 2D Art</>),
+        label: (<>{getOptionsListIcon("ART_2D", "skill")} 2D Art</>),
     },
     {
         value: "ART_3D",
-        label: (<>{getSkillIcon("ART_3D")} 3D Art</>),
+        label: (<>{getOptionsListIcon("ART_3D", "skill")} 3D Art</>),
     },
     {
         value: "CODE",
-        label: (<>{getSkillIcon("CODE")} Code</>),
+        label: (<>{getOptionsListIcon("CODE", "skill")} Code</>),
     },
     {
         value: "DESIGN_PRODUCTION",
-        label: (<>{getSkillIcon("DESIGN_PRODUCTION")} Design & Production</>),
+        label: (<>{getOptionsListIcon("DESIGN_PRODUCTION", "skill")} Design & Production</>),
     },
     {
         value: "OTHER",
-        label: (<>{getSkillIcon("OTHER")} Other</>),
+        label: (<>{getOptionsListIcon("OTHER", "skill")} Other</>),
     },
     {
         value: "SFX",
-        label: (<>{getSkillIcon("SFX")} SFX</>),
+        label: (<>{getOptionsListIcon("SFX", "skill")} SFX</>),
     },
     {
         value: "MUSIC",
-        label: (<>{getSkillIcon("MUSIC")} Music</>),
+        label: (<>{getOptionsListIcon("MUSIC", "skill")} Music</>),
     },
     {
         value: "TEAM_LEAD",
-        label: (<>{getSkillIcon("TEAM_LEAD")} Team Lead</>),
+        label: (<>{getOptionsListIcon("TEAM_LEAD", "skill")} Team Lead</>),
     },
     {
         value: "TESTING_SUPPORT",
-        label: (<>{getSkillIcon("TESTING_SUPPORT")} Testing & Support</>),
+        label: (<>{getOptionsListIcon("TESTING_SUPPORT", "skill")} Testing & Support</>),
     },
 ];
-
-function getSkillIcon(skill: string) {
-    return <ReactSVG
-        src={skillIcons[`../../assets/icons/skill/${skill}.svg`].default}
-        title={skill}
-        loading={Spacer}
-        fallback={Spacer}
-        style={{
-            width: 20,
-            height: 20,
-        }}
-    />
-}
-
