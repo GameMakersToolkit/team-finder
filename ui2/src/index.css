@@ -15,5 +15,10 @@
 @import url(./pages/home/components/SearchFormWrapper.css);
 @import url(./pages/home/components/SearchForm.css);
 
+@import url(./pages/mypost/MyPostWrapper.css);
+@import url(./pages/mypost/MyPost.css);
+
+@import url(./pages/post/Post.css);
+
 /* Utilities */
 @import "tailwindcss/utilities";

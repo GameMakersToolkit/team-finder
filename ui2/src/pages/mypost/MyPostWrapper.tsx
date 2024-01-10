@@ -8,6 +8,7 @@ import {Button} from "../../common/components/Button.tsx";
 import {useEnsureLoggedIn} from "../../api/ensureLoggedIn.ts";
 import {useUserInfo} from "../../api/userInfo.ts";
 
+// @ts-ignore
 const defaultFormValues: Post = {
     description: "",
     size: 1,
@@ -76,7 +77,10 @@ export const MyPostWrapper: React.FC = () => {
                     {(params: FormikProps<Post>) => (
                         <>
                             <h1 className="text-3xl my-4">Create New Post</h1>
-                            <MyPost params={params} author={userInfo.data!.username} authorId={userInfo.data!.userId} hasPost={Boolean(post)} />
+                            <MyPost params={params}
+                                    author={userInfo.data!.username as string}
+                                    authorId={userInfo.data!.userId as string}
+                                    hasPost={Boolean(post)} />
                         </>
                     )}
                 </Formik>
