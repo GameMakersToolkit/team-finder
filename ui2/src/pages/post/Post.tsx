@@ -7,6 +7,11 @@ import {skills} from "../../common/models/skills.tsx";
 import {tools} from "../../common/models/engines.tsx";
 import {languages} from "../../common/models/languages.ts";
 import {timezones} from "../../common/models/timezones.ts";
+import {useAuth} from "../../api/AuthContext.tsx";
+import {useUserInfo} from "../../api/userInfo.ts";
+import {useCreateBotDmMutation} from "../../api/bot.ts";
+import {DiscordMessageButton} from "./components/DiscordMessageButton.tsx";
+import {DiscordPingButton} from "./components/DiscordPingButton.tsx";
 
 export const Post: React.FC<{}> = () => {
 
@@ -59,9 +64,59 @@ export const Post: React.FC<{}> = () => {
                     </div>
 
                     <div className="post__footer">
+                        <MessageOnDiscordButton author={post.author} authorId={post.authorId} unableToContactCount={post.unableToContactCount} />
                     </div>
                 </section>
             </main>
         </>
     )
 }
+
+
+/**
+ * Present Discord CTA to user
+ *
+ * The direct link has been a bit finicky in the past - we should make this more robust where possible
+ * TODO: Investigate if app links are feasible
+ * TODO: Don't display if user fails Guild Permissions check
+ */
+const MessageOnDiscordButton: React.FC<{
+    author: string;
+    authorId: string;
+    unableToContactCount: number
+}> = ({
+    author,
+    authorId,
+    unableToContactCount,
+}) => {
+    const isLoggedIn = Boolean(useAuth());
+    const userInfo = useUserInfo();
+    const canPostAuthorBeDMd = unableToContactCount < 5; // Arbitrary number
+
+    const userShouldSeePingButton = isLoggedIn && !userInfo.isLoading;
+    const userCanPingAuthor = userInfo.data?.isInDiscordServer;
+
+    const createBotDmMutation = useCreateBotDmMutation();
+
+    const fallbackPingMessage = canPostAuthorBeDMd ? "Message button not working?" : "This post's author cannot receive direct messages"
+
+    {/* If the user isn't logged in, don't display any ping message; it just looks kinda bad */}
+    if (!userShouldSeePingButton) {
+        return (
+            <div className="text-center">
+                {canPostAuthorBeDMd && <DiscordMessageButton authorId={authorId} author={author} isLoggedIn={isLoggedIn} />}
+            </div>
+        )
+    }
+
+    return (
+        <div className="text-center">
+            {canPostAuthorBeDMd && <DiscordMessageButton authorId={authorId} author={author} isLoggedIn={isLoggedIn} />}
+
+            {userCanPingAuthor
+                ? <DiscordPingButton authorId={authorId} createBotDmMutation={createBotDmMutation} message={fallbackPingMessage} />
+                : <p>Sorry, you can&apos;t contact this user right now.<br />Please make sure you&apos;ve joined the discord server!</p>
+            }
+        </div>
+    );
+};

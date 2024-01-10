@@ -1,6 +1,6 @@
 @layer components {
     .c-post {
-        @apply relative bg-grey-500 border-2 border-neutral-900 rounded-xl p-4 grid grid-flow-row auto-cols-auto gap-y-2;
+        @apply relative bg-grey-500 border-2 border-neutral-900 rounded-xl p-4;
 
         .post__header {
             @apply flex justify-between min-w-0 mb-4;
