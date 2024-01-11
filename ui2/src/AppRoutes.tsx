@@ -7,6 +7,7 @@ import {AuthContextProvider} from "./api/AuthContext.tsx";
 import {MyPostWrapper} from "./pages/mypost/MyPostWrapper.tsx";
 import {Callback} from "./pages/callback/Callback.tsx";
 import {Post} from "./pages/post/Post.tsx";
+import {Logout} from "./pages/logout/Logout.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -27,6 +28,7 @@ export const AppRoutes: React.FC = () => {
                       <Route path="/:postId" element={<Post/>}/>
                       <Route path="/my-post" element={<MyPostWrapper/>}/>
                       <Route path="/login/authorized" element={<Callback/>}/>
+                      <Route path="/logout" element={<Logout/>}/>
 
                       {/* TODO: replace with a proper Not Found page */}
                       <Route path="*" element={<p>u wot m8</p>}/>
