@@ -3,6 +3,7 @@ import {SearchFormWrapper} from "./components/SearchFormWrapper.tsx";
 import {useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {PostTile} from "../../common/components/PostTile.tsx";
+import {Onboarding} from "./components/Onboarding.tsx";
 
 export const Home: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -21,6 +22,7 @@ export const Home: React.FC = () => {
 
     return (
         <main>
+            <Onboarding />
             <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
             <div className="c-post-tiles">

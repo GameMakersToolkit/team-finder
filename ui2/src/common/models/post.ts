@@ -14,14 +14,14 @@ export interface Post {
   reportCount: number;
   unableToContactCount: number;
   createdAt: Date;
-  updatedAt: Date | null;
-  deletedAt: Date | null;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }
 
 export type PostApiResult = Omit<Post, "createdAt" | "updatedAt" | "deletedAt"> & {
   createdAt: string;
-  updatedAt: string | null;
-  deletedAt: string | null;
+  updatedAt?: string;
+  deletedAt?: string;
 };
 
 export function postFromApiResult(input: PostApiResult): Post {
@@ -34,9 +34,9 @@ export function postFromApiResult(input: PostApiResult): Post {
 }
 
 // this can be moved to a util if it keeps coming up
-function transformDateOrNull(input: string | null): Date | null {
-  if (input === null) {
-    return null;
+function transformDateOrNull(input?: string): Date | undefined {
+  if (!input) {
+    return;
   }
   return new Date(input);
 }

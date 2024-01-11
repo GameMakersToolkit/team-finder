@@ -21,26 +21,26 @@ export const SearchFormWrapper: React.FC<{
             languages: values['languages']?.join(","),
             tools: values['tools']?.join(","),
             timezones: values['earliestTimezone'] && values['latestTimezone'] ? values['earliestTimezone'] + " " + values['latestTimezone'] : null,
+            sortBy: values['sortBy'],
+            sortDir: values['sortDir'],
         })
         setSearchParams(formattedValues)
     }
 
     return (
         <>
-            <div className="c-form">
-                <Formik
-                    initialValues={ initialFormValues }
-                    validate={ () => {} }
-                    onSubmit={ onSubmitForm }
-                >
-                    {(params: FormikSearchFormParameters) => (
-                        <>
-                            <AutoSave debounceMs={50} />
-                            <SearchForm params={params} />
-                        </>
-                    )}
-                </Formik>
-            </div>
+            <Formik
+                initialValues={ initialFormValues }
+                validate={ () => {} }
+                onSubmit={ onSubmitForm }
+            >
+                {(params: FormikSearchFormParameters) => (
+                    <>
+                        <AutoSave debounceMs={50} />
+                        <SearchForm params={params} />
+                    </>
+                )}
+            </Formik>
         </>
     )
 }

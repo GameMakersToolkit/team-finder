@@ -7,6 +7,7 @@ import {skills} from "../../../common/models/skills.tsx";
 import {tools} from "../../../common/models/engines.tsx";
 import {timezones} from "../../../common/models/timezones.ts";
 import {useState} from "react";
+import {SortingOptions} from "./SortingOptions.tsx";
 
 export const SearchForm: React.FC<{
     params: FormikSearchFormParameters
@@ -15,60 +16,65 @@ export const SearchForm: React.FC<{
     const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false);
 
     return (
-        <>
-            <h2 className="text-xl my-2 font-bold text-center">Find people to jam with:</h2>
+        <Form>
+            <div className="c-form">
+                <h2 className="text-xl my-2 font-bold text-center">Find people to jam with:</h2>
 
-            <Form>
-                <label htmlFor="description">Keywords</label>
-                <input
-                    type="text"
-                    className="form-block__field w-full"
-                    name="description"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.description}
-                />
+                    <label htmlFor="description">Keywords</label>
+                    <input
+                        type="text"
+                        className="form-block__field w-full"
+                        name="description"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.description}
+                    />
 
-                <div className="c-form-block">
-                    <div>
-                        <label htmlFor="skillsPossessed">I'm looking for:</label>
-                        <Field
-                            name="skillsPossessed"
-                            className="form-block__field"
-                            options={skills}
-                            component={CustomSelect}
-                            placeholder={"Select option(s)"}
-                            isMulti={true}
-                        />
+                    <div className="c-form-block">
+                        <div>
+                            <label htmlFor="skillsPossessed">I'm looking for:</label>
+                            <Field
+                                name="skillsPossessed"
+                                className="form-block__field"
+                                options={skills}
+                                component={CustomSelect}
+                                placeholder={"Select option(s)"}
+                                isMulti={true}
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="skillsSought">I can do:</label>
+                            <Field
+                                name="skillsSought"
+                                className="form-block__field"
+                                options={skills}
+                                component={CustomSelect}
+                                placeholder={"Select option(s)"}
+                                isMulti={true}
+                            />
+                        </div>
                     </div>
 
-                    <div>
-                        <label htmlFor="skillsSought">I can do:</label>
-                        <Field
-                            name="skillsSought"
-                            className="form-block__field"
-                            options={skills}
-                            component={CustomSelect}
-                            placeholder={"Select option(s)"}
-                            isMulti={true}
-                        />
+                    <div className="text-center">
+                        <button id="clear-search-button" onClick={() => {params.resetForm()}}>
+                            Clear Search
+                        </button>
+
+                        <button id="advanced-options-button" onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}>
+                            {showAdvancedSearchOptions ? <>Fewer options ^</> : <>More options V</>}
+                        </button>
                     </div>
-                </div>
 
-                <div className="text-center">
-                    <button id="clear-search-button" onClick={() => {params.resetForm()}}>
-                        Clear Search
-                    </button>
+                    {showAdvancedSearchOptions && <AdvancedOptions />}
+            </div>
 
-                    <button id="advanced-options-button" onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}>
-                        {showAdvancedSearchOptions ? <>Fewer options ^</> : <>More options V</>}
-                    </button>
-                </div>
+            <div className="md:flex justify-between items-center mt-4 mb-4">
+                <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
+                <SortingOptions />
+            </div>
 
-                {showAdvancedSearchOptions && <AdvancedOptions />}
-
-            </Form>
-        </>
+        </Form>
     )
 }
 
