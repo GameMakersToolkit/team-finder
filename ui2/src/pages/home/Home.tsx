@@ -4,6 +4,7 @@ import {useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {PostTile} from "../../common/components/PostTile.tsx";
 import {Onboarding} from "./components/Onboarding.tsx";
+import {SiteIntro} from "./components/SiteIntro.tsx";
 
 export const Home: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -18,11 +19,12 @@ export const Home: React.FC = () => {
             .then(setPosts)
     }, [searchParams])
 
-    console.log(posts)
+    // console.log(posts)
 
     return (
         <main>
             <Onboarding />
+            <SiteIntro />
             <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
             <div className="c-post-tiles">
