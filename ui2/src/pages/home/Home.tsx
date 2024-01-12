@@ -41,7 +41,7 @@ export const Home: React.FC = () => {
             <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
             <div className="c-post-tiles">
-                {posts.length && posts.map(post => <PostTile post={post} />)}
+                {posts.length && posts.map(post => <PostTile key={post.id} post={post} />)}
             </div>
         </main>
     )
