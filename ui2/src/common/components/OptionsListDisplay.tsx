@@ -12,15 +12,12 @@ export const OptionsListDisplay: React.FC<{
     }
 
     return (
-        <dl className={"flex gap-[8px] flex-wrap self-baseline items-baseline text-md mb-2 " + className}>
-            <dt className={`self-center mr-1 w-auto sm:w-full`}>{label}</dt>
+        <dl className={"c-options-list-display " + className}>
+            <dt className="c-options-list-display__label">{label}</dt>
             {optionsToDisplay.map((option) => {
                 const info = totalOptions.filter(s => s.value == option)[0];
                 return (
-                    <dd
-                        key={option}
-                        className={`py-1 border-2 border-[color:var(--skill-color)] bg-[color:var(--skill-color)] rounded-xl flex items-center px-2 sm:px-1}`}
-                    >
+                    <dd key={option} className="c-options-list-display__pill border-[color:var(--skill-color)] bg-[color:var(--skill-color)]">
                         <span className="flex text-xs gap-[4px]">{info?.label || "?"}</span>
                     </dd>
                 );

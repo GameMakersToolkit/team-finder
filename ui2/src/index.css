@@ -7,6 +7,7 @@
 /* Components */
 @import "tailwindcss/components";
 
+@import url(./common/components/OptionsListDisplay.css);
 @import url(./common/components/PostTile.css);
 
 @import url(./pages/components/Header.css);

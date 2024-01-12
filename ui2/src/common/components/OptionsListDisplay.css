@@ -1,0 +1,13 @@
+@layer components {
+    .c-options-list-display {
+        @apply flex gap-[8px] flex-wrap self-baseline items-baseline mb-2;
+
+        .c-options-list-display__label {
+            @apply self-center mr-1 w-auto sm:w-full;
+        }
+
+        .c-options-list-display__pill {
+            @apply py-1 border-2 rounded-xl flex items-center px-2 sm:px-1;
+        }
+    }
+}
