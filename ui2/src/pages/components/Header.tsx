@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Link, useSearchParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {useUserInfo} from "../../api/userInfo.ts";
 import {login} from "../../api/login.ts";
 // Probably a better way to manage these
@@ -10,8 +10,13 @@ import {toast} from "react-hot-toast";
 import {useMyPostQuery} from "../../api/myPost.ts";
 
 export const Header: React.FC = () => {
-    // TODO: This doesn't work properly, probably use a react thing instead
-    const isOnHomePage = window.location.pathname === "/"
+
+    const navigate = useNavigate();
+    const [isOnHomePage, setIsOnHomePage] = useState(window.location.pathname === "/");
+    useEffect(() => {
+        setIsOnHomePage(window.location.pathname === "/")
+    }, [navigate]);
+
     const userInfo = useUserInfo();
     const shouldDisplayAdminLink = Boolean(userInfo.data?.isAdmin);
 
@@ -30,8 +35,7 @@ export const Header: React.FC = () => {
 
                     <div className="flex items-center">
                         <Link className="header-text-link" key={"Home"} to={"/"}>Home</Link>
-                        <Link className="header-text-link" key={"About"} to={"/about"}>About</Link>
-                        <Link className="header-text-link" key={"How to use"} to={"/about#how-to-use"}>How to use</Link>
+                        <Link className="header-text-link" key={"About"} to={"/about"}>About / How To Use</Link>
                         {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={"/admin"}>Admin</Link>}
                     </div>
 

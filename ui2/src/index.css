@@ -12,6 +12,8 @@
 @import url(./pages/components/Header.css);
 @import url(./pages/components/Footer.css);
 
+@import url(./pages/about/About.css);
+
 @import url(./pages/home/Home.css);
 @import url(./pages/home/components/Onboarding.css);
 @import url(./pages/home/components/SearchFormWrapper.css);

@@ -9,6 +9,7 @@ import {Callback} from "./pages/callback/Callback.tsx";
 import {Post} from "./pages/post/Post.tsx";
 import {Logout} from "./pages/logout/Logout.tsx";
 import Footer from "./pages/components/Footer.tsx";
+import {About} from "./pages/about/About.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -27,6 +28,7 @@ export const AppRoutes: React.FC = () => {
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/:postId" element={<Post/>}/>
+                <Route path="/about" element={<About/>}/>
                 <Route path="/my-post" element={<MyPostWrapper/>}/>
                 <Route path="/login/authorized" element={<Callback/>}/>
                 <Route path="/logout" element={<Logout/>}/>
