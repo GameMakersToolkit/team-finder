@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px"
-     viewBox="0 0 5.5 5" version="1.1">
-    <g id="surface1">
-        <path fill="#FFFFFF" style=" stroke:none;fill-rule:nonzero;fill-opacity:1;"
-              d="M 2.804688 2.5 L 2.804688 3.554688 L 1.625 2.5 L 2.804688 1.449219 L 3.988281 2.5 Z M 2.804688 0 L 0 2.5 L 2.804688 5.003906 L 3.988281 3.949219 L 3.988281 2.5 L 5.609375 2.5 L 2.804688 0 "/>
-    </g>
-</svg>

@@ -1,33 +1,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
-@import url(./components/StyledSelector/StyledSelector.css);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Base */
+@import "tailwindcss/base";
+@import url(base.css);
 
-@layer base {
-  .input {
-    @apply bg-gray-300 border-2 border-gray-300 rounded-xl placeholder-gray-600 text-gray-900;
-  }
-}
+/* Components */
+@import "tailwindcss/components";
 
-body {
-  background: #000000;
-  color: #ffffff;
-}
+@import url(./common/components/Dropdown.css);
+@import url(./common/components/OptionsListDisplay.css);
+@import url(./common/components/PostTile.css);
 
-/* Styling to keep the footer at the bottom of page/content as appropriate */
-#root {
-  position: relative;
-  min-height: 100vh;
-}
+@import url(./pages/components/Header.css);
+@import url(./pages/components/Footer.css);
 
-.container {
-  padding-bottom: 88px
-}
+@import url(./pages/about/About.css);
 
-#footer {
-  position: absolute;
-  bottom: 0;
-  height: 64px;
-}
+@import url(./pages/home/Home.css);
+@import url(./pages/home/components/Onboarding.css);
+@import url(./pages/home/components/SearchFormWrapper.css);
+@import url(./pages/home/components/SearchForm.css);
+
+@import url(./pages/mypost/MyPostWrapper.css);
+@import url(./pages/mypost/MyPost.css);
+
+@import url(./pages/post/Post.css);
+
+/* Utilities */
+@import "tailwindcss/utilities";

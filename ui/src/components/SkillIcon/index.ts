@@ -1,1 +1,0 @@
-export { SkillIcon } from "./SkillIcon";

@@ -1,38 +1,60 @@
 import * as React from "react";
-import { Routes, Route } from "react-router-dom";
-import { AuthCallback } from "./pages/AuthCallback/AuthCallback";
-import { FAQ } from "./pages/FAQ/FAQ";
-import { Home } from "./pages/Home/Home";
-import { Admin } from "./pages/Admin/Admin";
-import { Logout } from "./pages/Logout/Logout";
-import { PostViewWrapper } from "./components/PostViewWrapper";
-import { AfterJam } from "./pages/AfterJam/AfterJam";
-import { JamState } from "./utils/jamState";
-import { BeforeJam } from "./pages/BeforeJam/BeforeJam";
+import {Routes, Route, BrowserRouter} from "react-router-dom";
+import { Home } from "./pages/home/Home";
+import {Header} from "./pages/components/Header.tsx";
+import {QueryClient, QueryClientProvider} from "react-query";
+import {AuthContextProvider} from "./api/AuthContext.tsx";
+import {MyPostWrapper} from "./pages/mypost/MyPostWrapper.tsx";
+import {Callback} from "./pages/callback/Callback.tsx";
+import {Post} from "./pages/post/Post.tsx";
+import {Logout} from "./pages/logout/Logout.tsx";
+import Footer from "./pages/components/Footer.tsx";
+import {About} from "./pages/about/About.tsx";
 
-const MyPost = React.lazy(() => import("./pages/MyPost"));
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+});
 
-export const AppRoutes: React.FC<{jamState: JamState}> = ({jamState}) => {
+export const AppRoutes: React.FC = () => {
+    return (
+        <BrowserRouter>
+            <ReactQuerySiteWrapper>
+            <Header />
 
-  if (jamState == JamState.Before) {
-    return (<BeforeJam/>)
-  }
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/:postId" element={<Post/>}/>
+                <Route path="/about" element={<About/>}/>
+                <Route path="/my-post" element={<MyPostWrapper/>}/>
+                <Route path="/login/authorized" element={<Callback/>}/>
+                <Route path="/logout" element={<Logout/>}/>
 
-  if (jamState == JamState.After) {
-      return (<AfterJam/>)
-  }
+                {/* TODO: replace with a proper Not Found page */}
+                <Route path="*" element={<p>u wot m8</p>}/>
+            </Routes>
 
-  return (
-    <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/:postId" element={<PostViewWrapper/>}/>
-        <Route path="/admin" element={<Admin/>}/>
-        <Route path="/my-post" element={<MyPost/>}/>
-        <Route path="/about" element={<FAQ/>}/>
-        <Route path="/login/authorized" element={<AuthCallback/>}/>
-        <Route path="/logout" element={<Logout/>}/>
-        {/* TODO: replace with a proper Not Found page */}
-        <Route path="*" element={<p>u wot m8</p>}/>
-    </Routes>
+            <Footer />
+
+            </ReactQuerySiteWrapper>
+        </BrowserRouter>
   )
 };
+
+/**
+ * Magic handling for the query context for react-query
+ *
+ * Allows us to get the userInfo and auth state on all pages
+ */
+const ReactQuerySiteWrapper: React.FC<{children: string | JSX.Element | JSX.Element[]}> = ({ children }) => {
+    return (
+        <AuthContextProvider>
+            <QueryClientProvider client={queryClient}>
+                {children}
+            </QueryClientProvider>
+        </AuthContextProvider>
+    )
+}
