@@ -7,10 +7,11 @@ import {Onboarding} from "./components/Onboarding.tsx";
 import {SiteIntro} from "./components/SiteIntro.tsx";
 import {importMetaEnv} from "../../common/utils/importMeta.ts";
 import {useAuth} from "../../api/AuthContext.tsx";
+import {Post} from "../../common/models/post.ts";
 
 export const Home: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState<Post[]>([])
     const { token } = useAuth() ?? {};
 
     // Trigger API call every time query string changes
