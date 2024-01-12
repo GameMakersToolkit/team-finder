@@ -4,6 +4,7 @@ import {TeamSizeIcon} from "./TeamSizeIcon.tsx";
 import {Link} from "react-router-dom";
 import {OptionsListDisplay} from "./OptionsListDisplay.tsx";
 import {skills} from "../models/skills.tsx";
+import {FavouritePostIndicator} from "./FavouritePostIndicator.tsx";
 
 export const PostTile: React.FC<{post: Post}> = ({post}) => {
     return (
@@ -20,6 +21,8 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                             {post.size > 1 ? ` and ${post.size - 1} others are` : `is`} looking for members
                         </p>
                     </span>
+
+                    <FavouritePostIndicator post={post} className={""} />
                 </header>
 
                 <div className="post-tile__body">

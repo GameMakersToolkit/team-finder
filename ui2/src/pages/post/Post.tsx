@@ -14,6 +14,7 @@ import {DiscordMessageButton} from "./components/DiscordMessageButton.tsx";
 import {DiscordPingButton} from "./components/DiscordPingButton.tsx";
 import {ReportButton} from "./components/ReportButton.tsx";
 import {ReportBrokenDMsButton} from "./components/ReportBrokenDMsButton.tsx";
+import {FavouritePostIndicator} from "../../common/components/FavouritePostIndicator.tsx";
 
 export const Post: React.FC<{}> = () => {
 
@@ -54,6 +55,8 @@ export const Post: React.FC<{}> = () => {
                                 {post.size > 1 ? ` and ${post.size - 1} others are` : `is`} looking for members
                             </p>
                         </span>
+
+                        <FavouritePostIndicator post={post} className={""} />
                     </header>
 
                     <div className="post__body">
