@@ -4,7 +4,8 @@
     }
 
     main {
-        @apply container mx-auto p-1 px-4 pb-6
+        @apply container mx-auto p-1 px-4 pb-6;
+        padding-bottom: 64px;
     }
 
     body {

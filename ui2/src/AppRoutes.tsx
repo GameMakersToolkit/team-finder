@@ -8,6 +8,7 @@ import {MyPostWrapper} from "./pages/mypost/MyPostWrapper.tsx";
 import {Callback} from "./pages/callback/Callback.tsx";
 import {Post} from "./pages/post/Post.tsx";
 import {Logout} from "./pages/logout/Logout.tsx";
+import Footer from "./pages/components/Footer.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -18,24 +19,26 @@ const queryClient = new QueryClient({
 });
 
 export const AppRoutes: React.FC = () => {
-  return (
-      <BrowserRouter>
-          <ReactQuerySiteWrapper>
-                  <Header />
+    return (
+        <BrowserRouter>
+            <ReactQuerySiteWrapper>
+            <Header />
 
-                  <Routes>
-                      <Route path="/" element={<Home/>}/>
-                      <Route path="/:postId" element={<Post/>}/>
-                      <Route path="/my-post" element={<MyPostWrapper/>}/>
-                      <Route path="/login/authorized" element={<Callback/>}/>
-                      <Route path="/logout" element={<Logout/>}/>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/:postId" element={<Post/>}/>
+                <Route path="/my-post" element={<MyPostWrapper/>}/>
+                <Route path="/login/authorized" element={<Callback/>}/>
+                <Route path="/logout" element={<Logout/>}/>
 
-                      {/* TODO: replace with a proper Not Found page */}
-                      <Route path="*" element={<p>u wot m8</p>}/>
-                  </Routes>
+                {/* TODO: replace with a proper Not Found page */}
+                <Route path="*" element={<p>u wot m8</p>}/>
+            </Routes>
 
-          </ReactQuerySiteWrapper>
-      </BrowserRouter>
+            <Footer />
+
+            </ReactQuerySiteWrapper>
+        </BrowserRouter>
   )
 };
 
