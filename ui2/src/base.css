@@ -33,6 +33,11 @@
         height: 16px;
     }
 
+    .post-tile__header svg {
+        width: 38px;
+        height: auto;
+    }
+
     /*#footer {*/
     /*  position: absolute;*/
     /*  bottom: 0;*/

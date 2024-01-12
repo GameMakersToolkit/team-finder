@@ -7,7 +7,8 @@ const transparent = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAAL
 const Spacer = () => <img src={transparent} width={512} height={512} alt="" />;
 
 export const TeamSizeIcon: React.FC<{size: number}> = ({size}) => {
-    const clampedSize = Math.max(Math.min(size, 1), 3);
+    const clampedSize = Math.min(Math.max(size, 1), 3);
+
     return (
         <ReactSVG
             src={icons[`../../assets/icons/team-sizes/${clampedSize}.svg`].default}
@@ -17,7 +18,7 @@ export const TeamSizeIcon: React.FC<{size: number}> = ({size}) => {
                 width: 28,
                 height: 28,
             }}
-            className="inline-block mr-2"
+            className="inline-block mr-4"
         />
     )
 }
