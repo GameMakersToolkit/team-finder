@@ -55,12 +55,27 @@ export const Post: React.FC<{}> = () => {
                     </header>
 
                     <div className="post__body">
-                        <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:theme(colors.blue-700)]"}/>
-                        <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:theme(colors.indigo)]"}/>
-                        <OptionsListDisplay optionsToDisplay={post.preferredTools} totalOptions={tools} label={"Preferred Engine(s):"} className={"[--skill-color:theme(colors.grey-300)]"}/>
-                        <OptionsListDisplay optionsToDisplay={post.languages} totalOptions={languages} label={"Language(s):"} className={"[--skill-color:theme(colors.grey-800)]"}/>
-                        <OptionsListDisplay optionsToDisplay={post.timezoneOffsets} totalOptions={timezones} label={"Timezone(s):"} className={"[--skill-color:theme(colors.grey-500)]"}/>
-                        {post.description.split("\n").map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
+                        <div className="flex flex-col sm:flex-row">
+                            <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
+                                <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:theme(colors.blue-700)]"}/>
+                                <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:theme(colors.indigo)]"}/>
+                            </div>
+                            <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
+                                <OptionsListDisplay optionsToDisplay={post.preferredTools} totalOptions={tools} label={"Preferred Engine(s):"} className={"[--skill-color:theme(colors.green-300)]"}/>
+                                <OptionsListDisplay optionsToDisplay={post.languages} totalOptions={languages} label={"Language(s):"} className={"[--skill-color:theme(colors.grey-800)]"}/>
+                            </div>
+
+                            <div className="hidden lg:inline-block lg:w-[33%]">
+                                <OptionsListDisplay optionsToDisplay={post.timezoneOffsets} totalOptions={timezones} label={"Timezone(s):"} className={"[--skill-color:theme(colors.grey-300)]"}/>
+                            </div>
+                        </div>
+                        {/* Full width on larger devices */}
+                        <div className="inline-block w-full lg:hidden">
+                            <OptionsListDisplay optionsToDisplay={post.timezoneOffsets} totalOptions={timezones} label={"Timezone(s):"} className={"[--skill-color:theme(colors.grey-300)]"}/>
+                        </div>
+                        <div className="post__body--description mt-6">
+                            {post.description.split("\n").map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
+                        </div>
                     </div>
 
                     <div className="post__footer">

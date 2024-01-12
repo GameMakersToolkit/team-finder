@@ -26,6 +26,12 @@
         @apply text-white;
     }
 
+    /* Override to enforce ReactSVG icons are the right size */
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+
     /*#footer {*/
     /*  position: absolute;*/
     /*  bottom: 0;*/

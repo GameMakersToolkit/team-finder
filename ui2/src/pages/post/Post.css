@@ -3,23 +3,25 @@
         @apply relative bg-grey-500 border-2 border-neutral-900 rounded-xl p-4;
 
         .post__header {
-            @apply flex justify-between min-w-0 mb-4;
+            @apply flex justify-between min-w-0 mb-8;
 
             .post__header--title {
                 @apply text-lg font-bold overflow-hidden text-ellipsis whitespace-nowrap;
             }
 
             .post__header--subtitle {
-                @apply absolute font-normal text-sm;
-                left: 16px;
-                top: 48px;
+                @apply font-normal text-sm;
             }
         }
 
         .post__body {
-            & p {
-                @apply break-words;
-                word-break: break-word;
+            .post__body--description {
+                @apply text-center mb-4 border-y-2 py-4;
+
+                & p {
+                    @apply break-words;
+                    word-break: break-word;
+                }
             }
         }
 

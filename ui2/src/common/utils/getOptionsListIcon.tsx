@@ -18,9 +18,5 @@ export const getOptionsListIcon = (name: string, iconType: string) => {
         loading={Spacer}
         fallback={Spacer}
         wrapper={"span"}
-        style={{
-            width: 20,
-            height: 20,
-        }}
     />
 }

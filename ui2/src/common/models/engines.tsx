@@ -11,7 +11,7 @@ export const tools: CustomSelectOption[] = [
         label: (<>{getOptionsListIcon("CONSTRUCT", "tool")} Construct</>),
     },
     {
-        value: "GAME MAKER",
+        value: "GAME_MAKER_STUDIO",
         label: (<>{getOptionsListIcon("GAME_MAKER_STUDIO", "tool")} Game Maker</>),
     },
     {
@@ -31,7 +31,7 @@ export const tools: CustomSelectOption[] = [
         label: (<>{getOptionsListIcon("UNREAL", "tool")} Unreal</>),
     },
     {
-        value: "RPG MAKER",
+        value: "RPG_MAKER",
         label: (<>{getOptionsListIcon("RPG_MAKER", "tool")} RPG Maker</>),
     },
     {
