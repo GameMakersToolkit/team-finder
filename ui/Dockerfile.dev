@@ -16,7 +16,7 @@ COPY . ./
 
 USER node
 
-EXPOSE 3001
+EXPOSE 3000
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["npm", "run", "dev"]
