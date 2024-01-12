@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {OptionsListDisplay} from "./OptionsListDisplay.tsx";
 import {skills} from "../models/skills.tsx";
 import {FavouritePostIndicator} from "./FavouritePostIndicator.tsx";
+import {iiicon} from "../utils/iiicon.tsx";
 
 export const PostTile: React.FC<{post: Post}> = ({post}) => {
     return (
@@ -37,8 +38,7 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                             className="text-lg text-blue-200 font-bold"
                             to={`/${post.id}`}
                         >
-                            {/*See more {iiicon("right-arrow", "#8ae7ff")}*/}
-                            See more {">"}
+                            See more {iiicon("right-arrow", "#8ae7ff")}
                         </Link>
                     </button>
                 </div>

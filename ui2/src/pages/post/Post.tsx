@@ -15,6 +15,7 @@ import {DiscordPingButton} from "./components/DiscordPingButton.tsx";
 import {ReportButton} from "./components/ReportButton.tsx";
 import {ReportBrokenDMsButton} from "./components/ReportBrokenDMsButton.tsx";
 import {FavouritePostIndicator} from "../../common/components/FavouritePostIndicator.tsx";
+import {iiicon} from "../../common/utils/iiicon.tsx";
 
 export const Post: React.FC<{}> = () => {
 
@@ -37,8 +38,7 @@ export const Post: React.FC<{}> = () => {
         <>
             <header className="container mx-auto px-4 pb-6 pt-4 text-xl">
                 <a className="text-grey-200 mr-2 cursor-pointer hover:underline" onClick={() => navigate(-1)}>Search results</a>
-                <span className="mr-2">&gt;</span>
-                {/*<span className="mr-2">{iiicon('right-arrow', "#FFFFFF", 16, 16)}</span>*/}
+                <span className="mr-2">{iiicon('right-arrow', "#FFFFFF", 16, 16)}</span>
                 <span>{post.author}</span>
             </header>
 
@@ -89,7 +89,7 @@ export const Post: React.FC<{}> = () => {
                         <div>
                             <div className="inline-block w-[50%]">
                                 <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>
-                                    &lt; Back to search results
+                                    {iiicon('left-arrow', "#FFFFFF", 16, 16)} Back to search results
                                 </a>
                             </div>
                             <div className="inline-block w-[50%] text-right">

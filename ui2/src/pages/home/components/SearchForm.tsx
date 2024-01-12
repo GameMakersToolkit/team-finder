@@ -8,6 +8,7 @@ import {tools} from "../../../common/models/engines.tsx";
 import {timezones} from "../../../common/models/timezones.ts";
 import {useState} from "react";
 import {SortingOptions} from "./SortingOptions.tsx";
+import {iiicon} from "../../../common/utils/iiicon.tsx";
 
 export const SearchForm: React.FC<{
     params: FormikSearchFormParameters
@@ -63,7 +64,10 @@ export const SearchForm: React.FC<{
                         </button>
 
                         <button id="advanced-options-button" onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}>
-                            {showAdvancedSearchOptions ? <>Fewer options ^</> : <>More options V</>}
+                            {showAdvancedSearchOptions
+                                ? <>Fewer options {iiicon('up-arrow', "#FFFFFF", 16, 16)}</>
+                                : <>More options {iiicon('down-arrow', "#FFFFFF", 16, 16)}</>
+                            }
                         </button>
                     </div>
 
