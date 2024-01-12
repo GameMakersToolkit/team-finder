@@ -20,20 +20,3 @@ data class PostItemUpdateDto (
     var timezoneOffsets: Set<Int>?,
     var languages: Set<String>?,
 )
-
-//author: "dotwo"
-//authorId: "427486675409829898"
-//availability: "MINIMAL"
-//createdAt: "2024-01-09T20:56:06.000Z"
-//deletedAt: null
-//description: ""
-//id: "3555550028524498482"
-//languages: ["en"]
-//preferredTools: []
-//reportCount: 0
-//size: 1
-//skillsPossessed: ["ART_2D", "CODE"]
-//skillsSought: ["ART_3D"]
-//timezoneOffsets: [1]
-//unableToContactCount: 0
-//updatedAt: "2024-01-09T20:56:06.000Z"

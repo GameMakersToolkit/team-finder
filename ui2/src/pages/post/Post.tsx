@@ -12,6 +12,8 @@ import {useUserInfo} from "../../api/userInfo.ts";
 import {useCreateBotDmMutation} from "../../api/bot.ts";
 import {DiscordMessageButton} from "./components/DiscordMessageButton.tsx";
 import {DiscordPingButton} from "./components/DiscordPingButton.tsx";
+import {ReportButton} from "./components/ReportButton.tsx";
+import {ReportBrokenDMsButton} from "./components/ReportBrokenDMsButton.tsx";
 
 export const Post: React.FC<{}> = () => {
 
@@ -80,6 +82,18 @@ export const Post: React.FC<{}> = () => {
 
                     <div className="post__footer">
                         <MessageOnDiscordButton author={post.author} authorId={post.authorId} unableToContactCount={post.unableToContactCount} />
+
+                        <div>
+                            <div className="inline-block w-[50%]">
+                                <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>
+                                    &lt; Back to search results
+                                </a>
+                            </div>
+                            <div className="inline-block w-[50%] text-right">
+                                <ReportButton post={post} />
+                                <ReportBrokenDMsButton post={post} />
+                            </div>
+                        </div>
                     </div>
                 </section>
             </main>
