@@ -35,7 +35,7 @@ export const SearchForm: React.FC<{
                             <label htmlFor="skillsPossessed">I'm looking for:</label>
                             <Field
                                 name="skillsPossessed"
-                                className="form-block__field"
+                                className="c-dropdown form-block__field w-full"
                                 options={skills}
                                 component={CustomSelect}
                                 placeholder={"Select option(s)"}
@@ -47,7 +47,7 @@ export const SearchForm: React.FC<{
                             <label htmlFor="skillsSought">I can do:</label>
                             <Field
                                 name="skillsSought"
-                                className="form-block__field"
+                                className="c-dropdown form-block__field w-full"
                                 options={skills}
                                 component={CustomSelect}
                                 placeholder={"Select option(s)"}
@@ -85,7 +85,7 @@ const AdvancedOptions = () => {
                 <label htmlFor="tools">Preferred Engine(s):</label>
                 <Field
                     name="tools"
-                    className="form-block__field"
+                    className="c-dropdown form-block__field"
                     options={tools}
                     component={CustomSelect}
                     placeholder={"Select option(s)"}
@@ -96,7 +96,7 @@ const AdvancedOptions = () => {
                 <label htmlFor="languages">Language(s):</label>
                 <Field
                     name="languages"
-                    className="form-block__field"
+                    className="c-dropdown form-block__field"
                     options={languages}
                     component={CustomSelect}
                     placeholder={"Select option(s)"}
@@ -107,7 +107,7 @@ const AdvancedOptions = () => {
                 <label htmlFor="earliestTimezone">Earliest Timezone:</label>
                 <Field
                     name="earliestTimezone"
-                    className="form-block__field"
+                    className="c-dropdown form-block__field"
                     options={timezones}
                     component={CustomSelect}
                     placeholder={"Select option(s)"}
@@ -118,7 +118,7 @@ const AdvancedOptions = () => {
                 <label htmlFor="latestTimezone">Latest Timezone:</label>
                 <Field
                     name="latestTimezone"
-                    className="form-block__field"
+                    className="c-dropdown form-block__field"
                     options={timezones}
                     component={CustomSelect}
                     placeholder={"Select option(s)"}

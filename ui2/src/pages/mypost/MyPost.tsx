@@ -82,7 +82,7 @@ const FieldSkillsPossessed: React.FC = () => {
             <label htmlFor="skillsPossessed">What skills do you have?</label>
             <Field
                 name="skillsPossessed"
-                className="form-block__field"
+                className="c-dropdown form-block__field"
                 options={skills}
                 component={CustomSelect}
                 placeholder={"Select option(s)"}
@@ -98,7 +98,7 @@ const FieldSkillsSought: React.FC = () => {
             <label htmlFor="skillsSought">What skills are you looking for?</label>
             <Field
                 name="skillsSought"
-                className="form-block__field"
+                className="c-dropdown form-block__field"
                 options={skills}
                 component={CustomSelect}
                 placeholder={"Select option(s)"}
@@ -114,7 +114,7 @@ const FieldLanguages: React.FC = () => {
             <label htmlFor="languages">What languages do you speak?</label>
             <Field
                 name="languages"
-                className="form-block__field"
+                className="c-dropdown form-block__field"
                 options={languages}
                 component={CustomSelect}
                 placeholder={"Select option(s)"}
@@ -130,7 +130,7 @@ const FieldTools: React.FC = () => {
             <label htmlFor="preferredTools">What tools do you want to work with?</label>
             <Field
                 name="preferredTools"
-                className="form-block__field"
+                className="c-dropdown form-block__field"
                 options={tools}
                 component={CustomSelect}
                 placeholder={"Select option(s)"}
@@ -146,7 +146,7 @@ const FieldTimezones: React.FC = () => {
             <label htmlFor="timezoneOffsets">What timezone are you based in?</label>
             <Field
                 name="timezoneOffsets"
-                className="form-block__field"
+                className="c-dropdown form-block__field"
                 options={timezones}
                 component={CustomSelect}
                 placeholder={"Select option(s)"}

@@ -13,15 +13,14 @@ const sortDir: CustomSelectOption[] = [
     {label: "Highest to Lowest", value: "desc"}
 ]
 
-export const SortingOptions: React.FC<{
-}> = ({}) => {
+export const SortingOptions: React.FC = ({}) => {
     return (
-        <div className="sm:inline-block">
+        <div className="c-sorting-options">
             Sort
-            <span className="sm:inline-flex mx-2">
+            <span className="mx-2">
                 <Field
                     name="sortBy"
-                    className="form-block__field"
+                    className="c-dropdown w-auto form-block__field"
                     options={sortBy}
                     component={CustomSelect}
                     placeholder={"Select option(s)"}
@@ -29,10 +28,10 @@ export const SortingOptions: React.FC<{
                 />
             </span>
             by
-            <span className="sm:inline-flex mx-2">
+            <span className="mx-2">
                 <Field
                     name="sortDir"
-                    className="form-block__field"
+                    className="c-dropdown w-auto form-block__field"
                     options={sortDir}
                     component={CustomSelect}
                     placeholder={"Select option(s)"}
