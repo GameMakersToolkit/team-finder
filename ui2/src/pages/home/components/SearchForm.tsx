@@ -24,6 +24,7 @@ export const SearchForm: React.FC<{
                     <input
                         type="text"
                         className="form-block__field w-full"
+                        style={{lineHeight: 2.4}}
                         name="description"
                         onChange={handleChange}
                         onBlur={handleBlur}
