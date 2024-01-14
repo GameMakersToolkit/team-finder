@@ -1,6 +1,4 @@
-import {importMetaEnv} from "../common/utils/importMeta";
-
-const LOGIN_URL = `${importMetaEnv().VITE_API_URL}/login`;
+const LOGIN_URL = `${import.meta.env.VITE_API_URL}/login`;
 
 export const LOCAL_STORAGE_RETURN_AUTH_PATH_KEY = "auth_redirect_path";
 

@@ -5,7 +5,6 @@ import {useEffect, useState} from "react";
 import {PostTile} from "../../common/components/PostTile.tsx";
 import {Onboarding} from "./components/Onboarding.tsx";
 import {SiteIntro} from "./components/SiteIntro.tsx";
-import {importMetaEnv} from "../../common/utils/importMeta.ts";
 import {useAuth} from "../../api/AuthContext.tsx";
 import {Post} from "../../common/models/post.ts";
 
@@ -20,7 +19,7 @@ export const Home: React.FC = () => {
         const path = searchParams.get('bookmarked') === "true" ? "posts/favourites" : "posts"
         searchParams.delete('bookmarked')
 
-        const url = new URL(path + "?" + searchParams.toString(), importMetaEnv().VITE_API_URL)
+        const url = new URL(path + "?" + searchParams.toString(), import.meta.env.VITE_API_URL)
         const init: RequestInit = {method: "GET", headers: {"Content-Type": "application/json"}}
 
         if (token) {

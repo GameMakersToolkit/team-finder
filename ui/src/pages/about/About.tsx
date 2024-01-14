@@ -1,11 +1,10 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {importMetaEnv} from "../../common/utils/importMeta.ts";
 
-const discordGroupName = importMetaEnv().VITE_DISCORD_NAME;
-const discordGroupInviteUrl = importMetaEnv().VITE_DISCORD_INVITE_URL;
-const jamName = importMetaEnv().VITE_JAM_NAME;
-const jamUrl = importMetaEnv().VITE_JAM_URL;
+const discordGroupName = import.meta.env.VITE_DISCORD_NAME;
+const discordGroupInviteUrl = import.meta.env.VITE_DISCORD_INVITE_URL;
+const jamName = import.meta.env.VITE_JAM_NAME;
+const jamUrl = import.meta.env.VITE_JAM_URL;
 
 export const About: React.FC = () => {
     return (
