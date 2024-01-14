@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
                     <div className="flex-1 hidden sm:flex" />
 
                     <div className="flex justify-evenly gap-2">
-                        <Link to="/" className="block border border-theme-d-7 rounded-lg mr-2 sm:hidden">
+                        <Link to="/" className="block border border-white rounded-lg mr-2 sm:hidden">
                             <img src="/logos/header.png" width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
                         {isOnHomePage && <ToggleBookmarks />}
