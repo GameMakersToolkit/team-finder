@@ -6,7 +6,8 @@
         background-image: linear-gradient(rgb(4, 46, 98), rgb(0, 0, 0));
 
         #toggle-bookmark-button {
-            @apply mr-2 text-blue-300 leading-none py-2 px-2 hover:font-bold hover:text-white border border-blue-300 rounded-xl;
+            @apply text-blue-300 leading-none py-2 px-2 hover:font-bold hover:text-white border border-blue-300 rounded-lg;
+            width: 40px;
         }
 
         .header-text-link {
@@ -14,7 +15,7 @@
         }
 
         .header-button {
-            @apply rounded-lg border border-blue-300 text-blue-300 mr-4 px-5 py-1 hover:text-white;
+            @apply rounded-lg border border-blue-300 text-blue-300 hover:text-white;
         }
 
         #login-button {

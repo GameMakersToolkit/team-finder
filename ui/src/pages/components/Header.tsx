@@ -23,26 +23,26 @@ export const Header: React.FC = () => {
     return (
         <>
             <nav className="c-header">
-                <div className="flex flex-cols-2">
-                    <Link to="/">
-                        <img
-                            src="/logos/header.png"
-                            width="40"
-                            height="40"
-                            alt={"jamName" + " Team Finder logo"}
-                        />
-                    </Link>
+                <div className="sm:flex">
+                    <div className="hidden sm:flex">
+                        <Link to="/">
+                            <img src="/logos/header.png" width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
+                        </Link>
 
-                    <div className="flex items-center">
-                        <Link className="header-text-link" key={"Home"} to={"/"}>Home</Link>
-                        <Link className="header-text-link" key={"About"} to={"/about"}>About / How To Use</Link>
-                        {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={"/admin"}>Admin</Link>}
+                        <div className="flex items-center">
+                            <Link className="header-text-link" key={"Home"} to={"/"}>Home</Link>
+                            <Link className="header-text-link" key={"About"} to={"/about"}>About / How To Use</Link>
+                            {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={"/admin"}>Admin</Link>}
+                        </div>
                     </div>
 
                     {/* spacer */}
-                    <div className="flex-1" />
+                    <div className="flex-1 hidden sm:flex" />
 
-                    <div className="flex items-center">
+                    <div className="flex justify-evenly gap-2">
+                        <Link to="/" className="block border border-blue-300 rounded-lg mr-2 sm:hidden">
+                            <img src="/logos/header.png" width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
+                        </Link>
                         {isOnHomePage && <ToggleBookmarks />}
                         <MyPostButton />
                         <LoginLogout />
@@ -81,6 +81,7 @@ const ToggleBookmarks: React.FC = () => {
     return (
         <button
             id="toggle-bookmark-button"
+            className="header-button"
             onClick={() => bookmarkIconOnClick(!shouldLimitToFavourites)}
         >
             <img
@@ -102,13 +103,11 @@ const MyPostButton: React.FC = () => {
             className={`header-button ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
             to="/my-post"
         >
-            <img
-                src={myPostIcon}
-                alt={myPostQuery?.data ? "Edit post" : "Create post"}
-                className="inline-block"
-                style={{ width: "20px", height: "20px" }}
-            />
-            {myPostQuery?.data ? "Edit post" : "Create post"}
+            <div className="flex items-center h-full">
+                <img src={myPostIcon} alt={myPostQuery?.data ? "Edit post" : "Create post"} className="h-full inline-block ml-2 my-1 mr-2" style={{ width: "20px", height: "20px" }}/>
+                <span className="text-xs sm:text-sm mr-2 sm:mr-0 align-middle">{myPostQuery?.data ? "Edit" : "Create"}</span>
+                <span className="text-xs sm:text-sm hidden sm:inline align-middle sm:mr-2">&nbsp;post</span>
+            </div>
         </Link>
     )
 }
@@ -131,8 +130,8 @@ const LoginLogout: React.FC = () => {
     }
 
     return (
-        <p className="sm:mr-4 text-xs sm:text-base">
-            Welcome {userInfo.data?.username as string}!
+        <p className="sm:mr-4 text-right inline-grid sm:inline text-xs sm:text-sm">
+            <span className="sm:block ml-auto w-[min-content]">Welcome&nbsp;{userInfo.data?.username as string}!</span>
             <Link to="/logout" className="block sm:inline sm:ml-1 cursor-pointer hover:underline">
                 (Click here to logout)
             </Link>
