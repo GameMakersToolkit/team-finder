@@ -15,47 +15,10 @@
             @apply fill-gray-900;
         }
 
-        /* Whole input field */
-        .dropdown__control {
-
-            /* Placeholder text */
-            .dropdown__placeholder {
-            }
-
-            &:hover {
-                @apply border-theme-d-5;
-
-                /* Placeholder text */
-                .dropdown__placeholder {
-                }
-
-                /* Buttons on right hand side */
-                .dropdown__indicator {
-                }
-            }
+        .dropdown__option {
+            @apply flex items-center h-[48px] bg-theme-l-2;
         }
 
-        /* Buttons on right hand side */
-        .dropdown__indicator {
-        }
-
-        /* Placeholder text */
-        .dropdown__placeholder {
-        }
-
-        /* Placeholder text when dropdown open */
-        .dropdown__control--menu-is-open {
-            .dropdown__placeholder,   /* Placeholder text */
-            .dropdown__indicator {    /* Buttons on right hand side */
-            }
-        }
-
-        .dropdown__menu ,     /* Open dropdown menu itself */
-        .dropdown__option {   /* Open dropdown elements */
-            @apply bg-theme-l-2 rounded;
-        }
-
-        /* Open dropdown on hover of single item */
         .dropdown__option--is-focused {
             @apply bg-theme-l-5;
         }
@@ -69,7 +32,7 @@
         }
 
         .dropdown__multi-value__label {
-            @apply bg-theme text-white rounded m-0 p-1;
+            @apply flex gap-1 bg-theme text-white rounded m-0 p-1;
 
             /* Reset styling on images, which are in spans */
             & span {
