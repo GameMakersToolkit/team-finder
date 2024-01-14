@@ -18,7 +18,7 @@ export const Onboarding: React.FC = () => {
     if (!isLoggedIn) {
         return (
             <div className="c-onboarding-info-box">
-                <p className="text-black">
+                <p className="text-white">
                     <a onClick={login} className="font-bold underline">Login</a> to message posters, create a post and bookmark posts.
                 </p>
             </div>

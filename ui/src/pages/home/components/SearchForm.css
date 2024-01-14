@@ -7,7 +7,7 @@
         @apply bg-grey-50 border-2 border-grey-50 rounded-xl;
 
         &:hover {
-            @apply border-blue-600 text-blue-600;
+            @apply border-theme-l-5 text-theme-l-5;
         }
     }
 
@@ -17,6 +17,6 @@
     }
 
     #advanced-options-button {
-        @apply border rounded-xl border-blue-200 text-blue-200 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit;
+        @apply border rounded-xl border-theme-l-7 text-theme-l-7 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit;
     }
 }

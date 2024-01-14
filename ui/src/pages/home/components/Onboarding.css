@@ -1,5 +1,5 @@
 @layer components {
     .c-onboarding-info-box {
-        @apply bg-blue-100 rounded-xl mt-8 px-4 py-2 mb-8;
+        @apply bg-theme-d-8 rounded-xl mt-8 px-4 py-2 mb-8;
     }
 }

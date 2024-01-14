@@ -12,7 +12,7 @@ export const DiscordPingButton: React.FC<{
     return (
         <>
             <p className="mb-2">{message}</p>
-            <span className="mb-6 p-2 rounded inline-flex cursor-pointer rounded-xl border border-blue-200 text-blue-200">
+            <span className="mb-6 p-2 rounded inline-flex cursor-pointer rounded-xl border border-theme-l-7 text-theme-l-7">
                 <a
                     target="_blank"
                     rel="noreferrer"

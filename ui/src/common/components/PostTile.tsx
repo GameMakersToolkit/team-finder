@@ -27,18 +27,18 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                 </header>
 
                 <div className="post-tile__body">
-                    <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:theme(colors.blue-700)]"}/>
-                    <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:theme(colors.indigo)]"}/>
+                    <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:theme(colors.theme-l-6)]"}/>
+                    <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:theme(colors.theme-d-9)]"}/>
                     {getDescriptionParagraphs(post).map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
                 </div>
 
                 <div className="post-tile__footer">
                     <button className="button-link-container" style={{ maxHeight: "3em" }}>
                         <Link
-                            className="text-lg text-blue-200 font-bold"
+                            className="text-lg text-theme-l-7 font-bold"
                             to={`/${post.id}`}
                         >
-                            See more {iiicon("right-arrow", "#8ae7ff")}
+                            See more {iiicon("right-arrow", "#ff5762")}
                         </Link>
                     </button>
                 </div>
