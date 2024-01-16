@@ -79,7 +79,6 @@ fun Application.configureUserInfoRouting() {
                         accessToken = refreshedTokenSet.access_token
                     }
 
-                    // TODO: Risk of rate limiting from Discord
                     val user = getUserInfoAsync(accessToken)
 
                     val displayName = bot.getDisplayNameForUser(user.id)
