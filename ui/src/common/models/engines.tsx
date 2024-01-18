@@ -38,6 +38,10 @@ export const tools: CustomSelectOption[] = [
         value: "PICO_8",
         label: (<>{getOptionsListIcon("PICO_8", "tool")} PICO-8</>),
     },
+    {
+        value: "OTHER",
+        label: (<>{getOptionsListIcon("UNKNOWN", "tool")} Other/Not listed</>),
+    },
 ];
 
 

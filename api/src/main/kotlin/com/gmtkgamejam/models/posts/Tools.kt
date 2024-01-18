@@ -10,5 +10,6 @@ enum class Tools {
     BITSY,
     UNREAL,
     RPG_MAKER,
-    PICO_8
+    PICO_8,
+    OTHER,
 }
