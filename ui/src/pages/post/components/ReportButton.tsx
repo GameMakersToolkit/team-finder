@@ -3,6 +3,7 @@ import {Post} from "../../../common/models/post.ts";
 import {useAuth} from "../../../api/AuthContext.tsx";
 import {useReportPostMutation} from "../../../api/post.ts";
 import {toast} from "react-hot-toast";
+import {login} from "../../../api/login.ts";
 
 export const ReportButton: React.FC<{ post: Post }> = ({
     post
@@ -31,6 +32,14 @@ export const ReportButton: React.FC<{ post: Post }> = ({
         if (value == null || value == "") return false;
         const data: Array<string> = JSON.parse(value);
         return data.includes(post.id)
+    }
+
+    if (!auth) {
+        return (
+            <div className="">
+                <a className="font-bold underline cursor-pointer" onClick={login}><span>&#9873;</span> Log in to report posts for spam or abuse</a>
+            </div>
+        )
     }
 
     return (
