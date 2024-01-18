@@ -40,9 +40,10 @@ export const Home: React.FC = () => {
             <SiteIntro />
             <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
-            <div className="c-post-tiles">
-                {posts.length && posts.map(post => <PostTile key={post.id} post={post} />)}
-            </div>
+            {posts?.length > 0
+                ? (<div className="c-post-tiles">{posts.map(post => <PostTile key={post.id} post={post} />)}</div>)
+                : (<h2 className="text-xl text-center">Please wait...</h2>)
+            }
         </main>
     )
 }
