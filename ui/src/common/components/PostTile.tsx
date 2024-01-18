@@ -29,7 +29,7 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                 <div className="post-tile__body">
                     <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:theme(colors.theme-l-6)]"}/>
                     <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:theme(colors.theme-d-9)]"}/>
-                    {getDescriptionParagraphs(post).map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
+                    {getDescriptionParagraphs(post).map((line, idx) => <p dir="auto" key={idx} className="mb-2">{line}</p>)}
                 </div>
 
                 <div className="post-tile__footer">
@@ -48,7 +48,7 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
 }
 
 const getDescriptionParagraphs = (post: Post) => {
-    const description = post.description.length > 210 ? post.description.substring(0, 207) + "..." : post.description
+    const description = post.description.length > 270 ? post.description.substring(0, 267) + "..." : post.description
     const numberOfParasToDisplay = 4
     const descriptionParagraphs = description.split("\n").splice(0, numberOfParasToDisplay)
     if (description.split("\n").length > numberOfParasToDisplay) {
