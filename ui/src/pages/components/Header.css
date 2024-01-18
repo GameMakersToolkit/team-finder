@@ -1,0 +1,24 @@
+@layer components {
+    .c-header {
+        @apply p-2 mb-4;
+        height: 64px;
+        margin: 0 auto;
+        background-image: linear-gradient(rgb(4, 46, 98), rgb(0, 0, 0));
+
+        #toggle-bookmark-button {
+            @apply mr-2 text-blue-300 leading-none py-2 px-2 hover:font-bold hover:text-white border border-blue-300 rounded-xl;
+        }
+
+        .header-text-link {
+            @apply mr-2 text-blue-300 leading-none py-2 px-2 hover:font-bold hover:text-white;
+        }
+
+        .header-button {
+            @apply rounded-lg border border-blue-300 text-blue-300 mr-4 px-5 py-1 hover:text-white;
+        }
+
+        #login-button {
+            @apply font-bold bg-blue-300 text-black;
+        }
+    }
+}

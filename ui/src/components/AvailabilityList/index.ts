@@ -1,1 +1,0 @@
-export { AvailabilityList } from "./AvailabilityList";

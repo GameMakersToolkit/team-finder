@@ -1,9 +1,10 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-const colors = require("tailwindcss/colors");
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.tsx", "index.html"],
   theme: {
+    // TODO: Strip this down again
     extend: {
       borderWidth: {
         5: "5px",

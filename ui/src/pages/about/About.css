@@ -1,0 +1,18 @@
+@layer components {
+    h1 {
+        @apply text-3xl text-center mb-6;
+    }
+
+
+    .c-question {
+        @apply flex-[1_1_100%] sm:flex-[1_1_100%] md:flex-[1_1_40%] lg:flex-[1_1_40%] xl:flex-[1_1_30%] rounded-xl sm:w-[50%] bg-grey-500 py-4 px-4 mb-6;
+
+        & h2 {
+            @apply text-2xl text-center mb-6 pb-2 border-b-2;
+        }
+
+        & p {
+            @apply mb-4;
+        }
+    }
+}

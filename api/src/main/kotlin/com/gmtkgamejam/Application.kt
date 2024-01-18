@@ -36,6 +36,7 @@ fun Application.configureRequestHandling() {
         json(Json {
             prettyPrint = true
             isLenient = true
+            ignoreUnknownKeys = true
         })
     }
 

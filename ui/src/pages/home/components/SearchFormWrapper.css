@@ -1,0 +1,9 @@
+@layer components {
+    .c-form {
+        @apply rounded-xl bg-grey-500 py-4 px-4;
+
+        & label {
+            @apply text-white text-left block mt-4;
+        }
+    }
+}
