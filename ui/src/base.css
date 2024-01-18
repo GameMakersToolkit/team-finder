@@ -33,7 +33,8 @@
         height: 16px;
     }
 
-    .post-tile__header svg {
+    .post-tile__header svg,
+    .post__header svg {
         width: 38px;
         height: auto;
     }
