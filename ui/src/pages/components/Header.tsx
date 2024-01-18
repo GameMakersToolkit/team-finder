@@ -73,7 +73,7 @@ const ToggleBookmarks: React.FC = () => {
         // Using 'null' instead of 'false' will delete the key and automatically toggle
         // apiRequest() from /posts to /favourites and back again
         setSearchParams(params => {
-            params.set("bookmarked", favourites ? "true" : "")
+            favourites ? params.set("bookmarked", "true") : params.delete("bookmarked")
             return params
         })
     }
