@@ -24,8 +24,7 @@ export const Post: React.FC<{}> = () => {
     const [post, setPost] = useState<PostModel>()
 
     useEffect(() => {
-        console.log(`http://localhost:8080/posts/${postId}`)
-        fetch(`http://localhost:8080/posts/${postId}`)
+        fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}`)
             .then(res => res.json())
             .then(setPost)
     }, [])
