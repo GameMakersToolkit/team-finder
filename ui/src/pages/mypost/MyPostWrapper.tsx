@@ -30,22 +30,26 @@ export const MyPostWrapper: React.FC = () => {
     const initialValues: Post = post ? {...post, timezoneOffsets: post?.timezoneOffsets.map(i => i.toString())} : defaultFormValues
 
     const onValidateForm = (values: Post) => {
-        const errors = []
+        const errors = {}
         // @ts-ignore
-        if (!values.description) errors.push("A description is required")
+        if (!values.description) errors.description = "A description is required"
+        // @ts-ignore
+        if (values.skillsSought.length == 0 && values.skillsPossessed.length == 0) errors.skills = "Please add some skills you have and/or are looking for"
+
+        // Toast all errors in validation
+        if (Object.keys(errors).length > 0) {
+            Object.entries(errors).map(error => toast.error(error[1] as string))
+        }
 
         return errors
     }
 
-    const onSubmitForm = (values: any) => {
-        const errors = onValidateForm(values)
-        if (errors.length > 0) {
-            errors.map(error => toast.error(error))
-            return
-        }
-
+    const onSubmitForm = (values: any, setSubmitting: (a: boolean) => void) => {
+        toast.dismiss()
         save(values)
-        console.log(values)
+        setTimeout(() => {
+            setSubmitting(false)
+        }, 800)
     }
 
     const onSubmitSuccess = () => {
@@ -72,7 +76,10 @@ export const MyPostWrapper: React.FC = () => {
             <div className="c-form bg-black">
                 <Formik
                     initialValues={ initialValues }
-                    onSubmit={ onSubmitForm }
+                    validate={ onValidateForm }
+                    validateOnChange={false}
+                    validateOnBlur={false}
+                    onSubmit={ (values, { setSubmitting }) => onSubmitForm(values, setSubmitting) }
                 >
                     {(params: FormikProps<Post>) => (
                         <>
@@ -80,7 +87,8 @@ export const MyPostWrapper: React.FC = () => {
                             <MyPost params={params}
                                     author={userInfo.data!.username as string}
                                     authorId={userInfo.data!.userId as string}
-                                    hasPost={Boolean(post)} />
+                                    hasPost={Boolean(post)}
+                            />
                         </>
                     )}
                 </Formik>

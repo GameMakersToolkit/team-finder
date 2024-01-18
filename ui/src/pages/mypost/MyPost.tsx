@@ -20,7 +20,7 @@ export const MyPost: React.FC<{
     hasPost
 }) => {
 
-    const {values, submitForm} = params;
+    const {values, submitForm, isSubmitting} = params;
 
     return (
         <Form>
@@ -48,11 +48,11 @@ export const MyPost: React.FC<{
                 className="mt-4 bg-theme-d-7 rounded-xl w-full sm:w-full md:w-auto md:float-right"
                 type="button"
                 variant="primary"
-                disabled={false}
+                disabled={isSubmitting}
                 style={{color: "white"}}
                 onClick={submitForm}
             >
-                {`${hasPost ? "Update" : "Create"} Post`}
+                {isSubmitting ? "Please wait..." : `${hasPost ? "Update" : "Create"} Post`}
             </Button>
         </Form>
     )
