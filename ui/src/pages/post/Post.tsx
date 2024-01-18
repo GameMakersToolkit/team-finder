@@ -16,6 +16,7 @@ import {ReportButton} from "./components/ReportButton.tsx";
 import {ReportBrokenDMsButton} from "./components/ReportBrokenDMsButton.tsx";
 import {FavouritePostIndicator} from "../../common/components/FavouritePostIndicator.tsx";
 import {iiicon} from "../../common/utils/iiicon.tsx";
+import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
 
 export const Post: React.FC<{}> = () => {
 
@@ -124,15 +125,23 @@ const MessageOnDiscordButton: React.FC<{
     const userInfo = useUserInfo();
     const canPostAuthorBeDMd = unableToContactCount < 5; // Arbitrary number
 
-    const userShouldSeePingButton = isLoggedIn && !userInfo.isLoading;
-    const userCanPingAuthor = userInfo.data?.isInDiscordServer;
+    const userIsLoggedIn = isLoggedIn && !userInfo.isLoading;
+    const inDiscordServer = userInfo.data?.isInDiscordServer;
 
     const createBotDmMutation = useCreateBotDmMutation();
 
     const fallbackPingMessage = canPostAuthorBeDMd ? "Message button not working?" : "This post's author cannot receive direct messages"
 
+    if (userIsLoggedIn && !inDiscordServer) {
+        return (
+            <div className="text-center">
+                <JoinDiscordButton />
+            </div>
+        )
+    }
+
     {/* If the user isn't logged in, don't display any ping message; it just looks kinda bad */}
-    if (!userShouldSeePingButton) {
+    if (!userIsLoggedIn) {
         return (
             <div className="text-center">
                 {canPostAuthorBeDMd && <DiscordMessageButton authorId={authorId} author={author} isLoggedIn={isLoggedIn} />}
@@ -144,9 +153,16 @@ const MessageOnDiscordButton: React.FC<{
         <div className="text-center">
             {canPostAuthorBeDMd && <DiscordMessageButton authorId={authorId} author={author} isLoggedIn={isLoggedIn} />}
 
-            {userCanPingAuthor
+            {inDiscordServer
                 ? <DiscordPingButton authorId={authorId} createBotDmMutation={createBotDmMutation} message={fallbackPingMessage} />
-                : <p>Sorry, you can&apos;t contact this user right now.<br />Please make sure you&apos;ve joined the discord server!</p>
+                : <>
+                    <p>Sorry, you can&apos;t contact this user right now.</p>
+                    <p>
+                        <a target="_blank" rel="noreferrer" href={import.meta.env.VITE_DISCORD_INVITE_URL} className="underline text-sm">
+                            {`Please make sure you've joined the discord server!`}
+                        </a>
+                    </p>
+                </>
             }
         </div>
     );

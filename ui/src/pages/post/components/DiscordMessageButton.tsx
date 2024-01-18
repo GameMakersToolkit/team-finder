@@ -21,6 +21,6 @@ export const DiscordMessageButton: React.FC<{
             >
                 Message {author} on Discord{' '} {!isLoggedIn && <>(Log in to continue)</>}
             </a>
-    </span >
+        </span >
     );
 };
