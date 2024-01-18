@@ -15,14 +15,13 @@ export const About: React.FC = () => {
                 <div className="c-question">
                     <h2>What is the Team Finder?</h2>
                     <p>
-                        Welcome to the Team Finder! You can use this website to find other game jam participants to team
-                        up
-                        with
-                        for the game jam! Browse the post list or make a post of your own!
+                        Welcome to the Team Finder!
+                        You can use this website to find other game jam participants to team up with
+                        for the game jam. Browse the post list or make a post of your own!
                     </p>
 
                     <p>
-                        <span className="italic">This is not run by Mark Brown!</span>{" "}
+                        <span className="italic">This is not run by Mark Brown.</span>{" "}
                         Mark gave his blessing for us to use his shiny logos and branding,
                         but other than that Mark isn&#39;t directly involved in the
                         development of this website.
