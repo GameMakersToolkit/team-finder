@@ -48,12 +48,16 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
 }
 
 const getDescriptionParagraphs = (post: Post) => {
-    const description = post.description.length > 270 ? post.description.substring(0, 267) + "..." : post.description
-    const numberOfParasToDisplay = 4
-    const descriptionParagraphs = description.split("\n").splice(0, numberOfParasToDisplay)
-    if (description.split("\n").length > numberOfParasToDisplay) {
-        descriptionParagraphs.push("...")
-    }
+    const maxNumberOfCharsToDisplay = 270;
+    const maxNumberOfParasToDisplay = 4;
 
-    return descriptionParagraphs
+    const newlineNormalisedDescription = post.description.replaceAll(/\n+/g, "\n")
+    const description = newlineNormalisedDescription.length > maxNumberOfCharsToDisplay
+        ? newlineNormalisedDescription.substring(0, maxNumberOfCharsToDisplay - 3) + "..."
+        : newlineNormalisedDescription
+
+    return description
+        .split("\n")
+        .filter(para => para.trim().length > 0)
+        .splice(0, maxNumberOfParasToDisplay)
 }
