@@ -24,6 +24,22 @@ interface CustomSelectProps extends FieldProps {
     placeholder?: string;
 }
 
+const styles = {
+    // @ts-ignore
+    control: styles => ({
+        ...styles,
+        borderRadius: '0.75rem',
+        borderColor: '#ffffff'
+    }),
+    // @ts-ignore
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+        return {
+            ...styles,
+            color: '#DD0',
+        };
+    },
+};
+
 export const CustomSelect = ({
      className,
      placeholder,
@@ -54,12 +70,14 @@ export const CustomSelect = ({
     return (
         <Select
             className={className}
+            classNamePrefix="dropdown"
             name={field.name}
             value={getValue()}
             onChange={onChange}
             placeholder={placeholder}
             options={options}
             isMulti={isMulti}
+            styles={styles}
         />
     );
 };

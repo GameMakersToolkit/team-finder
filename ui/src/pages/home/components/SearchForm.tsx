@@ -65,8 +65,8 @@ export const SearchForm: React.FC<{
 
                         <button id="advanced-options-button" onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}>
                             {showAdvancedSearchOptions
-                                ? <>Fewer options {iiicon('up-arrow', "#FFFFFF", 16, 16)}</>
-                                : <>More options {iiicon('down-arrow', "#FFFFFF", 16, 16)}</>
+                                ? <>Fewer options {iiicon('up-arrow', "#ff5762", 16, 16)}</>
+                                : <>More options {iiicon('down-arrow', "#ff5762", 16, 16)}</>
                             }
                         </button>
                     </div>

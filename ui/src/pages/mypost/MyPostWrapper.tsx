@@ -93,11 +93,10 @@ export const MyPostWrapper: React.FC = () => {
 const DeletePostButton: React.FC<{postId: string, onClickHandler: any}> = ({onClickHandler}) => {
     return (
         <Button
-            className="mt-4 bg-red-700 rounded-xl w-full sm:w-full md:w-auto md:left"
+            className="mt-4 bg-white text-black rounded-xl w-full sm:w-full md:w-auto md:left"
             type="submit"
             variant="default"
             disabled={false}
-            style={{color: "white"}}
             onClick={onClickHandler}
         >
             Delete Post

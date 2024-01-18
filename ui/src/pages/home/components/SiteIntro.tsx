@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { importMetaEnv } from "../../../common/utils/importMeta.ts";
 
-const jamName = importMetaEnv().VITE_JAM_NAME;
-const jamStartDate = new Date(importMetaEnv().VITE_JAM_START);
+const jamName = import.meta.env.VITE_JAM_NAME;
+const jamStartDate = new Date(import.meta.env.VITE_JAM_START);
 
 // Set the date we're counting down to
 export const SiteIntro = () => {

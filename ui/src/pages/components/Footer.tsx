@@ -2,9 +2,8 @@ import React from "react";
 import discordIcon from "../../assets/icons/social/discord.svg";
 import gmtkIcon from "../../assets/icons/social/gmtk-letter-logo.png";
 import youtubeIcon from "../../assets/icons/social/youtube.svg";
-import {importMetaEnv} from "../../common/utils/importMeta.ts";
 
-const jamUrl = importMetaEnv().VITE_JAM_URL;
+const jamUrl = import.meta.env.VITE_JAM_URL;
 
 const Footer: React.FC = () => {
     const footerImages = [

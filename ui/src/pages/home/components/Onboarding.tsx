@@ -1,11 +1,10 @@
 import React from "react";
-import {importMetaEnv} from "../../../common/utils/importMeta.ts";
 import {useAuth} from "../../../api/AuthContext.tsx";
 import {useUserInfo} from "../../../api/userInfo.ts";
 import {login} from "../../../api/login.ts";
 
-const discordGroupName = importMetaEnv().VITE_DISCORD_NAME;
-const discordGroupInviteUrl = importMetaEnv().VITE_DISCORD_INVITE_URL;
+const discordGroupName = import.meta.env.VITE_DISCORD_NAME;
+const discordGroupInviteUrl = import.meta.env.VITE_DISCORD_INVITE_URL;
 
 export const Onboarding: React.FC = () => {
     const isLoggedIn = Boolean(useAuth());
@@ -19,7 +18,7 @@ export const Onboarding: React.FC = () => {
     if (!isLoggedIn) {
         return (
             <div className="c-onboarding-info-box">
-                <p className="text-black">
+                <p className="text-white">
                     <a onClick={login} className="font-bold underline">Login</a> to message posters, create a post and bookmark posts.
                 </p>
             </div>

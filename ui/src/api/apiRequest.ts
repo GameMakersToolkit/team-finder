@@ -58,7 +58,7 @@ export async function apiRequest<T>(
     options["body"] = JSON.stringify(apiRequestOptions.body);
   }
 
-  const res = await fetch(`${importMetaEnv().VITE_API_URL}${path}`, options);
+  const res = await fetch(`${import.meta.env.VITE_API_URL}${path}`, options);
   if (!res.ok) {
     if (res.status === 401) {
       dependencies.logout();

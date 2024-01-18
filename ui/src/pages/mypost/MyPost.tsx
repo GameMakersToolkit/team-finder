@@ -45,7 +45,7 @@ export const MyPost: React.FC<{
             </div>
 
             <Button
-                className="mt-4 bg-blue-700 rounded-xl w-full sm:w-full md:w-auto md:float-right"
+                className="mt-4 bg-theme-d-7 rounded-xl w-full sm:w-full md:w-auto md:float-right"
                 type="button"
                 variant="primary"
                 disabled={false}
@@ -68,7 +68,7 @@ const FieldDescription: React.FC<{description: string}> = ({description}) => {
             <small className="block mb-2">{2000 - description.length} characters remaining</small>
             <Field
                 name="description"
-                className="form-block__field block w-full text-black hover:text-black"
+                className="form-block__field block w-full text-black hover:text-black py-1 px-2"
                 component="textarea"
                 style={{height: 150}}
             />

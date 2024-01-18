@@ -1,6 +1,6 @@
 @layer components {
     .c-dropdown {
-        @apply sm:inline-block w-full;
+        @apply sm:inline-block w-full border-theme-d-4;
 
         & div {
             @apply text-gray-900;
@@ -15,54 +15,33 @@
             @apply fill-gray-900;
         }
 
-        /* Whole input field */
-        .react-select__control {
+        .dropdown__option {
+            @apply flex items-center h-[48px] bg-theme-l-2;
+        }
 
-            /* Placeholder text */
-            .react-select__placeholder {
+        .dropdown__option--is-focused {
+            @apply bg-theme-l-5;
+        }
+
+        .dropdown__multi-value {
+            @apply bg-theme text-white rounded mr-1 mb-1;
+
+            & path {
+                @apply fill-white;
             }
+        }
 
-            &:hover {
-                @apply border-blue-600 text-blue-600;
+        .dropdown__multi-value__label {
+            @apply flex gap-1 bg-theme text-white rounded m-0 p-1;
 
-                /* Placeholder text */
-                .react-select__placeholder {
+            /* Reset styling on images, which are in spans */
+            & span {
+                @apply m-0 p-0 h-full align-middle;
+
+                & path {
+                    @apply fill-white;
                 }
-
-                /* Buttons on right hand side */
-                .react-select__indicator {
-                }
             }
-        }
-
-        /* Buttons on right hand side */
-        .react-select__indicator {
-        }
-
-        /* Placeholder text */
-        .react-select__placeholder {
-        }
-
-        /* Placeholder text when dropdown open */
-        .react-select__control--menu-is-open {
-            .react-select__placeholder,   /* Placeholder text */
-            .react-select__indicator {    /* Buttons on right hand side */
-            }
-        }
-
-        .react-select__menu ,     /* Open dropdown menu itself */
-        .react-select__option {   /* Open dropdown elements */
-            @apply bg-grey-200 rounded;
-        }
-
-        /* Open dropdown on hover of single item */
-        .react-select__option--is-focused {
-            @apply bg-fuchsia-50;
-        }
-
-        .react-select__multi-value,           /* 'X' button of element in input after selection */
-        .react-select__multi-value__label {   /* Icon/text of element in input after selection */
-            @apply bg-blue-700 text-white rounded;
         }
     }
 }

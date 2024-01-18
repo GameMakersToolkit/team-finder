@@ -62,8 +62,8 @@ export const Post: React.FC<{}> = () => {
                     <div className="post__body">
                         <div className="flex flex-col sm:flex-row">
                             <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
-                                <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:theme(colors.blue-700)]"}/>
-                                <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:theme(colors.indigo)]"}/>
+                                <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:theme(colors.theme-l-6)]"}/>
+                                <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:theme(colors.theme-d-9)]"}/>
                             </div>
                             <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
                                 <OptionsListDisplay optionsToDisplay={post.preferredTools} totalOptions={tools} label={"Preferred Engine(s):"} className={"[--skill-color:theme(colors.green-300)]"}/>
