@@ -1,9 +1,9 @@
 @layer components {
     .c-header {
         @apply p-2 mb-4;
-        height: 64px;
-        margin: 0 auto;
-        background-image: linear-gradient(#db0a15, #000000);
+        height: 96px;
+        margin: 0 auto -32px 0;
+        background-image: linear-gradient(#88151b, #000000);
 
         #toggle-bookmark-button {
             @apply leading-none py-2 px-2 hover:font-bold hover:text-white border border-white rounded-lg;

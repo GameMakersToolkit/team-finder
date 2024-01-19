@@ -1,7 +1,10 @@
 @layer components {
     .c-footer {
         @apply absolute bottom-0 w-full h-[64px] flex justify-center items-center;
-        background-image: linear-gradient(0deg, #db0a15, #000000);
+        padding-top: 32px;
+        height: 96px;
+        margin: -32px auto 0 auto;
+        background-image: linear-gradient(#000000, #88151b);
 
         .footer__icon {
             @apply px-4 h-[24px] border-r-2 border-theme-l-7 last:border-0;
