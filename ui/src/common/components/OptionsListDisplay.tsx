@@ -11,6 +11,9 @@ export const OptionsListDisplay: React.FC<{
         return null;
     }
 
+    // Ensure consistency in display order
+    optionsToDisplay.sort()
+
     return (
         <dl className={"c-options-list-display " + className}>
             <dt className="c-options-list-display__label">{label}</dt>
