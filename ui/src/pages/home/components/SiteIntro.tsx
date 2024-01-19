@@ -9,7 +9,7 @@ export const SiteIntro = () => {
       <div className="mb-8 sm:mb-8">
           <img
               className="m-auto mb-2"
-              src="/logos/full.png"
+              src="/logos/jam-logo.webp"
               width={"300px"}
               alt={jamName + " Team Finder logo"}
           />
