@@ -11,13 +11,12 @@ export const DiscordMessageButton: React.FC<{
     isLoggedIn,
 }) => {
     return (
-        <span className="mb-6 px-6 py-2 border-theme-l-7 bg-theme-l-7 rounded-xl text-grey-900 font-bold inline-flex cursor-pointer">
+        <span className="post__footer--contact-button">
             <a
                 target="_blank"
                 rel="noreferrer"
                 href={isLoggedIn ? `https://discord.com/users/${authorId}` : undefined}
                 onClick={!isLoggedIn ? login : undefined}
-                className="text-sm"
             >
                 Message {author} on Discord{' '} {!isLoggedIn && <>(Log in to continue)</>}
             </a>
