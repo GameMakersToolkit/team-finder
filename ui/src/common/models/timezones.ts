@@ -1,6 +1,11 @@
 import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
 
 export const timezones: CustomSelectOption[] = [
+    // Disgusting hack to allow an isMulti=false CustomSelect to reset back to a 'placeholder'
+    {
+        value: undefined,
+        label: "Select option(s)"
+    },
     {
         value: "-12",
         label: "UTC-12: US Minor Outlying Islands",

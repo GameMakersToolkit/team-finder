@@ -1,18 +1,38 @@
-// TODO: Fill out, consider what I'm doing here; just stuff to get in query string?
 export type SearchParameters = {
-    // Primary search term
-    description?: string;
-    //
-    skillsPossessed?: string;
-    skillsSought?: string;
-    languages?: string;
-    tools?: string;
-    timezones?: string;
+    description: string;
+    skillsPossessed: string[];
+    skillsSought: string[];
+    tools: string[];
+    languages: string[];
+    timezoneStart: string | undefined;
+    timezoneEnd: string | undefined;
+    sortBy: string;
+    sortDir: string;
+}
 
+export const blankSearchParameters: SearchParameters = {
+    description: "",
+    skillsPossessed: [],
+    skillsSought: [],
+    tools: [],
+    languages: [],
+    timezoneStart: undefined,
+    timezoneEnd: undefined,
+    sortBy: "",
+    sortDir: "",
 }
 
 export const searchParametersFromQueryString = (queryParams: URLSearchParams): SearchParameters => {
     return {
-        description: queryParams.get("description") || "",
+        ...blankSearchParameters,
+        description: queryParams.get("description"),
+        skillsPossessed: queryParams.get('skillsPossessed')?.split(","),
+        skillsSought: queryParams.get('skillsSought')?.split(","),
+        tools: queryParams.get('tools')?.split(","),
+        languages: queryParams.get('languages')?.split(","),
+        timezoneStart: queryParams.get("timezoneStart"),
+        timezoneEnd: queryParams.get("timezoneEnd"),
+        sortBy: queryParams.get('sortBy'),
+        sortDir: queryParams.get('sortDir'),
     } as SearchParameters
 }

@@ -255,13 +255,14 @@ fun getFilterFromParameters(params: Parameters): List<Bson> {
         ?.let { filters.add(or(it)) }
 
     // If no timezones sent, lack of filters will search all timezones
-    val timezoneRange = params["timezones"]?.split('/')
-    if (timezoneRange != null && timezoneRange.size == 2) {
-        val timezoneStart: Int = timezoneRange[0].toInt()
-        val timezoneEnd: Int = timezoneRange[1].toInt()
+    if (params["timezoneStart"] != null && params["timezoneEnd"] != null) {
+        val timezoneStart: Int = params["timezoneStart"]!!.toInt()
+        val timezoneEnd: Int = params["timezoneEnd"]!!.toInt()
 
         val timezones: MutableList<Int> = mutableListOf()
-        if (timezoneStart < timezoneEnd) {
+        if (timezoneStart == timezoneEnd) {
+            timezones.add(timezoneStart)
+        } else if (timezoneStart < timezoneEnd) {
             // UTC-2 -> UTC+2 should be: [-2, -1, 0, 1, 2]
             timezones.addAll((timezoneStart..timezoneEnd))
         } else {

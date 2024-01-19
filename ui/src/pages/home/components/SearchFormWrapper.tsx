@@ -14,16 +14,16 @@ export const SearchFormWrapper: React.FC<{
     const initialFormValues: SearchParameters = searchParametersFromQueryString(searchParams)
 
     const onSubmitForm = (values: any) => {
-        const formattedValues: SearchParameters = removeEmpty({
-            description: values['description'] || null,
-            skillsPossessed: values['skillsPossessed']?.join(","),
-            skillsSought: values['skillsSought']?.join(","),
-            languages: values['languages']?.join(","),
-            tools: values['tools']?.join(","),
-            timezones: values['earliestTimezone'] && values['latestTimezone'] ? values['earliestTimezone'] + " " + values['latestTimezone'] : null,
-            sortBy: values['sortBy'],
-            sortDir: values['sortDir'],
-        })
+        // Remove the empty fields, so we don't clutter up the query string with &a=&b=...
+        const formattedValues: Partial<SearchParameters> = removeEmpty(values)
+
+        // If we only have one timezone flag set, don't send either in query string
+        if (!values['timezoneStart'] || !values['timezoneEnd']) {
+            delete formattedValues.timezoneStart
+            delete formattedValues.timezoneEnd
+        }
+
+        // @ts-ignore
         setSearchParams(formattedValues)
     }
 

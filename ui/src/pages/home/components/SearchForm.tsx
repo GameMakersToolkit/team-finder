@@ -9,6 +9,7 @@ import {timezones} from "../../../common/models/timezones.ts";
 import {useState} from "react";
 import {SortingOptions} from "./SortingOptions.tsx";
 import {iiicon} from "../../../common/utils/iiicon.tsx";
+import {blankSearchParameters} from "../models/SearchParameters.ts";
 
 export const SearchForm: React.FC<{
     params: FormikSearchFormParameters
@@ -59,11 +60,19 @@ export const SearchForm: React.FC<{
                     </div>
 
                     <div className="text-center">
-                        <button id="clear-search-button" onClick={() => {params.resetForm()}}>
+                        <button
+                            id="clear-search-button"
+                            onClick={() => {params.resetForm({values: blankSearchParameters})}}
+                            type="button"
+                        >
                             Clear Search
                         </button>
 
-                        <button id="advanced-options-button" onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}>
+                        <button
+                            id="advanced-options-button"
+                            onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+                            type="button"
+                        >
                             {showAdvancedSearchOptions
                                 ? <>Fewer options {iiicon('up-arrow', "#ff5762", 16, 16)}</>
                                 : <>More options {iiicon('down-arrow', "#ff5762", 16, 16)}</>
@@ -109,25 +118,25 @@ const AdvancedOptions = () => {
                 />
             </div>
             <div>
-                <label htmlFor="earliestTimezone">Earliest Timezone:</label>
+                <label htmlFor="timezoneStart">Earliest Timezone:</label>
                 <Field
-                    name="earliestTimezone"
+                    name="timezoneStart"
                     className="c-dropdown form-block__field"
                     options={timezones}
                     component={CustomSelect}
                     placeholder={"Select option(s)"}
-                    isMulti={true}
+                    isMulti={false}
                 />
             </div>
             <div>
-                <label htmlFor="latestTimezone">Latest Timezone:</label>
+                <label htmlFor="timezoneEnd">Latest Timezone:</label>
                 <Field
-                    name="latestTimezone"
+                    name="timezoneEnd"
                     className="c-dropdown form-block__field"
                     options={timezones}
                     component={CustomSelect}
                     placeholder={"Select option(s)"}
-                    isMulti={true}
+                    isMulti={false}
                 />
             </div>
         </div>
