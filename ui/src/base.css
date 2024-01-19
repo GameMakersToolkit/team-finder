@@ -9,8 +9,9 @@
     }
 
     body {
-        background: #000000;
         color: #ffffff;
+        background: url("/background-image.jpeg");
+        background-size: 100%;
     }
 
     /* Styling to keep the footer at the bottom of page/content as appropriate */
