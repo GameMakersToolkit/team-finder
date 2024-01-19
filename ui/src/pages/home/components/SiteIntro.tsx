@@ -7,18 +7,22 @@ const jamStartDate = new Date(import.meta.env.VITE_JAM_START);
 export const SiteIntro = () => {
   return (
       <div className="mb-8 sm:mb-8">
-          <div className="inline-block w-full sm:w-1/2 pb-8">
-            <img
-              className="m-auto pt-8 px-16 pb-4"
+          <img
+              className="m-auto mb-2"
               src="/logos/full.png"
               width={"300px"}
               alt={jamName + " Team Finder logo"}
-            />
-            <p className="text-center">{`Welcome to the ${jamName} Team Finder!`}</p>
-            <p className="text-center">Create a post or search below to find a team.</p>
-          </div>
-          <div className="inline-block w-full sm:w-1/2 text-center">
-            <CountdownSection />
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2">
+              <div className="flex flex-col justify-center mb-4 sm:m-0">
+                  <p className="text-center">{`Welcome to the ${jamName} Team Finder!`}</p>
+                  <p className="text-center">Create a post or search below to find a team.</p>
+              </div>
+
+              <div className="text-center">
+                  <CountdownSection />
+              </div>
           </div>
       </div>
   );
@@ -49,19 +53,13 @@ const CountdownSection = () => {
 
   return (
       <>
-      <div className="bg-red-600 border-red-600 border-2 rounded-xl inline-block p-3">
-          {countdown.days > 0 && <span className="text-4xl mr-8">{`${countdown.days.toString().padStart(2, '0')}`}</span>}
-          {(countdown.days > 0 || countdown.hours > 0) && <span className="text-4xl mr-8">{`${countdown.hours.toString().padStart(2, '0')}`}</span>}
-          {(countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0) && <span className="text-4xl mr-8">{`${countdown.minutes.toString().padStart(2, '0')} `}</span>}
-          <span className="text-4xl">{`${countdown.seconds.toString().padStart(2, '0')} `}</span>
+      <p className="text-center mb-2">The jam starts in:</p>
+      <div className="flex justify-evenly bg-red-600 border-red-600 border-2 rounded-xl mx-4 px-2 py-3 text-4xl">
+          {countdown.days > 0 && <><span>{`${countdown.days.toString().padStart(2, '0')}`}</span><span>:</span></>}
+          {(countdown.days > 0 || countdown.hours > 0) && <><span>{`${countdown.hours.toString().padStart(2, '0')}`}</span><span>:</span></>}
+          {(countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0) && <><span>{`${countdown.minutes.toString().padStart(2, '0')} `}</span><span>:</span></>}
+          <span>{`${countdown.seconds.toString().padStart(2, '0')} `}</span>
       </div>
-      <p className="text-center py-3">
-        {countdown.days > 0 && <span className="mr-4 font-bold text-xl">Days</span>}
-        {(countdown.days > 0 || countdown.hours > 0) && <span className="mr-4 font-bold text-xl">Hours</span>}
-        {(countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0) && <span className="mr-4 font-bold text-xl">Minutes</span>}
-        <span className=" font-bold text-xl">Seconds</span>
-      </p>
-      <p className="text-center">Left until the jam starts!</p>
     </>
   )
 }
