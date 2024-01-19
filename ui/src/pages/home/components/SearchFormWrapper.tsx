@@ -8,7 +8,7 @@ import debounce from "just-debounce-it";
 
 export const SearchFormWrapper: React.FC<{
     searchParams: URLSearchParams,
-    setSearchParams: (value: SearchParameters) => void
+    setSearchParams: (value: any) => void
 }> = ({searchParams, setSearchParams}) => {
 
     const initialFormValues: SearchParameters = searchParametersFromQueryString(searchParams)
