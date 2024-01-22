@@ -23,10 +23,10 @@ export const Header: React.FC = () => {
     return (
         <>
             <nav className="c-header">
-                <div className="sm:flex">
+                <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
                         <Link to="/">
-                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
+                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={"jamName" + " Team Finder logo"} className="header-text-link"/>
                         </Link>
 
                         <div className="flex items-center">
@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
                     <div className="flex-1 hidden sm:flex" />
 
                     <div className="flex justify-evenly gap-2">
-                        <Link to="/" className="block border border-white rounded-lg mr-2 sm:hidden">
+                        <Link to="/" className="bg-theme-d-4 block border border-white rounded-lg mr-2 sm:hidden">
                             <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
                         {isOnHomePage && <ToggleBookmarks />}
@@ -105,8 +105,10 @@ const MyPostButton: React.FC = () => {
         >
             <div className="flex items-center h-full">
                 <img src={myPostIcon} alt={myPostQuery?.data ? "Edit post" : "Create post"} className="h-full inline-block ml-2 my-1 mr-2" style={{ width: "20px", height: "20px" }}/>
-                <span className="text-xs sm:text-sm mr-2 sm:mr-0 align-middle">{myPostQuery?.data ? "Edit" : "Create"}</span>
-                <span className="text-xs sm:text-sm hidden sm:inline align-middle sm:mr-2">&nbsp;post</span>
+                <span className="hover:font-bold align-middle">
+                    <span className="text-xs sm:text-sm mr-2 sm:mr-0">{myPostQuery?.data ? "Edit" : "Create"}</span>
+                    <span className="text-xs sm:text-sm hidden sm:inline sm:mr-2">&nbsp;post</span>
+                </span>
             </div>
         </Link>
     )
