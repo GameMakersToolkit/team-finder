@@ -45,6 +45,8 @@ export const MyPost: React.FC<{
                 <FieldTeamSize />
             </div>
 
+            <FieldAvailability currentAvailability={values.availability} />
+
             <Button
                 className="mt-4 bg-theme-d-7 rounded-xl w-full sm:w-full md:w-auto md:float-right"
                 type="button"
@@ -55,6 +57,8 @@ export const MyPost: React.FC<{
             >
                 {isSubmitting ? "Please wait..." : `${hasPost ? "Update" : "Create"} Post`}
             </Button>
+            {/* Quick workaround to stop Create Post button falling off bottom of form, until we replace float-right */}
+            <div className="clear-both">&nbsp;</div>
         </Form>
     )
 }
@@ -183,6 +187,34 @@ const FieldTeamSize: React.FC = () => {
             <span className="text-xs">
                 (Including you!)
             </span>
+        </div>
+    )
+}
+
+const FieldAvailability: React.FC<{currentAvailability: string}> = ({currentAvailability}) => {
+
+    const availabilityOptions: CustomSelectOption[] = [
+        {label: "Not sure/haven't decided", value: "UNSURE"},
+        {label: "A few hours over the whole jam", value: "MINIMAL"},
+        {label: "Less than 4 hours per day", value: "PART_TIME"},
+        {label: "4-8 hours per day", value: "FULL_TIME"},
+        {label: "As much time as I can", value: "OVERTIME"}
+    ];
+
+    return (
+        <div className="c-form-block bg-black w-full grid-cols-1">
+            <div id="availability-radio-group">Availability</div>
+            <div role="group" aria-labelledby="availability-radio-group">
+                {availabilityOptions.map(option => (
+                    <label
+                        key={option.value}
+                        className={`form-block__availability ${option.value == currentAvailability ? "bg-theme" : "bg-theme-d-4 hover:bg-theme-d-7"}`}
+                    >
+                        <Field type="radio" name="availability" value={option.value} />
+                        {option.label}
+                    </label>
+                ))}
+            </div>
         </div>
     )
 }

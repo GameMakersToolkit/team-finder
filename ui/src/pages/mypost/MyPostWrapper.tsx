@@ -16,8 +16,8 @@ const defaultFormValues: Post = {
     skillsSought: [],
     languages: ["en"],
     preferredTools: [],
-    availability: "MINIMAL", //allAvailabilities[0],
-    timezoneOffsets: ["1"] // ["UTC+0"] as TimezoneOffset[],
+    availability: "UNSURE",
+    timezoneOffsets: ["1"],
 }
 
 export const MyPostWrapper: React.FC = () => {
