@@ -3,6 +3,11 @@ package com.gmtkgamejam.models.posts
 enum class Availability {
 
     /**
+     * Haven't decided/don't know yet
+     */
+    UNSURE,
+
+    /**
      * A few hours over the whole jam
      */
     MINIMAL,
