@@ -14,7 +14,7 @@ export type ValueType<OptionType> = OptionType | OptionsType<OptionType> | null 
 
 export interface CustomSelectOption {
     label: ReactNode;
-    value: string | undefined;
+    value: string | number | undefined;
 }
 
 interface CustomSelectProps extends FieldProps {

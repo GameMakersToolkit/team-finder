@@ -2,7 +2,7 @@ import React from "react";
 import {Button} from "../../common/components/Button.tsx";
 import {Field, Form, FormikProps} from "formik";
 import {skills} from "../../common/models/skills.tsx";
-import CustomSelect from "../home/components/common/CustomSelect.tsx";
+import CustomSelect, {CustomSelectOption} from "../home/components/common/CustomSelect.tsx";
 import {languages} from "../../common/models/languages.ts";
 import {tools} from "../../common/models/engines.tsx";
 import {timezones} from "../../common/models/timezones.ts";
@@ -42,6 +42,7 @@ export const MyPost: React.FC<{
 
             <div className="c-form-block bg-black">
                 <FieldTimezones />
+                <FieldTeamSize />
             </div>
 
             <Button
@@ -155,6 +156,32 @@ const FieldTimezones: React.FC = () => {
 
             <span className="text-xs">
                 Timezone is an optional way for other participants to find people who will be awake/online at roughly the same of day.
+            </span>
+        </div>
+    )
+}
+
+const FieldTeamSize: React.FC = () => {
+
+    const teamSizes: CustomSelectOption[] = []
+    for (let i = 1; i <= 20; i++) {
+        teamSizes.push({label: i, value: i});
+    }
+
+    return (
+        <div>
+            <label htmlFor="size">How many people are in your team/group?</label>
+            <Field
+                name="size"
+                className="c-dropdown form-block__field"
+                options={teamSizes}
+                component={CustomSelect}
+                placeholder={"Select option(s)"}
+                isMulti={false}
+            />
+
+            <span className="text-xs">
+                (Including you!)
             </span>
         </div>
     )
