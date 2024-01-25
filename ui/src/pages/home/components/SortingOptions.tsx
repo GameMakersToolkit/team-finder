@@ -15,8 +15,8 @@ const sortDir: CustomSelectOption[] = [
 
 export const SortingOptions: React.FC = ({}) => {
     return (
-        <div className="c-sorting-options">
-            Sort
+        <div className="c-sorting-options grid grid-cols-2 grid-cols-[min-content_1fr] gap-2 items-center sm:block">
+            <span>Sort</span>
             <span className="mx-2">
                 <Field
                     name="sortBy"
@@ -27,7 +27,7 @@ export const SortingOptions: React.FC = ({}) => {
                     isMulti={false}
                 />
             </span>
-            by
+            <span>by</span>
             <span className="mx-2">
                 <Field
                     name="sortDir"
