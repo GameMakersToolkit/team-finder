@@ -26,11 +26,10 @@ export const Header: React.FC = () => {
                 <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
                         <Link to="/">
-                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={"jamName" + " Team Finder logo"} className="header-text-link"/>
+                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black border border-white rounded-lg mr-2 hover:scale-125"/>
                         </Link>
 
                         <div className="flex items-center">
-                            <Link className="header-text-link" key={"Home"} to={"/"}>Home</Link>
                             <Link className="header-text-link" key={"About"} to={"/about"}>About / How To Use</Link>
                             {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={"/admin"}>Admin</Link>}
                         </div>

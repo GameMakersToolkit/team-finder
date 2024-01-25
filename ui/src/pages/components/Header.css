@@ -11,7 +11,7 @@
         }
 
         .header-text-link {
-            @apply bg-theme-d-4 border border-white rounded-lg text-white leading-none h-full flex items-center py-1 px-2 mr-2 hover:font-bold hover:text-white;
+            @apply text-white leading-none h-full flex items-center py-1 px-2 mr-2 hover:font-bold hover:text-white;
         }
 
         .header-button {
