@@ -26,7 +26,7 @@ export const AppRoutes: React.FC = () => {
             <Header />
             <div style={{
                 width: '100%',
-                height: '4rem',
+                padding: '1rem',
                 backgroundColor: '#FFA726',
                 border: '3px solid black',
                 color: "black",
