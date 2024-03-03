@@ -24,6 +24,17 @@ export const AppRoutes: React.FC = () => {
         <BrowserRouter>
             <ReactQuerySiteWrapper>
             <Header />
+            <div style={{
+                width: '100%',
+                height: '4rem',
+                backgroundColor: '#FFA726',
+                border: '3px solid black',
+                color: "black",
+                fontSize: '2rem',
+                textAlign: 'center',
+            }}>
+                The team finder is in development mode, please come back later!
+            </div>
 
             <Routes>
                 <Route path="/" element={<Home/>}/>
