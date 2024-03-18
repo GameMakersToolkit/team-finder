@@ -1,5 +1,6 @@
 export interface Post {
   id: string;
+  jamId: string;
   author: string;
   authorId: string;
   description: string;

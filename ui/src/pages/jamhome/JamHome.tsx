@@ -1,6 +1,6 @@
 import * as React from "react";
 import {SearchFormWrapper} from "./components/SearchFormWrapper.tsx";
-import {useSearchParams} from "react-router-dom";
+import {useParams, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {PostTile} from "../../common/components/PostTile.tsx";
 import {Onboarding} from "./components/Onboarding.tsx";
@@ -12,6 +12,8 @@ export const JamHome: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [posts, setPosts] = useState<Post[]>([]);
     const [isViewingBookmarks, setIsViewingBookmarks] = useState<boolean>(searchParams.get('bookmarked') === "true");
+
+    const { jamId } = useParams()
     const { token } = useAuth() ?? {};
 
     // Trigger API call every time query string changes
@@ -21,6 +23,7 @@ export const JamHome: React.FC = () => {
         const path = isOnlyBookmarked ? "posts/favourites" : "posts"
         setIsViewingBookmarks(isOnlyBookmarked)
         searchParams.delete('bookmarked')
+        searchParams.set("jamId", jamId!! || "any")
 
         const url = new URL(path + "?" + searchParams.toString(), import.meta.env.VITE_API_URL)
         const init: RequestInit = {method: "GET", headers: {"Content-Type": "application/json"}}

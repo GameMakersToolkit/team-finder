@@ -43,9 +43,9 @@ export const AppRoutes: React.FC = () => {
                 <Route path="/login/authorized" element={<Callback/>}/>
                 <Route path="/logout" element={<Logout/>}/>
 
-                <Route path=":jamId/" element={<JamHome/>}/>
-                <Route path=":jamId/:postId" element={<Post/>}/>
-                <Route path=":jamId/my-post" element={<MyPostWrapper/>}/>
+                <Route path="/:jamId" element={<JamHome/>}/>
+                <Route path="/:jamId/:postId" element={<Post/>}/>
+                <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
 
                 {/* TODO: replace with a proper Not Found page */}
                 <Route path="*" element={<p>u wot m8</p>}/>

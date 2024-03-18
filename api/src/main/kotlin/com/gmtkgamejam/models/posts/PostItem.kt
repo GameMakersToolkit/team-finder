@@ -10,6 +10,7 @@ import kotlin.math.abs
 @Serializable
 data class PostItem (
     val id: String,
+    val jamId: String,
 
     var author: String,
     var authorId: String,
@@ -26,11 +27,11 @@ data class PostItem (
     var languages: Set<String>,
 
     // Reported by the flag icon for inappropriate content
-    var reportCount: Int, 
-    
+    var reportCount: Int,
+
     // Optional flag for users to report the linked profile as
     // unabled to be contacted by discord CTA
-    var unableToContactCount: Int, 
+    var unableToContactCount: Int,
 
     // Managed by DB
     val createdAt: String,
@@ -44,6 +45,7 @@ data class PostItem (
             val currentDatetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             return PostItem(
                 abs(ThreadLocalRandom.current().nextLong()).toString(), // We need to handle as string, otherwise we lose precision in JS
+                dto.jamId,
                 dto.author,
                 dto.authorId,
                 dto.description.take(2000),

@@ -214,6 +214,8 @@ fun Application.configurePostRouting() {
 fun getFilterFromParameters(params: Parameters): List<Bson> {
     val filters = mutableListOf(PostItem::deletedAt eq null)
 
+    params["jamId"]?.also { filters.add(PostItem::jamId eq it) }
+
     params["description"]?.split(',')
         ?.filter(String::isNotBlank) // Filter out empty `&description=`
         ?.map { it -> it.trim() }

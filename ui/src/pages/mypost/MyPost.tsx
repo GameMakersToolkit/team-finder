@@ -10,11 +10,13 @@ import {Post} from "../../common/models/post.ts";
 
 export const MyPost: React.FC<{
     params: FormikProps<Post>,
+    jamId: string,
     author: string,
     authorId: string,
     hasPost: boolean
 }> = ({
     params,
+    jamId,
     author,
     authorId,
     hasPost
@@ -27,6 +29,7 @@ export const MyPost: React.FC<{
             <FieldDescription description={values.description} />
 
             {/* This is jank, improve this later with a look up on submit */}
+            <Field name="jamId" value={jamId} type="hidden" />
             <Field name="author" value={author} type="hidden" />
             <Field name="authorId" value={authorId} type="hidden" />
 

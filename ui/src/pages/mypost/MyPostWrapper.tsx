@@ -7,9 +7,11 @@ import {useDeleteMyPostMutation, useMyPostMutation, useMyPostQuery} from "../../
 import {Button} from "../../common/components/Button.tsx";
 import {useEnsureLoggedIn} from "../../api/ensureLoggedIn.ts";
 import {useUserInfo} from "../../api/userInfo.ts";
+import {useParams} from "react-router-dom";
 
 // @ts-ignore
 const defaultFormValues: Post = {
+    jamId: "",
     description: "",
     size: 1,
     skillsPossessed: [],
@@ -26,6 +28,9 @@ export const MyPostWrapper: React.FC = () => {
     const userInfo = useUserInfo();
     const myPostQuery = useMyPostQuery();
     const post = myPostQuery?.data as Post;
+
+    const { jamId } = useParams()
+    defaultFormValues.jamId = jamId!!;
 
     const initialValues: Post = post ? {...post, timezoneOffsets: post?.timezoneOffsets.map(i => i.toString())} : defaultFormValues
 
@@ -85,6 +90,7 @@ export const MyPostWrapper: React.FC = () => {
                         <>
                             <h1 className="text-3xl my-4">Create New Post</h1>
                             <MyPost params={params}
+                                    jamId={jamId!!}
                                     author={userInfo.data!.username as string}
                                     authorId={userInfo.data!.userId as string}
                                     hasPost={Boolean(post)}

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {Link, useMatch, useNavigate, useSearchParams} from "react-router-dom";
 import {useUserInfo} from "../../api/userInfo.ts";
 import {login} from "../../api/login.ts";
 // Probably a better way to manage these
@@ -94,13 +94,15 @@ const ToggleBookmarks: React.FC = () => {
 }
 
 const MyPostButton: React.FC = () => {
+    const jamId = useMatch("/:jamId/:postId?")?.params.jamId;
+
     const userInfo = useUserInfo();
     const myPostQuery = useMyPostQuery();
 
     return (
         <Link
             className={`header-button ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
-            to="/my-post"
+            to={`${jamId}/my-post`}
         >
             <div className="flex items-center h-full">
                 <img src={myPostIcon} alt={myPostQuery?.data ? "Edit post" : "Create post"} className="h-full inline-block ml-2 my-1 mr-2" style={{ width: "20px", height: "20px" }}/>
