@@ -1,5 +1,5 @@
 import * as React from "react";
-import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
+import {CustomSelectOption} from "../../pages/jamhome/components/common/CustomSelect.tsx";
 
 export const OptionsListDisplay: React.FC<{
     optionsToDisplay: string[];

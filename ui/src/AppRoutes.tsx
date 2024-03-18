@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
-import { Home } from "./pages/home/Home";
+import { JamHome } from "./pages/jamhome/JamHome.tsx";
 import {Header} from "./pages/components/Header.tsx";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {AuthContextProvider} from "./api/AuthContext.tsx";
@@ -10,6 +10,7 @@ import {Post} from "./pages/post/Post.tsx";
 import {Logout} from "./pages/logout/Logout.tsx";
 import Footer from "./pages/components/Footer.tsx";
 import {About} from "./pages/about/About.tsx";
+import {Index} from "./pages/index/Index.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -37,12 +38,14 @@ export const AppRoutes: React.FC = () => {
             </div>
 
             <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/:postId" element={<Post/>}/>
+                <Route path="/" element={<Index/>}/>
                 <Route path="/about" element={<About/>}/>
-                <Route path="/my-post" element={<MyPostWrapper/>}/>
                 <Route path="/login/authorized" element={<Callback/>}/>
                 <Route path="/logout" element={<Logout/>}/>
+
+                <Route path=":jamId/" element={<JamHome/>}/>
+                <Route path=":jamId/:postId" element={<Post/>}/>
+                <Route path=":jamId/my-post" element={<MyPostWrapper/>}/>
 
                 {/* TODO: replace with a proper Not Found page */}
                 <Route path="*" element={<p>u wot m8</p>}/>

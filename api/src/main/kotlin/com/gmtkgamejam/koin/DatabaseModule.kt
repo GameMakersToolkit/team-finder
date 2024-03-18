@@ -1,10 +1,7 @@
 package com.gmtkgamejam.koin
 
 import com.gmtkgamejam.Config
-import com.gmtkgamejam.repositories.AdminRepository
-import com.gmtkgamejam.repositories.AdminRepositoryImpl
-import com.gmtkgamejam.repositories.FavouritesRepository
-import com.gmtkgamejam.repositories.FavouritesRepositoryImpl
+import com.gmtkgamejam.repositories.*
 import org.koin.dsl.module
 import org.litote.kmongo.KMongo
 
@@ -15,4 +12,5 @@ val DatabaseModule = module(createdAtStart = true) {
     }
     single<AdminRepository> { AdminRepositoryImpl(get()) }
     single<FavouritesRepository> { FavouritesRepositoryImpl(get()) }
+    single<JamRepository> { JamRepositoryImpl(get()) }
 }

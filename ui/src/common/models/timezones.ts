@@ -1,4 +1,4 @@
-import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
+import {CustomSelectOption} from "../../pages/jamhome/components/common/CustomSelect.tsx";
 
 export const timezones: CustomSelectOption[] = [
     // Disgusting hack to allow an isMulti=false CustomSelect to reset back to a 'placeholder'

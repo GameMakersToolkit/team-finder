@@ -2,7 +2,7 @@ import React from "react";
 import {Button} from "../../common/components/Button.tsx";
 import {Field, Form, FormikProps} from "formik";
 import {skills} from "../../common/models/skills.tsx";
-import CustomSelect, {CustomSelectOption} from "../home/components/common/CustomSelect.tsx";
+import CustomSelect, {CustomSelectOption} from "../jamhome/components/common/CustomSelect.tsx";
 import {languages} from "../../common/models/languages.ts";
 import {tools} from "../../common/models/engines.tsx";
 import {timezones} from "../../common/models/timezones.ts";

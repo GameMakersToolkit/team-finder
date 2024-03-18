@@ -16,10 +16,10 @@
 
 @import url(./pages/about/About.css);
 
-@import url(./pages/home/Home.css);
-@import url(./pages/home/components/Onboarding.css);
-@import url(./pages/home/components/SearchFormWrapper.css);
-@import url(./pages/home/components/SearchForm.css);
+@import url(pages/jamhome/JamHome.css);
+@import url(pages/jamhome/components/Onboarding.css);
+@import url(pages/jamhome/components/SearchFormWrapper.css);
+@import url(pages/jamhome/components/SearchForm.css);
 
 @import url(./pages/mypost/MyPostWrapper.css);
 @import url(./pages/mypost/MyPost.css);

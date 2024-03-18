@@ -8,7 +8,7 @@ import {SiteIntro} from "./components/SiteIntro.tsx";
 import {useAuth} from "../../api/AuthContext.tsx";
 import {Post} from "../../common/models/post.ts";
 
-export const Home: React.FC = () => {
+export const JamHome: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [posts, setPosts] = useState<Post[]>([]);
     const [isViewingBookmarks, setIsViewingBookmarks] = useState<boolean>(searchParams.get('bookmarked') === "true");
