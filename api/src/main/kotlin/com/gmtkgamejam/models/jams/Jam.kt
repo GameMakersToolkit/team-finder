@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Jam(
-    val jamId: String
+    val jamId: String,
+    val styles: Map<String, String>,
 )

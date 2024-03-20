@@ -28,3 +28,10 @@
 
 /* Utilities */
 @import "tailwindcss/utilities";
+
+
+:root {
+    --gradient-start: #88151b;
+    --gradient-end: #000000;
+    --tile-secondary: theme('colors.grey-500');
+}

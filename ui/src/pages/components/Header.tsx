@@ -94,6 +94,7 @@ const ToggleBookmarks: React.FC = () => {
 }
 
 const MyPostButton: React.FC = () => {
+    // TODO: Get from storage somewhere
     const jamId = useMatch("/:jamId/:postId?")?.params.jamId;
 
     const userInfo = useUserInfo();

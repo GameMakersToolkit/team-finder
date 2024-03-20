@@ -11,6 +11,7 @@ import {Logout} from "./pages/logout/Logout.tsx";
 import Footer from "./pages/components/Footer.tsx";
 import {About} from "./pages/about/About.tsx";
 import {Index} from "./pages/index/Index.tsx";
+import {JamSpecificStyling} from "./common/components/JamSpecificStyling.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -21,9 +22,13 @@ const queryClient = new QueryClient({
 });
 
 export const AppRoutes: React.FC = () => {
+
+    // document.documentElement.style.setProperty('--tile-secondary', '#A0BE11')
+
     return (
         <BrowserRouter>
             <ReactQuerySiteWrapper>
+            <JamSpecificStyling />
             <Header />
             <div style={{
                 width: '100%',
