@@ -5,6 +5,8 @@
         "participants": 12345,
         "start": "2024-07-02T11:00:00Z",
         "duration": "2 days",
+        "logoLargeUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo.webp",
+        "logoStackedUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo-stacked.webp",
         "styles": {}
     },
     {
@@ -13,6 +15,23 @@
         "participants": 1,
         "start": "2024-07-01T11:00:00Z",
         "duration": "5 days",
-        "styles": {}
+        "logoLargeUrl": "https://cdn.britannica.com/70/234870-050-D4D024BB/Orange-colored-cat-yawns-displaying-teeth.jpg",
+        "logoStackedUrl": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSGfpQ3m-QWiXgCBJJbrcUFdNdWAhj7rcUqjeNUC6eKcXZDAtWm",
+        "styles": {
+            "--theme-primary": "#abd182",
+            "--theme-accent": "#fa9d62",
+            "--gradient-start": "#231b00",
+            "--gradient-end": "#a9a9a9",
+            "--skill-color-looking-for": "#037194",
+            "--skill-color-looking-for-text": "#b288af",
+            "--skill-color-possessed": "#294714",
+            "--skill-color-possessed-text": "#b2a003",
+            "--skill-color-engines": "#037194",
+            "--skill-color-engines-text": "#453adf",
+            "--skill-color-languages": "#037194",
+            "--skill-color-languages-text": "#0a022f",
+            "--skill-color-timezones": "#000293",
+            "--skill-color-timezones-text": "#afaa12"
+        }
     }
 ]

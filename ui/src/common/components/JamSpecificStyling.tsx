@@ -1,10 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {useMatch} from "react-router-dom";
 
 type Jam = {
-    jamId: String,
-    styles: Map<String, String>,
+    jamId: string,
+    logoLargeUrl: string,
+    logoStackedUrl: string,
+    styles: object,
 }
+
+export const JamSpecificThemeContext = createContext<Jam>({
+    jamId: "",
+    logoLargeUrl: "",
+    logoStackedUrl: "",
+    styles: {}
+})
 
 export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
     const jamId = useMatch("/:jamId/:postId?")?.params.jamId!!;
@@ -37,8 +46,8 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
     styles.map(style => document.documentElement.style.setProperty(style[0], style[1]))
 
     return (
-        <>
+        <JamSpecificThemeContext.Provider value={activeTheme!!}>
             {children}
-        </>
+        </JamSpecificThemeContext.Provider>
     )
 }

@@ -23,8 +23,6 @@ const queryClient = new QueryClient({
 
 export const AppRoutes: React.FC = () => {
 
-    // document.documentElement.style.setProperty('--tile-secondary', '#A0BE11')
-
     return (
         <BrowserRouter>
             <ReactQuerySiteWrapper>

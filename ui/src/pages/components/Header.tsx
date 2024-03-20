@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link, useMatch, useNavigate, useSearchParams} from "react-router-dom";
 import {useUserInfo} from "../../api/userInfo.ts";
 import {login} from "../../api/login.ts";
@@ -9,9 +9,11 @@ import myPostIcon from "../../assets/icons/posts/my-post.svg"
 import {toast} from "react-hot-toast";
 import {useMyPostQuery} from "../../api/myPost.ts";
 import {ReactSVG} from "react-svg";
+import {JamSpecificThemeContext} from "../../common/components/JamSpecificStyling.tsx";
 
 export const Header: React.FC = () => {
 
+    const theme = useContext(JamSpecificThemeContext)
     const navigate = useNavigate();
     const [isOnHomePage, setIsOnHomePage] = useState(window.location.pathname === "/");
     useEffect(() => {
@@ -27,7 +29,7 @@ export const Header: React.FC = () => {
                 <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
                         <Link to="/">
-                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black border border-white rounded-lg mr-2 hover:scale-125"/>
+                            <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black border border-white rounded-lg mr-2 hover:scale-125"/>
                         </Link>
 
                         <div className="flex items-center">
@@ -41,7 +43,7 @@ export const Header: React.FC = () => {
 
                     <div className="flex justify-evenly gap-2">
                         <Link to="/" className="bg-theme-d-4 block border border-white rounded-lg mr-2 sm:hidden">
-                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
+                            <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
                         {isOnHomePage && <ToggleBookmarks />}
                         <MyPostButton />

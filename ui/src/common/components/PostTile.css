@@ -1,6 +1,5 @@
 @layer components {
     .c-post-tile {
-        background-color: var(--tile-secondary);
         @apply border-2 border-neutral-900 rounded-xl p-4 flex flex-col gap-1 lg:min-h-[560px];
 
         .post-tile__header {

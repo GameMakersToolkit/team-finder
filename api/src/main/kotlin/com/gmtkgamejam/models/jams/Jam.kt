@@ -9,5 +9,7 @@ data class Jam(
     val participants: Int,
     val start: String,
     val duration: String,
+    val logoLargeUrl: String,
+    val logoStackedUrl: String,
     val styles: Map<String, String>,
 )
