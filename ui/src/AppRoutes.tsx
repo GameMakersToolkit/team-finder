@@ -28,35 +28,36 @@ export const AppRoutes: React.FC = () => {
     return (
         <BrowserRouter>
             <ReactQuerySiteWrapper>
-            <JamSpecificStyling />
-            <Header />
-            <div style={{
-                width: '100%',
-                padding: '1rem',
-                backgroundColor: '#FFA726',
-                border: '3px solid black',
-                color: "black",
-                fontSize: '2rem',
-                textAlign: 'center',
-            }}>
-                The team finder is in development mode, please come back later!
-            </div>
+            <JamSpecificStyling>
+                <Header />
+                <div style={{
+                    width: '100%',
+                    padding: '1rem',
+                    backgroundColor: '#FFA726',
+                    border: '3px solid black',
+                    color: "black",
+                    fontSize: '2rem',
+                    textAlign: 'center',
+                }}>
+                    The team finder is in development mode, please come back later!
+                </div>
 
-            <Routes>
-                <Route path="/" element={<Index/>}/>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/login/authorized" element={<Callback/>}/>
-                <Route path="/logout" element={<Logout/>}/>
+                <Routes>
+                    <Route path="/" element={<Index/>}/>
+                    <Route path="/about" element={<About/>}/>
+                    <Route path="/login/authorized" element={<Callback/>}/>
+                    <Route path="/logout" element={<Logout/>}/>
 
-                <Route path="/:jamId" element={<JamHome/>}/>
-                <Route path="/:jamId/:postId" element={<Post/>}/>
-                <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
+                    <Route path="/:jamId" element={<JamHome/>}/>
+                    <Route path="/:jamId/:postId" element={<Post/>}/>
+                    <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
 
-                {/* TODO: replace with a proper Not Found page */}
-                <Route path="*" element={<p>u wot m8</p>}/>
-            </Routes>
+                    {/* TODO: replace with a proper Not Found page */}
+                    <Route path="*" element={<p>u wot m8</p>}/>
+                </Routes>
 
-            <Footer />
+                <Footer />
+            </JamSpecificStyling>
 
             </ReactQuerySiteWrapper>
         </BrowserRouter>

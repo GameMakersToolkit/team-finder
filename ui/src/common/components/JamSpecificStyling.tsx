@@ -6,7 +6,7 @@ type Jam = {
     styles: Map<String, String>,
 }
 
-export const JamSpecificStyling: React.FC = () => {
+export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
     const jamId = useMatch("/:jamId/:postId?")?.params.jamId!!;
     const [activeTheme, setActiveTheme] = useState<Jam>()
 
@@ -15,19 +15,30 @@ export const JamSpecificStyling: React.FC = () => {
     useEffect(() => {
         if (!jamId) return
 
-        fetch(`${import.meta.env.VITE_API_URL}/jams`)
-            .then(res => res.json() as Promise<Jam[]>)
-            .then(s => s.find(x => x.jamId === jamId))
+        fetch(`${import.meta.env.VITE_API_URL}/jams/${jamId}`)
+            .then(async res => {
+                const data = await res.json()
+                if (res.ok) return data as Jam
+
+                return Promise.reject(data['message'])
+            })
             .then(jam => setActiveTheme(jam))
 
     }, [jamId])
 
-    if (!activeTheme) return
+    // If searching for a jam by ID and not finding it:
+    if (jamId && activeTheme == null) {
+        return (<>No jam of that ID could be found</>)
+    }
 
     localStorage.setItem(`theme_${jamId}`, JSON.stringify(activeTheme))
 
-    const styles = Object.entries(activeTheme['styles'])
+    const styles = Object.entries(activeTheme?.styles || {})
     styles.map(style => document.documentElement.style.setProperty(style[0], style[1]))
 
-    return (<></>)
+    return (
+        <>
+            {children}
+        </>
+    )
 }

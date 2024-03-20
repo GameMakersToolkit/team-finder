@@ -1,0 +1,18 @@
+[
+    {
+        "jamId": "gmtk",
+        "name": "GMTK Jam 2024",
+        "participants": 12345,
+        "start": "2024-07-02T11:00:00Z",
+        "duration": "2 days",
+        "styles": {}
+    },
+    {
+        "jamId": "test",
+        "name": "Dotwo's boring test jam",
+        "participants": 1,
+        "start": "2024-07-01T11:00:00Z",
+        "duration": "5 days",
+        "styles": {}
+    }
+]
