@@ -8,6 +8,7 @@ import favouriteNotSelectedIcon from "../../assets/icons/bookmark/unselected.svg
 import myPostIcon from "../../assets/icons/posts/my-post.svg"
 import {toast} from "react-hot-toast";
 import {useMyPostQuery} from "../../api/myPost.ts";
+import {ReactSVG} from "react-svg";
 
 export const Header: React.FC = () => {
 
@@ -106,7 +107,14 @@ const MyPostButton: React.FC = () => {
             to={`${jamId}/my-post`}
         >
             <div className="flex items-center h-full">
-                <img src={myPostIcon} alt={myPostQuery?.data ? "Edit post" : "Create post"} className="h-full inline-block ml-2 my-1 mr-2" style={{ width: "20px", height: "20px" }}/>
+                <ReactSVG
+                    src={myPostIcon}
+                    desc={myPostQuery?.data ? "Edit post" : "Create post"}
+                    className="svg-explicit-size h-full fill-[color:var(--theme-accent)] inline-block ml-2 my-1 mr-2"
+                    style={{ width: "20px", height: "20px" }}
+                    width={20}
+                    height={20}
+                />
                 <span className="hover:font-bold align-middle">
                     <span className="text-xs sm:text-sm mr-2 sm:mr-0">{myPostQuery?.data ? "Edit" : "Create"}</span>
                     <span className="text-xs sm:text-sm hidden sm:inline sm:mr-2">&nbsp;post</span>

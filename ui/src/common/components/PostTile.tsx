@@ -35,10 +35,10 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                 <div className="post-tile__footer">
                     <button className="button-link-container" style={{ maxHeight: "3em" }}>
                         <Link
-                            className="text-lg text-theme-l-7 font-bold"
+                            className="text-lg font-bold"
                             to={`${post.id}`}
                         >
-                            See more {iiicon("right-arrow", "#ff5762")}
+                            See more {iiicon("right-arrow", "var(--theme-accent)")}
                         </Link>
                     </button>
                 </div>

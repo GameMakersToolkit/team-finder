@@ -33,6 +33,7 @@
 :root {
     /* Global */
     --theme-primary: #db0a15;
+    --theme-accent: #ff5762;
 
     /* Header/Footer gradient */
     --gradient-start: #88151b;

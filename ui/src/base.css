@@ -37,15 +37,20 @@
     }
 
     /* Override to enforce ReactSVG icons are the right size */
-    svg {
+     svg {
         width: 16px;
         height: 16px;
         fill: unset; /* There's an error, but it does work somehow */
     }
 
+    .svg-explicit-size svg {
+        width: 100%!important;
+        height: 100%!important;
+    }
+
     .post-tile__header svg,
     .post__header svg {
-        width: 38px;
+        width: 32px;
         height: auto;
     }
 }
