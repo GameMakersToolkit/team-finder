@@ -15,7 +15,7 @@
     <g id="surface1">
         <g clip-path="url(#clip1)" clip-rule="nonzero">
             <g clip-path="url(#clip2)" clip-rule="nonzero">
-                <path fill="#FFFFFF" style=" stroke:none;fill-rule:nonzero;fill-opacity:1;"
+                <path style=" stroke:none;fill-rule:nonzero;fill-opacity:1;"
                       d="M 2.765625 3.71875 L 16.410156 3.71875 L 16.410156 15.203125 L 2.765625 15.203125 Z M 2.765625 3.71875 "/>
             </g>
         </g>

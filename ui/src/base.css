@@ -32,7 +32,7 @@
         padding-bottom: 88px
     }
 
-    div, p, span {
+    div, p {
         @apply text-white;
     }
 
@@ -40,6 +40,7 @@
     svg {
         width: 16px;
         height: 16px;
+        fill: unset; /* There's an error, but it does work somehow */
     }
 
     .post-tile__header svg,
