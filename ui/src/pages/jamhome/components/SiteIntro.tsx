@@ -1,12 +1,12 @@
 import {useContext, useEffect, useState} from "react";
-import {JamSpecificThemeContext} from "../../../common/components/JamSpecificStyling.tsx";
+import {JamSpecificContext} from "../../../common/components/JamSpecificStyling.tsx";
 
 const jamName = import.meta.env.VITE_JAM_NAME;
 const jamStartDate = new Date(import.meta.env.VITE_JAM_START);
 
 // Set the date we're counting down to
 export const SiteIntro = () => {
-    const theme = useContext(JamSpecificThemeContext)
+    const theme = useContext(JamSpecificContext)
 
     return (<div className="mb-8 sm:mb-8">
             <img

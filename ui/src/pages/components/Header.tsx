@@ -9,15 +9,17 @@ import myPostIcon from "../../assets/icons/posts/my-post.svg"
 import {toast} from "react-hot-toast";
 import {useMyPostQuery} from "../../api/myPost.ts";
 import {ReactSVG} from "react-svg";
-import {JamSpecificThemeContext} from "../../common/components/JamSpecificStyling.tsx";
+import {JamSpecificContext} from "../../common/components/JamSpecificStyling.tsx";
 
 export const Header: React.FC = () => {
 
-    const theme = useContext(JamSpecificThemeContext)
+    const theme = useContext(JamSpecificContext)
     const navigate = useNavigate();
-    const [isOnHomePage, setIsOnHomePage] = useState(window.location.pathname === "/");
+
+    const [isOnSearchPage, setIsOnSearchPage] = useState(window.location.pathname === `/${theme.jamId}`);
+
     useEffect(() => {
-        setIsOnHomePage(window.location.pathname === "/")
+        setIsOnSearchPage(window.location.pathname === `/${theme.jamId}`)
     }, [navigate]);
 
     const userInfo = useUserInfo();
@@ -45,7 +47,7 @@ export const Header: React.FC = () => {
                         <Link to="/" className="bg-theme-d-4 block border border-white rounded-lg mr-2 sm:hidden">
                             <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
-                        {isOnHomePage && <ToggleBookmarks />}
+                        {isOnSearchPage && <ToggleBookmarks />}
                         <MyPostButton />
                         <LoginLogout />
                     </div>
@@ -126,7 +128,7 @@ const MyPostButton: React.FC = () => {
 }
 
 const LoginLogout: React.FC = () => {
-    const theme = useContext(JamSpecificThemeContext)
+    const theme = useContext(JamSpecificContext)
     const userInfo = useUserInfo();
     const shouldDisplayLogin = !userInfo.data;
 

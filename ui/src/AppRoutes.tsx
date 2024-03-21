@@ -1,17 +1,14 @@
 import * as React from "react";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 import { JamHome } from "./pages/jamhome/JamHome.tsx";
-import {Header} from "./pages/components/Header.tsx";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {AuthContextProvider} from "./api/AuthContext.tsx";
 import {MyPostWrapper} from "./pages/mypost/MyPostWrapper.tsx";
 import {Callback} from "./pages/callback/Callback.tsx";
 import {Post} from "./pages/post/Post.tsx";
 import {Logout} from "./pages/logout/Logout.tsx";
-import Footer from "./pages/components/Footer.tsx";
 import {About} from "./pages/about/About.tsx";
 import {Index} from "./pages/index/Index.tsx";
-import {JamSpecificStyling} from "./common/components/JamSpecificStyling.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -26,36 +23,31 @@ export const AppRoutes: React.FC = () => {
     return (
         <BrowserRouter>
             <ReactQuerySiteWrapper>
-            <JamSpecificStyling>
-                <Header />
-                <div style={{
-                    width: '100%',
-                    padding: '1rem',
-                    backgroundColor: '#FFA726',
-                    border: '3px solid black',
-                    color: "black",
-                    fontSize: '2rem',
-                    textAlign: 'center',
-                }}>
-                    The team finder is in development mode, please come back later!
-                </div>
+            <div style={{
+                width: '100%',
+                padding: '1rem',
+                backgroundColor: '#FFA726',
+                border: '3px solid black',
+                color: "black",
+                fontSize: '2rem',
+                textAlign: 'center',
+            }}>
+                The team finder is in development mode, please come back later!
+            </div>
 
-                <Routes>
-                    <Route path="/" element={<Index/>}/>
-                    <Route path="/about" element={<About/>}/>
-                    <Route path="/login/authorized" element={<Callback/>}/>
-                    <Route path="/logout" element={<Logout/>}/>
+            <Routes>
+                <Route path="/" element={<Index/>}/>
+                <Route path="/about" element={<About/>}/>
+                <Route path="/login/authorized" element={<Callback/>}/>
+                <Route path="/logout" element={<Logout/>}/>
 
-                    <Route path="/:jamId" element={<JamHome/>}/>
-                    <Route path="/:jamId/:postId" element={<Post/>}/>
-                    <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
+                <Route path="/:jamId" element={<JamHome/>}/>
+                <Route path="/:jamId/:postId" element={<Post/>}/>
+                <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
 
-                    {/* TODO: replace with a proper Not Found page */}
-                    <Route path="*" element={<p>u wot m8</p>}/>
-                </Routes>
-
-                <Footer />
-            </JamSpecificStyling>
+                {/* TODO: replace with a proper Not Found page */}
+                <Route path="*" element={<p>u wot m8</p>}/>
+            </Routes>
 
             </ReactQuerySiteWrapper>
         </BrowserRouter>

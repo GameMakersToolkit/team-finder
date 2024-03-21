@@ -7,6 +7,7 @@ import {Onboarding} from "./components/Onboarding.tsx";
 import {SiteIntro} from "./components/SiteIntro.tsx";
 import {useAuth} from "../../api/AuthContext.tsx";
 import {Post} from "../../common/models/post.ts";
+import { JamSpecificStyling } from "../../common/components/JamSpecificStyling.tsx";
 
 export const JamHome: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -39,16 +40,18 @@ export const JamHome: React.FC = () => {
     }, [searchParams])
 
     return (
-        <main>
-            <Onboarding />
-            <SiteIntro />
-            <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
+        <JamSpecificStyling>
+            <main>
+                <Onboarding />
+                <SiteIntro />
+                <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
-            {posts?.length > 0
-                ? <PostsToDisplay posts={posts} />
-                : <NoPostsToDisplay isViewingBookmarks={isViewingBookmarks} />
-            }
-        </main>
+                {posts?.length > 0
+                    ? <PostsToDisplay posts={posts} />
+                    : <NoPostsToDisplay isViewingBookmarks={isViewingBookmarks} />
+                }
+            </main>
+        </JamSpecificStyling>
     )
 }
 

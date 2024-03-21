@@ -17,6 +17,7 @@ import {ReportBrokenDMsButton} from "./components/ReportBrokenDMsButton.tsx";
 import {FavouritePostIndicator} from "../../common/components/FavouritePostIndicator.tsx";
 import {iiicon} from "../../common/utils/iiicon.tsx";
 import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
+import {JamSpecificStyling} from "../../common/components/JamSpecificStyling.tsx";
 
 export const Post: React.FC<{}> = () => {
 
@@ -35,7 +36,7 @@ export const Post: React.FC<{}> = () => {
     }
 
     return (
-        <>
+        <JamSpecificStyling>
             <header className="container mx-auto px-4 pb-6 pt-4 text-xl">
                 <a className="text-grey-200 mr-2 cursor-pointer hover:underline" onClick={() => navigate(-1)}>Search results</a>
                 <span className="mr-2">{iiicon('right-arrow', "#FFFFFF", 16, 16)}</span>
@@ -100,7 +101,7 @@ export const Post: React.FC<{}> = () => {
                     </div>
                 </section>
             </main>
-        </>
+        </JamSpecificStyling>
     )
 }
 

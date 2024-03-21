@@ -1,5 +1,7 @@
 import React, {createContext, useEffect, useState} from "react";
-import {useMatch} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import {Header} from "../../pages/components/Header.tsx";
+import Footer from "../../pages/components/Footer.tsx";
 
 type Jam = {
     jamId: string,
@@ -9,28 +11,19 @@ type Jam = {
     expiry: number,
 }
 
-// Used on homepage etc. which don't have a theme
-const defaultThemeContext: Jam = {
-    jamId: "",
-    logoLargeUrl: "",
-    logoStackedUrl: "",
-    styles: {},
-    expiry: Date.now()
-}
-
-export const JamSpecificThemeContext = createContext<Jam>(defaultThemeContext)
+// TODO: How do you handle createContext properly?
+export const JamSpecificContext = createContext<Jam>(undefined!)
 
 export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
-    const jamId = useMatch("/:jamId/:postId?")?.params.jamId!!;
-    const [activeTheme, setActiveTheme] = useState<Jam>()
-    useEffect(() => {
-        if (!jamId) return
+    const { jamId } = useParams()
+    const [activeJam, setActiveJam] = useState<Jam>()
 
-        const cachedThemeStr = localStorage.getItem(`theme_${jamId}`)
-        if (cachedThemeStr) {
-            const cachedTheme = JSON.parse(cachedThemeStr) as Jam
-            if (cachedTheme.expiry > Date.now()) {
-                setActiveTheme(cachedTheme)
+    useEffect(() => {
+        const cachedJamStr = localStorage.getItem(`theme_${jamId}`)
+        if (cachedJamStr) {
+            const cachedJam = JSON.parse(cachedJamStr) as Jam
+            if (cachedJam.expiry > Date.now()) {
+                setActiveJam(cachedJam)
                 return
             }
         }
@@ -45,34 +38,24 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
 
                 return Promise.reject(data['message'])
             })
-            .then(jam => setActiveTheme(jam))
+            .then(jam => setActiveJam(jam))
 
     }, [jamId])
 
-    // Ignore theme handling for non-jam pages
-    // TODO: Fix this, it's just so so gross; should be fixed when a base site theme exists
-    console.log(window.location.pathname)
-    if (['/', '/about', '/login', '/login/authorized', '/logout'].includes(window.location.pathname)) {
-        return (
-            <JamSpecificThemeContext.Provider value={defaultThemeContext}>
-                {children}
-            </JamSpecificThemeContext.Provider>
-        )
-    }
-
-    // If searching for a jam by ID and not finding it:
-    if (jamId && activeTheme == null) {
+    if (activeJam == null) {
         return (<>No jam of that ID could be found</>)
     }
 
-    localStorage.setItem(`theme_${jamId}`, JSON.stringify(activeTheme))
+    localStorage.setItem(`theme_${jamId}`, JSON.stringify(activeJam))
 
-    const styles = Object.entries(activeTheme?.styles || {})
-    styles.map(style => document.documentElement.style.setProperty(style[0], style[1]))
+    // Set each CSS rule in the DB active on the page
+    Object.entries(activeJam.styles).map(style => document.documentElement.style.setProperty(style[0], style[1]))
 
     return (
-        <JamSpecificThemeContext.Provider value={activeTheme!!}>
+        <JamSpecificContext.Provider value={activeJam}>
+            <Header />
             {children}
-        </JamSpecificThemeContext.Provider>
+            <Footer />
+        </JamSpecificContext.Provider>
     )
 }
