@@ -9,18 +9,20 @@ type Jam = {
     expiry: number,
 }
 
-export const JamSpecificThemeContext = createContext<Jam>({
+// Used on homepage etc. which don't have a theme
+const defaultThemeContext: Jam = {
     jamId: "",
     logoLargeUrl: "",
     logoStackedUrl: "",
     styles: {},
     expiry: Date.now()
-})
+}
+
+export const JamSpecificThemeContext = createContext<Jam>(defaultThemeContext)
 
 export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
     const jamId = useMatch("/:jamId/:postId?")?.params.jamId!!;
     const [activeTheme, setActiveTheme] = useState<Jam>()
-
     useEffect(() => {
         if (!jamId) return
 
@@ -46,6 +48,17 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
             .then(jam => setActiveTheme(jam))
 
     }, [jamId])
+
+    // Ignore theme handling for non-jam pages
+    // TODO: Fix this, it's just so so gross; should be fixed when a base site theme exists
+    console.log(window.location.pathname)
+    if (['/', '/about', '/login', '/login/authorized', '/logout'].includes(window.location.pathname)) {
+        return (
+            <JamSpecificThemeContext.Provider value={defaultThemeContext}>
+                {children}
+            </JamSpecificThemeContext.Provider>
+        )
+    }
 
     // If searching for a jam by ID and not finding it:
     if (jamId && activeTheme == null) {

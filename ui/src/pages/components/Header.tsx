@@ -28,7 +28,7 @@ export const Header: React.FC = () => {
             <nav className="c-header">
                 <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
-                        <Link to="/">
+                        <Link to={`/${theme.jamId}`}>
                             <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black border border-white rounded-lg mr-2 hover:scale-125"/>
                         </Link>
 
@@ -67,7 +67,6 @@ const ToggleBookmarks: React.FC = () => {
                 icon: "🔒",
                 id: "favourite-post-view-info",
             });
-            console.log("toast called")
             return;
         }
 
@@ -127,6 +126,7 @@ const MyPostButton: React.FC = () => {
 }
 
 const LoginLogout: React.FC = () => {
+    const theme = useContext(JamSpecificThemeContext)
     const userInfo = useUserInfo();
     const shouldDisplayLogin = !userInfo.data;
 
@@ -146,7 +146,7 @@ const LoginLogout: React.FC = () => {
     return (
         <p className="sm:mr-4 text-right inline-grid sm:inline text-xs sm:text-sm">
             <span className="sm:block ml-auto w-[min-content]">Welcome&nbsp;{userInfo.data?.username as string}!</span>
-            <Link to="/logout" className="block sm:inline sm:ml-1 cursor-pointer hover:underline">
+            <Link to={`/logout?redirect=${theme.jamId}`} className="block sm:inline sm:ml-1 cursor-pointer hover:underline">
                 (Click here to logout)
             </Link>
         </p>

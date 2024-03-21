@@ -38,8 +38,6 @@ export const JamHome: React.FC = () => {
             .then(setPosts)
     }, [searchParams])
 
-    // console.log(posts)
-
     return (
         <main>
             <Onboarding />
