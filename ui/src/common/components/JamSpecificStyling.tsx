@@ -3,8 +3,12 @@ import {useParams} from "react-router-dom";
 import {Header} from "../../pages/components/Header.tsx";
 import Footer from "../../pages/components/Footer.tsx";
 
-type Jam = {
+export type Jam = {
     jamId: string,
+    name: string,
+    participants: number,
+    start: string,
+    duration: string,
     logoLargeUrl: string,
     logoStackedUrl: string,
     styles: object,
@@ -32,7 +36,7 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
             .then(async res => {
                 const data = await res.json()
                 if (res.ok) {
-                    data.expiry = Date.now() + 6*60*60*1000 // 6 hours expiry
+                    data.expiry = Date.now() + 60*60*1000 // 1 hour expiry
                     return data as Jam
                 }
 

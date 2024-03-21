@@ -33,5 +33,1505 @@
             "--skill-color-timezones": "#000293",
             "--skill-color-timezones-text": "#afaa12"
         }
+    },
+    {
+        "jamId": "-pixel-game-jam-2024",
+        "name": "Pixel Game Jam - 2024",
+        "participants": 4974,
+        "start": "2024-05-02T11:00:00Z",
+        "duration": "9 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTM0Nzg0LnBuZw==/140x111%23/lvhzZa.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTM0Nzg0LnBuZw==/140x111%23/lvhzZa.png",
+        "styles": {}
+    },
+    {
+        "jamId": "gamedevjs-2024",
+        "name": "Gamedev.js Jam 2024",
+        "participants": 1683,
+        "start": "2024-04-13T15:00:00Z",
+        "duration": "13 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEyMTM5NjQ0LnBuZw==/140x111%23/CbKfG4.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEyMTM5NjQ0LnBuZw==/140x111%23/CbKfG4.png",
+        "styles": {}
+    },
+    {
+        "jamId": "dcjam2024",
+        "name": "Dungeon Crawler Jam 2024",
+        "participants": 1201,
+        "start": "2024-03-22T17:00:00Z",
+        "duration": "8 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NjI3MjQ2LnBuZw==/140x111%23/CMcZ0n.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NjI3MjQ2LnBuZw==/140x111%23/CMcZ0n.png",
+        "styles": {}
+    },
+    {
+        "jamId": "fishfest",
+        "name": "FishFest",
+        "participants": 1024,
+        "start": "2024-04-01T23:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjYxMzY4LnBuZw==/140x111%23/NYTg5A.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjYxMzY4LnBuZw==/140x111%23/NYTg5A.png",
+        "styles": {}
+    },
+    {
+        "jamId": "scream-jam-2024",
+        "name": "\u00f0\u009f\u0092\u0080 SCREAM JAM 2024 \u00f0\u009f\u0092\u0080",
+        "participants": 852,
+        "start": "2024-10-16T21:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NjcxOTM5LmpwZw==/140x111%23/gNzLCj.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NjcxOTM5LmpwZw==/140x111%23/gNzLCj.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "sunofes24",
+        "name": "SuNoFes 2024",
+        "participants": 429,
+        "start": "2024-07-01T12:00:00Z",
+        "duration": "64 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NTI1NjM2LnBuZw==/140x111%23/SOklX5.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NTI1NjM2LnBuZw==/140x111%23/SOklX5.png",
+        "styles": {}
+    },
+    {
+        "jamId": "1-bit-jam-three",
+        "name": "1-BIT JAM #3",
+        "participants": 335,
+        "start": "2024-04-04T15:00:00Z",
+        "duration": "16 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0Mzc1MDIzLmdpZg==/140x111%23/EGRf8N.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0Mzc1MDIzLmdpZg==/140x111%23/EGRf8N.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "kenney-jam-2024",
+        "name": "Kenney Jam 2024",
+        "participants": 325,
+        "start": "2024-07-19T16:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "locjam-6",
+        "name": "LocJAM 6",
+        "participants": 324,
+        "start": "2024-04-10T15:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjM3OTk5LnBuZw==/140x111%23/FfmULB.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjM3OTk5LnBuZw==/140x111%23/FfmULB.png",
+        "styles": {}
+    },
+    {
+        "jamId": "gdevelop-big-game-jam-5",
+        "name": "GDevelop BIG Game Jam #5",
+        "participants": 302,
+        "start": "2024-05-17T18:00:00Z",
+        "duration": "9 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzU2MjU0LmpwZw==/140x111%23/HBD6sN.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzU2MjU0LmpwZw==/140x111%23/HBD6sN.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "fuck-capitalism-jam-2024",
+        "name": "\u00f0\u009f\u0094\u00a5 Fuck Capitalism Jam 2024 \u00f0\u009f\u0094\u00a5",
+        "participants": 215,
+        "start": "2024-05-01T10:00:00Z",
+        "duration": "30 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzNzE0NzI0LnBuZw==/140x111%23/54L%2Fgu.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzNzE0NzI0LnBuZw==/140x111%23/54L%2Fgu.png",
+        "styles": {}
+    },
+    {
+        "jamId": "themed-horror-game-jam-17",
+        "name": "Themed Horror Game Jam #17",
+        "participants": 174,
+        "start": "2024-03-28T22:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NDQ2ODY2LnBuZw==/140x111%23/vkDOR5.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NDQ2ODY2LnBuZw==/140x111%23/vkDOR5.png",
+        "styles": {}
+    },
+    {
+        "jamId": "otome-jam-2024",
+        "name": "Otome Jam 2024",
+        "participants": 150,
+        "start": "2024-04-30T22:00:00Z",
+        "duration": "62 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjgyNzMzLnBuZw==/140x111%23/AGB1Vj.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjgyNzMzLnBuZw==/140x111%23/AGB1Vj.png",
+        "styles": {}
+    },
+    {
+        "jamId": "gbjam-12",
+        "name": "GBJAM 12",
+        "participants": 135,
+        "start": "2024-09-13T11:00:00Z",
+        "duration": "10 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "blossom-vn-jam-2024",
+        "name": "Blossom VN Jam 2024 \u00f0\u009f\u008d\u008a",
+        "participants": 131,
+        "start": "2024-04-01T04:00:00Z",
+        "duration": "44 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTY5NjI4LnBuZw==/140x111%23/j81Q%2F2.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTY5NjI4LnBuZw==/140x111%23/j81Q%2F2.png",
+        "styles": {}
+    },
+    {
+        "jamId": "hawkesjam",
+        "name": "HawkesJam #1",
+        "participants": 121,
+        "start": "2024-03-28T00:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDA4NDAxLnBuZw==/140x111%23/M9oFt3.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDA4NDAxLnBuZw==/140x111%23/M9oFt3.png",
+        "styles": {}
+    },
+    {
+        "jamId": "trijam-262",
+        "name": "Trijam #262: The 3 hour game jam",
+        "participants": 105,
+        "start": "2024-03-22T10:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzkyOTc4LnBuZw==/140x111%23/UYNYsH.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzkyOTc4LnBuZw==/140x111%23/UYNYsH.png",
+        "styles": {}
+    },
+    {
+        "jamId": "cyberpunk-game-jam-2024",
+        "name": "Cyberpunk Game Jam 2024",
+        "participants": 103,
+        "start": "2024-04-26T04:00:00Z",
+        "duration": "9 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzMDc4NzE0LnBuZw==/140x111%23/nkhW0d.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzMDc4NzE0LnBuZw==/140x111%23/nkhW0d.png",
+        "styles": {}
+    },
+    {
+        "jamId": "ostcompjam",
+        "name": "OST Composing Jam NEWSLETTER",
+        "participants": 96,
+        "start": "2029-12-31T17:00:00Z",
+        "duration": "10 years",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzExMDEyMzQyLnBuZw==/140x111%23/jo4StF.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzExMDEyMzQyLnBuZw==/140x111%23/jo4StF.png",
+        "styles": {}
+    },
+    {
+        "jamId": "touhou-fan-game-jam-13",
+        "name": "Touhou Fan Game Jam 13",
+        "participants": 92,
+        "start": "2024-04-04T19:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjgxNDA0LnBuZw==/140x111%23/IR57xg.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjgxNDA0LnBuZw==/140x111%23/IR57xg.png",
+        "styles": {}
+    },
+    {
+        "jamId": "cj24",
+        "name": "Crust Jam 2024",
+        "participants": 91,
+        "start": "2024-03-31T23:00:00Z",
+        "duration": "9 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzExODUyODM1LmdpZg==/140x111%23/SeuQai.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzExODUyODM1LmdpZg==/140x111%23/SeuQai.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "72hoursfun-gamejamchallenge",
+        "name": "72 Hours FUN - Game Jam Challenge!",
+        "participants": 89,
+        "start": "2024-03-22T16:30:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzA1OTU0LmpwZw==/140x111%23/7J%2Ff4d.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzA1OTU0LmpwZw==/140x111%23/7J%2Ff4d.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "game-off-2024",
+        "name": "Game Off 2024",
+        "participants": 87,
+        "start": "2024-11-01T19:37:00Z",
+        "duration": "30 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "nes-jam2024",
+        "name": "NES Jam",
+        "participants": 86,
+        "start": "2024-05-31T11:00:00Z",
+        "duration": "17 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzMTc3MzIyLnBuZw==/140x111%23/zaZDp%2F.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzMTc3MzIyLnBuZw==/140x111%23/zaZDp%2F.png",
+        "styles": {}
+    },
+    {
+        "jamId": "from-earth",
+        "name": "From Earth: The Global Gamejam (2024?)",
+        "participants": 84,
+        "start": "2024-11-30T13:30:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzk2MTM5MDgucG5n/140x111%23/q9ebQ5.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzk2MTM5MDgucG5n/140x111%23/q9ebQ5.png",
+        "styles": {}
+    },
+    {
+        "jamId": "enemy-encounter-music-jam-2",
+        "name": "Enemy Encounter Music Jam #2",
+        "participants": 76,
+        "start": "2024-03-22T15:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjMwODUzLnBuZw==/140x111%23/QNJWji.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjMwODUzLnBuZw==/140x111%23/QNJWji.png",
+        "styles": {}
+    },
+    {
+        "jamId": "underwater-horror-jam",
+        "name": "Underwater Horror Jam!",
+        "participants": 76,
+        "start": "2024-03-29T03:00:00Z",
+        "duration": "9 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "scorejam29",
+        "name": "ScoreSpace Jam #29 \u00f0\u009f\u0095\u00b9\u00ef\u00b8\u008f",
+        "participants": 76,
+        "start": "2024-04-19T22:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzczMzc4LnBuZw==/140x111%23/YtNSDY.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzczMzc4LnBuZw==/140x111%23/YtNSDY.png",
+        "styles": {}
+    },
+    {
+        "jamId": "heroquest-quest-jam-2024",
+        "name": "The HEROQUEST 2024 Quest Jam",
+        "participants": 69,
+        "start": "2024-03-23T05:00:00Z",
+        "duration": "14 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MDQ5NzQ0LnBuZw==/140x111%23/4eo%2FMT.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MDQ5NzQ0LnBuZw==/140x111%23/4eo%2FMT.png",
+        "styles": {}
+    },
+    {
+        "jamId": "untitled-game-jam-90",
+        "name": "Untitled Game Jam #90",
+        "participants": 69,
+        "start": "2024-03-22T00:00:00Z",
+        "duration": "10 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTAzMzE5LnBuZw==/140x111%23/l6dXmF.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTAzMzE5LnBuZw==/140x111%23/l6dXmF.png",
+        "styles": {}
+    },
+    {
+        "jamId": "jame-gam-38",
+        "name": "Jame Gam #38",
+        "participants": 66,
+        "start": "2024-03-24T18:00:00Z",
+        "duration": "4 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDU5MjQ4LnBuZw==/140x111%23/DkD4ed.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDU5MjQ4LnBuZw==/140x111%23/DkD4ed.png",
+        "styles": {}
+    },
+    {
+        "jamId": "imgj32",
+        "name": "Improve My Game Jam 32",
+        "participants": 63,
+        "start": "2024-03-29T04:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDY2NTQ1LnBuZw==/140x111%23/%2FjxDBM.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDY2NTQ1LnBuZw==/140x111%23/%2FjxDBM.png",
+        "styles": {}
+    },
+    {
+        "jamId": "monstrous-desires-2024",
+        "name": "Monstrous Desires 2024 Visual Novel Jam",
+        "participants": 62,
+        "start": "2024-08-27T16:00:00Z",
+        "duration": "61 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MDY4Njg3LnBuZw==/140x111%23/hkPhWc.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MDY4Njg3LnBuZw==/140x111%23/hkPhWc.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-3",
+        "name": "RPG Maker Themed Game Jam #3",
+        "participants": 57,
+        "start": "2024-03-28T22:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzMjI0ODM4LnBuZw==/140x111%23/0pQZnB.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzMjI0ODM4LnBuZw==/140x111%23/0pQZnB.png",
+        "styles": {}
+    },
+    {
+        "jamId": "josei-jam-2024",
+        "name": "Josei Jam 2024",
+        "participants": 56,
+        "start": "2024-04-30T22:00:00Z",
+        "duration": "61 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjgzMjg5LnBuZw==/140x111%23/F%2B7P9R.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjgzMjg5LnBuZw==/140x111%23/F%2B7P9R.png",
+        "styles": {}
+    },
+    {
+        "jamId": "the-post-weird-dream-jam",
+        "name": "The Post-Weird Dream Jam",
+        "participants": 50,
+        "start": "2024-03-31T23:00:00Z",
+        "duration": "214 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "dialogue-jam-24",
+        "name": "Dialogue Jam",
+        "participants": 49,
+        "start": "2024-04-01T04:00:00Z",
+        "duration": "29 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NjAzNTExLnBuZw==/140x111%23/dbgmxt.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NjAzNTExLnBuZw==/140x111%23/dbgmxt.png",
+        "styles": {}
+    },
+    {
+        "jamId": "32bit-eclipse-jam",
+        "name": "32Bit Eclipse Jam",
+        "participants": 49,
+        "start": "2024-03-22T04:00:00Z",
+        "duration": "17 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MDQ0NDc2LmdpZg==/140x111%23/uzelMP.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MDQ0NDc2LmdpZg==/140x111%23/uzelMP.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "may-wolf-2024-more-wolves-my-wolf-furry-visual-novel-jam",
+        "name": "MAY WOLF 2024: (More Wolves) MY WOLF Furry Visual Novel Jam (18+)",
+        "participants": 49,
+        "start": "2024-05-01T04:00:00Z",
+        "duration": "30 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDU2NTExLmdpZg==/140x111%23/or4w%2Bn.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDU2NTExLmdpZg==/140x111%23/or4w%2Bn.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "playjam-5",
+        "name": "PlayJam 5",
+        "participants": 49,
+        "start": "2024-04-19T23:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0ODI2MDYyLnBuZw==/140x111%23/xe%2FbDz.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0ODI2MDYyLnBuZw==/140x111%23/xe%2FbDz.png",
+        "styles": {}
+    },
+    {
+        "jamId": "2024-collegiate-game-jam",
+        "name": "2024 Collegiate Game Jam",
+        "participants": 47,
+        "start": "2024-03-23T15:00:00Z",
+        "duration": "8 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "amare-games-festival-2024",
+        "name": "Amare Games Festival 2024",
+        "participants": 46,
+        "start": "2024-04-01T04:00:00Z",
+        "duration": "30 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTIzMzM5LnBuZw==/140x111%23/EfIRWA.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTIzMzM5LnBuZw==/140x111%23/EfIRWA.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-horror-game-jam-3",
+        "name": "RPG Maker Horror Game Jam #3",
+        "participants": 45,
+        "start": "2024-03-28T22:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzMjE2MDY0LnBuZw==/140x111%23/SHaH%2BZ.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzMjE2MDY0LnBuZw==/140x111%23/SHaH%2BZ.png",
+        "styles": {}
+    },
+    {
+        "jamId": "oficina-jam-mar-2024",
+        "name": "Oficina Jam - Mar 2024",
+        "participants": 44,
+        "start": "2024-03-22T15:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "narrative-design-24",
+        "name": "Narrative Design Awards 2024",
+        "participants": 44,
+        "start": "2024-05-09T23:00:00Z",
+        "duration": "14 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MzQ5MDAzLnBuZw==/140x111%23/63zHED.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MzQ5MDAzLnBuZw==/140x111%23/63zHED.png",
+        "styles": {}
+    },
+    {
+        "jamId": "yaoi-game-jam-2024",
+        "name": "Yaoi Game Jam 2024",
+        "participants": 43,
+        "start": "2024-06-30T14:00:00Z",
+        "duration": "62 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NzAyMTQ5LnBuZw==/140x111%23/qHZRjW.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NzAyMTQ5LnBuZw==/140x111%23/qHZRjW.png",
+        "styles": {}
+    },
+    {
+        "jamId": "mystery-game-jam-2024",
+        "name": "Mystery Game Jam 2024",
+        "participants": 42,
+        "start": "2024-04-04T05:00:00Z",
+        "duration": "31 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MDY2MzcyLmpwZw==/140x111%23/pPxNXS.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MDY2MzcyLmpwZw==/140x111%23/pPxNXS.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "manajam3",
+        "name": "Manasoup Game Jam 3",
+        "participants": 41,
+        "start": "2024-03-22T18:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NzA1MTgxLnBuZw==/140x111%23/PGyhlt.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NzA1MTgxLnBuZw==/140x111%23/PGyhlt.png",
+        "styles": {}
+    },
+    {
+        "jamId": "tunejam-4",
+        "name": "Spring Tune Jam 2024 \u00f0\u009f\u008e\u00b5",
+        "participants": 40,
+        "start": "2024-04-05T14:00:00Z",
+        "duration": "30 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTg1NTQ5LnBuZw==/140x111%23/5Uvcdr.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTg1NTQ5LnBuZw==/140x111%23/5Uvcdr.png",
+        "styles": {}
+    },
+    {
+        "jamId": "24-jam",
+        "name": "24 Jam",
+        "participants": 39,
+        "start": "2026-01-23T17:00:00Z",
+        "duration": "1 day",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzYzMTE5NDQucG5n/140x111%23/PnaORa.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzYzMTE5NDQucG5n/140x111%23/PnaORa.png",
+        "styles": {}
+    },
+    {
+        "jamId": "yuri-game-jam-2024",
+        "name": "Yuri Game Jam 2024",
+        "participants": 38,
+        "start": "2024-09-30T23:00:00Z",
+        "duration": "62 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "osasco-game-fest",
+        "name": "Osasco game fest",
+        "participants": 38,
+        "start": "2024-04-01T03:00:00Z",
+        "duration": "17 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzYwMDU1LmpwZWc=/140x111%23/jDOFGR.jpeg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzYwMDU1LmpwZWc=/140x111%23/jDOFGR.jpeg",
+        "styles": {}
+    },
+    {
+        "jamId": "gdko-2025-round-1",
+        "name": "GDKO 2025 - Round 1",
+        "participants": 36,
+        "start": "2025-01-01T00:00:00Z",
+        "duration": "13 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NTM1MTczLnBuZw==/140x111%23/STsl%2BI.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NTM1MTczLnBuZw==/140x111%23/STsl%2BI.png",
+        "styles": {}
+    },
+    {
+        "jamId": "udejam-2024",
+        "name": "UDeJam 2024",
+        "participants": 35,
+        "start": "2024-04-10T19:00:00Z",
+        "duration": "6 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjczNjQ1LnBuZw==/140x111%23/WEHK%2FA.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjczNjQ1LnBuZw==/140x111%23/WEHK%2FA.png",
+        "styles": {}
+    },
+    {
+        "jamId": "the-lantern-who-goes-there",
+        "name": "THE LANTERN - Who goes there?",
+        "participants": 32,
+        "start": "2024-04-21T21:59:59Z",
+        "duration": "some time",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjgxODM1LmpwZw==/140x111%23/gZDwoK.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjgxODM1LmpwZw==/140x111%23/gZDwoK.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "unijam-2024",
+        "name": "UNIJAM 2024",
+        "participants": 31,
+        "start": "2024-03-22T17:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTkyNDUxLnBuZw==/140x111%23/sZqRVX.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTkyNDUxLnBuZw==/140x111%23/sZqRVX.png",
+        "styles": {}
+    },
+    {
+        "jamId": "josei-after-dark",
+        "name": "Josei After Dark",
+        "participants": 30,
+        "start": "2024-08-01T04:00:00Z",
+        "duration": "92 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MDc1NTE0LnBuZw==/140x111%23/dAHEGg.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MDc1NTE0LnBuZw==/140x111%23/dAHEGg.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-mania-viii",
+        "name": "RPG Mania VIII",
+        "participants": 29,
+        "start": "2024-04-01T04:00:00Z",
+        "duration": "30 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1Mjc4MzQ4LnBuZw==/140x111%23/xbgBg4.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1Mjc4MzQ4LnBuZw==/140x111%23/xbgBg4.png",
+        "styles": {}
+    },
+    {
+        "jamId": "godot-wild-jam-68",
+        "name": "Godot Wild Jam #68",
+        "participants": 28,
+        "start": "2024-04-12T20:00:00Z",
+        "duration": "9 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "game-music-jam-2024",
+        "name": "Game Music Jam 2024",
+        "participants": 27,
+        "start": "2024-03-22T23:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "goedware-game-jam-11",
+        "name": "GoedWare Game Jam #11 (+ prizes \u00f0\u009f\u008f\u0086)",
+        "participants": 26,
+        "start": "2024-04-26T09:00:00Z",
+        "duration": "10 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NzYyOTEyLnBuZw==/140x111%23/321HW%2F.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NzYyOTEyLnBuZw==/140x111%23/321HW%2F.png",
+        "styles": {}
+    },
+    {
+        "jamId": "the-autumnal-harvest",
+        "name": "FarmJam - The Autumnal Harvest",
+        "participants": 26,
+        "start": "2024-08-01T03:00:00Z",
+        "duration": "31 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "clover-jam-6",
+        "name": "Clover Jam 6",
+        "participants": 24,
+        "start": "2024-04-01T07:00:00Z",
+        "duration": "14 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTMxNTAyLnBuZw==/140x111%23/I%2BVK4P.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTMxNTAyLnBuZw==/140x111%23/I%2BVK4P.png",
+        "styles": {}
+    },
+    {
+        "jamId": "finish-your-project-jam-24",
+        "name": "Finish Your Project Jam 2024",
+        "participants": 24,
+        "start": "2024-04-01T04:00:00Z",
+        "duration": "90 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDM4OTYzLnBuZw==/140x111%23/yDIh8g.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDM4OTYzLnBuZw==/140x111%23/yDIh8g.png",
+        "styles": {}
+    },
+    {
+        "jamId": "oprwj10",
+        "name": "OPR Writing Jam #10",
+        "participants": 24,
+        "start": "2024-04-12T19:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "micro-jam-010",
+        "name": "Micro Jam 010: Villains",
+        "participants": 23,
+        "start": "2024-03-23T01:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDE1ODU5LnBuZw==/140x111%23/y64%2Bab.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDE1ODU5LnBuZw==/140x111%23/y64%2Bab.png",
+        "styles": {}
+    },
+    {
+        "jamId": "psyche-game-jam-2024",
+        "name": "Psyche Game Jam 2024",
+        "participants": 22,
+        "start": "2024-04-01T04:00:00Z",
+        "duration": "61 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0OTM3OTM0LnBuZw==/140x111%23/OJFNH2.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0OTM3OTM0LnBuZw==/140x111%23/OJFNH2.png",
+        "styles": {}
+    },
+    {
+        "jamId": "spring-2d-jam-2024",
+        "name": "Spring 2D Jam '24 \u00f0\u009f\u008c\u009e",
+        "participants": 21,
+        "start": "2024-05-17T17:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NzM5OTE2LnBuZw==/140x111%23/YnCgR0.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NzM5OTE2LnBuZw==/140x111%23/YnCgR0.png",
+        "styles": {}
+    },
+    {
+        "jamId": "brno-game-jam-2024",
+        "name": "Brno Game Jam 2024",
+        "participants": 21,
+        "start": "2024-04-05T16:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTA3ODY3LmpwZw==/140x111%23/fhi00J.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTA3ODY3LmpwZw==/140x111%23/fhi00J.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "vertical-jam",
+        "name": "Vertical Jam (8 Bits to Infinity #42)",
+        "participants": 21,
+        "start": "2024-04-12T17:00:00Z",
+        "duration": "10 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0OTAwNjkxLnBuZw==/140x111%23/5%2BPGij.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0OTAwNjkxLnBuZw==/140x111%23/5%2BPGij.png",
+        "styles": {}
+    },
+    {
+        "jamId": "daisys-roblox-game-jam",
+        "name": "Daisy's Roblox Game Jam",
+        "participants": 20,
+        "start": "2024-04-02T23:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1Mjc0OTkxLnBuZw==/140x111%23/jdPi9b.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1Mjc0OTkxLnBuZw==/140x111%23/jdPi9b.png",
+        "styles": {}
+    },
+    {
+        "jamId": "cofrade-jam",
+        "name": "Cofrade Jam",
+        "participants": 20,
+        "start": "2024-03-22T21:00:02Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1Mzg1NDk1LmpwZw==/140x111%23/bINLYI.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1Mzg1NDk1LmpwZw==/140x111%23/bINLYI.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "mini-jame-gam-29",
+        "name": "Mini Jame Gam #29",
+        "participants": 19,
+        "start": "2024-04-12T11:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzA1MDY0LnBuZw==/140x111%23/uk%2FyWL.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzA1MDY0LnBuZw==/140x111%23/uk%2FyWL.png",
+        "styles": {}
+    },
+    {
+        "jamId": "dojo-game-jam-4",
+        "name": "Dojo Game Jam #4",
+        "participants": 19,
+        "start": "2024-04-04T04:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1Mjk4NDcxLnBuZw==/140x111%23/ggW4w3.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1Mjk4NDcxLnBuZw==/140x111%23/ggW4w3.png",
+        "styles": {}
+    },
+    {
+        "jamId": "scratch-game-jam-muumuugames",
+        "name": "Scratch Game Jam - MuuMuuGames",
+        "participants": 19,
+        "start": "2024-03-22T00:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDI0ODcyLmdpZg==/140x111%23/b0fXrA.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDI0ODcyLmdpZg==/140x111%23/b0fXrA.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "32bit-summer-games-2024",
+        "name": "32Bit Summer Games 2024",
+        "participants": 17,
+        "start": "2024-07-05T04:00:00Z",
+        "duration": "21 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjE4NjQzLnBuZw==/140x111%23/b34X7T.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjE4NjQzLnBuZw==/140x111%23/b34X7T.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-4",
+        "name": "RPG Maker Themed Game Jam #4",
+        "participants": 16,
+        "start": "2024-05-30T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzMzUzNDU5LnBuZw==/140x111%23/eTLz2K.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzMzUzNDU5LnBuZw==/140x111%23/eTLz2K.png",
+        "styles": {}
+    },
+    {
+        "jamId": "joint-jam-2024",
+        "name": "Joint Jam '24",
+        "participants": 16,
+        "start": "2024-03-29T22:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "minigame-a-month-april-2024",
+        "name": "Minigame a Month - April 2024",
+        "participants": 16,
+        "start": "2024-04-01T04:00:00Z",
+        "duration": "29 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzUwNDM5LnBuZw==/140x111%23/QnC8iX.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzUwNDM5LnBuZw==/140x111%23/QnC8iX.png",
+        "styles": {}
+    },
+    {
+        "jamId": "buddy-up-month-april-2024",
+        "name": "Buddy Up Month: April 2024",
+        "participants": 16,
+        "start": "2024-03-31T23:00:00Z",
+        "duration": "29 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "the-thoughtful-jam",
+        "name": "The Thoughtful Jam",
+        "participants": 15,
+        "start": "2024-04-13T00:00:00Z",
+        "duration": "22 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0OTMzNzYxLnBuZw==/140x111%23/crrLJA.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0OTMzNzYxLnBuZw==/140x111%23/crrLJA.png",
+        "styles": {}
+    },
+    {
+        "jamId": "the-tool-jam-4",
+        "name": "The Tool Jam 4",
+        "participants": 14,
+        "start": "2024-04-30T22:00:00Z",
+        "duration": "14 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTEzMjYwLmdpZg==/140x111%23/vGEgpB.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTEzMjYwLmdpZg==/140x111%23/vGEgpB.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "fishing-with-john",
+        "name": "Fishing With John",
+        "participants": 14,
+        "start": "2024-04-01T05:00:00Z",
+        "duration": "30 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzI1OTg4LnBuZw==/140x111%23/HRxMIX.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzI1OTg4LnBuZw==/140x111%23/HRxMIX.png",
+        "styles": {}
+    },
+    {
+        "jamId": "theana-game-jam-weeklyjam-17",
+        "name": "Theana Game Jam - WeeklyJam #17",
+        "participants": 13,
+        "start": "2024-03-24T14:00:00Z",
+        "duration": "6 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MjgxNDU5LnBuZw==/140x111%23/lAgnSd.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MjgxNDU5LnBuZw==/140x111%23/lAgnSd.png",
+        "styles": {}
+    },
+    {
+        "jamId": "asset-jam-2024-by-pixigb",
+        "name": "Asset Jam 2024",
+        "participants": 13,
+        "start": "2024-04-09T09:30:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MzQ5NzY1LnBuZw==/140x111%23/0cmQ8D.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MzQ5NzY1LnBuZw==/140x111%23/0cmQ8D.png",
+        "styles": {}
+    },
+    {
+        "jamId": "dying-year-vn-jam",
+        "name": "Dying Year - Visual Novel Jam",
+        "participants": 13,
+        "start": "2024-10-01T04:00:00Z",
+        "duration": "92 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTgzOTQ4LnBuZw==/140x111%23/9l6x%2F4.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTgzOTQ4LnBuZw==/140x111%23/9l6x%2F4.png",
+        "styles": {}
+    },
+    {
+        "jamId": "wellesley-game-jam",
+        "name": "Wellesley College Game Jam",
+        "participants": 13,
+        "start": "2024-03-29T21:00:00Z",
+        "duration": "1 day",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0ODcxMDE5LnBuZw==/140x111%23/ybVsO%2B.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0ODcxMDE5LnBuZw==/140x111%23/ybVsO%2B.png",
+        "styles": {}
+    },
+    {
+        "jamId": "ostara-games-for-spring-2024",
+        "name": "Ostara: Games for Spring 2024",
+        "participants": 12,
+        "start": "2024-04-26T05:00:00Z",
+        "duration": "4 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0ODIwNjE1LnBuZw==/140x111%23/gMZv%2FV.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0ODIwNjE1LnBuZw==/140x111%23/gMZv%2FV.png",
+        "styles": {}
+    },
+    {
+        "jamId": "game-jam-192-episode-5",
+        "name": "Game Jam 192: Episode 5",
+        "participants": 12,
+        "start": "2024-04-12T17:00:00Z",
+        "duration": "14 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NTg1NjcyLnBuZw==/140x111%23/GxmuG4.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NTg1NjcyLnBuZw==/140x111%23/GxmuG4.png",
+        "styles": {}
+    },
+    {
+        "jamId": "tackle-box-fishing-jam",
+        "name": "Tackle Box Fishing Jam",
+        "participants": 12,
+        "start": "2024-05-03T03:00:00Z",
+        "duration": "9 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "liminal2",
+        "name": "Liminal Game Jam 2024",
+        "participants": 12,
+        "start": "2024-04-20T22:00:00Z",
+        "duration": "42 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "irx-jam-24",
+        "name": "IRX Jam 24",
+        "participants": 11,
+        "start": "2024-04-12T04:00:00Z",
+        "duration": "10 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzOTcwMjg5LnBuZw==/140x111%23/9WCSEz.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzOTcwMjg5LnBuZw==/140x111%23/9WCSEz.png",
+        "styles": {}
+    },
+    {
+        "jamId": "zeno-jam-8",
+        "name": "ZenoJam-The perfect jam for beginners",
+        "participants": 11,
+        "start": "2024-04-28T09:30:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjQ1ODc3LmdpZg==/140x111%23/0I5iGZ.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjQ1ODc3LmdpZg==/140x111%23/0I5iGZ.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "science-jam-24",
+        "name": "GBG Science Jam 2024",
+        "participants": 11,
+        "start": "2024-04-19T15:30:00Z",
+        "duration": "1 day",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MDU4MTI3LmpwZw==/140x111%23/LQC5%2FP.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MDU4MTI3LmpwZw==/140x111%23/LQC5%2FP.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-5",
+        "name": "RPG Maker Themed Game Jam #5",
+        "participants": 11,
+        "start": "2024-07-25T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzMzUzNTc0LnBuZw==/140x111%23/x7PCit.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzMzUzNTc0LnBuZw==/140x111%23/x7PCit.png",
+        "styles": {}
+    },
+    {
+        "jamId": "gamevita-30",
+        "name": "GameVita 3.0",
+        "participants": 11,
+        "start": "2024-03-22T03:30:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1Mjk0ODc1LnBuZw==/140x111%23/T51QO7.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1Mjk0ODc1LnBuZw==/140x111%23/T51QO7.png",
+        "styles": {}
+    },
+    {
+        "jamId": "godot-wild-jam-69",
+        "name": "Godot Wild Jam #69",
+        "participants": 11,
+        "start": "2024-05-10T20:00:00Z",
+        "duration": "9 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "hyper-1-hour-game-jam-050",
+        "name": "Hyper 1 HOUR Game Jam! TOPIC: ??????",
+        "participants": 11,
+        "start": "2024-03-22T21:00:00Z",
+        "duration": "2 hours",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDE0NjkyLmdpZg==/140x111%23/sDxm1j.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDE0NjkyLmdpZg==/140x111%23/sDxm1j.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-horror-game-jam-5",
+        "name": "RPG Maker Horror Game Jam #5",
+        "participants": 10,
+        "start": "2024-07-25T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzMzUzNDU0LnBuZw==/140x111%23/IMxVYN.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzMzUzNDU0LnBuZw==/140x111%23/IMxVYN.png",
+        "styles": {}
+    },
+    {
+        "jamId": "cake-book-game-jam",
+        "name": "Cake Book Game Jam \u00f0\u009f\u008d\u00b0 \u00e2\u0080\u008b",
+        "participants": 10,
+        "start": "2024-04-05T23:00:00Z",
+        "duration": "14 hours",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjkzODI5LnBuZw==/140x111%23/zxEftg.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjkzODI5LnBuZw==/140x111%23/zxEftg.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpgenesis2026",
+        "name": "#RPGenesis 2026",
+        "participants": 10,
+        "start": "2026-08-01T23:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEyOTY2NjI2LnBuZw==/140x111%23/gqVUHL.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEyOTY2NjI2LnBuZw==/140x111%23/gqVUHL.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-6",
+        "name": "RPG Maker Themed Game Jam #6",
+        "participants": 10,
+        "start": "2024-09-19T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTQ4NzUzLnBuZw==/140x111%23/sF1M1%2F.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTQ4NzUzLnBuZw==/140x111%23/sF1M1%2F.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-horror-game-jam-4",
+        "name": "RPG Maker Horror Game Jam #4",
+        "participants": 10,
+        "start": "2024-05-30T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzMzUyOTk5LnBuZw==/140x111%23/Ci0uTQ.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzMzUyOTk5LnBuZw==/140x111%23/Ci0uTQ.png",
+        "styles": {}
+    },
+    {
+        "jamId": "feedback-quest-7-indiegames-x-indie-streamers",
+        "name": "Feedback Quest 7: indiegames X indie streamers",
+        "participants": 9,
+        "start": "2024-08-04T23:00:00Z",
+        "duration": "6 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NTcyODgzLmdpZg==/140x111%23/%2BZm2Qo.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NTcyODgzLmdpZg==/140x111%23/%2BZm2Qo.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-7",
+        "name": "RPG Maker Themed Game Jam #7",
+        "participants": 9,
+        "start": "2024-11-14T22:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTQ4ODIxLnBuZw==/140x111%23/yvmuzi.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTQ4ODIxLnBuZw==/140x111%23/yvmuzi.png",
+        "styles": {}
+    },
+    {
+        "jamId": "imgj34",
+        "name": "Improve My Game Jam 34",
+        "participants": 9,
+        "start": "2024-07-26T04:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDY2Nzk4LnBuZw==/140x111%23/I%2FtOnE.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDY2Nzk4LnBuZw==/140x111%23/I%2FtOnE.png",
+        "styles": {}
+    },
+    {
+        "jamId": "underscore-jam",
+        "name": "__jam",
+        "participants": 9,
+        "start": "2030-04-01T04:00:00Z",
+        "duration": "10 years",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MDkzOTYwLnBuZw==/140x111%23/nIEDYo.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MDkzOTYwLnBuZw==/140x111%23/nIEDYo.png",
+        "styles": {}
+    },
+    {
+        "jamId": "uni-game-jam-vol3",
+        "name": "Uni Game Jam Vol.3",
+        "participants": 9,
+        "start": "2024-04-02T10:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1Mjg5MTc5LnBuZw==/140x111%23/UXO71x.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1Mjg5MTc5LnBuZw==/140x111%23/UXO71x.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-horror-game-jam-6",
+        "name": "RPG Maker Horror Game Jam #6",
+        "participants": 8,
+        "start": "2024-09-19T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTQ4NTIwLnBuZw==/140x111%23/feFI6S.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTQ4NTIwLnBuZw==/140x111%23/feFI6S.png",
+        "styles": {}
+    },
+    {
+        "jamId": "velox-formido",
+        "name": "Velox Formido",
+        "participants": 8,
+        "start": "2024-04-20T00:00:00Z",
+        "duration": "1 day",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NTI4NDkzLnBuZw==/140x111%23/x0ZxCh.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NTI4NDkzLnBuZw==/140x111%23/x0ZxCh.png",
+        "styles": {}
+    },
+    {
+        "jamId": "watt-wise-game-jam",
+        "name": "Watt-Wise Game Jam",
+        "participants": 8,
+        "start": "2024-03-22T04:00:00Z",
+        "duration": "32 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzExMzEyLnBuZw==/140x111%23/YmxNHG.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzExMzEyLnBuZw==/140x111%23/YmxNHG.png",
+        "styles": {}
+    },
+    {
+        "jamId": "drop-bear-game-fest",
+        "name": "Drop Bear Game Fest",
+        "participants": 8,
+        "start": "2024-04-02T13:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MjQ2MDM2LmpwZw==/140x111%23/VvWDfO.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MjQ2MDM2LmpwZw==/140x111%23/VvWDfO.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "tiny-demo-jam2",
+        "name": "Tiny Demo Jam",
+        "participants": 8,
+        "start": "2024-05-16T14:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0Njg0MTMzLnBuZw==/140x111%23/FlhA9m.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0Njg0MTMzLnBuZw==/140x111%23/FlhA9m.png",
+        "styles": {}
+    },
+    {
+        "jamId": "imgj33",
+        "name": "Improve My Game Jam 33",
+        "participants": 8,
+        "start": "2024-05-31T04:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDY2ODAwLnBuZw==/140x111%23/8nlcNT.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDY2ODAwLnBuZw==/140x111%23/8nlcNT.png",
+        "styles": {}
+    },
+    {
+        "jamId": "bdot-game-jam",
+        "name": "B.dot Game Jam",
+        "participants": 8,
+        "start": "2024-03-24T19:00:00Z",
+        "duration": "11 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDE5MzQzLmpwZw==/140x111%23/72rnST.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDE5MzQzLmpwZw==/140x111%23/72rnST.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "contest-gamerzsfx-2024",
+        "name": "1\u00c2\u00ba Contest da GamerzSFX Brasil",
+        "participants": 8,
+        "start": "2024-04-01T11:00:00Z",
+        "duration": "14 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NzI1NjExLnBuZw==/140x111%23/qdY1bx.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NzI1NjExLnBuZw==/140x111%23/qdY1bx.png",
+        "styles": {}
+    },
+    {
+        "jamId": "spooktober-2024",
+        "name": "Spooktober 6th Annual Visual Novel Jam",
+        "participants": 7,
+        "start": "2024-09-01T04:00:00Z",
+        "duration": "30 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "playsar-fest-iii-experemental",
+        "name": "Playsar FEST III: Experemental",
+        "participants": 7,
+        "start": "2024-04-17T07:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MDYyNDE2LnBuZw==/140x111%23/fB3tSo.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MDYyNDE2LnBuZw==/140x111%23/fB3tSo.png",
+        "styles": {}
+    },
+    {
+        "jamId": "acorn-jam-5",
+        "name": "ACORN JAM #5",
+        "participants": 7,
+        "start": "2024-04-07T15:00:00Z",
+        "duration": "6 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTAzMjM2LnBuZw==/140x111%23/O%2BPSoD.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTAzMjM2LnBuZw==/140x111%23/O%2BPSoD.png",
+        "styles": {}
+    },
+    {
+        "jamId": "the-gdg-jam",
+        "name": "THE GDG JAM",
+        "participants": 7,
+        "start": "2024-04-05T23:00:01Z",
+        "duration": "1 day",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDIzNjU2LnBuZw==/140x111%23/eeR7Ht.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDIzNjU2LnBuZw==/140x111%23/eeR7Ht.png",
+        "styles": {}
+    },
+    {
+        "jamId": "a-matter-of-perspective",
+        "name": "A Matter of Perspective",
+        "participants": 6,
+        "start": "2024-03-22T04:00:00Z",
+        "duration": "35 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDE3NzM1LnBuZw==/140x111%23/Yf9mY%2B.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDE3NzM1LnBuZw==/140x111%23/Yf9mY%2B.png",
+        "styles": {}
+    },
+    {
+        "jamId": "themed-horror-game-jam-18",
+        "name": "Themed Horror Game Jam  #18",
+        "participants": 6,
+        "start": "2024-06-27T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0NDQ3MTQ3LnBuZw==/140x111%23/huTDoq.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0NDQ3MTQ3LnBuZw==/140x111%23/huTDoq.png",
+        "styles": {}
+    },
+    {
+        "jamId": "deynum-conspiracy-club-jam",
+        "name": "Deynum Conspiracy Club Jam",
+        "participants": 6,
+        "start": "2024-03-31T20:00:00Z",
+        "duration": "20 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDM1Mjk1LnBuZw==/140x111%23/PWd%2BPG.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDM1Mjk1LnBuZw==/140x111%23/PWd%2BPG.png",
+        "styles": {}
+    },
+    {
+        "jamId": "weeksauce-28",
+        "name": "Week Sauce (April 2024)",
+        "participants": 6,
+        "start": "2024-04-01T07:00:00Z",
+        "duration": "30 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MTYwMjQwLnBuZw==/140x111%23/Qu9fEo.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MTYwMjQwLnBuZw==/140x111%23/Qu9fEo.png",
+        "styles": {}
+    },
+    {
+        "jamId": "3d-javascript-jam-w-1500-in-prizing",
+        "name": "3D Javascript Jam w/ $??? in prizing!",
+        "participants": 6,
+        "start": "2024-04-15T07:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-horror-game-jam-8",
+        "name": "RPG Maker Horror Game Jam #8",
+        "participants": 6,
+        "start": "2025-01-16T22:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTQ5MTg0LnBuZw==/140x111%23/TBy1v0.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTQ5MTg0LnBuZw==/140x111%23/TBy1v0.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-8",
+        "name": "RPG Maker Themed Game Jam #8",
+        "participants": 5,
+        "start": "2025-01-16T22:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTQ5MjY0LnBuZw==/140x111%23/TzjWJl.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTQ5MjY0LnBuZw==/140x111%23/TzjWJl.png",
+        "styles": {}
+    },
+    {
+        "jamId": "agdg-demo-day-100",
+        "name": "AGDG DEMO DAY 100",
+        "participants": 5,
+        "start": "2031-10-03T05:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-horror-game-jam-7",
+        "name": "RPG Maker Horror Game Jam #7",
+        "participants": 5,
+        "start": "2024-11-14T22:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTQ4Nzc2LnBuZw==/140x111%23/a5%2BZGY.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTQ4Nzc2LnBuZw==/140x111%23/a5%2BZGY.png",
+        "styles": {}
+    },
+    {
+        "jamId": "dimensional-judge",
+        "name": "Character Jam Season I - Dimensional Judge",
+        "participants": 5,
+        "start": "2024-04-05T05:00:00Z",
+        "duration": "10 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzQzOTYzLnBuZw==/140x111%23/sKya9%2F.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzQzOTYzLnBuZw==/140x111%23/sKya9%2F.png",
+        "styles": {}
+    },
+    {
+        "jamId": "mehu-jam-1",
+        "name": "mehu jam 1",
+        "participants": 5,
+        "start": "2024-04-05T13:00:00Z",
+        "duration": "2 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDA4NzY0LnBuZw==/140x111%23/VViLMq.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDA4NzY0LnBuZw==/140x111%23/VViLMq.png",
+        "styles": {}
+    },
+    {
+        "jamId": "amorodo-jam",
+        "name": "\u00f0\u009f\u008d\u0093 Amorodo Jam",
+        "participants": 5,
+        "start": "2024-05-13T10:00:00Z",
+        "duration": "14 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1Mjg4ODgzLnBuZw==/140x111%23/lNWVwg.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1Mjg4ODgzLnBuZw==/140x111%23/lNWVwg.png",
+        "styles": {}
+    },
+    {
+        "jamId": "liminal3",
+        "name": "Liminal Game Jam 2025",
+        "participants": 5,
+        "start": "2025-05-24T04:00:00Z",
+        "duration": "67 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-9",
+        "name": "RPG Maker Themed Game Jam #9",
+        "participants": 5,
+        "start": "2025-03-20T22:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0ODExMzYwLnBuZw==/140x111%23/bxLjVn.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0ODExMzYwLnBuZw==/140x111%23/bxLjVn.png",
+        "styles": {}
+    },
+    {
+        "jamId": "zenjam08",
+        "name": "ZEN JAM #08",
+        "participants": 4,
+        "start": "2024-04-20T23:30:00Z",
+        "duration": "8 days",
+        "logoLargeUrl": "",
+        "logoStackedUrl": "",
+        "styles": {}
+    },
+    {
+        "jamId": "gosu-game-jam-6",
+        "name": "Gosu Game Jam 6",
+        "participants": 4,
+        "start": "2024-03-29T20:00:00Z",
+        "duration": "9 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDMyMjA1LnBuZw==/140x111%23/oWjqKs.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDMyMjA1LnBuZw==/140x111%23/oWjqKs.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-horror-game-jam-12",
+        "name": "RPG Maker Horror Game Jam #12",
+        "participants": 4,
+        "start": "2025-09-18T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0ODA5ODM3LnBuZw==/140x111%23/lVcA2J.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0ODA5ODM3LnBuZw==/140x111%23/lVcA2J.png",
+        "styles": {}
+    },
+    {
+        "jamId": "25dabril",
+        "name": "25dAbril",
+        "participants": 4,
+        "start": "2024-03-31T23:00:00Z",
+        "duration": "24 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDA5ODU0LmpwZw==/140x111%23/m%2Bqizg.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDA5ODU0LmpwZw==/140x111%23/m%2Bqizg.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "playing-card-jam",
+        "name": "Playing Card Jam",
+        "participants": 3,
+        "start": "2024-04-05T05:00:00Z",
+        "duration": "3 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDY0MjE3LmpwZw==/140x111%23/8MYXw6.jpg",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDY0MjE3LmpwZw==/140x111%23/8MYXw6.jpg",
+        "styles": {}
+    },
+    {
+        "jamId": "theana-game-jam-weeklyjam-19",
+        "name": "Theana Game Jam - WeeklyJam #19",
+        "participants": 3,
+        "start": "2024-04-21T13:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MjgxNDYxLnBuZw==/140x111%23/olxdrc.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MjgxNDYxLnBuZw==/140x111%23/olxdrc.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-10",
+        "name": "RPG Maker Themed Game Jam #10",
+        "participants": 3,
+        "start": "2025-05-22T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTUyOTg5LnBuZw==/140x111%23/kpolDC.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTUyOTg5LnBuZw==/140x111%23/kpolDC.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-horror-game-jam-9",
+        "name": "RPG Maker Horror Game Jam #9",
+        "participants": 3,
+        "start": "2025-03-20T22:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTQ5MzQ5LnBuZw==/140x111%23/sA%2F%2BCh.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTQ5MzQ5LnBuZw==/140x111%23/sA%2F%2BCh.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-12",
+        "name": "RPG Maker Themed Game Jam #12",
+        "participants": 3,
+        "start": "2025-09-18T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0ODA5OTgyLnBuZw==/140x111%23/psbZ%2Fq.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0ODA5OTgyLnBuZw==/140x111%23/psbZ%2Fq.png",
+        "styles": {}
+    },
+    {
+        "jamId": "shake-it-up-jam-2024",
+        "name": "Shake it Up Jam 2024",
+        "participants": 2,
+        "start": "2024-04-15T14:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1NDA0NjIyLmdpZg==/140x111%23/EkUjH0.gif",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1NDA0NjIyLmdpZg==/140x111%23/EkUjH0.gif",
+        "styles": {}
+    },
+    {
+        "jamId": "castle-game-jam-2025",
+        "name": "Castle Game Jam 2025",
+        "participants": 2,
+        "start": "2025-07-21T22:00:00Z",
+        "duration": "5 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0OTY1Mjc5LnBuZw==/140x111%23/ksPjmz.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0OTY1Mjc5LnBuZw==/140x111%23/ksPjmz.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-horror-game-jam-11",
+        "name": "RPG Maker Horror Game Jam #11",
+        "participants": 2,
+        "start": "2025-07-17T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTUzMTMwLnBuZw==/140x111%23/G1drd%2B.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTUzMTMwLnBuZw==/140x111%23/G1drd%2B.png",
+        "styles": {}
+    },
+    {
+        "jamId": "rpg-maker-themed-game-jam-11",
+        "name": "RPG Maker Themed Game Jam #11",
+        "participants": 2,
+        "start": "2025-07-17T21:59:59Z",
+        "duration": "40 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MTUzMjU4LnBuZw==/140x111%23/%2FfV%2BcG.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MTUzMjU4LnBuZw==/140x111%23/%2FfV%2BcG.png",
+        "styles": {}
+    },
+    {
+        "jamId": "permafrost-jam-primavera-2024",
+        "name": "Permafrost Jam - Primavera 2024",
+        "participants": 2,
+        "start": "2024-04-05T10:00:00Z",
+        "duration": "17 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzEzODgzNDQ5LnBuZw==/140x111%23/OPBVNq.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzEzODgzNDQ5LnBuZw==/140x111%23/OPBVNq.png",
+        "styles": {}
+    },
+    {
+        "jamId": "theana-game-jam-weeklyjam-18",
+        "name": "Theana Game Jam - WeeklyJam #18",
+        "participants": 2,
+        "start": "2024-04-07T13:00:00Z",
+        "duration": "7 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE0MjgxNDYwLnBuZw==/140x111%23/36ir45.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE0MjgxNDYwLnBuZw==/140x111%23/36ir45.png",
+        "styles": {}
+    },
+    {
+        "jamId": "jame-gam-39",
+        "name": "Jame Gam #39",
+        "participants": 2,
+        "start": "2024-04-21T17:00:00Z",
+        "duration": "4 days",
+        "logoLargeUrl": "https://img.itch.zone/aW1nLzE1MzkzNzc3LnBuZw==/140x111%23/YroqxA.png",
+        "logoStackedUrl": "https://img.itch.zone/aW1nLzE1MzkzNzc3LnBuZw==/140x111%23/YroqxA.png",
+        "styles": {}
     }
 ]
