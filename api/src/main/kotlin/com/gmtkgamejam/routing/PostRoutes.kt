@@ -56,7 +56,12 @@ fun Application.configurePostRouting() {
 
             get("{id}") {
                 val post: PostItem? = call.parameters["id"]?.let { service.getPost(it) }
-                if (post?.deletedAt != null) {
+
+                // Simple filter for full page post views
+                val jamId = call.parameters["jamId"]
+                val postBelongsToCurrentJam = jamId == null || post?.jamId == jamId
+
+                if (post?.deletedAt != null || !postBelongsToCurrentJam) {
                     call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
                 }
 

@@ -20,12 +20,12 @@ import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
 
 export const Post: React.FC<{}> = () => {
 
-    const { postId } = useParams()
+    const { jamId, postId } = useParams()
     const navigate = useNavigate();
     const [post, setPost] = useState<PostModel>()
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}`)
+        fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}?jamId=${jamId}`)
             .then(res => res.json())
             .then(setPost)
     }, [])
