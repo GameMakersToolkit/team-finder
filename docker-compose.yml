@@ -25,6 +25,26 @@ services:
     volumes:
       - ./ui:/app
 
+  opensearch:
+    image: opensearchproject/opensearch
+    restart: always
+    environment:
+      - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=_HeL/@u0BF/i^y29kA!8?" # Opensearch won't start without a strong password
+      - "discovery.type=single-node"
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+
+  # Credentials are username: admin and password: ${OPENSEARCH_INITIAL_ADMIN_PASSWORD} (see above)
+  opensearch-dashboard:
+    image: opensearchproject/opensearch-dashboards
+    depends_on:
+      - opensearch
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+    ports:
+      - "5601:5601"
+
   db:
     image: mongo
     restart: always
