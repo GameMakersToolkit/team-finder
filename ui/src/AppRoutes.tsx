@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Routes, Route, BrowserRouter} from "react-router-dom";
+import {Routes, Route, BrowserRouter, Navigate} from "react-router-dom";
 import { Home } from "./pages/home/Home";
 import {Header} from "./pages/components/Header.tsx";
 import {QueryClient, QueryClientProvider} from "react-query";
@@ -37,10 +37,13 @@ export const AppRoutes: React.FC = () => {
             </div>
 
             <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/:postId" element={<Post/>}/>
+                <Route path="/" element={<Navigate to="/gmtk" />} />
+
+                <Route path="/gmtk/" element={<Home/>}/>
+                <Route path="/gmtk/:postId" element={<Post/>}/>
+                <Route path="/gmtk/my-post" element={<MyPostWrapper/>}/>
+
                 <Route path="/about" element={<About/>}/>
-                <Route path="/my-post" element={<MyPostWrapper/>}/>
                 <Route path="/login/authorized" element={<Callback/>}/>
                 <Route path="/logout" element={<Logout/>}/>
 

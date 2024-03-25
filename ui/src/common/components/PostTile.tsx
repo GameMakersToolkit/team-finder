@@ -36,7 +36,7 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                     <button className="button-link-container" style={{ maxHeight: "3em" }}>
                         <Link
                             className="text-lg text-theme-l-7 font-bold"
-                            to={`/${post.id}`}
+                            to={`/gmtk/${post.id}`}
                         >
                             See more {iiicon("right-arrow", "#ff5762")}
                         </Link>

@@ -9,12 +9,14 @@ import myPostIcon from "../../assets/icons/posts/my-post.svg"
 import {toast} from "react-hot-toast";
 import {useMyPostQuery} from "../../api/myPost.ts";
 
+const jamName = import.meta.env.VITE_JAM_NAME;
+
 export const Header: React.FC = () => {
 
     const navigate = useNavigate();
-    const [isOnHomePage, setIsOnHomePage] = useState(window.location.pathname === "/");
+    const [isOnSearchPage, setIsOnHomePage] = useState(window.location.pathname === "/gmtk");
     useEffect(() => {
-        setIsOnHomePage(window.location.pathname === "/")
+        setIsOnHomePage(window.location.pathname === "/gmtk")
     }, [navigate]);
 
     const userInfo = useUserInfo();
@@ -25,8 +27,8 @@ export const Header: React.FC = () => {
             <nav className="c-header">
                 <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
-                        <Link to="/">
-                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black border border-white rounded-lg mr-2 hover:scale-125"/>
+                        <Link to="/gmtk">
+                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={jamName + " Team Finder logo"} className="bg-black border border-white rounded-lg mr-2 hover:scale-125"/>
                         </Link>
 
                         <div className="flex items-center">
@@ -39,10 +41,10 @@ export const Header: React.FC = () => {
                     <div className="flex-1 hidden sm:flex" />
 
                     <div className="flex justify-evenly gap-2">
-                        <Link to="/" className="bg-theme-d-4 block border border-white rounded-lg mr-2 sm:hidden">
-                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
+                        <Link to="/gmtk" className="bg-theme-d-4 block border border-white rounded-lg mr-2 sm:hidden">
+                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={jamName + " Team Finder logo"}/>
                         </Link>
-                        {isOnHomePage && <ToggleBookmarks />}
+                        {isOnSearchPage && <ToggleBookmarks />}
                         <MyPostButton />
                         <LoginLogout />
                     </div>
@@ -100,7 +102,7 @@ const MyPostButton: React.FC = () => {
     return (
         <Link
             className={`header-button ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
-            to="/my-post"
+            to="/gmtk/my-post"
         >
             <div className="flex items-center h-full">
                 <img src={myPostIcon} alt={myPostQuery?.data ? "Edit post" : "Create post"} className="h-full inline-block ml-2 my-1 mr-2" style={{ width: "20px", height: "20px" }}/>
