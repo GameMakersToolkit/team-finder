@@ -1,10 +1,8 @@
 package com.gmtkgamejam.bot
 
-import com.gmtkgamejam.Config
 import kotlinx.coroutines.future.await
 import org.javacord.api.DiscordApi
 import org.javacord.api.DiscordApiBuilder
-import org.javacord.api.entity.channel.ServerTextChannel
 import org.javacord.api.entity.intent.Intent
 import org.javacord.api.entity.message.MessageBuilder
 import org.javacord.api.entity.server.Server
@@ -13,8 +11,12 @@ import org.javacord.api.exception.DiscordException
 import org.javacord.api.exception.MissingPermissionsException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.jvm.optionals.getOrElse
 
-class DiscordBot {
+class DiscordBot(
+    guildId: String,
+    botToken: String
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
@@ -22,25 +24,16 @@ class DiscordBot {
 
     private lateinit var server: Server
 
-    private lateinit var channel: ServerTextChannel
-
     private val approvedUsers: MutableList<String> = mutableListOf()
 
     init {
-        val token = Config.getString("bot.token")
-        val builder = DiscordApiBuilder().setToken(token).setIntents(Intent.GUILD_MEMBERS)
-
-        val guildId = Config.getString("jam.guildId")
-        val channelName = Config.getString("bot.pingChannel")
+        val builder = DiscordApiBuilder().setToken(botToken).setIntents(Intent.DIRECT_MESSAGES, Intent.GUILD_MEMBERS)
 
         try {
             api = builder.login().join()
             server = api.getServerById(guildId).get()
 
-            channel = api.getServerTextChannelsByNameIgnoreCase(channelName).first()
             logger.info("Discord bot is online and ready for action!")
-        } catch (ex: NoSuchElementException) { // NoSuchElementException triggered by calling `.first()` on Collection
-            logger.warn("Discord bot could not connect to pingChannel [$channelName] - ping message integration offline.")
         } catch (ex: Exception) {
             logger.warn("Discord bot could not be initialised - continuing...")
             logger.warn(ex.toString())
@@ -51,9 +44,13 @@ class DiscordBot {
         val recipient: User = api.getUserById(recipientUserId).await()
         val sender: User = api.getUserById(senderUserId).await()
 
-        val messageContents = "Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!"
-        // TODO: Validate message actually sent, give error otherwise
-        channel.sendMessage(messageContents).await()
+        val dmChannel = recipient.privateChannel.getOrElse { recipient.openPrivateChannel().get() }
+
+        if (BotMessageBuilder.canBuildEmbedFromUser(sender)) {
+            dmChannel.sendMessage(BotMessageBuilder.embedMessage(recipient, sender))
+        } else {
+            dmChannel.sendMessage(BotMessageBuilder.basicMessage(recipient, sender))
+        }
     }
 
     suspend fun doesUserHaveValidPermissions(userId: String): Boolean {

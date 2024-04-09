@@ -11,11 +11,12 @@ export interface UserInfo {
 export function useUserInfo(
   opts?: UseQueryOptions<UserInfo, Error, UserInfo, typeof USER_INFO_QUERY_KEY>
 ): UseQueryResult<UserInfo | null, Error> {
+  const jamId = "gmtk" // TODO: from theme
   const hasAuth = Boolean(useAuth());
   const apiRequest = useApiRequest();
   return useQuery(
     USER_INFO_QUERY_KEY,
-    () => apiRequest<UserInfo>("/userinfo"),
+    () => apiRequest<UserInfo>(`/${jamId}/userinfo`),
     {
       ...opts,
       enabled: hasAuth && (opts?.enabled ?? true),

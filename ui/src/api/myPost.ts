@@ -27,12 +27,13 @@ export function useMyPostQuery(
     typeof MY_POST_QUERY_KEY
   >
 ): UseQueryResult<Post | null, Error> {
+  const jamId = "gmtk" // TODO: from theme
   const hasAuth = Boolean(useAuth());
   const apiRequest = useApiRequest();
   return useQuery(
     MY_POST_QUERY_KEY,
     () =>
-      expectNotFound(apiRequest<PostApiResult>("/posts/mine")).then(
+      expectNotFound(apiRequest<PostApiResult>(`/${jamId}/posts/mine`)).then(
         (result) => result && postFromApiResult(result)
       ),
     {
@@ -56,6 +57,7 @@ export interface MyPostMutationVariables {
 export function useMyPostMutation(
   opts?: UseMutationOptions<Post, Error, MyPostMutationVariables>
 ): UseMutationResult<Post, Error, MyPostMutationVariables> {
+  const jamId = "gmtk" // TODO: from theme
   const userInfo = useUserInfo();
   const apiRequest = useApiRequest();
   const queryClient = useQueryClient();
@@ -68,7 +70,7 @@ export function useMyPostMutation(
       let result;
 
       if (existing) {
-        result = await apiRequest<PostApiResult>("/posts/mine", {
+        result = await apiRequest<PostApiResult>(`/${jamId}/posts/mine`, {
           method: "PUT",
           body: {
             ...variables,
@@ -76,7 +78,7 @@ export function useMyPostMutation(
           },
         });
       } else {
-        result = await apiRequest<PostApiResult>("/posts", {
+        result = await apiRequest<PostApiResult>(`/${jamId}/posts`, {
           method: "POST",
           body: {
             ...variables,
@@ -101,12 +103,13 @@ export interface DeleteMyPostMutationVariables {
 export function useDeleteMyPostMutation(
   opts?: UseMutationOptions<Post, Error, DeleteMyPostMutationVariables>
 ): UseMutationResult<Post, Error, DeleteMyPostMutationVariables> {
+  const jamId = "gmtk" // TODO: from theme
   const apiRequest = useApiRequest();
   const queryClient = useQueryClient();
   return useMutation({
     ...opts,
     mutationFn: async (variables) => {
-      const result = await apiRequest<PostApiResult>("/posts/mine", {
+      const result = await apiRequest<PostApiResult>(`/${jamId}/posts/mine`, {
         method: "DELETE",
         body: variables,
       });

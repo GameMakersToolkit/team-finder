@@ -5,6 +5,7 @@ import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.models.bot.dtos.BotDmDto
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
+import com.gmtkgamejam.services.BotService
 import com.gmtkgamejam.toJsonElement
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -12,7 +13,6 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.koin.ktor.ext.inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
@@ -23,7 +23,8 @@ fun Application.configureDiscordBotRouting() {
     val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     val authService = AuthService()
-    val bot: DiscordBot by inject()
+    val botService = BotService()
+    val bots: Map<String, DiscordBot> = botService.getBots()
 
     val userIdMessageTimes: MutableMap<String, LocalDateTime> = mutableMapOf()
 
@@ -53,61 +54,68 @@ fun Application.configureDiscordBotRouting() {
     }
 
     routing {
-        authenticate("auth-jwt") {
+        route("/{jamId}") {
             route("/bot") {
-                post("/dm") {
-                    val data = call.receive<BotDmDto>()
+                // TODO: /info route
 
-                    val tokenSet = authService.getTokenSet(call) ?: return@post call.respondJSON(
-                        "Your request couldn't be authorised",
-                        status = HttpStatusCode.Unauthorized
-                    )
+                authenticate("auth-jwt") {
+                    post("/dm") {
+                        val data = call.receive<BotDmDto>()
 
-                    val senderId = tokenSet.discordId
-                    val recipientId = data.recipientId
-
-                    if (!canUserSendMessageToThisUser(senderId, recipientId)) {
-                        return@post call.respondJSON(
-                            "You can't message a single user again so quickly",
-                            status = HttpStatusCode.TooManyRequests
+                        val tokenSet = authService.getTokenSet(call) ?: return@post call.respondJSON(
+                            "Your request couldn't be authorised",
+                            status = HttpStatusCode.Unauthorized
                         )
+
+                        val senderId = tokenSet.discordId
+                        val recipientId = data.recipientId
+
+                        if (!canUserSendMessageToThisUser(senderId, recipientId)) {
+                            return@post call.respondJSON(
+                                "You can't message a single user again so quickly",
+                                status = HttpStatusCode.TooManyRequests
+                            )
+                        }
+
+                        if (!canUserSendMessage(senderId)) {
+                            return@post call.respondJSON(
+                                "You are sending too many messages - please wait a few minutes and try again",
+                                status = HttpStatusCode.TooManyRequests
+                            )
+                        }
+
+                        try {
+                            val sendTime = LocalDateTime.now()
+
+                            val jamId = call.parameters["jamId"]!!
+                            val bot = bots[jamId] ?: return@post call.respondJSON("Could not load discord bot for jam!", HttpStatusCode.InternalServerError)
+
+                            bot.createContactUserPingMessage(recipientId, senderId)
+                            userIdMessageTimes[senderId] = sendTime
+                            userIdPerUserMessageTimes[Pair(senderId, recipientId).toString()] = sendTime
+                            logger.error("Sender [$senderId] has pinged Recipient [$recipientId] at [$sendTime]")
+                            return@post call.respond(it)
+                        } catch (ex: Exception) {
+                            logger.error("Could not create ping message: $ex")
+                            return@post call.respondJSON(
+                                "This message could not be sent, please inform the Team Finder Support group in Discord",
+                                status = HttpStatusCode.NotAcceptable
+                            )
+                        }
                     }
 
-                    if (!canUserSendMessage(senderId)) {
-                        return@post call.respondJSON(
-                            "You are sending too many messages - please wait a few minutes and try again",
-                            status = HttpStatusCode.TooManyRequests
-                        )
-                    }
+                    authenticate("auth-jwt-admin") {
+                        get("/_monitoring") {
+                            val data = mapOf(
+                                "userTimeout" to userRateLimitTimeOutInSeconds,
+                                "perRecipientTimeout" to perUserTimeoutInSeconds,
+                                "userIdMessageTimes" to userIdMessageTimes,
+                                "userIdPerUserMessageTimes" to userIdPerUserMessageTimes,
+                            )
 
-                    try {
-                        val sendTime = LocalDateTime.now()
-
-                        bot.createContactUserPingMessage(recipientId, senderId)
-                        userIdMessageTimes[senderId] = sendTime
-                        userIdPerUserMessageTimes[Pair(senderId, recipientId).toString()] = sendTime
-                        logger.error("Sender [$senderId] has pinged Recipient [$recipientId] at [$sendTime]")
-                        return@post call.respond(it)
-                    } catch (ex: Exception) {
-                        logger.error("Could not create ping message: $ex")
-                        return@post call.respondJSON(
-                            "This message could not be sent, please inform the Team Finder Support group in Discord",
-                            status = HttpStatusCode.NotAcceptable
-                        )
-                    }
-                }
-
-                authenticate("auth-jwt-admin") {
-                    get("/_monitoring") {
-                        val data = mapOf(
-                            "userTimeout" to userRateLimitTimeOutInSeconds,
-                            "perRecipientTimeout" to perUserTimeoutInSeconds,
-                            "userIdMessageTimes" to userIdMessageTimes,
-                            "userIdPerUserMessageTimes" to userIdPerUserMessageTimes,
-                        )
-
-                        // .toJsonElement required as Ktor can't serialise collections of different element types
-                        return@get call.respond(data.toJsonElement())
+                            // .toJsonElement required as Ktor can't serialise collections of different element types
+                            return@get call.respond(data.toJsonElement())
+                        }
                     }
                 }
             }

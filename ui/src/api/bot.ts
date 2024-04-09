@@ -25,7 +25,7 @@ export function useCreateBotDmMutation(
   return useMutation({
     ...opts,
     mutationFn: async (variables) => {
-      const result = await apiRequest<PostApiResult>("/bot/dm", {
+      const result = await apiRequest<PostApiResult>("/gmtk/bot/dm", {
         method: "POST",
         body: variables,
       });
