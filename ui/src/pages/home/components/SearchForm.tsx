@@ -30,7 +30,7 @@ export const SearchForm: React.FC<{
                         name="description"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.description}
+                        value={values.description || ""}
                     />
 
                     <div className="c-form-block">

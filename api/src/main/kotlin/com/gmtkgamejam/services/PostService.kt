@@ -8,6 +8,7 @@ import org.bson.conversions.Bson
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.litote.kmongo.*
+import org.litote.kmongo.MongoOperator.`in`
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -30,6 +31,10 @@ class PostService : KoinComponent {
         }
 
         col.insertOne(postItem)
+    }
+
+    fun getPosts(filter: Bson): List<PostItem> {
+        return col.find(filter).toList()
     }
 
     // Un-paginated version should be used for Admin endpoints
@@ -61,6 +66,12 @@ class PostService : KoinComponent {
     fun deletePost(postItem: PostItem) {
         postItem.deletedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         col.updateOne(PostItem::id eq postItem.id, postItem)
+    }
+
+    fun getPostsByOrderedIds(ids: List<String>): List<PostItem> {
+        // IDs need to be an array of strings (either using " or '), but Kotlin defaults to an array of numbers
+        val formattedIds = ids.joinToString(separator = "', '", prefix = "['", postfix = "']")
+        return col.find("""{id: {$`in`: $formattedIds}}}""").toList().sortedBy { result -> ids.indexOf(result.id) }
     }
 
 }
