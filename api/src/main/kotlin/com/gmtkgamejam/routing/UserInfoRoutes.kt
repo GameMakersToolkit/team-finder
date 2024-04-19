@@ -1,22 +1,18 @@
 package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.Config
-import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
 import com.gmtkgamejam.models.auth.UserInfo
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.BotService
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.koin.ktor.ext.inject
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 import java.util.*
 
@@ -83,7 +79,7 @@ fun Application.configureUserInfoRouting() {
                         val user = getUserInfoAsync(accessToken)
 
                         val jamId = call.parameters["jamId"]!!
-                        val bot = botService.getBots()[jamId]!!
+                        val bot = botService.getBot(jamId) ?: return@get call.respondJSON("No bot found for jamId $jamId", HttpStatusCode.NotFound)
 
                         val displayName = bot.getDisplayNameForUser(user.id)
                         val hasPermissions = bot.doesUserHaveValidPermissions(user.id)

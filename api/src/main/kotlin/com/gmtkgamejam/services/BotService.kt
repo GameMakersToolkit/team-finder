@@ -22,7 +22,7 @@ class BotService : KoinComponent {
         loadedBots = col.find().toList().associate { botRecord -> botRecord.jamId to DiscordBot(botRecord.guildId, botRecord.botToken) }
     }
 
-    fun getBots(): Map<String, DiscordBot> = loadedBots
+    fun getBot(jamId: String): DiscordBot? = loadedBots[jamId]
 
 }
 
