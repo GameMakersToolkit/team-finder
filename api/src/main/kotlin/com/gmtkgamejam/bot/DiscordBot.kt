@@ -1,7 +1,9 @@
 package com.gmtkgamejam.bot
 
 import com.gmtkgamejam.Config
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.future.await
+import kotlinx.coroutines.withContext
 import org.javacord.api.DiscordApi
 import org.javacord.api.DiscordApiBuilder
 import org.javacord.api.entity.channel.ServerTextChannel
@@ -13,6 +15,7 @@ import org.javacord.api.exception.DiscordException
 import org.javacord.api.exception.MissingPermissionsException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.jvm.optionals.getOrElse
 
 class DiscordBot {
 
@@ -23,6 +26,8 @@ class DiscordBot {
     private lateinit var server: Server
 
     private lateinit var channel: ServerTextChannel
+
+    private val messageBuilder = BotMessageBuilder()
 
     private val approvedUsers: MutableList<String> = mutableListOf()
 
@@ -51,6 +56,26 @@ class DiscordBot {
         val recipient: User = api.getUserById(recipientUserId).await()
         val sender: User = api.getUserById(senderUserId).await()
 
+        val dmChannel = recipient.privateChannel.getOrElse { recipient.openPrivateChannel().get() }
+
+        val messageSendAttempt = if (messageBuilder.canBuildEmbedFromUser(sender)) {
+            dmChannel.sendMessage(messageBuilder.embedMessage(recipient, sender))
+        } else {
+            dmChannel.sendMessage(messageBuilder.basicMessage(recipient, sender))
+        }
+
+        try {
+            withContext(Dispatchers.IO) {
+                messageSendAttempt.get()
+            }
+        } catch (ex: InterruptedException) {
+            createFallbackChannelPingMessage(recipient, sender)
+        } catch (ex: java.util.concurrent.ExecutionException) {
+            createFallbackChannelPingMessage(recipient, sender)
+        }
+    }
+
+    private suspend fun createFallbackChannelPingMessage(recipient: User, sender: User) {
         val messageContents = "Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!"
         // TODO: Validate message actually sent, give error otherwise
         channel.sendMessage(messageContents).await()

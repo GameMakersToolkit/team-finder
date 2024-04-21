@@ -1,14 +1,29 @@
 import React from "react";
+import {toast} from "react-hot-toast";
 
 export const DiscordPingButton: React.FC<{
     authorId: string,
+    authorName: string,
     createBotDmMutation: any,
     message: string
 }> = ({
     authorId,
+    authorName,
     createBotDmMutation,
     message,
 }) => {
+
+    const onClick = () => {
+        createBotDmMutation.mutate({
+            recipientId: authorId,
+        }, {
+            onSuccess: () => {
+                toast(`${authorName} has just been notified that you want to get in touch!`);
+            },
+
+        });
+    };
+
     return (
         <>
             <p className="mb-2">{message}</p>
@@ -16,7 +31,7 @@ export const DiscordPingButton: React.FC<{
                 <a
                     target="_blank"
                     rel="noreferrer"
-                    onClick={() => createBotDmMutation.mutate({ recipientId: authorId })}
+                    onClick={onClick}
                     className="text-sm"
                 >
                     Ping them on Discord
