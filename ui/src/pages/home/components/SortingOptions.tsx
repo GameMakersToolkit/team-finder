@@ -3,6 +3,7 @@ import {Field} from "formik";
 import CustomSelect, {CustomSelectOption} from "./common/CustomSelect.tsx";
 
 const sortBy: CustomSelectOption[] = [
+    {label: "Relevance", value: "score"},
     {label: "Team Size", value: "size"},
     {label: "Date Created", value: "createdAt"},
     {label: "Last Updated", value: "updatedAt"},

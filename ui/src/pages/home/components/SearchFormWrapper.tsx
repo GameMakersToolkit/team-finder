@@ -8,20 +8,23 @@ import debounce from "just-debounce-it";
 
 export const SearchFormWrapper: React.FC<{
     searchParams: URLSearchParams,
-    setSearchParams: (value: any) => void
-}> = ({searchParams, setSearchParams}) => {
+    setSearchParams: (value: any) => void,
+    isViewingBookmarks: boolean
+}> = ({searchParams, setSearchParams, isViewingBookmarks}) => {
 
     const initialFormValues: SearchParameters = searchParametersFromQueryString(searchParams)
 
     const onSubmitForm = (values: any) => {
         // Remove the empty fields, so we don't clutter up the query string with &a=&b=...
-        const formattedValues: Partial<SearchParameters> = removeEmpty(values)
+        const formattedValues: Partial<SearchParameters>  = removeEmpty(values)
 
         // If we only have one timezone flag set, don't send either in query string
         if (!values['timezoneStart'] || !values['timezoneEnd']) {
             delete formattedValues.timezoneStart
             delete formattedValues.timezoneEnd
         }
+
+        if (isViewingBookmarks) formattedValues.bookmarked = "true"
 
         // @ts-ignore
         setSearchParams(formattedValues)

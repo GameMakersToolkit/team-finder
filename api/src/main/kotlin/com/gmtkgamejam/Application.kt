@@ -2,13 +2,13 @@ package com.gmtkgamejam
 
 import com.gmtkgamejam.koin.DatabaseModule
 import com.gmtkgamejam.koin.DiscordBotModule
+import com.gmtkgamejam.koin.SearchEngineModule
 import com.gmtkgamejam.routing.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.cors.*
-import io.ktor.server.plugins.cors.routing.CORS
+import io.ktor.server.plugins.cors.routing.*
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.environmentProperties
@@ -19,16 +19,21 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module() {
     startKoin {
         environmentProperties()
-        modules(DatabaseModule, DiscordBotModule)
+        modules(
+            DatabaseModule,
+            DiscordBotModule,
+            SearchEngineModule
+        )
     }
 
+    configureAdminRouting()
+    configureAuthRouting()
+    configureDiscordBotRouting()
+    configureFavouritesRouting()
+    configureInfraRouting()
+    configurePostRouting()
     configureRequestHandling()
     configureUserInfoRouting()
-    configureAuthRouting()
-    configureAdminRouting()
-    configurePostRouting()
-    configureFavouritesRouting()
-    configureDiscordBotRouting()
 }
 
 fun Application.configureRequestHandling() {

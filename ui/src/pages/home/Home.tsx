@@ -11,16 +11,14 @@ import {Post} from "../../common/models/post.ts";
 export const Home: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [posts, setPosts] = useState<Post[]>([]);
-    const [isViewingBookmarks, setIsViewingBookmarks] = useState<boolean>(searchParams.get('bookmarked') === "true");
+    const [isViewingBookmarks, setIsViewingBookmarks] = useState<boolean>(searchParams.get('bookmarked') == "true");
     const { token } = useAuth() ?? {};
 
     // Trigger API call every time query string changes
-    // Not sure if we actually need react-query here, but I'm keeping it everywhere else for now to avoid unnecessary work
     useEffect(() => {
         const isOnlyBookmarked = searchParams.get('bookmarked') === "true"
         const path = isOnlyBookmarked ? "posts/favourites" : "posts"
         setIsViewingBookmarks(isOnlyBookmarked)
-        searchParams.delete('bookmarked')
 
         const url = new URL(path + "?" + searchParams.toString(), import.meta.env.VITE_API_URL)
         const init: RequestInit = {method: "GET", headers: {"Content-Type": "application/json"}}
@@ -41,7 +39,7 @@ export const Home: React.FC = () => {
         <main>
             <Onboarding />
             <SiteIntro />
-            <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
+            <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} isViewingBookmarks={isViewingBookmarks} />
 
             {posts?.length > 0
                 ? <PostsToDisplay posts={posts} />

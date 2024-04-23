@@ -17,6 +17,11 @@ object Config {
     fun getString(key: String): String = config.property(key).getString()
 
     /**
+     * Get property int value
+     */
+    fun getInt(key: String): Int = getString(key).toInt()
+
+    /**
      * Get property list value
      */
     // getList() doesn't parse comma-separated lists for some reason. eugh.

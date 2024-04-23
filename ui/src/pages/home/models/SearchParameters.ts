@@ -8,6 +8,7 @@ export type SearchParameters = {
     timezoneEnd: string | undefined;
     sortBy: string;
     sortDir: string;
+    bookmarked?: string;
 }
 
 export const blankSearchParameters: SearchParameters = {
@@ -34,5 +35,6 @@ export const searchParametersFromQueryString = (queryParams: URLSearchParams): S
         timezoneEnd: queryParams.get("timezoneEnd"),
         sortBy: queryParams.get('sortBy'),
         sortDir: queryParams.get('sortDir'),
+        bookmarked: queryParams.get('bookmarked')
     } as SearchParameters
 }
