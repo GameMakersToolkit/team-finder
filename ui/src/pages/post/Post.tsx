@@ -154,7 +154,7 @@ const MessageOnDiscordButton: React.FC<{
             {canPostAuthorBeDMd && <DiscordMessageButton authorId={authorId} author={author} isLoggedIn={isLoggedIn} />}
 
             {inDiscordServer
-                ? <DiscordPingButton authorId={authorId} createBotDmMutation={createBotDmMutation} message={fallbackPingMessage} />
+                ? <DiscordPingButton authorId={authorId} authorName={author} createBotDmMutation={createBotDmMutation} message={fallbackPingMessage} />
                 : <>
                     <p>Sorry, you can&apos;t contact this user right now.</p>
                     <p>
