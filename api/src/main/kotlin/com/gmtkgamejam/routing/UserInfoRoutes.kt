@@ -6,13 +6,15 @@ import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
 import com.gmtkgamejam.models.auth.UserInfo
 import com.gmtkgamejam.respondJSON
+import com.gmtkgamejam.services.AnalyticsService
 import com.gmtkgamejam.services.AuthService
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.coroutines.launch
 import org.koin.ktor.ext.inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -26,6 +28,8 @@ fun Application.configureUserInfoRouting() {
     val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     val bot: DiscordBot by inject()
+
+    val analyticsService = AnalyticsService()
     val service = AuthService()
 
     val shortLiveCache: MutableMap<UserId, Pair<LocalDateTime, UserInfo>> = mutableMapOf()
@@ -80,6 +84,10 @@ fun Application.configureUserInfoRouting() {
                     }
 
                     val user = getUserInfoAsync(accessToken)
+
+                    launch {
+                        analyticsService.trackLogin()
+                    }
 
                     val displayName = bot.getDisplayNameForUser(user.id)
                     val hasPermissions = bot.doesUserHaveValidPermissions(user.id)

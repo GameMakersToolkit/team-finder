@@ -11,6 +11,7 @@ import com.gmtkgamejam.models.posts.dtos.PostItemReportDto
 import com.gmtkgamejam.models.posts.dtos.PostItemUnableToContactReportDto
 import com.gmtkgamejam.models.posts.dtos.PostItemUpdateDto
 import com.gmtkgamejam.respondJSON
+import com.gmtkgamejam.services.AnalyticsService
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
 import com.gmtkgamejam.services.PostService
@@ -20,17 +21,19 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import java.time.format.DateTimeFormatter
-import java.time.LocalDateTime
+import io.ktor.util.*
+import kotlinx.coroutines.launch
 import org.bson.conversions.Bson
 import org.litote.kmongo.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.min
-import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
 import kotlin.text.Regex.Companion.escape
 
 fun Application.configurePostRouting() {
 
+    val analyticsService = AnalyticsService()
     val authService = AuthService()
     val service = PostService()
     val favouritesService = FavouritesService()
@@ -51,6 +54,11 @@ fun Application.configurePostRouting() {
                         posts.map { it.isFavourite = favouritesList.postIds.contains(it.id) }
                     }
 
+                launch {
+                    analyticsService.trackQuery(params.toMap().toSortedMap())
+                    posts.forEach { analyticsService.trackQueryView(it) }
+                }
+
                 call.respond(posts)
             }
 
@@ -69,7 +77,10 @@ fun Application.configurePostRouting() {
                         post?.isFavourite = favouritesList.postIds.contains(post?.id)
                     }
 
-                post?.let { return@get call.respond(it) }
+                post
+                    ?.also { launch { analyticsService.trackFullPageView(it) } }
+                    ?.let { return@get call.respond(it) }
+
                 call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
             }
 
