@@ -25,12 +25,14 @@ data class PostItem (
     var timezoneOffsets: Set<Int>,
     var languages: Set<String>,
 
+    var queryCount: Int,
+    var fullPageViewCount: Int,
     // Reported by the flag icon for inappropriate content
-    var reportCount: Int, 
-    
+    var reportCount: Int,
+
     // Optional flag for users to report the linked profile as
     // unabled to be contacted by discord CTA
-    var unableToContactCount: Int, 
+    var unableToContactCount: Int,
 
     // Managed by DB
     val createdAt: String,
@@ -56,9 +58,11 @@ data class PostItem (
                 dto.languages,
                 0,
                 0,
+                0,
+                0,
                 currentDatetime,
                 currentDatetime,
-                null,
+                null
             )
         }
     }
