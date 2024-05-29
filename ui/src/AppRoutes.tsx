@@ -20,34 +20,11 @@ const queryClient = new QueryClient({
 });
 
 export const AppRoutes: React.FC = () => {
-    const queryParams = new URLSearchParams(window.location.search)
-
-    if (queryParams.get("hn")) {
-        const hideNoticeFlag = queryParams.get("hn") === "1"
-        localStorage.setItem("tf.hideDevNotice", hideNoticeFlag.toString())
-    }
-
-    const showDevNotice = localStorage.getItem("tf.hideDevNotice") === "false"
 
     return (
         <BrowserRouter>
             <ReactQuerySiteWrapper>
             <Header />
-                {showDevNotice
-                    ? <div style={{
-                            width: '100%',
-                            padding: '1rem',
-                            backgroundColor: '#FFA726',
-                            border: '3px solid black',
-                            color: 'black',
-                            fontSize: '2rem',
-                            textAlign: 'center',
-                        }}>
-                            The team finder is in development mode, please come back later!
-                        </div>
-                    : <></>
-                }
-
             <Routes>
                 <Route path="/" element={<Navigate to="/gmtk" />} />
 
