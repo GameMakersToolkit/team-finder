@@ -54,12 +54,12 @@ fun Application.configurePostRouting() {
                         posts.map { it.isFavourite = favouritesList.postIds.contains(it.id) }
                     }
 
+                call.respond(posts)
+
                 launch {
                     analyticsService.trackQuery(params.toMap().toSortedMap())
                     posts.forEach { analyticsService.trackQueryView(it) }
                 }
-
-                call.respond(posts)
             }
 
             get("{id}") {
