@@ -12,7 +12,7 @@ import io.ktor.server.auth.jwt.*
 import java.net.URLEncoder
 
 @Suppress("unused")
-fun Application.authModule() {
+fun Application.configureAuthModule() {
     install(Authentication) {
         oauth("auth-oauth-discord") {
             urlProvider = { Config.getString("api.host") + "/callback" }
