@@ -1,7 +1,9 @@
 package com.gmtkgamejam.models.posts
 
 // For the time being, Tool == Engine
-enum class Tools(private var readableName: String) {
+enum class Tools(
+    private var readableName: String,
+) {
     UNITY("Unity"),
     CONSTRUCT("Construct"),
     GAME_MAKER_STUDIO("Game Maker Studio"),
@@ -11,9 +13,8 @@ enum class Tools(private var readableName: String) {
     UNREAL("Unreal"),
     RPG_MAKER("RPG Maker"),
     PICO_8("PICO 8"),
-    OTHER("Other");
+    OTHER("Other"),
+    ;
 
-    override fun toString(): String {
-        return readableName;
-    }
+    override fun toString(): String = readableName
 }

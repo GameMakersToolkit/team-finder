@@ -25,4 +25,3 @@ class AnalyticsService : KoinComponent {
         repository.trackLogin()
     }
 }
-

@@ -11,24 +11,40 @@ import java.time.format.DateTimeFormatter
 
 interface PostRepository {
     fun createPost(postItem: PostItem)
-    fun getPosts(filter: Bson, sort: Bson): List<PostItem>
-    fun getPost(id: String) : PostItem?
-    fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false) : PostItem?
+
+    fun getPosts(
+        filter: Bson,
+        sort: Bson,
+    ): List<PostItem>
+
+    fun getPost(id: String): PostItem?
+
+    fun getPostByAuthorId(
+        authorId: String,
+        ignoreDeletion: Boolean = false,
+    ): PostItem?
+
     fun updatePost(postItem: PostItem)
+
     fun deletePost(postItem: PostItem)
+
     fun addQueryView(postItem: PostItem)
+
     fun addFullPageView(postItem: PostItem)
 }
 
-open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
-    private val col: MongoCollection<PostItem> = client
-        .getDatabase("team-finder")
-        .getCollectionOfName("posts")
+open class PostRepositoryImpl(
+    val client: MongoClient,
+) : PostRepository {
+    private val col: MongoCollection<PostItem> =
+        client
+            .getDatabase("team-finder")
+            .getCollectionOfName("posts")
 
-    private val bannedUsersCol: MongoCollection<PostItem> = client
-        .getDatabase("team-finder")
-        .getCollectionOfName("banned-users")
-
+    private val bannedUsersCol: MongoCollection<PostItem> =
+        client
+            .getDatabase("team-finder")
+            .getCollectionOfName("banned-users")
 
     override fun createPost(postItem: PostItem) {
         if (bannedUsersCol.findOne(BannedUser::discordId eq postItem.authorId) != null) {
@@ -39,15 +55,17 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
     }
 
     // Un-paginated version should be used for Admin endpoints
-    override fun getPosts(filter: Bson, sort: Bson): List<PostItem> {
-        return col.find(filter).sort(sort).toList()
-    }
+    override fun getPosts(
+        filter: Bson,
+        sort: Bson,
+    ): List<PostItem> = col.find(filter).sort(sort).toList()
 
-    override fun getPost(id: String) : PostItem? {
-        return col.findOne(PostItem::id eq id)
-    }
+    override fun getPost(id: String): PostItem? = col.findOne(PostItem::id eq id)
 
-    override fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean) : PostItem? {
+    override fun getPostByAuthorId(
+        authorId: String,
+        ignoreDeletion: Boolean,
+    ): PostItem? {
         var filter = PostItem::authorId eq authorId
         if (!ignoreDeletion) {
             filter = and(filter, PostItem::deletedAt eq null)
@@ -78,5 +96,4 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
         postItem.fullPageViewCount += 1
         col.updateOne(PostItem::id eq postItem.id, postItem)
     }
-
 }

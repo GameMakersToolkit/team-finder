@@ -12,17 +12,22 @@ import org.litote.kmongo.updateOne
 
 interface AnalyticsRepository {
     fun trackQuery(queryParams: Map<String, Any>)
+
     fun trackLogin()
 }
 
-open class AnalyticsRepositoryImpl(val client: MongoClient) : AnalyticsRepository {
-    protected val col: MongoCollection<AnalyticsCommonEvents> = client
-        .getDatabase("team-finder")
-        .getCollectionOfName("analytics-events")
+open class AnalyticsRepositoryImpl(
+    val client: MongoClient,
+) : AnalyticsRepository {
+    protected val col: MongoCollection<AnalyticsCommonEvents> =
+        client
+            .getDatabase("team-finder")
+            .getCollectionOfName("analytics-events")
 
-    protected val viewCol: MongoCollection<AnalyticsViewEvent> = client
-        .getDatabase("team-finder")
-        .getCollectionOfName("analytics-view-events")
+    protected val viewCol: MongoCollection<AnalyticsViewEvent> =
+        client
+            .getDatabase("team-finder")
+            .getCollectionOfName("analytics-view-events")
 
     override fun trackQuery(queryParams: Map<String, Any>) {
         val key = queryParams.toString()
@@ -34,7 +39,8 @@ open class AnalyticsRepositoryImpl(val client: MongoClient) : AnalyticsRepositor
     }
 
     override fun trackLogin() {
-        val record: AnalyticsCommonEvents = col.findOne(AnalyticsCommonEvents::id eq "events") ?: AnalyticsCommonEvents("events", 0)
+        val record: AnalyticsCommonEvents =
+            col.findOne(AnalyticsCommonEvents::id eq "events") ?: AnalyticsCommonEvents("events", 0)
         record.loginCount += 1
 
         col.updateOne(AnalyticsCommonEvents::id eq "events", record, UpdateOptions().upsert(true))

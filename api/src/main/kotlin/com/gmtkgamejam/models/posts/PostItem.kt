@@ -8,44 +8,40 @@ import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.abs
 
 @Serializable
-data class PostItem (
+data class PostItem(
     val id: String,
-
     var author: String,
     var authorId: String,
-
     var description: String,
     var size: Int,
-
     var skillsPossessed: Set<Skills>?,
     var skillsSought: Set<Skills>?,
-
     var preferredTools: Set<Tools>?,
     var availability: Availability,
     var timezoneOffsets: Set<Int>,
     var languages: Set<String>,
-
     var queryCount: Int,
     var fullPageViewCount: Int,
     // Reported by the flag icon for inappropriate content
     var reportCount: Int,
-
     // Optional flag for users to report the linked profile as
     // unabled to be contacted by discord CTA
     var unableToContactCount: Int,
-
     // Managed by DB
     val createdAt: String,
     var updatedAt: String,
     var deletedAt: String?,
 ) {
     var isFavourite: Boolean = false
+
     companion object {
         fun fromCreateDto(dto: PostItemCreateDto): PostItem {
             // TODO: Standardise datetime format
             val currentDatetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             return PostItem(
-                abs(ThreadLocalRandom.current().nextLong()).toString(), // We need to handle as string, otherwise we lose precision in JS
+                abs(
+                    ThreadLocalRandom.current().nextLong(),
+                ).toString(), // We need to handle as string, otherwise we lose precision in JS
                 dto.author,
                 dto.authorId,
                 dto.description.take(2000),
@@ -62,7 +58,7 @@ data class PostItem (
                 0,
                 currentDatetime,
                 currentDatetime,
-                null
+                null,
             )
         }
     }

@@ -12,7 +12,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureFavouritesRouting() {
-
     val authService = AuthService()
     val favouritesService = FavouritesService()
 
@@ -22,18 +21,20 @@ fun Application.configureFavouritesRouting() {
                 post {
                     val postToFavourite = call.receive<FavouritePostDto>()
 
-                    val tokenSet = authService.getTokenSet(call)
-                        ?: return@post call.respond(
-                            status = HttpStatusCode.BadRequest,
-                            mapOf("message" to "Failed to favourite post.")
-                        )
+                    val tokenSet =
+                        authService.getTokenSet(call)
+                            ?: return@post call.respond(
+                                status = HttpStatusCode.BadRequest,
+                                mapOf("message" to "Failed to favourite post."),
+                            )
 
                     return@post call.respond(favouritesService.addPostAsFavourite(tokenSet.discordId, postToFavourite))
                 }
                 delete {
                     val postToUnFavourite = call.receive<FavouritePostDto>()
 
-                    authService.getTokenSet(call)
+                    authService
+                        .getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
                         ?.also { it.postIds.remove(postToUnFavourite.postId) }
                         ?.let { favouritesService.saveFavourites(it) }

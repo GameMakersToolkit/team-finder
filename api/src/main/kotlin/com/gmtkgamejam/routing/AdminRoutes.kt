@@ -1,10 +1,10 @@
 package com.gmtkgamejam.routing
 
-import com.gmtkgamejam.models.admin.dtos.BanUnbanUserDto
 import com.gmtkgamejam.models.admin.BannedUser
-import com.gmtkgamejam.models.posts.PostItem
+import com.gmtkgamejam.models.admin.dtos.BanUnbanUserDto
 import com.gmtkgamejam.models.admin.dtos.DeletePostDto
 import com.gmtkgamejam.models.admin.dtos.ReportedUsersClearDto
+import com.gmtkgamejam.models.posts.PostItem
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AdminService
 import com.gmtkgamejam.services.PostService
@@ -20,7 +20,6 @@ import org.litote.kmongo.eq
 import org.litote.kmongo.gt
 
 fun Application.configureAdminRouting() {
-
     val service = PostService()
     val adminService = AdminService()
 

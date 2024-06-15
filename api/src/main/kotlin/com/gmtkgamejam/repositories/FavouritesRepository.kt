@@ -10,22 +10,27 @@ import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollectionOfName
 import org.litote.kmongo.updateOne
 
-
 interface FavouritesRepository {
     fun getFavouritesByUserId(discordId: String): FavouritesList?
+
     fun saveFavourites(favouritesToSave: FavouritesList)
 }
 
-open class FavouritesRepositoryImpl(val client: MongoClient) : FavouritesRepository {
-    protected val col: MongoCollection<FavouritesList> = client
-        .getDatabase("team-finder")
-        .getCollectionOfName("favourites")
+open class FavouritesRepositoryImpl(
+    val client: MongoClient,
+) : FavouritesRepository {
+    protected val col: MongoCollection<FavouritesList> =
+        client
+            .getDatabase("team-finder")
+            .getCollectionOfName("favourites")
 
-    override fun getFavouritesByUserId(discordId: String): FavouritesList? {
-        return col.findOne(FavouritesList::discordId eq discordId)
-    }
+    override fun getFavouritesByUserId(discordId: String): FavouritesList? = col.findOne(FavouritesList::discordId eq discordId)
 
     override fun saveFavourites(favouritesToSave: FavouritesList) {
-        col.updateOne(AuthTokenSet::discordId eq favouritesToSave.discordId, favouritesToSave, UpdateOptions().upsert(true))
+        col.updateOne(
+            AuthTokenSet::discordId eq favouritesToSave.discordId,
+            favouritesToSave,
+            UpdateOptions().upsert(true),
+        )
     }
 }

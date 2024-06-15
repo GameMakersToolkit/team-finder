@@ -7,13 +7,14 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.cors.*
-import io.ktor.server.plugins.cors.routing.CORS
+import io.ktor.server.plugins.cors.routing.*
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.environmentProperties
 
-fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+fun main(args: Array<String>): Unit =
+    io.ktor.server.netty.EngineMain
+        .main(args)
 
 @Suppress("unused")
 fun Application.module() {
@@ -33,15 +34,16 @@ fun Application.module() {
 
 fun Application.configureRequestHandling() {
     install(ContentNegotiation) {
-        json(Json {
-            prettyPrint = true
-            isLenient = true
-            ignoreUnknownKeys = true
-        })
+        json(
+            Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+            },
+        )
     }
 
-    install(CORS)
-    {
+    install(CORS) {
         anyHost()
 
         allowMethod(HttpMethod.Options)

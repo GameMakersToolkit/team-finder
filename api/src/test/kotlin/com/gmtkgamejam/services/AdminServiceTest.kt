@@ -24,14 +24,14 @@ class TestAdminRepository : AdminRepository {
     override fun unbanUser(bannedUser: BannedUser) {
         bannedUsers.removeIf { it == bannedUser }
     }
-
 }
 
 class AdminServiceTest : KoinTest {
     companion object {
-        private val module = module {
-            single<AdminRepository> { TestAdminRepository() }
-        }
+        private val module =
+            module {
+                single<AdminRepository> { TestAdminRepository() }
+            }
 
         @BeforeClass
         @JvmStatic
@@ -54,25 +54,27 @@ class AdminServiceTest : KoinTest {
     private val service = AdminService()
 
     @Test
-    fun `should ban a user`() = run {
-        val u = BannedUser("discordId-1", "admin", "just now")
-        service.banUser(u)
+    fun `should ban a user`() =
+        run {
+            val u = BannedUser("discordId-1", "admin", "just now")
+            service.banUser(u)
 
-        assertContentEquals(
-            listOf(u),
-            TestAdminRepository.bannedUsers
-        )
-    }
+            assertContentEquals(
+                listOf(u),
+                TestAdminRepository.bannedUsers,
+            )
+        }
 
     @Test
-    fun `should unban a banned user`() = run {
-        val u = BannedUser("discordId-1", "admin", "just now")
-        service.banUser(u)
-        service.unbanUser(u)
+    fun `should unban a banned user`() =
+        run {
+            val u = BannedUser("discordId-1", "admin", "just now")
+            service.banUser(u)
+            service.unbanUser(u)
 
-        assertContentEquals(
-            listOf(),
-            TestAdminRepository.bannedUsers
-        )
-    }
+            assertContentEquals(
+                listOf(),
+                TestAdminRepository.bannedUsers,
+            )
+        }
 }

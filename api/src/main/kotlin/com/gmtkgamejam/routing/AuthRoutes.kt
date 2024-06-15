@@ -14,7 +14,6 @@ import java.security.SecureRandom
 import java.util.*
 
 fun Application.configureAuthRouting() {
-
     val service = AuthService()
 
     routing {
@@ -32,23 +31,26 @@ fun Application.configureAuthRouting() {
                 // A securely random ID is used to ensure a JWT is unique, and that another JWT can't be brute-forced
                 val randomId = getSecureId()
 
-                val token = JWT.create()
-                    .withAudience(audience)
-                    .withIssuer(issuer)
-                    .withClaim("id", randomId)
-                    .withExpiresAt(Date(System.currentTimeMillis() + lifespanOfAppJwt))
-                    .sign(Algorithm.HMAC256(secret))
+                val token =
+                    JWT
+                        .create()
+                        .withAudience(audience)
+                        .withIssuer(issuer)
+                        .withClaim("id", randomId)
+                        .withExpiresAt(Date(System.currentTimeMillis() + lifespanOfAppJwt))
+                        .sign(Algorithm.HMAC256(secret))
 
                 call.principal<OAuthAccessTokenResponse.OAuth2>()?.let {
                     val user = getUserInfoAsync(it.accessToken)
-                    val tokenSet = AuthTokenSet(
-                        randomId,
-                        user.id,
-                        it.accessToken,
-                        it.tokenType,
-                        Date(System.currentTimeMillis() + it.expiresIn),
-                        it.refreshToken
-                    )
+                    val tokenSet =
+                        AuthTokenSet(
+                            randomId,
+                            user.id,
+                            it.accessToken,
+                            it.tokenType,
+                            Date(System.currentTimeMillis() + it.expiresIn),
+                            it.refreshToken,
+                        )
                     service.storeTokenSet(tokenSet)
 
                     val redirectTarget = Config.getString("ui.host")

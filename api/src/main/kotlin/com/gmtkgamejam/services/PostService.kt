@@ -7,24 +7,23 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class PostService : KoinComponent {
-
     private val repository: PostRepository by inject()
 
     fun createPost(postItem: PostItem) {
         repository.createPost(postItem)
     }
 
-    fun getPosts(filter: Bson, sort: Bson): List<PostItem> {
-        return repository.getPosts(filter, sort)
-    }
+    fun getPosts(
+        filter: Bson,
+        sort: Bson,
+    ): List<PostItem> = repository.getPosts(filter, sort)
 
-    fun getPost(id: String) : PostItem? {
-        return repository.getPost(id)
-    }
+    fun getPost(id: String): PostItem? = repository.getPost(id)
 
-    fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false) : PostItem? {
-        return repository.getPostByAuthorId(authorId, ignoreDeletion)
-    }
+    fun getPostByAuthorId(
+        authorId: String,
+        ignoreDeletion: Boolean = false,
+    ): PostItem? = repository.getPostByAuthorId(authorId, ignoreDeletion)
 
     fun updatePost(postItem: PostItem) {
         repository.updatePost(postItem)
@@ -41,6 +40,4 @@ class PostService : KoinComponent {
     fun addFullPageView(postItem: PostItem) {
         repository.addFullPageView(postItem)
     }
-
 }
-

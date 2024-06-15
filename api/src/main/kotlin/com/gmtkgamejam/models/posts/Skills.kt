@@ -1,6 +1,8 @@
 package com.gmtkgamejam.models.posts
 
-enum class Skills(private var readableName: String) {
+enum class Skills(
+    private var readableName: String,
+) {
     ART_2D("2D Art"),
     ART_3D("3D Art"),
     CODE("Code"),
@@ -9,9 +11,8 @@ enum class Skills(private var readableName: String) {
     MUSIC("Music"),
     TESTING_SUPPORT("Testing/Support"),
     TEAM_LEAD("Team lead"),
-    OTHER("Other");
+    OTHER("Other"),
+    ;
 
-    override fun toString(): String {
-        return readableName;
-    }
+    override fun toString(): String = readableName
 }

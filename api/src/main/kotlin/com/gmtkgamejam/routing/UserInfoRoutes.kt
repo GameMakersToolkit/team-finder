@@ -24,7 +24,6 @@ import java.util.*
 typealias UserId = String
 
 fun Application.configureUserInfoRouting() {
-
     val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     val bot: DiscordBot by inject()
@@ -35,7 +34,8 @@ fun Application.configureUserInfoRouting() {
     val shortLiveCache: MutableMap<UserId, Pair<LocalDateTime, UserInfo>> = mutableMapOf()
 
     routing {
-        authenticate("auth-jwt") { // These routes go through the authentication middleware defined in Auth.kt
+        authenticate("auth-jwt") {
+            // These routes go through the authentication middleware defined in Auth.kt
             get("/hello") {
                 val principal = call.principal<JWTPrincipal>()
                 val id = principal?.payload?.getClaim("id")?.asString()
@@ -71,11 +71,12 @@ fun Application.configureUserInfoRouting() {
                     // If access token has expired, try a dirty inline refresh
                     val tokenHasExpired = tokenSet.expiry <= Date(System.currentTimeMillis())
                     if (tokenHasExpired) {
-                        val refreshedTokenSet = refreshTokenAsync(
-                            Config.getString("secrets.discord.client.id"),
-                            Config.getString("secrets.discord.client.secret"),
-                            it.refreshToken.toString()
-                        )
+                        val refreshedTokenSet =
+                            refreshTokenAsync(
+                                Config.getString("secrets.discord.client.id"),
+                                Config.getString("secrets.discord.client.secret"),
+                                it.refreshToken.toString(),
+                            )
 
                         tokenSet.refresh(refreshedTokenSet)
                         service.updateTokenSet(tokenSet)

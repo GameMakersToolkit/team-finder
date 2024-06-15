@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrElse
 
 class DiscordBot {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private lateinit var api: DiscordApi
@@ -44,7 +43,8 @@ class DiscordBot {
 
             channel = api.getServerTextChannelsByNameIgnoreCase(channelName).first()
             logger.info("Discord bot is online and ready for action!")
-        } catch (ex: NoSuchElementException) { // NoSuchElementException triggered by calling `.first()` on Collection
+        } catch (ex: NoSuchElementException) {
+            // NoSuchElementException triggered by calling `.first()` on Collection
             logger.warn("Discord bot could not connect to pingChannel [$channelName] - ping message integration offline.")
         } catch (ex: Exception) {
             logger.warn("Discord bot could not be initialised - continuing...")
@@ -52,17 +52,21 @@ class DiscordBot {
         }
     }
 
-    suspend fun createContactUserPingMessage(recipientUserId: String, senderUserId: String) {
+    suspend fun createContactUserPingMessage(
+        recipientUserId: String,
+        senderUserId: String,
+    ) {
         val recipient: User = api.getUserById(recipientUserId).await()
         val sender: User = api.getUserById(senderUserId).await()
 
         val dmChannel = recipient.privateChannel.getOrElse { recipient.openPrivateChannel().get() }
 
-        val messageSendAttempt = if (messageBuilder.canBuildEmbedFromUser(sender)) {
-            dmChannel.sendMessage(messageBuilder.embedMessage(recipient, sender))
-        } else {
-            dmChannel.sendMessage(messageBuilder.basicMessage(recipient, sender))
-        }
+        val messageSendAttempt =
+            if (messageBuilder.canBuildEmbedFromUser(sender)) {
+                dmChannel.sendMessage(messageBuilder.embedMessage(recipient, sender))
+            } else {
+                dmChannel.sendMessage(messageBuilder.basicMessage(recipient, sender))
+            }
 
         try {
             withContext(Dispatchers.IO) {
@@ -75,8 +79,12 @@ class DiscordBot {
         }
     }
 
-    private suspend fun createFallbackChannelPingMessage(recipient: User, sender: User) {
-        val messageContents = "Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!"
+    private suspend fun createFallbackChannelPingMessage(
+        recipient: User,
+        sender: User,
+    ) {
+        val messageContents =
+            "Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!"
         // TODO: Validate message actually sent, give error otherwise
         channel.sendMessage(messageContents).await()
     }
@@ -99,15 +107,16 @@ class DiscordBot {
 
     private suspend fun trySendMessage(userId: String): Boolean {
         var didMessageFailBecausePerms = false
-         try {
+        try {
             val user: User = api.getUserById(userId).await()
 
             logger.debug("Trying to send user garbage message...")
 
-            val messageResult = MessageBuilder()
-                .append("") // Intentionally left blank!
-                .send(user)
-                .await()
+            val messageResult =
+                MessageBuilder()
+                    .append("") // Intentionally left blank!
+                    .send(user)
+                    .await()
 
             logger.error("This shouldn't print, but you never know - message: $messageResult")
         } catch (ex: MissingPermissionsException) {
@@ -124,18 +133,19 @@ class DiscordBot {
         return !didMessageFailBecausePerms
     }
 
-    fun isUserInGuild(userId: String): Boolean {
-        return server.getMemberById(userId).isPresent
-    }
+    fun isUserInGuild(userId: String): Boolean = server.getMemberById(userId).isPresent
 
     fun getDisplayNameForUser(userId: String): String {
         val baseUserName = api.getUserById(userId).get().name
 
         return try {
-            server.getMemberById(userId).get().getNickname(server).get()
+            server
+                .getMemberById(userId)
+                .get()
+                .getNickname(server)
+                .get()
         } catch (ex: NoSuchElementException) {
             baseUserName
         }
     }
-
 }

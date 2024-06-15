@@ -17,9 +17,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 
-
 fun Application.configureDiscordBotRouting() {
-
     val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     val authService = AuthService()
@@ -43,7 +41,10 @@ fun Application.configureDiscordBotRouting() {
         return currentDateTime.isAfter(previousMessageDateTime.plusSeconds(userRateLimitTimeOutInSeconds))
     }
 
-    fun canUserSendMessageToThisUser(senderId: String, recipientId: String): Boolean {
+    fun canUserSendMessageToThisUser(
+        senderId: String,
+        recipientId: String,
+    ): Boolean {
         val currentDateTime = LocalDateTime.now()
 
         val specificRecipientKey = Pair(senderId, recipientId).toString()
@@ -58,10 +59,11 @@ fun Application.configureDiscordBotRouting() {
                 post("/dm") {
                     val data = call.receive<BotDmDto>()
 
-                    val tokenSet = authService.getTokenSet(call) ?: return@post call.respondJSON(
-                        "Your request couldn't be authorised",
-                        status = HttpStatusCode.Unauthorized
-                    )
+                    val tokenSet =
+                        authService.getTokenSet(call) ?: return@post call.respondJSON(
+                            "Your request couldn't be authorised",
+                            status = HttpStatusCode.Unauthorized,
+                        )
 
                     val senderId = tokenSet.discordId
                     val recipientId = data.recipientId
@@ -69,14 +71,14 @@ fun Application.configureDiscordBotRouting() {
                     if (!canUserSendMessageToThisUser(senderId, recipientId)) {
                         return@post call.respondJSON(
                             "You can't message a single user again so quickly",
-                            status = HttpStatusCode.TooManyRequests
+                            status = HttpStatusCode.TooManyRequests,
                         )
                     }
 
                     if (!canUserSendMessage(senderId)) {
                         return@post call.respondJSON(
                             "You are sending too many messages - please wait a few minutes and try again",
-                            status = HttpStatusCode.TooManyRequests
+                            status = HttpStatusCode.TooManyRequests,
                         )
                     }
 
@@ -92,19 +94,20 @@ fun Application.configureDiscordBotRouting() {
                         logger.error("Could not create ping message: $ex")
                         return@post call.respondJSON(
                             "This message could not be sent, please inform the Team Finder Support group in Discord",
-                            status = HttpStatusCode.NotAcceptable
+                            status = HttpStatusCode.NotAcceptable,
                         )
                     }
                 }
 
                 authenticate("auth-jwt-admin") {
                     get("/_monitoring") {
-                        val data = mapOf(
-                            "userTimeout" to userRateLimitTimeOutInSeconds,
-                            "perRecipientTimeout" to perUserTimeoutInSeconds,
-                            "userIdMessageTimes" to userIdMessageTimes,
-                            "userIdPerUserMessageTimes" to userIdPerUserMessageTimes,
-                        )
+                        val data =
+                            mapOf(
+                                "userTimeout" to userRateLimitTimeOutInSeconds,
+                                "perRecipientTimeout" to perUserTimeoutInSeconds,
+                                "userIdMessageTimes" to userIdMessageTimes,
+                                "userIdPerUserMessageTimes" to userIdPerUserMessageTimes,
+                            )
 
                         // .toJsonElement required as Ktor can't serialise collections of different element types
                         return@get call.respond(data.toJsonElement())

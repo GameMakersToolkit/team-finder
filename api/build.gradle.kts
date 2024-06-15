@@ -7,6 +7,8 @@ plugins {
     application
     kotlin("jvm") version "1.9.22"
     kotlin("plugin.serialization") version "1.9.22"
+
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 }
 
 group = "com.gmtkgamejam"

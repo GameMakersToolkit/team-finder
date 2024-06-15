@@ -1,7 +1,6 @@
 package com.gmtkgamejam.models.posts
 
 enum class Availability {
-
     /**
      * Haven't decided/don't know yet
      */

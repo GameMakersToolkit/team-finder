@@ -15,7 +15,6 @@ import org.litote.kmongo.getCollectionOfName
 import org.litote.kmongo.updateOne
 
 class AuthService : KoinComponent {
-
     private val client: MongoClient by inject()
 
     private val col: MongoCollection<AuthTokenSet>
@@ -29,9 +28,7 @@ class AuthService : KoinComponent {
         col.updateOne(AuthTokenSet::discordId eq tokenSet.discordId, tokenSet, UpdateOptions().upsert(true))
     }
 
-    fun getTokenSet(id: String): AuthTokenSet? {
-        return col.findOne(AuthTokenSet::id eq id)
-    }
+    fun getTokenSet(id: String): AuthTokenSet? = col.findOne(AuthTokenSet::id eq id)
 
     fun getTokenSet(call: ApplicationCall): AuthTokenSet? {
         val principal = call.principal<JWTPrincipal>()!!
@@ -43,6 +40,4 @@ class AuthService : KoinComponent {
     fun updateTokenSet(tokenSet: AuthTokenSet) {
         col.updateOne(AuthTokenSet::id eq tokenSet.id, tokenSet)
     }
-
 }
-

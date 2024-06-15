@@ -1,0 +1,6 @@
+[*.{kt,kts}]
+ktlint_standard_multiline-expression-wrapping = enabled
+ktlint_standard_parameter-wrapping = enabled
+ktlint_standard_property-wrapping = enabled
+ktlint_standard_no-wildcard-imports = disabled
+insert_final_newline = true
