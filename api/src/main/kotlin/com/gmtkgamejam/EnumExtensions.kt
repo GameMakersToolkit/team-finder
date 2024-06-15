@@ -5,6 +5,4 @@ package com.gmtkgamejam
  *
  * Suggest using with mapNotNull{} where possible
  */
-inline fun <reified A : Enum<A>> enumFromStringSafe(value: String) : A? {
-    return enumValues<A>().find { s -> s.name == value.uppercase() }
-}
+inline fun <reified A : Enum<A>> enumFromStringSafe(value: String): A? = enumValues<A>().find { s -> s.name == value.uppercase() }

@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
  * This model is the payload for deleting a PostItem
  */
 @Serializable
-data class PostItemDeleteDto (
+data class PostItemDeleteDto(
     var id: Long,
 )

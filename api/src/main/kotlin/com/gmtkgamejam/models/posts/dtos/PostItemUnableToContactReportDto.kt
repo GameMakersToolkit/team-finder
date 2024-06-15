@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
  * as unabled to be contacted by discord CTA
  */
 @Serializable
-data class PostItemUnableToContactReportDto (
+data class PostItemUnableToContactReportDto(
     var id: String,
 )

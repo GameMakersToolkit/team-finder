@@ -10,10 +10,13 @@ import java.time.format.DateTimeFormatter
 
 interface AdminRepository {
     fun banUser(bannedUser: BannedUser)
+
     fun unbanUser(bannedUser: BannedUser)
 }
 
-class AdminRepositoryImpl(val client: MongoClient) : AdminRepository {
+class AdminRepositoryImpl(
+    val client: MongoClient,
+) : AdminRepository {
     private val bannedUserCol: MongoCollection<BannedUser>
 
     init {
@@ -29,5 +32,4 @@ class AdminRepositoryImpl(val client: MongoClient) : AdminRepository {
     override fun unbanUser(bannedUser: BannedUser) {
         bannedUserCol.deleteMany(BannedUser::discordId eq bannedUser.discordId)
     }
-
 }

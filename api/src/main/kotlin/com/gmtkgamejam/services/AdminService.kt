@@ -16,4 +16,3 @@ class AdminService : KoinComponent {
         repository.unbanUser(bannedUser)
     }
 }
-

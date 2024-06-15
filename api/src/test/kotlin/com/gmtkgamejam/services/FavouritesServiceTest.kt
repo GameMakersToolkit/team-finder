@@ -1,7 +1,7 @@
 package com.gmtkgamejam.services
 
-import com.gmtkgamejam.models.posts.dtos.FavouritePostDto
 import com.gmtkgamejam.models.posts.FavouritesList
+import com.gmtkgamejam.models.posts.dtos.FavouritePostDto
 import com.gmtkgamejam.repositories.FavouritesRepository
 import com.gmtkgamejam.repositories.FavouritesRepositoryImpl
 import com.mongodb.ConnectionString
@@ -22,27 +22,28 @@ import org.litote.kmongo.deleteMany
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
-class TestFavouritesRepository(client: MongoClient) : FavouritesRepositoryImpl(client) {
+class TestFavouritesRepository(
+    client: MongoClient,
+) : FavouritesRepositoryImpl(client) {
     fun removeAll() {
         col.deleteMany("{}")
     }
 
-    fun getAllFavourites(): Iterable<FavouritesList?> {
-        return col.find()
-    }
+    fun getAllFavourites(): Iterable<FavouritesList?> = col.find()
 }
 
 class FavouritesServiceTest : KoinTest {
     companion object {
-        private val module = module {
-            single {
-                val running = Mongod.instance().start(Version.Main.V6_0)
-                val serverAddress = running.current().serverAddress
-                val connectionString = ConnectionString("mongodb://${serverAddress.host}:${serverAddress.port}")
-                return@single KMongo.createClient(connectionString)
+        private val module =
+            module {
+                single {
+                    val running = Mongod.instance().start(Version.Main.V6_0)
+                    val serverAddress = running.current().serverAddress
+                    val connectionString = ConnectionString("mongodb://${serverAddress.host}:${serverAddress.port}")
+                    return@single KMongo.createClient(connectionString)
+                }
+                single<FavouritesRepository> { TestFavouritesRepository(get()) }
             }
-            single<FavouritesRepository> { TestFavouritesRepository(get()) }
-        }
 
         @BeforeClass
         @JvmStatic
@@ -88,7 +89,7 @@ class FavouritesServiceTest : KoinTest {
                 FavouritesList("discordId-2", mutableListOf("1")),
                 FavouritesList("discordId-3", mutableListOf("1")),
             ),
-            (repository as TestFavouritesRepository).getAllFavourites()
+            (repository as TestFavouritesRepository).getAllFavourites(),
         )
     }
 }

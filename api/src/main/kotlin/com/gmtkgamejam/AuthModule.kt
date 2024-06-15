@@ -12,10 +12,7 @@ import io.ktor.server.auth.jwt.*
 import java.net.URLEncoder
 
 @Suppress("unused")
-fun Application.authModule() {
-    // Set config at first point of entry
-    Config.initConfig(environment.config)
-
+fun Application.configureAuthModule() {
     install(Authentication) {
         oauth("auth-oauth-discord") {
             urlProvider = { Config.getString("api.host") + "/callback" }
@@ -46,7 +43,7 @@ fun Application.authModule() {
                         requestMethod = HttpMethod.Post,
                         clientId = Config.getString("secrets.discord.client.id"),
                         clientSecret = Config.getString("secrets.discord.client.secret"),
-                        defaultScopes = listOf("identify", "guilds.members.read")
+                        defaultScopes = listOf("identify", "guilds.members.read"),
                     )
                 }
             }
@@ -76,7 +73,7 @@ fun Application.authModule() {
     }
 }
 
-fun buildJWTVerifier(): JWTVerifier {
+private fun buildJWTVerifier(): JWTVerifier {
     val secret = Config.getString("jwt.secret")
     val issuer = Config.getString("jwt.issuer")
     val audience = Config.getString("jwt.audience")

@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  * This model is the payload for an existing PostItem being updated on PUT /posts/mine
  */
 @Serializable
-data class PostItemUpdateDto (
+data class PostItemUpdateDto(
     var author: String?,
     var description: String?,
     var size: Int?,

@@ -8,6 +8,6 @@ import kotlinx.serialization.Serializable
  * This is only triggered for one post at a time
  */
 @Serializable
-data class FavouritePostDto (
+data class FavouritePostDto(
     var postId: String,
 )
