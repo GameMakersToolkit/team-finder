@@ -18,6 +18,9 @@ fun main(args: Array<String>): Unit =
 
 @Suppress("unused")
 fun Application.module() {
+    // Set config at first point of entry
+    Config.initConfig(environment.config)
+
     startKoin {
         environmentProperties()
         modules(DatabaseModule, DiscordBotModule)

@@ -13,9 +13,6 @@ import java.net.URLEncoder
 
 @Suppress("unused")
 fun Application.authModule() {
-    // Set config at first point of entry
-    Config.initConfig(environment.config)
-
     install(Authentication) {
         oauth("auth-oauth-discord") {
             urlProvider = { Config.getString("api.host") + "/callback" }
@@ -76,7 +73,7 @@ fun Application.authModule() {
     }
 }
 
-fun buildJWTVerifier(): JWTVerifier {
+private fun buildJWTVerifier(): JWTVerifier {
     val secret = Config.getString("jwt.secret")
     val issuer = Config.getString("jwt.issuer")
     val audience = Config.getString("jwt.audience")
