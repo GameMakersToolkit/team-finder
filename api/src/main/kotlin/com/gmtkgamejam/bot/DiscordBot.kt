@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrElse
 
 class DiscordBot {
-
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private lateinit var api: DiscordApi
@@ -59,8 +58,10 @@ class DiscordBot {
         val dmChannel = recipient.privateChannel.getOrElse { recipient.openPrivateChannel().get() }
 
         val messageSendAttempt = if (messageBuilder.canBuildEmbedFromUser(sender)) {
+            logger.info("[CONTACT] [EMBED] ${sender.name} ($senderUserId) contacted ${recipient.name} ($recipientUserId)")
             dmChannel.sendMessage(messageBuilder.embedMessage(recipient, sender))
         } else {
+            logger.info("[CONTACT] [BASIC] ${sender.name} ($senderUserId) contacted ${recipient.name} ($recipientUserId)")
             dmChannel.sendMessage(messageBuilder.basicMessage(recipient, sender))
         }
 
@@ -78,6 +79,7 @@ class DiscordBot {
     private suspend fun createFallbackChannelPingMessage(recipient: User, sender: User) {
         val messageContents = "Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!"
         // TODO: Validate message actually sent, give error otherwise
+        logger.info("[CONTACT] [PING] ${sender.name} (${sender.id}) contacted ${recipient.name} (${recipient.id})")
         channel.sendMessage(messageContents).await()
     }
 
@@ -137,5 +139,4 @@ class DiscordBot {
             baseUserName
         }
     }
-
 }
