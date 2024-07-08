@@ -8,6 +8,8 @@ import {tools} from "../../common/models/engines.tsx";
 import {timezones} from "../../common/models/timezones.ts";
 import {Post} from "../../common/models/post.ts";
 
+const discordGroupName = import.meta.env.VITE_DISCORD_NAME;
+
 export const MyPost: React.FC<{
     params: FormikProps<Post>,
     author: string,
@@ -46,6 +48,9 @@ export const MyPost: React.FC<{
             </div>
 
             <FieldAvailability currentAvailability={values.availability} />
+
+            <h3 className="mt-12 text-center text-lg font-bold">If you leave the discord server, Team Finder users won't be able to contact you.</h3>
+            <p className="text-center">Please stay in the {discordGroupName} server to keep your post working!</p>
 
             <Button
                 className="mt-4 bg-theme-d-7 rounded-xl w-full sm:w-full md:w-auto md:float-right"
