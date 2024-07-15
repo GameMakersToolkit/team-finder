@@ -77,7 +77,7 @@ class DiscordBot {
     }
 
     private suspend fun createFallbackChannelPingMessage(recipient: User, sender: User) {
-        val messageContents = "Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!"
+        val messageContents = "Hey ${recipient.mentionTag} (${recipient.name}), ${sender.mentionTag} wants to get in contact about your Team Finder post!"
         // TODO: Validate message actually sent, give error otherwise
         logger.info("[CONTACT] [PING] ${sender.name} (${sender.id}) contacted ${recipient.name} (${recipient.id})")
         channel.sendMessage(messageContents).await()
