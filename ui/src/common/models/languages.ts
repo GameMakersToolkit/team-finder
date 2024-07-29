@@ -9,7 +9,7 @@ export const languages: CustomSelectOption[] = [
     {
         // Korean
         value: "ko",
-        label: "조선말"
+        label: "한국어"
     },
     {
         // Japanese
