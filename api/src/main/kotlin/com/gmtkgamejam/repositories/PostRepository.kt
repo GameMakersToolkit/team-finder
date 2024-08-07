@@ -40,7 +40,7 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
 
     // Un-paginated version should be used for Admin endpoints
     override fun getPosts(filter: Bson, sort: Bson): List<PostItem> {
-        return col.find(filter).sort(sort).toList()
+        return col.find(filter).sort(sort).limit(40).toList()
     }
 
     override fun getPost(id: String) : PostItem? {

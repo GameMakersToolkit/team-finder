@@ -5,37 +5,21 @@ import {useEffect, useState} from "react";
 import {PostTile} from "../../common/components/PostTile.tsx";
 import {Onboarding} from "./components/Onboarding.tsx";
 import {SiteIntro} from "./components/SiteIntro.tsx";
-import {useAuth} from "../../api/AuthContext.tsx";
-import {Post} from "../../common/models/post.ts";
+import {Post} from '../../common/models/post.ts';
+import {usePosts} from '../../api/post.ts';
 
 export const Home: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [posts, setPosts] = useState<Post[]>([]);
     const [isViewingBookmarks, setIsViewingBookmarks] = useState<boolean>(searchParams.get('bookmarked') === "true");
-    const { token } = useAuth() ?? {};
+
+    const posts = usePosts();
 
     // Trigger API call every time query string changes
     // Not sure if we actually need react-query here, but I'm keeping it everywhere else for now to avoid unnecessary work
     useEffect(() => {
         const isOnlyBookmarked = searchParams.get('bookmarked') === "true"
-        const path = isOnlyBookmarked ? "posts/favourites" : "posts"
         setIsViewingBookmarks(isOnlyBookmarked)
-        searchParams.delete('bookmarked')
-
-        const url = new URL(path + "?" + searchParams.toString(), import.meta.env.VITE_API_URL)
-        const init: RequestInit = {method: "GET", headers: {"Content-Type": "application/json"}}
-
-        if (token) {
-            // @ts-ignore
-            init.headers['Authorization'] = `Bearer ${token}`
-        }
-
-        fetch(url, init)
-            .then(res => res.json())
-            .then(setPosts)
     }, [searchParams])
-
-    // console.log(posts)
 
     return (
         <main>
@@ -43,8 +27,8 @@ export const Home: React.FC = () => {
             <SiteIntro />
             <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
-            {posts?.length > 0
-                ? <PostsToDisplay posts={posts} />
+            {(posts?.data?.length || 0) > 0
+                ? <PostsToDisplay posts={posts.data!} />
                 : <NoPostsToDisplay isViewingBookmarks={isViewingBookmarks} />
             }
         </main>

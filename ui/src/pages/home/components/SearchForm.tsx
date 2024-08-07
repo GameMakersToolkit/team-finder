@@ -10,10 +10,12 @@ import {useState} from "react";
 import {SortingOptions} from "./SortingOptions.tsx";
 import {iiicon} from "../../../common/utils/iiicon.tsx";
 import {blankSearchParameters} from "../models/SearchParameters.ts";
+import {useSearchParams} from 'react-router-dom';
 
 export const SearchForm: React.FC<{
     params: FormikSearchFormParameters
 }> = ({params}) => {
+    const [searchParams, _] = useSearchParams();
     const {values, handleChange, handleBlur} = params;
     const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false);
 
@@ -62,7 +64,13 @@ export const SearchForm: React.FC<{
                     <div className="text-center">
                         <button
                             id="clear-search-button"
-                            onClick={() => {params.resetForm({values: blankSearchParameters})}}
+                            onClick={() => {
+                                const isOnlyBookmarked = searchParams.get('bookmarked') === "true"
+                                params.resetForm({values: blankSearchParameters})
+                                if (isOnlyBookmarked) {
+                                    searchParams.set('bookmarked', 'true');
+                                }
+                            }}
                             type="button"
                         >
                             Clear Search
