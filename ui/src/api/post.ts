@@ -1,7 +1,35 @@
-import {useMutation, UseMutationOptions, UseMutationResult, useQueryClient} from "react-query";
+import {
+    useMutation,
+    UseMutationOptions,
+    UseMutationResult,
+    useQuery,
+    useQueryClient,
+    UseQueryResult
+} from 'react-query';
 import {useApiRequest} from "./apiRequest.ts";
 import {Post, PostApiResult, postFromApiResult} from "../common/models/post.ts";
+import {useAuth} from './AuthContext.tsx';
+import {useSearchParams} from 'react-router-dom';
 
+export function usePosts(): UseQueryResult<Post[], Error> {
+    const [searchParams, _] = useSearchParams();
+    const { token } = useAuth() ?? {};
+    const apiRequest = useApiRequest();
+
+    const isOnlyBookmarked = searchParams.get('bookmarked') === "true"
+    const path = isOnlyBookmarked ? "posts/favourites" : "posts"
+    const url = `/${path}?${searchParams}`
+
+    return useQuery(
+        ["posts", "list", searchParams.toString() ?? ""],
+        () => {
+            return apiRequest<PostApiResult[]>(url, {method: "GET", authToken: token});
+        },
+        {
+            select: (posts: PostApiResult[]) => posts.map(postFromApiResult),
+        }
+    );
+}
 
 const REPORT_POST_QUERY_KEY = ["posts", "report"] as const;
 
