@@ -43,7 +43,11 @@ fun Application.configurePostRouting() {
             get {
                 val params = call.parameters
 
-                val posts = service.getPosts(and(getFilterFromParameters(params)), getSortFromParameters(params))
+                val posts = service.getPosts(
+                    and(getFilterFromParameters(params)),
+                    getSortFromParameters(params),
+                    params["page"]?.toInt() ?: 1
+                )
 
                 // Set isFavourite on posts for this user if they're logged in
                 call.request.header("Authorization")?.substring(7)
@@ -131,7 +135,8 @@ fun Application.configurePostRouting() {
                             or(favouritesFilters),
                             and(getFilterFromParameters(params))
                         ),
-                        getSortFromParameters(params)
+                        getSortFromParameters(params),
+                        params["page"]?.toInt() ?: 1
                     )
                     posts.map { post -> post.isFavourite = true }
 

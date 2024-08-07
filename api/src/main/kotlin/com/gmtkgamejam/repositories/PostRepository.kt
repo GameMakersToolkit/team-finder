@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 interface PostRepository {
     fun createPost(postItem: PostItem)
-    fun getPosts(filter: Bson, sort: Bson): List<PostItem>
+    fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem>
     fun getPost(id: String) : PostItem?
     fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false) : PostItem?
     fun updatePost(postItem: PostItem)
@@ -39,8 +39,9 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
     }
 
     // Un-paginated version should be used for Admin endpoints
-    override fun getPosts(filter: Bson, sort: Bson): List<PostItem> {
-        return col.find(filter).sort(sort).limit(40).toList()
+    override fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem> {
+        val pageSize = 24
+        return col.find(filter).sort(sort).limit(pageSize).skip(pageSize * (page - 1)).toList()
     }
 
     override fun getPost(id: String) : PostItem? {

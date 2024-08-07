@@ -9,6 +9,7 @@ import {Post} from '../../common/models/post.ts';
 import {usePosts} from '../../api/post.ts';
 
 export const Home: React.FC = () => {
+    const [previousPosts, setPreviousPosts] = useState<Post[]>([])
     const [searchParams, setSearchParams] = useSearchParams();
     const [isViewingBookmarks, setIsViewingBookmarks] = useState<boolean>(searchParams.get('bookmarked') === "true");
 
@@ -27,17 +28,26 @@ export const Home: React.FC = () => {
             <SiteIntro />
             <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
-            {(posts?.data?.length || 0) > 0
-                ? <PostsToDisplay posts={posts.data!} />
+            {previousPosts.length ? <PostsToDisplay posts={previousPosts} /> : <></>}
+
+            {posts?.data?.length
+                ?
+                    <>
+                        <PostsToDisplay posts={posts.data!} />
+                        <LoadMorePostsButton currentPosts={posts.data!} previousPosts={previousPosts} isLoading={posts.isLoading} setPreviousPosts={setPreviousPosts} />
+                    </>
                 : <NoPostsToDisplay isViewingBookmarks={isViewingBookmarks} />
             }
         </main>
     )
 }
 
-const PostsToDisplay: React.FC<{posts: Post[]}> = ({posts}) => {
+const PostsToDisplay: React.FC<{
+    posts: Post[],
+}> = ({posts}) => {
+
     return (
-        <div className="c-post-tiles">{posts.map(post => <PostTile key={post.id} post={post} />)}</div>
+        <div className="c-post-tiles mb-[1.5rem]">{posts.map(post => <PostTile key={post.id} post={post} />)}</div>
     )
 }
 
@@ -50,5 +60,30 @@ const NoPostsToDisplay: React.FC<{isViewingBookmarks: boolean}> = ({isViewingBoo
 
     return (
         <h2 className="text-xl text-center">Please wait...</h2>
+    )
+}
+
+const LoadMorePostsButton: React.FC<{
+    currentPosts: Post[],
+    previousPosts: Post[],
+    isLoading: boolean,
+    setPreviousPosts: (posts: Post[]) => void
+}> = ({currentPosts, previousPosts, isLoading, setPreviousPosts}) => {
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    return (
+        <button
+            className="w-full mt-16 mb-8 px-4 py-4 border-2 border-theme-l-7 text-theme-l-7 rounded-xl font-bold text-center cursor-pointer"
+            onClick={() => {
+                setPreviousPosts([...currentPosts, ...previousPosts])
+                const currentPage = parseInt(searchParams.get("page") || "1")
+                setSearchParams(params => {
+                    searchParams.set("page", String(currentPage + 1))
+                    return params
+                });
+            }}
+        >
+            {isLoading ? `Loading...` : `Load more posts`}
+        </button>
     )
 }
