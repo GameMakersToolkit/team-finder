@@ -1,10 +1,10 @@
 package com.gmtkgamejam.routing
 
-import com.gmtkgamejam.models.admin.dtos.BanUnbanUserDto
 import com.gmtkgamejam.models.admin.BannedUser
-import com.gmtkgamejam.models.posts.PostItem
+import com.gmtkgamejam.models.admin.dtos.BanUnbanUserDto
 import com.gmtkgamejam.models.admin.dtos.DeletePostDto
 import com.gmtkgamejam.models.admin.dtos.ReportedUsersClearDto
+import com.gmtkgamejam.models.posts.PostItem
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AdminService
 import com.gmtkgamejam.services.PostService
@@ -30,7 +30,7 @@ fun Application.configureAdminRouting() {
                 route("/reports") {
                     get {
                         val filters = mutableListOf(PostItem::deletedAt eq null, PostItem::reportCount gt 0)
-                        call.respond(service.getPosts(and(filters), descending(PostItem::reportCount)))
+                        call.respond(service.getPosts(and(filters), descending(PostItem::reportCount), 1))
                     }
                     post("/clear") {
                         val data = call.receive<ReportedUsersClearDto>()

@@ -14,8 +14,8 @@ class PostService : KoinComponent {
         repository.createPost(postItem)
     }
 
-    fun getPosts(filter: Bson, sort: Bson): List<PostItem> {
-        return repository.getPosts(filter, sort)
+    fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem> {
+        return repository.getPosts(filter, sort, page)
     }
 
     fun getPost(id: String) : PostItem? {
