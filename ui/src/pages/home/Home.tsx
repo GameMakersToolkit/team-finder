@@ -1,4 +1,6 @@
 import * as React from "react";
+import {VariableSizeGrid} from "react-window";
+import InfiniteLoader from "react-window-infinite-loader";
 import {SearchFormWrapper} from "./components/SearchFormWrapper.tsx";
 import {useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
@@ -19,6 +21,11 @@ export const Home: React.FC = () => {
         setIsViewingBookmarks(isOnlyBookmarked)
     }, [searchParams])
 
+    const loadNextPage = (startIndex: number, stopIndex: number) => {
+        console.log("Load next page!")
+        return new Promise(() => true).then(() => console.log(startIndex, stopIndex))
+    }
+
     return (
         <main>
             <Onboarding />
@@ -26,16 +33,50 @@ export const Home: React.FC = () => {
             <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
 
             {posts?.data?.length
-                ? <PostsToDisplay posts={posts.data!} />
+                ? <PostsToDisplay isItemLoaded={() => posts.isSuccess} posts={posts.data!} loadMoreItems={posts.isLoading ? () => {} : loadNextPage} />
                 : <NoPostsToDisplay isViewingBookmarks={isViewingBookmarks} />
             }
         </main>
     )
 }
 
-const PostsToDisplay: React.FC<{posts: Post[]}> = ({posts}) => {
+const PostsToDisplay: React.FC<{
+    posts: Post[];
+    isItemLoaded: (index: number) => boolean;
+    loadMoreItems: (startIndex: number, stopIndex: number) => Promise<void> | void;
+}> = ({posts, isItemLoaded, loadMoreItems}) => {
+    console.log(posts)
+    // </div>
     return (
-        <div className="c-post-tiles">{posts.map(post => <PostTile key={post.id} post={post} />)}</div>
+        <InfiniteLoader
+            isItemLoaded={isItemLoaded}
+            itemCount={1000}
+            loadMoreItems={loadMoreItems}
+            minimumBatchSize={1}
+            threshold={1}
+        >
+            {({ onItemsRendered, ref }) => (
+                <VariableSizeGrid
+                    ref={ref}
+                    className="c-post-tiles-wrapper w-full"
+                    style={{width: "100%", height: "100vh"}}
+                    height={1}
+                    width={1}
+                    columnCount={1}
+                    rowCount={1}
+                    columnWidth={() => 0}
+                    rowHeight={() => 1}
+                    itemData={posts}
+                    onItemsRendered={() => onItemsRendered}
+                >
+                    {((index) => (
+                        <div className="c-post-tiles">
+                            {index.data.map(post => <PostTile key={post.id} post={post} />)}
+                        </div>
+                    ))}
+                </VariableSizeGrid>
+            )}
+        </InfiniteLoader>
     )
 }
 
