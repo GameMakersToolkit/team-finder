@@ -18,6 +18,9 @@ export function usePosts(): UseQueryResult<Post[], Error> {
 
     const isOnlyBookmarked = searchParams.get('bookmarked') === "true"
     const path = isOnlyBookmarked ? "posts/favourites" : "posts"
+
+    // Ensure valid page parameter is set
+    searchParams.set('page', searchParams.get('page') ?? "1")
     const url = `/${path}?${searchParams}`
 
     return useQuery(
