@@ -18,13 +18,23 @@ export interface Post {
   deletedAt?: Date;
 }
 
-export type PostApiResult = Omit<Post, "createdAt" | "updatedAt" | "deletedAt"> & {
+export type PostDTO = Omit<Post, "createdAt" | "updatedAt" | "deletedAt"> & {
   createdAt: string;
   updatedAt?: string;
   deletedAt?: string;
 };
 
-export function postFromApiResult(input: PostApiResult): Post {
+export type PostResponseDTO = {
+  posts: PostDTO[];
+  pagination: {current: number, total: number};
+}
+
+export type PostResponse = {
+  posts: Post[];
+  pagination: {current: number, total: number};
+}
+
+export function postFromApiResult(input: PostDTO): Post {
   return {
     ...input,
     createdAt: new Date(input.createdAt),

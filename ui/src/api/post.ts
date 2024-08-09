@@ -7,11 +7,11 @@ import {
     UseQueryResult
 } from 'react-query';
 import {useApiRequest} from "./apiRequest.ts";
-import {Post, PostApiResult, postFromApiResult} from "../common/models/post.ts";
+import {Post, PostResponseDTO, postFromApiResult, PostResponse, PostDTO} from '../common/models/post.ts';
 import {useAuth} from './AuthContext.tsx';
 import {useSearchParams} from 'react-router-dom';
 
-export function usePosts(): UseQueryResult<Post[], Error> {
+export function usePosts(): UseQueryResult<PostResponse, Error> {
     const [searchParams, _] = useSearchParams();
     const { token } = useAuth() ?? {};
     const apiRequest = useApiRequest();
@@ -23,10 +23,15 @@ export function usePosts(): UseQueryResult<Post[], Error> {
     return useQuery(
         ["posts", "list", searchParams.toString() ?? ""],
         () => {
-            return apiRequest<PostApiResult[]>(url, {method: "GET", authToken: token});
+            return apiRequest<PostResponseDTO>(url, {method: "GET", authToken: token});
         },
         {
-            select: (posts: PostApiResult[]) => posts.map(postFromApiResult),
+            select: (result: PostResponseDTO) => {
+                return {
+                    posts: result.posts.map(postFromApiResult),
+                    pagination: result.pagination
+                }
+            },
         }
     );
 }
@@ -105,7 +110,7 @@ export function useFavouritePostMutation(
             const method = variables.isFavourite ? "POST" : "DELETE";
             delete variables.isFavourite; // Don't submit this field, it's only used in the UI
 
-            const result = await apiRequest<PostApiResult>("/favourites", {
+            const result = await apiRequest<PostDTO>("/favourites", {
                 method: method,
                 body: variables,
             });

@@ -18,6 +18,11 @@ interface PostRepository {
     fun deletePost(postItem: PostItem)
     fun addQueryView(postItem: PostItem)
     fun addFullPageView(postItem: PostItem)
+    fun getPostCount(): Int
+
+    companion object {
+        const val PAGE_SIZE = 36
+    }
 }
 
 open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
@@ -40,7 +45,7 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
 
     // Un-paginated version should be used for Admin endpoints
     override fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem> {
-        val pageSize = 24
+        val pageSize = PostRepository.PAGE_SIZE
         return col.find(filter).sort(sort).limit(pageSize).skip(pageSize * (page - 1)).toList()
     }
 
@@ -55,6 +60,10 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
         }
 
         return col.findOne(filter)
+    }
+
+    override fun getPostCount(): Int {
+        return col.countDocuments(PostItem::deletedAt eq null).toInt();
     }
 
     override fun updatePost(postItem: PostItem) {

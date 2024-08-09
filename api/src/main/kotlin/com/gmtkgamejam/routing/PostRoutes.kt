@@ -6,10 +6,8 @@ import com.gmtkgamejam.models.posts.Availability
 import com.gmtkgamejam.models.posts.PostItem
 import com.gmtkgamejam.models.posts.Skills
 import com.gmtkgamejam.models.posts.Tools
-import com.gmtkgamejam.models.posts.dtos.PostItemCreateDto
-import com.gmtkgamejam.models.posts.dtos.PostItemReportDto
-import com.gmtkgamejam.models.posts.dtos.PostItemUnableToContactReportDto
-import com.gmtkgamejam.models.posts.dtos.PostItemUpdateDto
+import com.gmtkgamejam.models.posts.dtos.*
+import com.gmtkgamejam.repositories.PostRepository
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AnalyticsService
 import com.gmtkgamejam.services.AuthService
@@ -27,6 +25,7 @@ import org.bson.conversions.Bson
 import org.litote.kmongo.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.ceil
 import kotlin.math.min
 import kotlin.reflect.full.memberProperties
 import kotlin.text.Regex.Companion.escape
@@ -42,11 +41,12 @@ fun Application.configurePostRouting() {
         route("/posts") {
             get {
                 val params = call.parameters
+                val page = params["page"]?.toInt() ?: 1
 
                 val posts = service.getPosts(
                     and(getFilterFromParameters(params)),
                     getSortFromParameters(params),
-                    params["page"]?.toInt() ?: 1
+                    page
                 )
 
                 // Set isFavourite on posts for this user if they're logged in
@@ -58,7 +58,17 @@ fun Application.configurePostRouting() {
                         posts.map { it.isFavourite = favouritesList.postIds.contains(it.id) }
                     }
 
-                call.respond(posts)
+                val pagination = mapOf(
+                    "current" to page,
+                    "total" to ceil(service.getPostCount() / PostRepository.PAGE_SIZE.toDouble()).toInt()
+                )
+
+                call.respond(
+                    PostsDTO(
+                        posts,
+                        pagination
+                    )
+                )
 
                 launch {
                     analyticsService.trackQuery(params.toMap().toSortedMap())
