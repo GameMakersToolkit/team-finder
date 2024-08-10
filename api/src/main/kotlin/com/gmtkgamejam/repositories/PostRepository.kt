@@ -18,7 +18,7 @@ interface PostRepository {
     fun deletePost(postItem: PostItem)
     fun addQueryView(postItem: PostItem)
     fun addFullPageView(postItem: PostItem)
-    fun getPostCount(): Int
+    fun getPostCount(filter: Bson): Int
 
     companion object {
         const val PAGE_SIZE = 36
@@ -62,8 +62,8 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
         return col.findOne(filter)
     }
 
-    override fun getPostCount(): Int {
-        return col.countDocuments(PostItem::deletedAt eq null).toInt();
+    override fun getPostCount(filter: Bson): Int {
+        return col.countDocuments(and(filter, PostItem::deletedAt eq null)).toInt();
     }
 
     override fun updatePost(postItem: PostItem) {

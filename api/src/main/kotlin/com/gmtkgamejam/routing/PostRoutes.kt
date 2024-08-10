@@ -42,9 +42,10 @@ fun Application.configurePostRouting() {
             get {
                 val params = call.parameters
                 val page = params["page"]?.toInt() ?: 1
+                val filter = and(getFilterFromParameters(params))
 
                 val posts = service.getPosts(
-                    and(getFilterFromParameters(params)),
+                    filter,
                     getSortFromParameters(params),
                     page
                 )
@@ -60,7 +61,7 @@ fun Application.configurePostRouting() {
 
                 val pagination = mapOf(
                     "current" to page,
-                    "total" to ceil(service.getPostCount() / PostRepository.PAGE_SIZE.toDouble()).toInt()
+                    "total" to ceil(service.getPostCount(filter) / PostRepository.PAGE_SIZE.toDouble()).toInt()
                 )
 
                 call.respond(

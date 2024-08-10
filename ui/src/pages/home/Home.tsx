@@ -71,17 +71,17 @@ const PaginationButtons: React.FC<{
         })
     }
 
-    const buttonClass = "w-[140px] h-[60px] py-2 border-2 border-theme-l-7 disabled:border-gray-500 rounded-xl font-bold text-center cursor-pointer"
+    const buttonClass = "w-[140px] py-2 border-2 border-theme-l-7 disabled:border-gray-500 rounded-xl font-bold text-center cursor-pointer"
     return (
         <div className="w-full flex justify-between pb-4">
             <button className={buttonClass} onClick={() => movePage(-1)} disabled={currentPage <= 1}>
-                <span className={`flex justify-center ${currentPage <= 1 ? `text-gray-500` : `text-theme-l-7`}`}>
+                <span className={`flex justify-center mr-3 ${currentPage <= 1 ? `text-gray-500` : `text-theme-l-7`}`}>
                     {iiicon("left-arrow", currentPage <= 1 ? "#6b7280" : "#ff5762")} Page {Math.max(1, currentPage - 1)}
                 </span>
             </button>
 
             <button className={buttonClass} onClick={() => movePage(1)} disabled={currentPage >= maxPage}>
-                <span className={`flex justify-center ${currentPage >= maxPage ? `text-gray-500` : `text-theme-l-7`}`}>
+                <span className={`flex justify-center ml-3 ${currentPage >= maxPage ? `text-gray-500` : `text-theme-l-7`}`}>
                     Page {Math.min(maxPage, currentPage + 1)} {iiicon("right-arrow", currentPage >= maxPage ? "#6b7280" : "#ff5762")}
                 </span>
             </button>

@@ -26,8 +26,8 @@ class PostService : KoinComponent {
         return repository.getPostByAuthorId(authorId, ignoreDeletion)
     }
 
-    fun getPostCount(): Int {
-        return repository.getPostCount()
+    fun getPostCount(filter: Bson): Int {
+        return repository.getPostCount(filter)
     }
 
     fun updatePost(postItem: PostItem) {
