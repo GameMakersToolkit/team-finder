@@ -6,9 +6,9 @@ import {
 } from "react-query";
 import {
   Post,
-  PostResponseDTO,
   postFromApiResult,
-} from "../common/models/post";
+  PostDTO,
+} from '../common/models/post';
 import { useApiRequest } from "./apiRequest";
 
 const CREATE_BOT_DM_QUERY_KEY = ["bot", "dm"] as const;
@@ -25,7 +25,7 @@ export function useCreateBotDmMutation(
   return useMutation({
     ...opts,
     mutationFn: async (variables) => {
-      const result = await apiRequest<PostResponseDTO>("/bot/dm", {
+      const result = await apiRequest<PostDTO>("/bot/dm", {
         method: "POST",
         body: variables,
       });

@@ -9,9 +9,9 @@ import {
 } from "react-query";
 import {
   Post,
-  PostResponseDTO,
   postFromApiResult,
-} from "../common/models/post";
+  PostDTO,
+} from '../common/models/post';
 import { expectNotFound, useApiRequest } from "./apiRequest";
 import { useAuth } from "./AuthContext";
 import { useUserInfo } from "./userInfo";
@@ -32,7 +32,7 @@ export function useMyPostQuery(
   return useQuery(
     MY_POST_QUERY_KEY,
     () =>
-      expectNotFound(apiRequest<PostResponseDTO>("/posts/mine")).then(
+      expectNotFound(apiRequest<PostDTO>("/posts/mine")).then(
         (result) => result && postFromApiResult(result)
       ),
     {
@@ -62,13 +62,13 @@ export function useMyPostMutation(
   return useMutation({
     ...opts,
     mutationFn: async (variables) => {
-      const existing = await queryClient.fetchQuery<PostResponseDTO>(
+      const existing = await queryClient.fetchQuery<PostDTO>(
         MY_POST_QUERY_KEY
       );
       let result;
 
       if (existing) {
-        result = await apiRequest<PostResponseDTO>("/posts/mine", {
+        result = await apiRequest<PostDTO>("/posts/mine", {
           method: "PUT",
           body: {
             ...variables,
@@ -76,7 +76,7 @@ export function useMyPostMutation(
           },
         });
       } else {
-        result = await apiRequest<PostResponseDTO>("/posts", {
+        result = await apiRequest<PostDTO>("/posts", {
           method: "POST",
           body: {
             ...variables,
@@ -106,7 +106,7 @@ export function useDeleteMyPostMutation(
   return useMutation({
     ...opts,
     mutationFn: async (variables) => {
-      const result = await apiRequest<PostResponseDTO>("/posts/mine", {
+      const result = await apiRequest<PostDTO>("/posts/mine", {
         method: "DELETE",
         body: variables,
       });
