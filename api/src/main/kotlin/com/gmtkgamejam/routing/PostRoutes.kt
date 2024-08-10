@@ -126,6 +126,7 @@ fun Application.configurePostRouting() {
 
                 get("favourites") {
                     val params = call.parameters
+                    val page = params["page"]?.toInt() ?: 1
 
                     val favourites = authService.getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
@@ -146,11 +147,22 @@ fun Application.configurePostRouting() {
                             and(getFilterFromParameters(params))
                         ),
                         getSortFromParameters(params),
-                        params["page"]?.toInt() ?: 1
+                        page
                     )
                     posts.map { post -> post.isFavourite = true }
 
-                    call.respond(posts)
+
+                    val pagination = mapOf(
+                        "current" to page,
+                        "total" to ceil(favourites.postIds.size / PostRepository.PAGE_SIZE.toDouble()).toInt()
+                    )
+
+                    call.respond(
+                        PostsDTO(
+                            posts,
+                            pagination
+                        )
+                    )
                 }
 
                 route("/mine") {
