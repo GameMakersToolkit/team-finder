@@ -42,6 +42,11 @@ class DiscordBot {
             server = api.getServerById(guildId).get()
 
             channel = api.getServerTextChannelsByNameIgnoreCase(channelName).first()
+
+            api.setMessageCacheSize(0, 0)
+            channel.messageCache.capacity = 0
+            channel.messageCache.storageTimeInSeconds = 0
+
             logger.info("Discord bot is online and ready for action!")
         } catch (ex: NoSuchElementException) { // NoSuchElementException triggered by calling `.first()` on Collection
             logger.warn("Discord bot could not connect to pingChannel [$channelName] - ping message integration offline.")
