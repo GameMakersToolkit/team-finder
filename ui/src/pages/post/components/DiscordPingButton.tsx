@@ -18,9 +18,13 @@ export const DiscordPingButton: React.FC<{
             recipientId: authorId,
         }, {
             onSuccess: () => {
-                toast(`${authorName} has just been notified that you want to get in touch!`);
+                toast(
+                    `${authorName} has just been notified that you want to get in touch!\n\nThey will receive a DM from the Team Finder bot, or a ping in #jam-team-notifs if they can't receive DMs.`,
+                    {
+                        style: {textAlign: "center"}
+                    }
+                );
             },
-
         });
     };
 
