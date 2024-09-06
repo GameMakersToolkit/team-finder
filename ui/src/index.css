@@ -1,3 +1,7 @@
+/* Site title */
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@0,300;0,400;0,700;1,300;1,400;1,700&&display=swap");
+
+/* Site content*/
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
 
 /* Base */
@@ -16,10 +20,10 @@
 
 @import url(./pages/about/About.css);
 
-@import url(./pages/home/Home.css);
-@import url(./pages/home/components/Onboarding.css);
-@import url(./pages/home/components/SearchFormWrapper.css);
-@import url(./pages/home/components/SearchForm.css);
+@import url(pages/jamhome/JamHome.css);
+@import url(pages/jamhome/components/Onboarding.css);
+@import url(pages/jamhome/components/SearchFormWrapper.css);
+@import url(pages/jamhome/components/SearchForm.css);
 
 @import url(./pages/mypost/MyPostWrapper.css);
 @import url(./pages/mypost/MyPost.css);
@@ -28,3 +32,28 @@
 
 /* Utilities */
 @import "tailwindcss/utilities";
+
+
+:root {
+    /* Global */
+    --theme-primary: #db0a15;
+    --theme-accent: #ff5762;
+
+    /* Header/Footer gradient */
+    --gradient-start: #88151b;
+    --gradient-end: #000000;
+
+    --theme-background: #000000;
+
+    /* Post items - skills */
+    --skill-color-looking-for: theme('colors.theme-l-6');
+    --skill-color-looking-for-text: theme('textColor.white');
+    --skill-color-possessed: theme('colors.theme-d-9');
+    --skill-color-possessed-text: theme('textColor.white');
+    --skill-color-engines: theme('colors.grey-50');
+    --skill-color-engines-text: theme('textColor.black');
+    --skill-color-languages: theme('colors.grey-800');
+    --skill-color-languages-text: theme('textColor.white');
+    --skill-color-timezones: theme('colors.grey-300');
+    --skill-color-timezones-text: theme('textColor.white');
+}

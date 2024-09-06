@@ -23,9 +23,9 @@ export const SearchFormWrapper: React.FC<{
             delete formattedValues.timezoneEnd
         }
 
-        // When the form changes, reset the pagination back to page=1
-        // Otherwise adding filtering leaves you on page=lots with no posts to view
-        formattedValues.page = "1"
+        // TODO: Oh god why
+        formattedValues.bookmarked = searchParams.get('bookmarked') ? true : null
+        if (formattedValues.bookmarked == null) delete formattedValues.bookmarked
 
         // @ts-ignore
         setSearchParams(formattedValues)

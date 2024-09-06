@@ -1,5 +1,6 @@
 package com.gmtkgamejam.routing
 
+import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.models.admin.BannedUser
 import com.gmtkgamejam.models.admin.dtos.BanUnbanUserDto
 import com.gmtkgamejam.models.admin.dtos.DeletePostDto
@@ -14,6 +15,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 import org.litote.kmongo.and
 import org.litote.kmongo.descending
 import org.litote.kmongo.eq
@@ -21,12 +23,19 @@ import org.litote.kmongo.gt
 
 fun Application.configureAdminRouting() {
 
+    val bot: DiscordBot by inject()
     val service = PostService()
     val adminService = AdminService()
 
     routing {
         authenticate("auth-jwt-admin") {
             route("/admin") {
+                route("/bot") {
+                    get {
+                        bot.sendStatusMessageToPingChannel()
+                    }
+                }
+
                 route("/reports") {
                     get {
                         val filters = mutableListOf(PostItem::deletedAt eq null, PostItem::reportCount gt 0)

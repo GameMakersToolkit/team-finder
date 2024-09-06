@@ -6,6 +6,7 @@ import {useUserInfo} from "../../api/userInfo.ts";
 import {useFavouritePostMutation} from "../../api/post.ts";
 import favouriteSelectedIcon from "../../assets/icons/bookmark/selected.svg"
 import favouriteNotSelectedIcon from "../../assets/icons/bookmark/unselected.svg"
+import {ReactSVG} from "react-svg";
 
 export const FavouritePostIndicator: React.FC<{
     post: Post;
@@ -37,14 +38,11 @@ export const FavouritePostIndicator: React.FC<{
             className={className + `${!auth && " cursor-pointer"}`}
             onClick={onClick}
         >
-      <img
-          src={
-              post.isFavourite ? favouriteSelectedIcon : favouriteNotSelectedIcon
-          }
-          alt={post.isFavourite ? `Click to remove ${post.author}'s post from your bookmarks` : `Click to add ${post.author}'s post to your bookmarks`}
-          className="inline-block"
-          style={{ width: "28px", height: "28px", minWidth: "28px" }}
-      />
+          <ReactSVG
+              src={post.isFavourite ? favouriteSelectedIcon : favouriteNotSelectedIcon}
+              desc={post.isFavourite ? `Click to remove ${post.author}'s post from your bookmarks` : `Click to add ${post.author}'s post to your bookmarks`}
+              className="inline-block fill-[color:var(--theme-accent)]"
+          />
     </span>
     );
 };

@@ -27,12 +27,12 @@ export const SearchForm: React.FC<{
                     <label htmlFor="description">Keywords</label>
                     <input
                         type="text"
-                        className="form-block__field w-full"
+                        className="form-block__field w-full text-black hover:text-black px-2"
                         style={{lineHeight: 2.4}}
                         name="description"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.description || ""}
+                        value={values.description}
                     />
 
                     <div className="c-form-block">
@@ -82,8 +82,8 @@ export const SearchForm: React.FC<{
                             type="button"
                         >
                             {showAdvancedSearchOptions
-                                ? <>Fewer options {iiicon('up-arrow', "#ff5762", 16, 16)}</>
-                                : <>More options {iiicon('down-arrow', "#ff5762", 16, 16)}</>
+                                ? <>Fewer options {iiicon('up-arrow', "var(--theme-accent)", 16, 16)}</>
+                                : <>More options {iiicon('down-arrow', "var(--theme-accent)", 16, 16)}</>
                             }
                         </button>
                     </div>
@@ -92,7 +92,7 @@ export const SearchForm: React.FC<{
             </div>
 
             <div className="md:flex justify-between items-center mt-4 mb-4">
-                <h2 id="search-results" className="text-3xl my-4 mr-2 inline-block">Search results</h2>
+                <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
                 <SortingOptions />
             </div>
 

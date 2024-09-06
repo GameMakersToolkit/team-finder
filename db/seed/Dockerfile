@@ -1,6 +1,6 @@
 FROM mongo
 
-COPY init-mongo.js data.json init.sh /
+COPY init-mongo.js data.json jams.json init.sh /
 
 RUN ["chmod", "+x", "/init.sh"]
 

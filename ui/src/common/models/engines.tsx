@@ -1,4 +1,4 @@
-import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
+import {CustomSelectOption} from "../../pages/jamhome/components/common/CustomSelect.tsx";
 import {getOptionsListIcon} from "../utils/getOptionsListIcon.tsx";
 
 export const tools: CustomSelectOption[] = [
@@ -8,7 +8,7 @@ export const tools: CustomSelectOption[] = [
     },
     {
         value: "CONSTRUCT",
-        label: (<>{getOptionsListIcon("CONSTRUCT", "tool")} Construct</>),
+        label: (<>{getOptionsListIcon("CONSTRUCT", "tool")} <span>Construct</span></>),
     },
     {
         value: "GAME_MAKER_STUDIO",

@@ -1,4 +1,5 @@
 export type SearchParameters = {
+    jamId?: string;
     description: string;
     skillsPossessed: string[];
     skillsSought: string[];
@@ -8,34 +9,33 @@ export type SearchParameters = {
     timezoneEnd: string | undefined;
     sortBy: string;
     sortDir: string;
-    page: string;
+    bookmarked?: boolean | null;
 }
 
 export const blankSearchParameters: SearchParameters = {
-    description: '',
+    description: "",
     skillsPossessed: [],
     skillsSought: [],
     tools: [],
     languages: [],
     timezoneStart: undefined,
     timezoneEnd: undefined,
-    sortBy: '',
-    sortDir: '',
-    page: '1',
+    sortBy: "",
+    sortDir: "",
 }
 
 export const searchParametersFromQueryString = (queryParams: URLSearchParams): SearchParameters => {
     return {
         ...blankSearchParameters,
-        description: queryParams.get('description'),
-        skillsPossessed: queryParams.get('skillsPossessed')?.split(','),
-        skillsSought: queryParams.get('skillsSought')?.split(','),
-        tools: queryParams.get('tools')?.split(','),
-        languages: queryParams.get('languages')?.split(','),
-        timezoneStart: queryParams.get('timezoneStart'),
-        timezoneEnd: queryParams.get('timezoneEnd'),
+        description: queryParams.get("description"),
+        skillsPossessed: queryParams.get('skillsPossessed')?.split(","),
+        skillsSought: queryParams.get('skillsSought')?.split(","),
+        tools: queryParams.get('tools')?.split(","),
+        languages: queryParams.get('languages')?.split(","),
+        timezoneStart: queryParams.get("timezoneStart"),
+        timezoneEnd: queryParams.get("timezoneEnd"),
         sortBy: queryParams.get('sortBy'),
         sortDir: queryParams.get('sortDir'),
-        page: queryParams.get('page'),
+        bookmarked: queryParams.has('bookmarked') ? "true" : null,
     } as SearchParameters
 }

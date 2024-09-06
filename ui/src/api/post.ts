@@ -9,16 +9,17 @@ import {
 import {useApiRequest} from "./apiRequest.ts";
 import {Post, PostResponseDTO, postFromApiResult, PostResponse, PostDTO} from '../common/models/post.ts';
 import {useAuth} from './AuthContext.tsx';
-import {useSearchParams} from 'react-router-dom';
+import {useParams, useSearchParams} from 'react-router-dom';
 
 export function usePosts(): UseQueryResult<PostResponse, Error> {
+    const { jamId } = useParams()
     const [searchParams, _] = useSearchParams();
     const { token } = useAuth() ?? {};
     const apiRequest = useApiRequest();
 
     const isOnlyBookmarked = searchParams.get('bookmarked') === "true"
     const path = isOnlyBookmarked ? "posts/favourites" : "posts"
-    const url = `/${path}?${searchParams}`
+    const url = `/${path}?${searchParams}&jamId=${jamId}`
 
     return useQuery(
         ["posts", "list", searchParams.toString() ?? ""],

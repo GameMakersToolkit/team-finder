@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import React, {useContext, useEffect, useState} from "react";
+import {Link, useMatch, useNavigate, useSearchParams} from "react-router-dom";
 import {useUserInfo} from "../../api/userInfo.ts";
 import {login} from "../../api/login.ts";
 // Probably a better way to manage these
@@ -8,15 +8,19 @@ import favouriteNotSelectedIcon from "../../assets/icons/bookmark/unselected.svg
 import myPostIcon from "../../assets/icons/posts/my-post.svg"
 import {toast} from "react-hot-toast";
 import {useMyPostQuery} from "../../api/myPost.ts";
-
-const jamName = import.meta.env.VITE_JAM_NAME;
+import {ReactSVG} from "react-svg";
+import {JamSpecificContext} from "../../common/components/JamSpecificStyling.tsx";
 
 export const Header: React.FC = () => {
 
+    const theme = useContext(JamSpecificContext)
     const navigate = useNavigate();
-    const [isOnSearchPage, setIsOnHomePage] = useState(window.location.pathname === "/gmtk");
+
+    const page = window.location.pathname.replaceAll("/", "");
+    const [isOnSearchPage, setIsOnSearchPage] = useState(page === theme.jamId);
+
     useEffect(() => {
-        setIsOnHomePage(window.location.pathname === "/gmtk")
+        setIsOnSearchPage(page === theme.jamId)
     }, [navigate]);
 
     const userInfo = useUserInfo();
@@ -27,12 +31,12 @@ export const Header: React.FC = () => {
             <nav className="c-header">
                 <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
-                        <Link to="/gmtk">
-                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={jamName + " Team Finder logo"} className="bg-black border border-white rounded-lg mr-2 hover:scale-125"/>
+                        <Link to={`/${theme.jamId}`}>
+                            <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black border border-white rounded-lg mr-2 hover:scale-125"/>
                         </Link>
 
                         <div className="flex items-center">
-                            <Link className="header-text-link" key={"About"} to={"/about"}>About / How To Use</Link>
+                            <Link className="header-text-link" key={"About"} to={`/${theme.jamId}/about`}>About / How To Use</Link>
                             {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={"/admin"}>Admin</Link>}
                         </div>
                     </div>
@@ -41,8 +45,8 @@ export const Header: React.FC = () => {
                     <div className="flex-1 hidden sm:flex" />
 
                     <div className="flex justify-evenly gap-2">
-                        <Link to="/gmtk" className="bg-theme-d-4 block border border-white rounded-lg mr-2 sm:hidden">
-                            <img src="/logos/jam-logo-stacked.webp" width="40" height="40" alt={jamName + " Team Finder logo"}/>
+                        <Link to="/" className="bg-theme-d-4 block border border-white rounded-lg mr-2 sm:hidden">
+                            <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
                         {isOnSearchPage && <ToggleBookmarks />}
                         <MyPostButton />
@@ -66,7 +70,6 @@ const ToggleBookmarks: React.FC = () => {
                 icon: "🔒",
                 id: "favourite-post-view-info",
             });
-            console.log("toast called")
             return;
         }
 
@@ -85,27 +88,39 @@ const ToggleBookmarks: React.FC = () => {
             className="header-button"
             onClick={() => bookmarkIconOnClick(!shouldLimitToFavourites)}
         >
-            <img
+            <ReactSVG
                 src={shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon}
-                alt={shouldLimitToFavourites ? "Show all posts" : "Filter to your bookmarked posts"}
-                className="inline-block"
+                desc={shouldLimitToFavourites ? "Show all posts" : "Filter to your bookmarked posts"}
+                className="contents svg-explicit-size h-full fill-[color:var(--theme-accent)] ml-2 my-1 mr-2"
                 style={{ width: "20px", height: "20px" }}
+                width={20}
+                height={20}
             />
         </button>
     )
 }
 
 const MyPostButton: React.FC = () => {
+    // TODO: Get from storage somewhere
+    const jamId = useMatch("/:jamId/:postId?")?.params.jamId;
+
     const userInfo = useUserInfo();
     const myPostQuery = useMyPostQuery();
 
     return (
         <Link
             className={`header-button ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
-            to="/gmtk/my-post"
+            to={`/` + jamId + `/my-post`}
         >
             <div className="flex items-center h-full">
-                <img src={myPostIcon} alt={myPostQuery?.data ? "Edit post" : "Create post"} className="h-full inline-block ml-2 my-1 mr-2" style={{ width: "20px", height: "20px" }}/>
+                <ReactSVG
+                    src={myPostIcon}
+                    desc={myPostQuery?.data ? "Edit post" : "Create post"}
+                    className="svg-explicit-size h-full fill-[color:var(--theme-accent)] inline-block ml-2 my-1 mr-2"
+                    style={{ width: "20px", height: "20px" }}
+                    width={20}
+                    height={20}
+                />
                 <span className="hover:font-bold align-middle">
                     <span className="text-xs sm:text-sm mr-2 sm:mr-0">{myPostQuery?.data ? "Edit" : "Create"}</span>
                     <span className="text-xs sm:text-sm hidden sm:inline sm:mr-2">&nbsp;post</span>
@@ -116,6 +131,7 @@ const MyPostButton: React.FC = () => {
 }
 
 const LoginLogout: React.FC = () => {
+    const theme = useContext(JamSpecificContext)
     const userInfo = useUserInfo();
     const shouldDisplayLogin = !userInfo.data;
 
@@ -135,7 +151,7 @@ const LoginLogout: React.FC = () => {
     return (
         <p className="sm:mr-4 text-right inline-grid sm:inline text-xs sm:text-sm">
             <span className="sm:block ml-auto w-[min-content]">Welcome&nbsp;{userInfo.data?.username as string}!</span>
-            <Link to="/logout" className="block sm:inline sm:ml-1 cursor-pointer hover:underline">
+            <Link to={`/logout?redirect=${theme.jamId}`} className="block sm:inline sm:ml-1 cursor-pointer hover:underline">
                 (Click here to logout)
             </Link>
         </p>

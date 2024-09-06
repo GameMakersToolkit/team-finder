@@ -1,0 +1,17 @@
+[
+    {
+        "jamId": "gmtk",
+        "name": "GMTK Jam 2024",
+        "start": "2024-07-02T11:00:00Z",
+        "logoStackedUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo-stacked.webp",
+        "styles": {}
+    },
+    {
+        "jamId": "bossrush",
+        "name": "Boss Rush Jam 2025",
+        "start": "2024-07-02T11:00:00Z",
+        "logoLargeUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo.webp",
+        "logoStackedUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo-stacked.webp",
+        "styles": {}
+    }
+]
