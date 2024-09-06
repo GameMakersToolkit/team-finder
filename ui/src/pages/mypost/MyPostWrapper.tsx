@@ -7,9 +7,12 @@ import {useDeleteMyPostMutation, useMyPostMutation, useMyPostQuery} from "../../
 import {Button} from "../../common/components/Button.tsx";
 import {useEnsureLoggedIn} from "../../api/ensureLoggedIn.ts";
 import {useUserInfo} from "../../api/userInfo.ts";
+import {useParams} from "react-router-dom";
+import {JamSpecificStyling} from "../../common/components/JamSpecificStyling.tsx";
 
 // @ts-ignore
 const defaultFormValues: Post = {
+    jamId: "",
     description: "",
     size: 1,
     skillsPossessed: [],
@@ -26,6 +29,9 @@ export const MyPostWrapper: React.FC = () => {
     const userInfo = useUserInfo();
     const myPostQuery = useMyPostQuery();
     const post = myPostQuery?.data as Post;
+
+    const { jamId } = useParams()
+    defaultFormValues.jamId = jamId!!;
 
     const initialValues: Post = post ? {...post, timezoneOffsets: post?.timezoneOffsets.map(i => i.toString())} : defaultFormValues
 
@@ -66,35 +72,38 @@ export const MyPostWrapper: React.FC = () => {
     const deletePostMutation = useDeleteMyPostMutation({onSuccess: onDeleteSuccess});
 
     /** Ensure user is logged in to view the page; give them enough information to see what's happening */
-    if (userInfo?.isLoading || !userInfo.data) {return (<main><div className="c-form bg-black"><h1 className="text-3xl my-4">Please wait...</h1></div></main>)}
+    if (userInfo?.isLoading || !userInfo.data) {return (<main><div className="c-form bg-transparent"><h1 className="text-3xl my-4">Please wait...</h1></div></main>)}
 
     /** Ensure we have active form data before rendering form  */
     if (myPostQuery?.isLoading) {return (<></>)}
 
     return (
-        <main>
-            <div className="c-form bg-black">
-                <Formik
-                    initialValues={ initialValues }
-                    validate={ onValidateForm }
-                    validateOnChange={false}
-                    validateOnBlur={false}
-                    onSubmit={ (values, { setSubmitting }) => onSubmitForm(values, setSubmitting) }
-                >
-                    {(params: FormikProps<Post>) => (
-                        <>
-                            <h1 className="text-3xl my-4">Create New Post</h1>
-                            <MyPost params={params}
-                                    author={userInfo.data!.username as string}
-                                    authorId={userInfo.data!.userId as string}
-                                    hasPost={Boolean(post)}
-                            />
-                        </>
-                    )}
-                </Formik>
-                {post && <DeletePostButton postId={post.id} onClickHandler={() => deletePostMutation.mutate({ postId: post.id })} />}
-            </div>
-        </main>
+        <JamSpecificStyling>
+            <main>
+                <div className="c-form bg-transparent">
+                    <Formik
+                        initialValues={ initialValues }
+                        validate={ onValidateForm }
+                        validateOnChange={false}
+                        validateOnBlur={false}
+                        onSubmit={ (values, { setSubmitting }) => onSubmitForm(values, setSubmitting) }
+                    >
+                        {(params: FormikProps<Post>) => (
+                            <>
+                                <h1 className="text-3xl my-4">Create New Post</h1>
+                                <MyPost params={params}
+                                        jamId={jamId!!}
+                                        author={userInfo.data!.username as string}
+                                        authorId={userInfo.data!.userId as string}
+                                        hasPost={Boolean(post)}
+                                />
+                            </>
+                        )}
+                    </Formik>
+                    {post && <DeletePostButton postId={post.id} onClickHandler={() => deletePostMutation.mutate({ postId: post.id })} />}
+                </div>
+            </main>
+        </JamSpecificStyling>
     )
 }
 

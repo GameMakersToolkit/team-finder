@@ -1,4 +1,4 @@
-import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
+import {CustomSelectOption} from "../../pages/jamhome/components/common/CustomSelect.tsx";
 import {getOptionsListIcon} from "../utils/getOptionsListIcon.tsx";
 
 
@@ -38,5 +38,13 @@ export const skills: CustomSelectOption[] = [
     {
         value: "TESTING_SUPPORT",
         label: (<>{getOptionsListIcon("TESTING_SUPPORT", "skill")} Testing & Support</>),
+    },
+    {
+        value: "VOICE_ACTING",
+        label: (<>{getOptionsListIcon("VOICE_ACTING", "skill")} Voice Acting</>),
+    },
+    {
+        value: "VIBES",
+        label: (<>{getOptionsListIcon("VIBES", "skill")} Vibes</>),
     },
 ];

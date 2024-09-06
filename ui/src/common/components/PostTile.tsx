@@ -27,18 +27,18 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                 </header>
 
                 <div className="post-tile__body">
-                    <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:theme(colors.theme-l-6)]"}/>
-                    <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:theme(colors.theme-d-9)]"}/>
+                    <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:var(--skill-color-looking-for)] [--skill-text-color:var(--skill-color-looking-for-text)]"}/>
+                    <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:var(--skill-color-possessed)] [--skill-text-color:var(--skill-color-possessed-text)]"}/>
                     {getDescriptionParagraphs(post).map((line, idx) => <p dir="auto" key={idx} className="mb-2">{line}</p>)}
                 </div>
 
                 <div className="post-tile__footer">
                     <button className="button-link-container" style={{ maxHeight: "3em" }}>
                         <Link
-                            className="text-lg text-theme-l-7 font-bold"
-                            to={`/gmtk/${post.id}`}
+                            className="text-lg font-bold"
+                            to={`${post.id}`}
                         >
-                            See more {iiicon("right-arrow", "#ff5762")}
+                            See more {iiicon("right-arrow", "var(--theme-accent)")}
                         </Link>
                     </button>
                 </div>

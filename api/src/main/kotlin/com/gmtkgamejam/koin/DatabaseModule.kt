@@ -14,4 +14,5 @@ val DatabaseModule = module(createdAtStart = true) {
     single<AnalyticsRepository> { AnalyticsRepositoryImpl(get()) }
     single<FavouritesRepository> { FavouritesRepositoryImpl(get()) }
     single<PostRepository> { PostRepositoryImpl(get()) }
+    single<JamRepository> { JamRepositoryImpl(get()) }
 }

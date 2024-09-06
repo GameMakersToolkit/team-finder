@@ -17,6 +17,8 @@
     }
 
     #advanced-options-button {
-        @apply border rounded-xl border-theme-l-7 text-theme-l-7 px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit;
+        @apply border rounded-xl px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit;
+        border-color: var(--theme-accent);
+        color: var(--theme-accent);
     }
 }

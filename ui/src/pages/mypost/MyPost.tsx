@@ -2,21 +2,21 @@ import React from "react";
 import {Button} from "../../common/components/Button.tsx";
 import {Field, Form, FormikProps} from "formik";
 import {skills} from "../../common/models/skills.tsx";
-import CustomSelect, {CustomSelectOption} from "../home/components/common/CustomSelect.tsx";
+import CustomSelect, {CustomSelectOption} from "../jamhome/components/common/CustomSelect.tsx";
 import {languages} from "../../common/models/languages.ts";
 import {tools} from "../../common/models/engines.tsx";
 import {timezones} from "../../common/models/timezones.ts";
 import {Post} from "../../common/models/post.ts";
 
-const discordGroupName = import.meta.env.VITE_DISCORD_NAME;
-
 export const MyPost: React.FC<{
     params: FormikProps<Post>,
+    jamId: string,
     author: string,
     authorId: string,
     hasPost: boolean
 }> = ({
     params,
+    jamId,
     author,
     authorId,
     hasPost
@@ -29,28 +29,26 @@ export const MyPost: React.FC<{
             <FieldDescription description={values.description} />
 
             {/* This is jank, improve this later with a look up on submit */}
+            <Field name="jamId" value={jamId} type="hidden" />
             <Field name="author" value={author} type="hidden" />
             <Field name="authorId" value={authorId} type="hidden" />
 
-            <div className="c-form-block bg-black">
+            <div className="c-form-block bg-transparent">
                 <FieldSkillsPossessed />
                 <FieldSkillsSought />
             </div>
 
-            <div className="c-form-block bg-black">
+            <div className="c-form-block bg-transparent">
                 <FieldLanguages />
                 <FieldTools />
             </div>
 
-            <div className="c-form-block bg-black">
+            <div className="c-form-block bg-transparent">
                 <FieldTimezones />
                 <FieldTeamSize />
             </div>
 
-            <FieldAvailability currentAvailability={values.availability} />
-
-            <h3 className="mt-12 text-center text-lg font-bold">If you leave the discord server, Team Finder users won't be able to contact you.</h3>
-            <p className="text-center">Please stay in the {discordGroupName} server to keep your post working!</p>
+            {/*<FieldAvailability currentAvailability={values.availability} />*/}
 
             <Button
                 className="mt-4 bg-theme-d-7 rounded-xl w-full sm:w-full md:w-auto md:float-right"
@@ -63,7 +61,7 @@ export const MyPost: React.FC<{
                 {isSubmitting ? "Please wait..." : `${hasPost ? "Update" : "Create"} Post`}
             </Button>
             {/* Quick workaround to stop Create Post button falling off bottom of form, until we replace float-right */}
-            <div className="clear-both">&nbsp;</div>
+            <div className="clear-both h-[0px]">&nbsp;</div>
         </Form>
     )
 }
@@ -207,7 +205,7 @@ const FieldAvailability: React.FC<{currentAvailability: string}> = ({currentAvai
     ];
 
     return (
-        <div className="c-form-block bg-black w-full grid-cols-1">
+        <div className="c-form-block bg-transparent w-full grid-cols-1">
             <div id="availability-radio-group">Availability</div>
             <div role="group" aria-labelledby="availability-radio-group">
                 {availabilityOptions.map(option => (

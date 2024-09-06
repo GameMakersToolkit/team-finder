@@ -1,5 +1,6 @@
 export interface Post {
   id: string;
+  jamId: string;
   author: string;
   authorId: string;
   description: string;
@@ -50,4 +51,3 @@ function transformDateOrNull(input?: string): Date | undefined {
   }
   return new Date(input);
 }
-

@@ -10,6 +10,7 @@ import kotlin.math.abs
 @Serializable
 data class PostItem (
     val id: String,
+    val jamId: String,
 
     var author: String,
     var authorId: String,
@@ -27,6 +28,7 @@ data class PostItem (
 
     var queryCount: Int,
     var fullPageViewCount: Int,
+
     // Reported by the flag icon for inappropriate content
     var reportCount: Int,
 
@@ -46,6 +48,7 @@ data class PostItem (
             val currentDatetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             return PostItem(
                 abs(ThreadLocalRandom.current().nextLong()).toString(), // We need to handle as string, otherwise we lose precision in JS
+                dto.jamId,
                 dto.author,
                 dto.authorId,
                 dto.description.take(2000),

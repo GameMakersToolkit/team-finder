@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import { JamSpecificStyling } from "../../common/components/JamSpecificStyling";
 
 const discordGroupName = import.meta.env.VITE_DISCORD_NAME;
 const discordGroupInviteUrl = import.meta.env.VITE_DISCORD_INVITE_URL;
@@ -8,37 +9,26 @@ const jamUrl = import.meta.env.VITE_JAM_URL;
 
 export const About: React.FC = () => {
     return (
+        <JamSpecificStyling>
         <main>
-            <h1>About the Team Finder</h1>
+            <div className=" border-white border-b-2 mb-6">
+                <h1>About the Team Finder</h1>
+                <h2>What is the Team Finder?</h2>
+                <p className="mb-6">
+                    Welcome to the Team Finder!
+                    You can use this website to find other game jam participants to team up with
+                    for the game jam. Browse the post list or make a post of your own!
+                </p>
+            </div>
 
             <div className="flex flex-wrap gap-4">
-                <div className="c-question">
-                    <h2>What is the Team Finder?</h2>
-                    <p>
-                        Welcome to the Team Finder!
-                        You can use this website to find other game jam participants to team up with
-                        for the game jam. Browse the post list or make a post of your own!
-                    </p>
-
-                    <p>
-                        <span className="italic">This is not run by Mark Brown.</span>{" "}
-                        Mark gave his blessing for us to use his shiny logos and branding,
-                        but other than that Mark isn&#39;t directly involved in the
-                        development of this website.
-                    </p>
-                    <p>
-                        This is a semi-official fan project aimed at supporting the jam in
-                        becoming more community-driven - please do not contact Mark with
-                        questions about the Team Finder!
-                    </p>
-                </div>
-
                 <div className="c-question">
                     <h2>How do I find jammers to join?</h2>
                     <p>
                         If you are looking for a team to join or for someone to join your team, use the search tools
                         on&nbsp;
-                        <Link className="hover:underline cursor-pointer" to="/gmtk/my-post">the homepage</Link> to find other
+                        <Link className="hover:underline cursor-pointer" to="/bossrush/my-post">the homepage</Link> to find
+                        other
                         jammers!
                     </p>
 
@@ -56,10 +46,7 @@ export const About: React.FC = () => {
                     </p>
 
                     <p className="font-bold">
-                        Keep in mind that you need to be a member of the{" "}
-                        <Link className="hover:underline cursor-pointer"
-                              to={discordGroupInviteUrl}>{discordGroupName} Discord server</Link>{" "}
-                        to be able to contact them!
+                        Keep in mind that you need to be a member of the jam's Discord server to be able to contact them!
                     </p>
                 </div>
 
@@ -88,7 +75,8 @@ export const About: React.FC = () => {
                     <h2>I've found someone for my team, what now?</h2>
                     <p>
                         If you&#39;ve filled a role and are no longer looking for it, you
-                        can edit your team post in the <Link className="hover:underline cursor-pointer" to="/gmtk/my-post">Post
+                        can edit your team post in the <Link className="hover:underline cursor-pointer"
+                                                             to="/bossrush/my-post">Post
                         /
                         Edit Your Team tab above!</Link>
                     </p>
@@ -98,7 +86,7 @@ export const About: React.FC = () => {
                     </p>
                     <p>
                         The option to delete your post is in the bottom-left of the <Link
-                        className="hover:underline cursor-pointer" to="/gmtk/my-post">Post / Edit Your Team page</Link>.
+                        className="hover:underline cursor-pointer" to="/bossrush/my-post">Post / Edit Your Team page</Link>.
                     </p>
                 </div>
 
@@ -114,22 +102,8 @@ export const About: React.FC = () => {
                         the {discordGroupName} Discord server.
                     </p>
                 </div>
-
-                <div className="c-question">
-                    <h2>What is the {jamName} anyway?</h2>
-                    <p>
-                        Please see{" "}<a
-                        style={{textDecorationThickness: "3px"}}
-                        className="text-accent1 underline hover:text-accent2"
-                        href={jamUrl}
-                        target="_blank"
-                    >
-                        the official itch.io page for details
-                    </a>
-                        .
-                    </p>
-                </div>
             </div>
         </main>
+        </JamSpecificStyling>
     )
 }

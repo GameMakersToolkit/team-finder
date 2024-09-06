@@ -26,6 +26,7 @@ fun Application.module() {
     configureUserInfoRouting()
     configureAuthRouting()
     configureAdminRouting()
+    configureJamRouting()
     configurePostRouting()
     configureFavouritesRouting()
     configureDiscordBotRouting()

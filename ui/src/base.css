@@ -1,4 +1,16 @@
 @layer base {
+    .mono {
+        font-family: "Share Tech Mono", monospace;
+        font-weight: 800;
+    }
+
+    .mono-header {
+        @apply drop-shadow-[0_1.4px_1.4px_rgba(255,255,255,0.8)];
+        font-family: "Share Tech Mono", monospace;
+        font-weight: 700;
+        color: #6effb9;
+    }
+
     .input {
         @apply bg-gray-300 border-2 border-gray-300 rounded-xl placeholder-gray-600 text-gray-900;
     }
@@ -18,8 +30,9 @@
 
     body {
         color: #ffffff;
-        background: url("/background-image.jpeg");
+        /*background: url("/background-image.jpeg");*/
         background-size: 100%;
+        background-color: var(--theme-background);
     }
 
     /* Styling to keep the footer at the bottom of page/content as appropriate */
@@ -32,19 +45,25 @@
         padding-bottom: 88px
     }
 
-    div, p, span {
+    div, p {
         @apply text-white;
     }
 
     /* Override to enforce ReactSVG icons are the right size */
-    svg {
+     svg {
         width: 16px;
         height: 16px;
+        fill: unset; /* There's an error, but it does work somehow */
+    }
+
+    .svg-explicit-size svg {
+        width: 100%!important;
+        height: 100%!important;
     }
 
     .post-tile__header svg,
     .post__header svg {
-        width: 38px;
+        width: 32px;
         height: auto;
     }
 }

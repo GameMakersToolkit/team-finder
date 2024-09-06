@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class PostItemCreateDto(
+    var jamId: String,
     var author: String,
     var authorId: String,
     var description: String,

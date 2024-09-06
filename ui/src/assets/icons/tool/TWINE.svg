@@ -2,9 +2,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px"
      viewBox="0 0 20 22" version="1.1">
     <g id="surface1">
-        <path fill="#FFFFFF" style=" stroke:none;fill-rule:nonzero;"
+        <path style=" stroke:none;fill-rule:nonzero;"
               d="M 0 0 L 8.570312 0 L 8.570312 22 L 0 22 Z M 0 0 "/>
-        <path fill="#FFFFFF" style=" stroke:none;fill-rule:nonzero;"
+        <path style=" stroke:none;fill-rule:nonzero;"
               d="M 0 17.875 C 0 2.75 20 2.75 20 2.75 L 20 11 C 20 11 8.570312 11 8.570312 17.875 L 8.570312 22 L 0 22 Z M 0 17.875 "/>
     </g>
 </svg>

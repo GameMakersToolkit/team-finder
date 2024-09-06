@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrElse
 
 class DiscordBot {
+
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private lateinit var api: DiscordApi
@@ -59,7 +60,6 @@ class DiscordBot {
     suspend fun createContactUserPingMessage(recipientUserId: String, senderUserId: String) {
         val recipient: User = api.getUserById(recipientUserId).await()
         val sender: User = api.getUserById(senderUserId).await()
-
         val dmChannel = recipient.privateChannel.getOrElse { recipient.openPrivateChannel().get() }
 
         val messageSendAttempt = if (messageBuilder.canBuildEmbedFromUser(sender)) {
@@ -74,6 +74,8 @@ class DiscordBot {
             withContext(Dispatchers.IO) {
                 messageSendAttempt.get()
             }
+
+            createFallbackChannelPingMessage(recipient, sender)
         } catch (ex: InterruptedException) {
             createFallbackChannelPingMessage(recipient, sender)
         } catch (ex: java.util.concurrent.ExecutionException) {
@@ -82,9 +84,8 @@ class DiscordBot {
     }
 
     private suspend fun createFallbackChannelPingMessage(recipient: User, sender: User) {
-        val messageContents = "Hey ${recipient.mentionTag} (${recipient.name}), ${sender.mentionTag} wants to get in contact about your Team Finder post!"
+        val messageContents = "Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!"
         // TODO: Validate message actually sent, give error otherwise
-        logger.info("[CONTACT] [PING] ${sender.name} (${sender.id}) contacted ${recipient.name} (${recipient.id})")
         channel.sendMessage(messageContents).await()
     }
 
@@ -144,4 +145,11 @@ class DiscordBot {
             baseUserName
         }
     }
+
+    suspend fun sendStatusMessageToPingChannel() {
+        val messageContents = "[STATUS] Discord bot is alive and well!"
+        // TODO: Validate message actually sent, give error otherwise
+        channel.sendMessage(messageContents).await()
+    }
+
 }
