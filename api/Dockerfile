@@ -48,13 +48,13 @@ ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 COPY --from=builder /customjre $JAVA_HOME
 
-# The files/folders are the fully-qualified app name (com.gmtkgamejam.api-x.y.z) - shorten here for ease of use
-COPY --from=builder /opt/code/build/distributions/com.gmtkgamejam.api*.zip ./api.zip
+# The files/folders are the fully-qualified app name (com.gmtkvotingsystem.api-x.y.z) - shorten here for ease of use
+COPY --from=builder /opt/code/build/distributions/com.gmtkvotingsystem.api*.zip ./api.zip
 
 # Extract distribution
-RUN unzip api.zip && mv com.gmtkgamejam* api
+RUN unzip api.zip && mv com.gmtkvotingsystem* api
 
 EXPOSE 8080
 
 # Start application from /bin/bash script
-CMD ["./api/bin/com.gmtkgamejam.api"]
+CMD ["./api/bin/com.gmtkvotingsystem.api"]

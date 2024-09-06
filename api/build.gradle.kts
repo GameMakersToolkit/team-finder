@@ -9,11 +9,11 @@ plugins {
     kotlin("plugin.serialization") version "1.9.22"
 }
 
-group = "com.gmtkgamejam"
+group = "com.gmtkvotingsystem"
 version = "1.0.1"
 
 application {
-    mainClass.set("com.gmtkgamejam.ApplicationKt")
+    mainClass.set("com.gmtkvotingsystem.ApplicationKt")
 }
 
 repositories {

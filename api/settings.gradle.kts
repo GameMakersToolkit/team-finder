@@ -1,1 +1,1 @@
-rootProject.name = "com.gmtkgamejam.api"
+rootProject.name = "com.gmtkvotingsystem.api"
