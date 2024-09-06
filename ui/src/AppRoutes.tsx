@@ -10,6 +10,7 @@ import {Post} from "./pages/post/Post.tsx";
 import {Logout} from "./pages/logout/Logout.tsx";
 import Footer from "./pages/components/Footer.tsx";
 import {About} from "./pages/about/About.tsx";
+import {AfterJam} from './pages/afterjam/AfterJam.tsx';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -24,23 +25,22 @@ export const AppRoutes: React.FC = () => {
     return (
         <BrowserRouter>
             <ReactQuerySiteWrapper>
-            <Header />
+            {/*<Header />*/}
             <Routes>
-                <Route path="/" element={<Navigate to="/gmtk" />} />
+                {/*<Route path="/" element={<Navigate to="/gmtk" />} />*/}
 
-                <Route path="/gmtk/" element={<Home/>}/>
-                <Route path="/gmtk/:postId" element={<Post/>}/>
-                <Route path="/gmtk/my-post" element={<MyPostWrapper/>}/>
+                {/*<Route path="/gmtk/" element={<Home/>}/>*/}
+                {/*<Route path="/gmtk/:postId" element={<Post/>}/>*/}
+                {/*<Route path="/gmtk/my-post" element={<MyPostWrapper/>}/>*/}
 
-                <Route path="/about" element={<About/>}/>
-                <Route path="/login/authorized" element={<Callback/>}/>
-                <Route path="/logout" element={<Logout/>}/>
+                {/*<Route path="/about" element={<About/>}/>*/}
+                {/*<Route path="/login/authorized" element={<Callback/>}/>*/}
+                {/*<Route path="/logout" element={<Logout/>}/>*/}
 
-                {/* TODO: replace with a proper Not Found page */}
-                <Route path="*" element={<p>u wot m8</p>}/>
+                <Route path="*" element={<AfterJam />}/>
             </Routes>
 
-            <Footer />
+            {/*<Footer />*/}
 
             </ReactQuerySiteWrapper>
         </BrowserRouter>
