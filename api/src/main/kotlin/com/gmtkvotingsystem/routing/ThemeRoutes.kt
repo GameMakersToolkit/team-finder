@@ -10,6 +10,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlin.math.min
 
 fun Application.configureThemeRouting() {
     val authService = AuthService()
@@ -26,7 +27,7 @@ fun Application.configureThemeRouting() {
             post("/themes") {
                 val auth = getAuthFromCall(authService, call) ?: return@post call.respond(HttpStatusCode.BadRequest)
                 val data = call.receive<ThemeDTO>()
-                val themes = data.themes
+                val themes = data.themes.subList(0, min(data.themes.count(), 3)) // Ensure people can only submit a max of three
 
                 themeService.setForUser(auth.discordId, themes)
 
