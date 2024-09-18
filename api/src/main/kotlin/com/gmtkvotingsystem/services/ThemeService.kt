@@ -45,7 +45,7 @@ class ThemeService : KoinComponent {
                 .find()
                 .toList()
                 .shuffled(rng)
-                .subList(0, 3) // todo
+                .subList(0, 10) // todo
                 .map { theme -> ThemeVotedOnDTO(theme._id, discordId, theme.text, currentVotes[theme._id] ?: 0) }
 
         return themes
