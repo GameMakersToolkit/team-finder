@@ -27,7 +27,7 @@ fun Application.configureVoteRouting() {
                 val auth = getAuthFromCall(authService, call) ?: return@post call.respond(HttpStatusCode.BadRequest)
                 val data = call.receive<VotesDTO>()
 
-                if (data.votes.any { it.score < -2 || it.score > 2 }) {
+                if (data.votes.any { it.score < -5 || it.score > 5 }) {
                     return@post call.respond(HttpStatusCode.BadRequest)
                 }
 
