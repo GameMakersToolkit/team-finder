@@ -10,12 +10,10 @@ import {useState} from "react";
 import {SortingOptions} from "./SortingOptions.tsx";
 import {iiicon} from "../../../common/utils/iiicon.tsx";
 import {blankSearchParameters} from "../models/SearchParameters.ts";
-import {useSearchParams} from 'react-router-dom';
 
 export const SearchForm: React.FC<{
     params: FormikSearchFormParameters
 }> = ({params}) => {
-    const [searchParams, _] = useSearchParams();
     const {values, handleChange, handleBlur} = params;
     const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false);
 
@@ -32,7 +30,7 @@ export const SearchForm: React.FC<{
                         name="description"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.description || ""}
+                        value={values.description}
                     />
 
                     <div className="c-form-block">
@@ -64,13 +62,7 @@ export const SearchForm: React.FC<{
                     <div className="text-center">
                         <button
                             id="clear-search-button"
-                            onClick={() => {
-                                const isOnlyBookmarked = searchParams.get('bookmarked') === "true"
-                                params.resetForm({values: blankSearchParameters})
-                                if (isOnlyBookmarked) {
-                                    searchParams.set('bookmarked', 'true');
-                                }
-                            }}
+                            onClick={() => {params.resetForm({values: blankSearchParameters})}}
                             type="button"
                         >
                             Clear Search
@@ -82,8 +74,8 @@ export const SearchForm: React.FC<{
                             type="button"
                         >
                             {showAdvancedSearchOptions
-                                ? <>Fewer options {iiicon('up-arrow', "#ff5762", 16, 16)}</>
-                                : <>More options {iiicon('down-arrow', "#ff5762", 16, 16)}</>
+                                ? <>Fewer options {iiicon('up-arrow', "var(--theme-accent)", 16, 16)}</>
+                                : <>More options {iiicon('down-arrow', "var(--theme-accent)", 16, 16)}</>
                             }
                         </button>
                     </div>
@@ -92,7 +84,7 @@ export const SearchForm: React.FC<{
             </div>
 
             <div className="md:flex justify-between items-center mt-4 mb-4">
-                <h2 id="search-results" className="text-3xl my-4 mr-2 inline-block">Search results</h2>
+                <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
                 <SortingOptions />
             </div>
 

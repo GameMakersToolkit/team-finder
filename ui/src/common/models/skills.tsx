@@ -1,4 +1,4 @@
-import {CustomSelectOption} from "../../pages/home/components/common/CustomSelect.tsx";
+import {CustomSelectOption} from "../../pages/jamhome/components/common/CustomSelect.tsx";
 import {getOptionsListIcon} from "../utils/getOptionsListIcon.tsx";
 
 

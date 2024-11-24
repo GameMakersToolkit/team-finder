@@ -1,5 +1,6 @@
 export interface Post {
   id: string;
+  jamId: string;
   author: string;
   authorId: string;
   description: string;
@@ -18,23 +19,13 @@ export interface Post {
   deletedAt?: Date;
 }
 
-export type PostDTO = Omit<Post, "createdAt" | "updatedAt" | "deletedAt"> & {
+export type PostApiResult = Omit<Post, "createdAt" | "updatedAt" | "deletedAt"> & {
   createdAt: string;
   updatedAt?: string;
   deletedAt?: string;
 };
 
-export type PostResponseDTO = {
-  posts: PostDTO[];
-  pagination: {current: number, total: number};
-}
-
-export type PostResponse = {
-  posts: Post[];
-  pagination: {current: number, total: number};
-}
-
-export function postFromApiResult(input: PostDTO): Post {
+export function postFromApiResult(input: PostApiResult): Post {
   return {
     ...input,
     createdAt: new Date(input.createdAt),
