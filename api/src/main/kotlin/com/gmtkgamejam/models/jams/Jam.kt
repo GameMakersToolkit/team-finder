@@ -9,5 +9,14 @@ data class Jam(
     val start: String,
     val logoLargeUrl: String?,
     val logoStackedUrl: String?,
+
+    /**
+     * '--theme-primary': '',
+     * '--theme-accent': '',
+     * '--theme-background': '',
+     * '--gradient-start': '',
+     * '--gradient-end': '',
+     * '--theme-tile-bg': '',
+     */
     val styles: Map<String, String>,
 )

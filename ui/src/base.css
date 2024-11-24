@@ -30,8 +30,9 @@
 
     body {
         color: #ffffff;
-        background: url("/background-image.jpeg");
+        /*background: url("/background-image.jpeg");*/
         background-size: 100%;
+        background-color: var(--theme-background);
     }
 
     /* Styling to keep the footer at the bottom of page/content as appropriate */

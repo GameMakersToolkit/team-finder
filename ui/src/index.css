@@ -43,6 +43,8 @@
     --gradient-start: #88151b;
     --gradient-end: #000000;
 
+    --theme-background: #000000;
+
     /* Post items - skills */
     --skill-color-looking-for: theme('colors.theme-l-6');
     --skill-color-looking-for-text: theme('textColor.white');

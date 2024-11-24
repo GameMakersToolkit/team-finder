@@ -50,7 +50,7 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
         return (<>No jam of that ID could be found</>)
     }
 
-    localStorage.setItem(`theme_${jamId}`, JSON.stringify(activeJam))
+    // localStorage.setItem(`theme_${jamId}`, JSON.stringify(activeJam))
 
     // Set each CSS rule in the DB active on the page
     Object.entries(activeJam.styles).map(style => document.documentElement.style.setProperty(style[0], style[1]))

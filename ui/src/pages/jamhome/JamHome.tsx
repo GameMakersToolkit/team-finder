@@ -36,7 +36,7 @@ export const JamHome: React.FC = () => {
 
         fetch(url, init)
             .then(res => res.json())
-            .then(setPosts)
+            .then(res => setPosts(res.posts))
     }, [searchParams])
 
     return (
