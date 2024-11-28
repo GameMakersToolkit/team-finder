@@ -7,9 +7,9 @@ const jamUrl = import.meta.env.VITE_JAM_URL;
 
 const Footer: React.FC = () => {
     const footerImages = [
-        {alt: "GMTK Youtube Channel", src: youtubeIcon, href: "https://www.youtube.com/@GMTK"},
+        // {alt: "GMTK Youtube Channel", src: youtubeIcon, href: "https://www.youtube.com/@GMTK"},
         {alt: "GMTK Game Jam page on itch.io", src: gmtkIcon, href: jamUrl},
-        {alt: "GMTK Discord server", src: discordIcon, href: "https://discord.gg/pd4rQKU"},
+        {alt: "GMTK Discord server", src: discordIcon, href: "https://discord.gg/boss-rush-jam-839578524242149376"},
     ]
 
     return (

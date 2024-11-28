@@ -72,7 +72,7 @@ export const MyPostWrapper: React.FC = () => {
     const deletePostMutation = useDeleteMyPostMutation({onSuccess: onDeleteSuccess});
 
     /** Ensure user is logged in to view the page; give them enough information to see what's happening */
-    if (userInfo?.isLoading || !userInfo.data) {return (<main><div className="c-form bg-black"><h1 className="text-3xl my-4">Please wait...</h1></div></main>)}
+    if (userInfo?.isLoading || !userInfo.data) {return (<main><div className="c-form bg-transparent"><h1 className="text-3xl my-4">Please wait...</h1></div></main>)}
 
     /** Ensure we have active form data before rendering form  */
     if (myPostQuery?.isLoading) {return (<></>)}
@@ -80,7 +80,7 @@ export const MyPostWrapper: React.FC = () => {
     return (
         <JamSpecificStyling>
             <main>
-                <div className="c-form bg-black">
+                <div className="c-form bg-transparent">
                     <Formik
                         initialValues={ initialValues }
                         validate={ onValidateForm }
