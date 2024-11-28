@@ -107,7 +107,7 @@ const MyPostButton: React.FC = () => {
     return (
         <Link
             className={`header-button ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
-            to={`${jamId}/my-post`}
+            to={`/` + jamId + `/my-post`}
         >
             <div className="flex items-center h-full">
                 <ReactSVG
