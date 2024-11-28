@@ -1,9 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {JamSpecificContext} from "../../../common/components/JamSpecificStyling.tsx";
 
-const jamName = import.meta.env.VITE_JAM_NAME;
-const jamStartDate = new Date(import.meta.env.VITE_JAM_START);
-
 // Set the date we're counting down to
 export const SiteIntro = () => {
     const theme = useContext(JamSpecificContext)
@@ -13,28 +10,29 @@ export const SiteIntro = () => {
                 className="m-auto mb-2"
                 src={theme.logoLargeUrl}
                 width={"50%"}
-                alt={jamName + " Team Finder logo"}
+                alt={theme.name + " Team Finder logo"}
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-2">
                 <div className="flex flex-col justify-center mb-4 sm:m-0">
-                    <p className="text-center">{`Welcome to the ${jamName} Team Finder!`}</p>
+                    <p className="text-center">{`Welcome to the ${theme.name} Team Finder!`}</p>
                     <p className="text-center">Create a post or search below to find a team.</p>
                 </div>
 
                 <div className="text-center">
-                    <CountdownSection/>
+                    <CountdownSection startDate={new Date(theme.start)}/>
                 </div>
             </div>
         </div>);
 }
 
-const CountdownSection = () => {
-    const [countdown, setCountdown] = useState(getCountdownComponents(Date.now()))
+const CountdownSection = ({startDate}) => {
+    console.log("startDate", startDate)
+    const [countdown, setCountdown] = useState(getCountdownComponents(startDate, Date.now()))
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setCountdown(getCountdownComponents(Date.now()));
+            setCountdown(getCountdownComponents(startDate, Date.now()));
         }, 1000);
 
         return () => clearInterval(interval);
@@ -61,7 +59,7 @@ const CountdownSection = () => {
         </>)
 }
 
-const getCountdownComponents = (time: number) => {
+const getCountdownComponents = (jamStartDate: Date, time: number) => {
     // Find the distance between now and the countdown date
     const distance = jamStartDate.getTime() - time;
 
