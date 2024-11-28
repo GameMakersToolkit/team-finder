@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Routes, Route, BrowserRouter} from "react-router-dom";
+import {Routes, Route, BrowserRouter, Navigate} from 'react-router-dom';
 import { JamHome } from "./pages/jamhome/JamHome.tsx";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {AuthContextProvider} from "./api/AuthContext.tsx";
@@ -25,7 +25,7 @@ export const AppRoutes: React.FC = () => {
             <ReactQuerySiteWrapper>
 
             <Routes>
-                <Route path="/" element={<Index/>}/>
+                <Route path="/" element={<Navigate to="/bossrush" />}/>
                 <Route path="/about" element={<About/>}/>
                 <Route path="/login/authorized" element={<Callback/>}/>
                 <Route path="/logout" element={<Logout/>}/>
