@@ -87,11 +87,13 @@ const ToggleBookmarks: React.FC = () => {
             className="header-button"
             onClick={() => bookmarkIconOnClick(!shouldLimitToFavourites)}
         >
-            <img
+            <ReactSVG
                 src={shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon}
-                alt={shouldLimitToFavourites ? "Show all posts" : "Filter to your bookmarked posts"}
-                className="inline-block"
+                desc={shouldLimitToFavourites ? "Show all posts" : "Filter to your bookmarked posts"}
+                className="contents svg-explicit-size h-full fill-[color:var(--theme-accent)] ml-2 my-1 mr-2"
                 style={{ width: "20px", height: "20px" }}
+                width={20}
+                height={20}
             />
         </button>
     )
