@@ -9,6 +9,7 @@ import {Post} from "./pages/post/Post.tsx";
 import {Logout} from "./pages/logout/Logout.tsx";
 import {About} from "./pages/about/About.tsx";
 import {Index} from "./pages/index/Index.tsx";
+import {AfterJam} from './pages/afterjam/AfterJam.tsx';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -29,6 +30,10 @@ export const AppRoutes: React.FC = () => {
                 <Route path="/about" element={<About/>}/>
                 <Route path="/login/authorized" element={<Callback/>}/>
                 <Route path="/logout" element={<Logout/>}/>
+
+                {/* Lazy hack that I will architect for when I'm not ill */}
+                <Route path="/gmtk" element={<AfterJam />}/>
+                <Route path="/gmtk/*" element={<AfterJam />}/>
 
                 <Route path="/:jamId" element={<JamHome/>}/>
                 <Route path="/:jamId/:postId" element={<Post/>}/>
