@@ -1,13 +1,11 @@
 import React from "react";
 import discordIcon from "../../assets/icons/social/discord.svg";
-import gmtkIcon from "../../assets/icons/social/gmtk-letter-logo.png";
-
-const jamUrl = import.meta.env.VITE_JAM_URL;
+import footerIcon from "../../assets/icons/social/footer.png"
 
 const Footer: React.FC = () => {
     const footerImages = [
         // {alt: "GMTK Youtube Channel", src: youtubeIcon, href: "https://www.youtube.com/@GMTK"},
-        {alt: "Boss Rush Jam page on itch.io", src: gmtkIcon, href: jamUrl},
+        {alt: "Boss Rush Jam page on itch.io", src: footerIcon, href: "https://itch.io/jam/boss-rush-jam-2025"},
         {alt: "Boss Rush Jam Discord server", src: discordIcon, href: "https://discord.gg/uzKPF4NjfJ"},
     ]
 
