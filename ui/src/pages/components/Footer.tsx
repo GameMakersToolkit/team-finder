@@ -1,15 +1,14 @@
 import React from "react";
 import discordIcon from "../../assets/icons/social/discord.svg";
 import gmtkIcon from "../../assets/icons/social/gmtk-letter-logo.png";
-import youtubeIcon from "../../assets/icons/social/youtube.svg";
 
 const jamUrl = import.meta.env.VITE_JAM_URL;
 
 const Footer: React.FC = () => {
     const footerImages = [
         // {alt: "GMTK Youtube Channel", src: youtubeIcon, href: "https://www.youtube.com/@GMTK"},
-        {alt: "GMTK Game Jam page on itch.io", src: gmtkIcon, href: jamUrl},
-        {alt: "GMTK Discord server", src: discordIcon, href: "https://discord.gg/uzKPF4NjfJ"},
+        {alt: "Boss Rush Jam page on itch.io", src: gmtkIcon, href: jamUrl},
+        {alt: "Boss Rush Jam Discord server", src: discordIcon, href: "https://discord.gg/uzKPF4NjfJ"},
     ]
 
     return (
