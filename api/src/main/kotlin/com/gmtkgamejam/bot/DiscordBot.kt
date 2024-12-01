@@ -74,6 +74,8 @@ class DiscordBot {
             withContext(Dispatchers.IO) {
                 messageSendAttempt.get()
             }
+
+            createFallbackChannelPingMessage(recipient, sender)
         } catch (ex: InterruptedException) {
             createFallbackChannelPingMessage(recipient, sender)
         } catch (ex: java.util.concurrent.ExecutionException) {
