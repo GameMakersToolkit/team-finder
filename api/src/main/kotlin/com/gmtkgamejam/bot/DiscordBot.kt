@@ -144,4 +144,10 @@ class DiscordBot {
         }
     }
 
+    suspend fun sendStatusMessageToPingChannel() {
+        val messageContents = "[STATUS] Discord bot is alive and well!"
+        // TODO: Validate message actually sent, give error otherwise
+        channel.sendMessage(messageContents).await()
+    }
+
 }
