@@ -11,10 +11,10 @@ const Footer: React.FC = () => {
 
     return (
         <footer className="c-footer" style={{}}>
-            {footerImages.map(footerImage => (
-                <div key={footerImage.alt} className="footer__icon">
+            {footerImages.map((footerImage, index) => (
+                <div key={footerImage.alt} className={`footer__icon`}>
                     <a target="_blank" className="footer__icon--link" href={footerImage.href}>
-                        <img className="hover:scale-125" src={footerImage.src} alt={footerImage.alt} style={{width:"24px"}} />
+                        <img className="hover:scale-125" src={footerImage.src} alt={footerImage.alt} style={{width: index == 0 ? "42px" : "24px"}} />
                     </a>
                 </div>
             ))}
