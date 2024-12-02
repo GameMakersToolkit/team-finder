@@ -2,6 +2,7 @@ import React, {createContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {Header} from "../../pages/components/Header.tsx";
 import Footer from "../../pages/components/Footer.tsx";
+import {act} from 'react-dom/test-utils';
 
 export type Jam = {
     jamId: string,
@@ -56,6 +57,7 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
 
     // Set each CSS rule in the DB active on the page
     Object.entries(activeJam.styles).map(style => document.documentElement.style.setProperty(style[0], style[1]))
+    document.title = `${activeJam.name} | findyourjam.team`
 
     return (
         <JamSpecificContext.Provider value={activeJam}>

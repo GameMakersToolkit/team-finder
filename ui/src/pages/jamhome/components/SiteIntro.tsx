@@ -27,7 +27,6 @@ export const SiteIntro = () => {
 }
 
 const CountdownSection = ({startDate}) => {
-    console.log("startDate", startDate)
     const [countdown, setCountdown] = useState(getCountdownComponents(startDate, Date.now()))
 
     useEffect(() => {
