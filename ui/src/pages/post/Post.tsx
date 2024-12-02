@@ -19,13 +19,18 @@ import {iiicon} from "../../common/utils/iiicon.tsx";
 import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
 import {JamSpecificStyling} from "../../common/components/JamSpecificStyling.tsx";
 
-export const Post: React.FC<{}> = () => {
+export const Post: React.FC<{initialPost: PostModel | undefined}> = ({initialPost}) => {
 
     const { jamId, postId } = useParams()
     const navigate = useNavigate();
     const [post, setPost] = useState<PostModel>()
 
     useEffect(() => {
+        if (initialPost) {
+            setPost(initialPost)
+            return
+        }
+
         fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}?jamId=${jamId}`)
             .then(res => res.json())
             .then(setPost)
