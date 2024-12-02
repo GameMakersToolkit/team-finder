@@ -11,6 +11,7 @@ import {About} from "./pages/about/About.tsx";
 import {Index} from "./pages/index/Index.tsx";
 import {AfterJam} from './pages/afterjam/AfterJam.tsx';
 import {JamAdmin} from './pages/jamadmin/JamAdmin.tsx';
+import {PreviewPage} from './pages/jamadmin/components/PreviewPage.tsx';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -41,6 +42,7 @@ export const AppRoutes: React.FC = () => {
                 <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
                 <Route path="/:jamId/about" element={<About/>}/>
                 <Route path="/:jamId/admin/*" element={<JamAdmin/>}/>
+                <Route path="/:jamId/admin/styling/preview-page" element={<PreviewPage />}/>
 
                 {/* TODO: replace with a proper Not Found page */}
                 <Route path="*" element={<p>u wot m8</p>}/>
