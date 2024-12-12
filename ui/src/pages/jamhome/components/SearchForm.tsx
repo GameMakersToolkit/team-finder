@@ -25,7 +25,7 @@ export const SearchForm: React.FC<{
                     <label htmlFor="description">Keywords</label>
                     <input
                         type="text"
-                        className="form-block__field w-full"
+                        className="form-block__field w-full text-black hover:text-black px-2"
                         style={{lineHeight: 2.4}}
                         name="description"
                         onChange={handleChange}
