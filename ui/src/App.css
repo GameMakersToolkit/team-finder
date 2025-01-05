@@ -3,3 +3,8 @@
     border-color: var(--theme-accent);
     color: var(--theme-accent)
 }
+
+.button-link-container.primary {
+    background-color: var(--theme-accent);
+    color: var(--theme-background);
+}

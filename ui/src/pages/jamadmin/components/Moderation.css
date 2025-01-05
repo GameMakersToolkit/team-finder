@@ -1,0 +1,9 @@
+.scrollable {
+    max-width: 100%;
+    overflow-x: auto;
+    gap: 1em;
+}
+
+.c-reported-post {
+    min-width: 400px;
+}
