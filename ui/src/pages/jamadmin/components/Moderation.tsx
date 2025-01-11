@@ -1,15 +1,14 @@
-import { Query, useMutation, useQuery, useQueryClient } from "react-query"
-import { useAuth } from "../../../api/AuthContext";
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Post } from "../../../common/models/post";
-import { getDescriptionParagraphs, PostTile } from "../../../common/components/PostTile";
-import { useParams } from "react-router-dom";
+import { getDescriptionParagraphs } from "../../../common/components/PostTile";
 import './Moderation.css';
 import { TeamSizeIcon } from "../../../common/components/TeamSizeIcon";
 import { OptionsListDisplay } from "../../../common/components/OptionsListDisplay";
 import { iiicon } from "../../../common/utils/iiicon";
 import { skills } from "../../../common/models/skills";
-import Select from "react-select";
 import { useApiRequest } from "../../../api/apiRequest";
+import { useState } from "react";
+import { useAuth } from "../../../api/AuthContext";
 
 export const Moderation = () => {
     return (
@@ -46,7 +45,11 @@ const ReportedPostList = () => {
 }
 
 const ReportedPost = ({ post }: { post: Post }) => {
-    const { mutate: dismiss, isLoading, isError } = useDismiss(post.id);
+    const auth = useAuth();
+    const { mutate: dismiss } = useDismiss(post.id);
+    const { mutate: deletePost } = useDelete(post.id);
+    const { mutate: deleteAndBan } = useDeleteAndBan(post, auth?.token ?? '');
+    const [ menuOpen, setMenuOpen ] = useState(false);
     return (
         <section className="c-post-tile c-reported-post">
 
@@ -79,9 +82,18 @@ const ReportedPost = ({ post }: { post: Post }) => {
             </div>
 
             <div className="post-tile__footer flex row gap-1">
-                <button className="button-link-container primary" style={{ maxHeight: "3em" }}>
-                    Take Action {iiicon("right-arrow", "var(--theme-background)")}
+                <button className="button-link-container primary" style={{ maxHeight: "3em" }} onClick={() => setMenuOpen(open => !open)}>
+                    Take Action {iiicon(menuOpen ? "up-arrow" : "right-arrow", "var(--theme-background)")}
                 </button>
+                <div style={{position: "relative", width: 0}}>
+                    <div className="actionMenu">
+                        <div className={menuOpen ? "actionMenuContent open" : "actionMenuContent closed"}>
+                            <span className="action" onClick={() => deletePost()}>Delete</span>
+                            <hr/>
+                            <span className="action" onClick={() => deleteAndBan()}>Delete&nbsp;and&nbsp;Ban</span>
+                        </div>
+                    </div>
+                </div>
                 <button className="button-link-container" style={{ maxHeight: "3em" }} onClick={() => dismiss()}>
                     Dismiss {iiicon("cross", "var(--theme-accent)")}
                 </button>
@@ -95,11 +107,52 @@ const useDismiss = (id: string) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: () => {
-            const res: any = req('/admin/reports/clear', {
+            const res = req('/admin/reports/clear', {
                 method: 'POST',
                 body: { teamId: id },
             })
             return res;
+        },
+        mutationKey: ["reported"],
+        onSuccess: () => {
+            queryClient.invalidateQueries(["reported"]);
+        }
+    })
+}
+
+const useDelete = (id: string) => {
+    const req = useApiRequest();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: () => {
+            const res = req('/admin/post', {
+                method: "DELETE",
+                body: { postId: id },
+            });
+            return res;
+        },
+        mutationKey: ["reported"],
+        onSuccess: () => {
+            queryClient.invalidateQueries(["reported"]);
+        }
+    })
+}
+
+const useDeleteAndBan = (post: Post, adminId: string) => {
+    const req = useApiRequest();
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: () => {
+            const deleteRes = req('/admin/post', {
+                method: "DELETE",
+                body: { postId: post.id },
+            });
+            const banRes = req('/admin/user/ban', {
+                method: "POST",
+                body: { discordId: post.authorId, adminId: adminId },
+                textResponse: true,
+            }).then(msg => ({ msg: msg }));
+            return Promise.all([deleteRes, banRes]);
         },
         mutationKey: ["reported"],
         onSuccess: () => {

@@ -5,6 +5,7 @@ interface ApiRequestOptions {
   method?: "GET" | "PUT" | "POST" | "DELETE";
   authToken?: string;
   body?: unknown;
+  textResponse?: boolean;
 }
 
 interface ApiRequestDependencies {
@@ -77,7 +78,7 @@ export async function apiRequest<T>(
 
     throw new Error(`${res.status} ${res.statusText}: ${errorMessage}`);
   }
-  return res.json();
+  return apiRequestOptions.textResponse ? res.text() : res.json();
 }
 
 // /**
