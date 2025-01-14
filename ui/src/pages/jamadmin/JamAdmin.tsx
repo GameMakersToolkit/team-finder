@@ -5,9 +5,21 @@ import {useMatch, useNavigate} from 'react-router-dom';
 import {Dashboard} from './components/Dashboard.tsx';
 import {Styling} from './components/Styling.tsx';
 import {Moderation} from './components/Moderation.tsx';
+import {useAuth} from '../../api/AuthContext.tsx';
+import {useUserInfo} from '../../api/userInfo.ts';
 
 export const JamAdmin = () => {
     const currentAdminPage = useMatch("/:jamId/admin/:page")?.params.page || "dashboard";
+    const auth = useAuth();
+    const userInfo = useUserInfo();
+
+    if (!auth || userInfo?.data?.isAdmin == false) {
+        return <UnauthorisedView />
+    }
+
+    if (auth && userInfo?.isLoading) {
+        return <LoadingView />
+    }
 
     return (
         <JamSpecificStyling>
@@ -24,7 +36,7 @@ export const JamAdmin = () => {
     )
 }
 
-const NavButtons = ({currentAdminPage}) => {
+const NavButtons: React.FC<{currentAdminPage: string}> = ({currentAdminPage}) => {
     const theme = useContext(JamSpecificContext)
     const navigate = useNavigate()
 
@@ -54,3 +66,23 @@ const NavButtons = ({currentAdminPage}) => {
         </nav>
     )
 }
+
+const UnauthorisedView = () => (
+    <JamSpecificStyling>
+        <main>
+            <h1>Admin</h1>
+
+            <p>You do not have permission to view this page.</p>
+        </main>
+    </JamSpecificStyling>
+)
+
+const LoadingView = () => (
+    <JamSpecificStyling>
+        <main>
+            <h1>Admin</h1>
+
+            <p>Loading...</p>
+        </main>
+    </JamSpecificStyling>
+)
