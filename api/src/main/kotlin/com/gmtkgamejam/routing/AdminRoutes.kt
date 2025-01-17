@@ -32,6 +32,9 @@ fun Application.configureAdminRouting() {
             route("/admin") {
                 route("/bot") {
                     get {
+                        call.respondJSON("build.general", status = HttpStatusCode.OK)
+                    }
+                    post {
                         bot.sendStatusMessageToPingChannel()
                     }
                 }
