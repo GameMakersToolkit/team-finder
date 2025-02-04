@@ -88,9 +88,17 @@ const ReportedPost = ({ post }: { post: Post }) => {
                 <div style={{position: "relative", width: 0}}>
                     <div className="actionMenu">
                         <div className={menuOpen ? "actionMenuContent open" : "actionMenuContent closed"}>
-                            <span className="action" onClick={() => deletePost()}>Delete</span>
+                            <span className="action" onClick={() => {
+                                if(confirm('Delete Post?')) {
+                                    deletePost()
+                                }
+                            }}>Delete</span>
                             <hr/>
-                            <span className="action" onClick={() => deleteAndBan()}>Delete&nbsp;and&nbsp;Ban</span>
+                            <span className="action" onClick={() => {
+                                if(confirm('Delete post and ban user?')) {
+                                    deleteAndBan()
+                                    }
+                                }}>Delete&nbsp;and&nbsp;Ban</span>
                         </div>
                     </div>
                 </div>
