@@ -27,7 +27,7 @@ export const About: React.FC = () => {
                     <p>
                         If you are looking for a team to join or for someone to join your team, use the search tools
                         on&nbsp;
-                        <Link className="hover:underline cursor-pointer" to="/bossrush/my-post">the homepage</Link> to find
+                        <Link className="hover:underline cursor-pointer" to="/gmtk/my-post">the homepage</Link> to find
                         other
                         jammers!
                     </p>
@@ -76,7 +76,7 @@ export const About: React.FC = () => {
                     <p>
                         If you&#39;ve filled a role and are no longer looking for it, you
                         can edit your team post in the <Link className="hover:underline cursor-pointer"
-                                                             to="/bossrush/my-post">Post
+                                                             to="/gmtk/my-post">Post
                         /
                         Edit Your Team tab above!</Link>
                     </p>
@@ -86,7 +86,7 @@ export const About: React.FC = () => {
                     </p>
                     <p>
                         The option to delete your post is in the bottom-left of the <Link
-                        className="hover:underline cursor-pointer" to="/bossrush/my-post">Post / Edit Your Team page</Link>.
+                        className="hover:underline cursor-pointer" to="/gmtk/my-post">Post / Edit Your Team page</Link>.
                     </p>
                 </div>
 

@@ -1,5 +1,5 @@
 import React, {createContext, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from 'react-router-dom';
 import {Header} from "../../pages/components/Header.tsx";
 import Footer from "../../pages/components/Footer.tsx";
 
@@ -22,6 +22,7 @@ export const JamSpecificContext = createContext<Jam>(undefined!)
 export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
     const { jamId } = useParams()
     const [activeJam, setActiveJam] = useState<Jam>()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const cachedJamStr = localStorage.getItem(`theme_${jamId}`)
@@ -51,6 +52,13 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
         // TODO: Temporal handling for first load
         return (<></>)
         // return (<>No jam of that ID could be found</>)
+    }
+
+    // Lazy redirect to show end screen
+    const jamHasExpired = new Date(activeJam.end) < new Date();
+    const isViewingAnyJamPage = window.location.pathname !== `/${activeJam.jamId}/finished`;
+    if (jamHasExpired && isViewingAnyJamPage) {
+        return navigate(`/${activeJam.jamId}/finished`, {replace: true});
     }
 
     localStorage.setItem(`theme_${jamId}`, JSON.stringify(activeJam))

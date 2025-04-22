@@ -36,7 +36,7 @@ class BotMessageBuilder {
         }
 
         embed
-            .addField("Like what you see?", "Check out their full post here to see more! https://findyourjam.team/bossrush/${post.id}/")
+            .addField("Like what you see?", "Check out their full post here to see more! https://findyourjam.team/gmtk/${post.id}/")
             .setFooter("Feedback? DM @dotwo in the #team-finder-bot channel")
 
         return embed

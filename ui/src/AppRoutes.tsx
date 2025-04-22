@@ -8,7 +8,6 @@ import {Callback} from "./pages/callback/Callback.tsx";
 import {Post} from "./pages/post/Post.tsx";
 import {Logout} from "./pages/logout/Logout.tsx";
 import {About} from "./pages/about/About.tsx";
-import {Index} from "./pages/index/Index.tsx";
 import {AfterJam} from './pages/afterjam/AfterJam.tsx';
 
 const queryClient = new QueryClient({
@@ -26,19 +25,16 @@ export const AppRoutes: React.FC = () => {
             <ReactQuerySiteWrapper>
 
             <Routes>
-                <Route path="/" element={<Navigate to="/bossrush" />}/>
+                <Route path="/" element={<Navigate to="/gmtk" />}/>
                 <Route path="/about" element={<About/>}/>
                 <Route path="/login/authorized" element={<Callback/>}/>
                 <Route path="/logout" element={<Logout/>}/>
 
-                {/* Lazy hack that I will architect for when I'm not ill */}
-                <Route path="/gmtk" element={<AfterJam />}/>
-                <Route path="/gmtk/*" element={<AfterJam />}/>
-
                 <Route path="/:jamId" element={<JamHome/>}/>
-                <Route path="/:jamId/:postId" element={<Post/>}/>
                 <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
                 <Route path="/:jamId/about" element={<About/>}/>
+                <Route path="/:jamId/finished" element={<AfterJam />}/>
+                <Route path="/:jamId/:postId" element={<Post/>}/>
 
                 {/* TODO: replace with a proper Not Found page */}
                 <Route path="*" element={<p>u wot m8</p>}/>
