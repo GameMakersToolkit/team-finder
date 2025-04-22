@@ -87,7 +87,10 @@ fun Application.configureDiscordBotRouting() {
                         userIdMessageTimes[senderId] = sendTime
                         userIdPerUserMessageTimes[Pair(senderId, recipientId).toString()] = sendTime
                         logger.error("Sender [$senderId] has pinged Recipient [$recipientId] at [$sendTime]")
-                        return@post call.respond(it)
+                        return@post call.respondJSON(
+                            "Sender [$senderId] has pinged Recipient [$recipientId] at [$sendTime]",
+                            status = HttpStatusCode.OK
+                        )
                     } catch (ex: Exception) {
                         logger.error("Could not create ping message: $ex")
                         return@post call.respondJSON(

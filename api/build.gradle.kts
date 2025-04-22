@@ -5,12 +5,12 @@ val logbackVersion: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.9.22"
-    kotlin("plugin.serialization") version "1.9.22"
+    kotlin("jvm") version "2.1.20"
+    kotlin("plugin.serialization") version "2.1.20"
 }
 
 group = "com.gmtkgamejam"
-version = "1.0.1"
+version = "1.1.0"
 
 application {
     mainClass.set("com.gmtkgamejam.ApplicationKt")
@@ -24,13 +24,13 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     // Logging support for Javacord
-    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.22.1")
+    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.24.3")
 
     // Koin core features
     implementation("io.insert-koin:koin-ktor:$koinVersion")
 
     // DB
-    implementation("org.litote.kmongo:kmongo:4.11.0")
+    implementation("org.litote.kmongo:kmongo:5.2.0")
 
     // Discord bot
     implementation("org.javacord:javacord:3.8.0")
@@ -59,5 +59,5 @@ dependencies {
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.12.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
+    testImplementation("io.ktor:ktor-server-tests-jvm:2.3.13")
 }
