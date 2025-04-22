@@ -12,18 +12,21 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
         <>
             <section className="c-post-tile">
                 <header className="post-tile__header">
-                    <TeamSizeIcon size={post.size} />
+                    <div className="flex justify-between min-w-0">
+                        <TeamSizeIcon size={post.size} />
 
-                    <span className="grow" style={{width: "calc(100% - 100px)"}}>
-                        <h3 className="post-tile__header--title">
-                            {post.author}
-                        </h3>
-                        <p className="post-tile__header--subtitle">
-                            {post.size > 1 ? ` and ${post.size - 1} others are` : `is`} looking for members
-                        </p>
-                    </span>
+                        <span className="grow" style={{width: "calc(100% - 100px)"}}>
+                            <h3 className="post-tile__header--title">
+                                {post.author}
+                            </h3>
+                            <p className="post-tile__header--subtitle">
+                                {post.size > 1 ? ` and ${post.size - 1} others are` : `is`} looking for members
+                            </p>
+                        </span>
 
-                    <FavouritePostIndicator post={post} className={""} />
+                        <FavouritePostIndicator post={post} className={""} />
+                    </div>
+                    {post.itchAccountIds && <OptionalItchTag itchAccountIds={post.itchAccountIds} />}
                 </header>
 
                 <div className="post-tile__body">
@@ -44,6 +47,21 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                 </div>
             </section>
         </>
+    )
+}
+
+const OptionalItchTag = ({itchAccountIds}) => {
+    const ids = Array.from(new Set(itchAccountIds.split(",").map(id => id.trim())))
+    return (
+        <div className="text-xs text-gray-400 flex gap-0.5 mt-2 flex-wrap">
+            <span className="mr-1">{iiicon('itchio-small', '#9ca3af', 16, 16)}</span>
+            {ids.map((id: string, idx: number) => (
+                <>
+                    {idx > 0 && <span className="mx-0.5">|</span>}
+                    <Link to={`https://${id.trim()}.itch.io`}>{id.trim()}</Link>
+                </>
+            ))}
+        </div>
     )
 }
 

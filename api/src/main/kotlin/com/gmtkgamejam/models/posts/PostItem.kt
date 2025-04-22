@@ -14,6 +14,7 @@ data class PostItem (
 
     var author: String,
     var authorId: String,
+    var itchAccountIds: String,
 
     var description: String,
     var size: Int,
@@ -51,6 +52,7 @@ data class PostItem (
                 dto.jamId,
                 dto.author,
                 dto.authorId,
+                dto.itchAccountIds,
                 dto.description.take(2000),
                 dto.size,
                 dto.skillsPossessed,

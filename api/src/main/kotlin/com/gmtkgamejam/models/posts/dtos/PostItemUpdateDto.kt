@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PostItemUpdateDto (
     var author: String?,
+    var itchAccountIds: String?,
     var description: String?,
     var size: Int?,
     var skillsPossessed: Set<Skills>?,

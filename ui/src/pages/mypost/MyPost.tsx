@@ -7,6 +7,7 @@ import {languages} from "../../common/models/languages.ts";
 import {tools} from "../../common/models/engines.tsx";
 import {timezones} from "../../common/models/timezones.ts";
 import {Post} from "../../common/models/post.ts";
+import {iiicon} from '../../common/utils/iiicon.tsx';
 
 export const MyPost: React.FC<{
     params: FormikProps<Post>,
@@ -27,6 +28,8 @@ export const MyPost: React.FC<{
     return (
         <Form>
             <FieldDescription description={values.description} />
+
+            <FieldItchAccount itchAccountIds={values.itchAccountIds} />
 
             {/* This is jank, improve this later with a look up on submit */}
             <Field name="jamId" value={jamId} type="hidden" />
@@ -66,7 +69,24 @@ export const MyPost: React.FC<{
     )
 }
 
-const FieldDescription: React.FC<{description: string}> = ({description}) => {
+const FieldItchAccount: React.FC<{itchAccountIds: string | undefined}> = ({itchAccountIds}) => {
+    return (
+        <>
+            <label htmlFor="itchAccountIds" className="text-lg !flex gap-1">
+                {iiicon('itchio', '#FFFFFF')} itch.io username(s) of your team. Separate multiple accounts with a comma.
+            </label>
+            <Field
+                name="itchAccountIds"
+                className="form-block__field block w-full text-black hover:text-black py-1 px-2 h-[42px]"
+                placeholder={'dotwogames, wayfarergames'}
+                value={itchAccountIds}
+            />
+            <small className="block mb-2">This is optional, but a fun way to show people your previous games!</small>
+        </>
+    )
+}
+
+const FieldDescription: React.FC<{ description: string}> = ({description}) => {
     return (
         <>
             <label htmlFor="description" className="text-lg">

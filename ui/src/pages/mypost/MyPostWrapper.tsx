@@ -14,6 +14,7 @@ import {JamSpecificStyling} from "../../common/components/JamSpecificStyling.tsx
 const defaultFormValues: Post = {
     jamId: "",
     description: "",
+    itchAccountIds: undefined,
     size: 1,
     skillsPossessed: [],
     skillsSought: [],
@@ -41,6 +42,12 @@ export const MyPostWrapper: React.FC = () => {
         if (!values.description) errors.description = "A description is required"
         // @ts-ignore
         if (values.skillsSought.length == 0 && values.skillsPossessed.length == 0) errors.skills = "Please add some skills you have and/or are looking for"
+
+        // If any usernames include 'itch.io', the user did it wrong
+        if (values.itchAccountIds?.includes("itch.io")) {
+            // @ts-ignore
+            errors.itchAccountIds = "Don't include the itch.io page of the account username!"
+        }
 
         // Toast all errors in validation
         if (Object.keys(errors).length > 0) {
