@@ -2,7 +2,7 @@
     .c-footer {
         @apply absolute bottom-0 w-full h-[64px] flex justify-center items-center;
         padding-top: 0;
-        height: 72px;
+        height: 60px;
         margin: -32px auto 0 auto;
         background-image: linear-gradient(var(--gradient-end), var(--gradient-start));
 
