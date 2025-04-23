@@ -32,7 +32,7 @@ export const Header: React.FC = () => {
                 <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
                         <Link to={`/${theme.jamId}`}>
-                            <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black border border-white rounded-lg mr-2 hover:scale-125"/>
+                            <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black rounded-lg mr-2 hover:scale-125"/>
                         </Link>
 
                         <div className="flex items-center">
@@ -45,7 +45,7 @@ export const Header: React.FC = () => {
                     <div className="flex-1 hidden sm:flex" />
 
                     <div className="flex justify-evenly gap-2">
-                        <Link to="/" className="bg-theme-d-4 block border border-white rounded-lg mr-2 sm:hidden">
+                        <Link to="/" className="bg-theme-d-4 block rounded-lg mr-2 sm:hidden">
                             <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
                         {isOnSearchPage && <ToggleBookmarks />}

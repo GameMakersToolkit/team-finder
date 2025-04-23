@@ -6,7 +6,7 @@
         background-image: linear-gradient(var(--gradient-start), var(--gradient-end));
 
         #toggle-bookmark-button {
-            @apply leading-none py-2 px-2 hover:font-bold hover:text-white border border-white rounded-lg;
+            @apply leading-none py-2 px-2 hover:font-bold hover:text-white rounded-lg;
             width: 40px;
         }
 
@@ -15,7 +15,7 @@
         }
 
         .header-button {
-            @apply rounded-lg bg-theme-d-4 border border-white text-white hover:text-white;
+            @apply rounded-lg bg-theme-d-4 text-white hover:text-white;
         }
 
         #login-button {
