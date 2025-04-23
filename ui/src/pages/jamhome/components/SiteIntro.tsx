@@ -13,6 +13,7 @@ export const SiteIntro = () => {
                 className="m-auto mb-2"
                 src={theme.logoLargeUrl}
                 width={"50%"}
+                style={{maxWidth: "480px"}}
                 alt={theme.name + " Team Finder logo"}
             />
 
