@@ -5,8 +5,14 @@
         "start": "2024-07-02T11:00:00Z",
         "end": "2025-07-02T11:00:00Z",
         "logoLargeUrl": "https://img.itch.zone/aW1hZ2UyL2phbS8zODU3MjcvMjA3Nzk0MTEucG5n/original/6fSjCW.png",
-        "logoStackedUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo-stacked.webp",
-        "styles": {}
+        "logoStackedUrl": "https://findyourjam.team/logos/jam-logo-stacked.webp",
+        "styles": {
+            "--theme-accent": "#CB7B00",
+            "--theme-primary": "#FEAE00",
+            "--gradient-end": "#FEAE00",
+            "--gradient-start": "#F29700",
+            "--theme-tile-border": "#FEAE00"
+        }
     },
     {
         "jamId": "bossrush",

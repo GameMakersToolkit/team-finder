@@ -80,13 +80,13 @@ const PaginationButtons: React.FC<{
         <div className="w-full flex justify-between pb-4">
             <button className={buttonClass} onClick={() => movePage(-1)} disabled={currentPage <= 1}>
                 <span className={`flex justify-center mr-3 ${currentPage <= 1 ? `text-gray-500` : `text-[var(--theme-tile-border)]`}`}>
-                    {iiicon("left-arrow", currentPage <= 1 ? "#6b7280" : "#78d7ff")} Page {Math.max(1, currentPage - 1)}
+                    {iiicon("left-arrow", currentPage <= 1 ? "#6b7280" : "var(--theme-tile-border)")} Page {Math.max(1, currentPage - 1)}
                 </span>
             </button>
 
             <button className={buttonClass} onClick={() => movePage(1)} disabled={currentPage >= maxPage}>
                 <span className={`flex justify-center ml-3 ${currentPage >= maxPage ? `text-gray-500` : `text-[var(--theme-tile-border)]`}`}>
-                    Page {Math.min(maxPage, currentPage + 1)} {iiicon("right-arrow", currentPage >= maxPage ? "#6b7280" : "#78d7ff")}
+                    Page {Math.min(maxPage, currentPage + 1)} {iiicon("right-arrow", currentPage >= maxPage ? "#6b7280" : "var(--theme-tile-border)")}
                 </span>
             </button>
         </div>

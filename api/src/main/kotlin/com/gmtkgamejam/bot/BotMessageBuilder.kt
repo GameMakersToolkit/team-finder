@@ -18,7 +18,7 @@ class BotMessageBuilder {
         val embed = EmbedBuilder()
             .setTitle("${sender.name} wants to get in contact!")
             .setDescription("Hey there ${recipient.name}! ${sender.name} wants to get in touch - this is a summary of their current post on the Team Finder!")
-            .setAuthor("FindYourJam.Team Bot", "https://findyourjam.team/", "https://findyourjam.team/logos/jam-logo-stacked.png")
+            .setAuthor("FindYourJam.Team Bot", "https://findyourjam.team/", "https://findyourjam.team/logos/jam-logo-stacked.webp")
             .addField("Description", shortDescription)
 
         // Add optional fields - turns out this includes timezones
