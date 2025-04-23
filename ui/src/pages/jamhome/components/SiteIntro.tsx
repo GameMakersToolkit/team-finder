@@ -50,7 +50,7 @@ const CountdownSection = ({countdownTarget, label}) => {
 
     return (<>
             <p className="text-center mb-2">{label}:</p>
-            <div className="flex justify-evenly bg-red-600 border-red-600 border-2 rounded-xl mx-4 px-2 py-3 text-4xl">
+            <div className="flex justify-evenly bg-theme-d-7 border-theme-d-7 border-2 rounded-xl mx-4 px-2 py-3 text-4xl">
                 {countdown.days > 0 && <>
                     <span>{`${countdown.days.toString().padStart(2, '0')}`}</span><span>:</span></>}
                 {(countdown.days > 0 || countdown.hours > 0) && <>

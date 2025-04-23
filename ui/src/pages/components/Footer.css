@@ -1,8 +1,8 @@
 @layer components {
     .c-footer {
         @apply absolute bottom-0 w-full h-[64px] flex justify-center items-center;
-        padding-top: 32px;
-        height: 96px;
+        padding-top: 0;
+        height: 72px;
         margin: -32px auto 0 auto;
         background-image: linear-gradient(var(--gradient-end), var(--gradient-start));
 

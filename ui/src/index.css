@@ -46,7 +46,7 @@
     --theme-background: #000000;
 
     /* Post items - skills */
-    --skill-color-looking-for: theme('colors.theme-l-6');
+    --skill-color-looking-for: theme('colors.theme-d-7');
     --skill-color-looking-for-text: theme('textColor.white');
     --skill-color-possessed: theme('colors.theme-d-9');
     --skill-color-possessed-text: theme('textColor.white');

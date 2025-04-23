@@ -1,8 +1,8 @@
 @layer components {
     .c-header {
         @apply p-2 mb-4;
-        height: 96px;
-        margin: 0 auto -32px 0;
+        height: 72px;
+        margin: 0 auto -16px 0;
         background-image: linear-gradient(var(--gradient-start), var(--gradient-end));
 
         #toggle-bookmark-button {

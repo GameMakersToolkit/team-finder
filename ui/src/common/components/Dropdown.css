@@ -16,32 +16,32 @@
         }
 
         .dropdown__option {
-            @apply flex items-center h-[48px] bg-theme-l-2;
+            @apply flex items-center h-[48px] bg-theme;
         }
 
         .dropdown__option--is-focused {
-            @apply bg-theme-l-5;
+            @apply bg-theme-d-9;
         }
 
         .dropdown__multi-value {
             background-color: var(--theme-primary);
-            @apply text-white rounded mr-1 mb-1;
+            @apply text-gray-900 rounded mr-1 mb-1;
 
             & path {
-                @apply fill-white;
+                @apply fill-gray-900;
             }
         }
 
         .dropdown__multi-value__label {
             background-color: var(--theme-primary);
-            @apply flex gap-1 text-white rounded m-0 p-1;
+            @apply flex gap-1 text-gray-900 rounded m-0 p-1;
 
             /* Reset styling on images, which are in spans */
             & span {
                 @apply m-0 p-0 h-full align-middle;
 
                 & path {
-                    @apply fill-white;
+                    @apply fill-gray-900;
                 }
             }
         }
