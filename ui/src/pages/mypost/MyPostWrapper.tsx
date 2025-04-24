@@ -9,6 +9,7 @@ import {useEnsureLoggedIn} from "../../api/ensureLoggedIn.ts";
 import {useUserInfo} from "../../api/userInfo.ts";
 import {useParams} from "react-router-dom";
 import {JamSpecificStyling} from "../../common/components/JamSpecificStyling.tsx";
+import {getDefaultLanguage, getDefaultTimezoneOffset} from '../../utils.ts';
 
 // @ts-ignore
 const defaultFormValues: Post = {
@@ -18,10 +19,10 @@ const defaultFormValues: Post = {
     size: 1,
     skillsPossessed: [],
     skillsSought: [],
-    languages: ["en"],
+    languages: [getDefaultLanguage()],
     preferredTools: [],
     availability: "UNSURE",
-    timezoneOffsets: ["1"],
+    timezoneOffsets: [getDefaultTimezoneOffset()],
 }
 
 export const MyPostWrapper: React.FC = () => {
