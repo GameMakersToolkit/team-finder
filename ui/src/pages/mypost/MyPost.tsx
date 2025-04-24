@@ -170,7 +170,7 @@ const FieldTools: React.FC = () => {
 const FieldTimezones: React.FC = () => {
     return (
         <div>
-            <label htmlFor="timezoneOffsets">What timezone are you based in?</label>
+            <label htmlFor="timezoneOffsets">What timezone(s) are you working in?</label>
             <Field
                 name="timezoneOffsets"
                 className="c-dropdown form-block__field"
