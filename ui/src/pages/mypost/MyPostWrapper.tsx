@@ -71,6 +71,11 @@ export const MyPostWrapper: React.FC = () => {
 
     const onSubmitForm = (values: any, setSubmitting: (a: boolean) => void) => {
         toast.dismiss()
+
+        if (values.itchAccountIds === undefined) {
+            console.log("UNDEEFINED YO")
+            values.itchAccountIds = ""
+        }
         save(values)
         setTimeout(() => {
             setSubmitting(false)
