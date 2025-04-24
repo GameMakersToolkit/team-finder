@@ -90,8 +90,7 @@ const FieldDescription: React.FC<{ description: string}> = ({description}) => {
     return (
         <>
             <label htmlFor="description" className="text-lg">
-                Write a brief summary of what you&apos;re looking for that isn&apos;t
-                covered by the rest of the form:
+                Write a brief summary of what you&apos;re looking for:
             </label>
             <small className="block mb-2">{2000 - description.length} characters remaining</small>
             <Field
