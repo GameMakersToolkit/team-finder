@@ -1,15 +1,15 @@
-import * as React from "react";
-import {Field, Form} from "formik";
-import {FormikSearchFormParameters} from "../models/FormikSearchFormParameters.ts";
-import CustomSelect from "./common/CustomSelect.tsx"
-import {languages} from "../../../common/models/languages.ts";
-import {skills} from "../../../common/models/skills.tsx";
-import {tools} from "../../../common/models/engines.tsx";
-import {timezones} from "../../../common/models/timezones.ts";
-import {useState} from "react";
-import {SortingOptions} from "./SortingOptions.tsx";
-import {iiicon} from "../../../common/utils/iiicon.tsx";
-import {blankSearchParameters} from "../models/SearchParameters.ts";
+import * as React from 'react';
+import {Field, Form} from 'formik';
+import {FormikSearchFormParameters} from '../models/FormikSearchFormParameters.ts';
+import CustomSelect from './common/CustomSelect.tsx';
+import {languages} from '../../../common/models/languages.ts';
+import {skills} from '../../../common/models/skills.tsx';
+import {tools} from '../../../common/models/engines.tsx';
+import {timezones} from '../../../common/models/timezones.ts';
+import {useState} from 'react';
+import {SortingOptions} from './SortingOptions.tsx';
+import {iiicon} from '../../../common/utils/iiicon.tsx';
+import {blankSearchParameters} from '../models/SearchParameters.ts';
 import {useSearchParams} from 'react-router-dom';
 
 export const SearchForm: React.FC<{
@@ -24,93 +24,94 @@ export const SearchForm: React.FC<{
             <div className="c-form">
                 <h2 className="text-xl my-2 font-bold text-center">Find people to jam with:</h2>
 
-                    <label htmlFor="description">Keywords</label>
-                    <input
-                        type="text"
-                        className="form-block__field w-full text-black hover:text-black px-2"
-                        style={{lineHeight: 2.4}}
-                        name="description"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.description}
-                    />
+                <label htmlFor="description">Keywords</label>
+                <input
+                    type="text"
+                    className="form-block__field w-full text-black hover:text-black px-2"
+                    style={{lineHeight: 2.4}}
+                    name="description"
+                    id="description"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.description || ''}
+                />
 
-                    <div className="c-form-block">
-                        <div>
-                            <label htmlFor="skillsPossessed">I'm looking for:</label>
-                            <Field
-                                name="skillsPossessed"
-                                className="c-dropdown form-block__field w-full"
-                                options={skills}
-                                component={CustomSelect}
-                                placeholder={"Select option(s)"}
-                                isMulti={true}
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="skillsSought">I can do:</label>
-                            <Field
-                                name="skillsSought"
-                                className="c-dropdown form-block__field w-full"
-                                options={skills}
-                                component={CustomSelect}
-                                placeholder={"Select option(s)"}
-                                isMulti={true}
-                            />
-                        </div>
+                <div className="c-form-block">
+                    <div>
+                        <label htmlFor="react-select-3-input">I'm looking for:</label>
+                        <Field
+                            name="skillsPossessed"
+                            className="c-dropdown form-block__field w-full"
+                            options={skills}
+                            component={CustomSelect}
+                            placeholder={'Select option(s)'}
+                            isMulti={true}
+                        />
                     </div>
 
-                    <div className="text-center">
-                        <button
-                            id="clear-search-button"
-                            onClick={() => {
-                                const isOnlyBookmarked = searchParams.get('bookmarked') === "true"
-                                params.resetForm({values: blankSearchParameters})
-                                if (isOnlyBookmarked) {
-                                    searchParams.set('bookmarked', 'true');
-                                }
-                            }}
-                            type="button"
-                        >
-                            Clear Search
-                        </button>
+                    <div>
+                        <label htmlFor="react-select-5-input">I can do:</label>
+                        <Field
+                            name="skillsSought"
+                            id="skillsSought"
+                            className="c-dropdown form-block__field w-full"
+                            options={skills}
+                            component={CustomSelect}
+                            placeholder={'Select option(s)'}
+                            isMulti={true}
+                        />
+                    </div>
+                </div>
 
-                        <button
-                            id="advanced-options-button"
-                            onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
-                            type="button"
-                        >
-                            {showAdvancedSearchOptions
-                                ? <>Fewer options {iiicon('up-arrow', "var(--theme-accent)", 16, 16)}</>
-                                : <>More options {iiicon('down-arrow', "var(--theme-accent)", 16, 16)}</>
+                <div className="text-center">
+                    <button
+                        id="clear-search-button"
+                        onClick={() => {
+                            const isOnlyBookmarked = searchParams.get('bookmarked') === 'true';
+                            params.resetForm({values: blankSearchParameters});
+                            if (isOnlyBookmarked) {
+                                searchParams.set('bookmarked', 'true');
                             }
-                        </button>
-                    </div>
+                        }}
+                        type="button"
+                    >
+                        Clear Search
+                    </button>
 
-                    {showAdvancedSearchOptions && <AdvancedOptions />}
+                    <button
+                        id="advanced-options-button"
+                        onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+                        type="button"
+                    >
+                        {showAdvancedSearchOptions ? <>Fewer
+                            options {iiicon('up-arrow', 'var(--theme-accent)', 16, 16)}</> : <>More
+                            options {iiicon('down-arrow', 'var(--theme-accent)', 16, 16)}</>}
+                    </button>
+                </div>
+
+                {showAdvancedSearchOptions && <AdvancedOptions/>}
             </div>
 
             <div className="md:flex justify-between items-center mt-4 mb-4">
                 <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
-                <SortingOptions />
+                <SortingOptions/>
             </div>
 
         </Form>
-    )
-}
+    );
+};
 
 const AdvancedOptions = () => {
-    return (
-        <div className="c-form-block">
+    return (<div className="c-form-block">
             <div>
                 <label htmlFor="tools">Preferred Engine(s):</label>
                 <Field
                     name="tools"
+                    id="tools"
                     className="c-dropdown form-block__field"
                     options={tools}
                     component={CustomSelect}
-                    placeholder={"Select option(s)"}
+                    placeholder={'Select option(s)'}
                     isMulti={true}
                 />
             </div>
@@ -118,10 +119,11 @@ const AdvancedOptions = () => {
                 <label htmlFor="languages">Language(s):</label>
                 <Field
                     name="languages"
+                    id="languages"
                     className="c-dropdown form-block__field"
                     options={languages}
                     component={CustomSelect}
-                    placeholder={"Select option(s)"}
+                    placeholder={'Select option(s)'}
                     isMulti={true}
                 />
             </div>
@@ -129,10 +131,11 @@ const AdvancedOptions = () => {
                 <label htmlFor="timezoneStart">Earliest Timezone:</label>
                 <Field
                     name="timezoneStart"
+                    id="timezoneStart"
                     className="c-dropdown form-block__field"
                     options={timezones}
                     component={CustomSelect}
-                    placeholder={"Select option(s)"}
+                    placeholder={'Select option(s)'}
                     isMulti={false}
                 />
             </div>
@@ -140,13 +143,14 @@ const AdvancedOptions = () => {
                 <label htmlFor="timezoneEnd">Latest Timezone:</label>
                 <Field
                     name="timezoneEnd"
+                    id="timezoneEnd"
                     className="c-dropdown form-block__field"
                     options={timezones}
                     component={CustomSelect}
-                    placeholder={"Select option(s)"}
+                    placeholder={'Select option(s)'}
                     isMulti={false}
                 />
             </div>
         </div>
-    )
-}
+    );
+};
