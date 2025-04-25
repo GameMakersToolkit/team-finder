@@ -1,4 +1,19 @@
 @layer base {
+    html::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        background: linear-gradient(
+                rgba(242, 114, 0, 0.1),
+                rgba(242, 114, 0, 0.3)
+        );
+        z-index: -1;
+    }
+
     .mono {
         font-family: "Share Tech Mono", monospace;
         font-weight: 800;
