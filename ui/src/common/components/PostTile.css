@@ -3,6 +3,7 @@
         @apply border-2 rounded-xl p-4 flex flex-col gap-1 lg:min-h-[560px];
         border-color: var(--theme-tile-border);
         background-color: var(--theme-tile-bg);
+        backdrop-filter: blur(5px);
 
         .post-tile__header {
             min-height: 80px;

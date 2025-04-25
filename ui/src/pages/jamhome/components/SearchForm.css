@@ -1,10 +1,10 @@
 @layer components {
     .c-form-block {
-        @apply text-grey-900 bg-grey-500 mb-4 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2;
+        @apply text-grey-900 mb-4 grid gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2;
     }
 
     .form-block__field {
-        @apply bg-grey-50 border-2 border-grey-50 rounded-xl;
+        @apply bg-white border-2 border-grey-50 rounded-xl;
 
         &:hover {
             @apply border-theme-l-5 text-theme-l-5;

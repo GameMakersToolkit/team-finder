@@ -1,6 +1,9 @@
 @layer components {
     .c-post {
-        @apply relative bg-grey-500 border-2 border-neutral-900 rounded-xl p-4;
+        @apply relative border-2 rounded-xl p-4;
+        border-color: var(--theme-tile-border);
+        background-color: var(--theme-tile-bg);
+        backdrop-filter: blur(5px);
 
         .post__header {
             @apply flex justify-between min-w-0 mb-8;

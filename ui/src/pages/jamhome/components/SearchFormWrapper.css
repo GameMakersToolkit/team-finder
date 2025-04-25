@@ -1,6 +1,9 @@
 @layer components {
     .c-form {
-        @apply rounded-xl bg-grey-500 py-4 px-4;
+        @apply border-2 rounded-xl py-4 px-4;
+        border-color: var(--theme-tile-border);
+        background-color: var(--theme-tile-bg);
+        backdrop-filter: blur(5px);
 
         & label {
             @apply text-white text-left block mt-4;

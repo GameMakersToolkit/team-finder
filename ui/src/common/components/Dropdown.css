@@ -15,6 +15,10 @@
             @apply fill-gray-900;
         }
 
+        .dropdown__menu {
+            z-index: 10;
+        }
+
         .dropdown__option {
             @apply flex items-center h-[48px] bg-theme;
         }
