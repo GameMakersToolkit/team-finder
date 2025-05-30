@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="300" src="https://raw.githubusercontent.com/GameMakersToolkit/team-finder/main/ui/public/logos/jam-logo.webp" alt="Project Build Status">
+  <img width="300" src="https://raw.githubusercontent.com/GameMakersToolkit/team-finder/main/ui/public/logos/jam-logo-stacked.webp" alt="Project Build Status">
 </p>
 <p align="center">
   <img src="https://github.com/GameMakersToolkit/team-finder/actions/workflows/api-run-tests.yml/badge.svg" alt="API CI Status">
@@ -10,12 +10,16 @@
 
 The Team Finder is a website that helps Game Jam participants find people to work with!
 
+This repo (originally running on https://teamfinder.gamemakerstoolkit.com) now powers the https://findyourjam.team
+website. The FYJT website is migrating towards a self-service platform for any community to run their own jam Team
+Finder, but until then it primarily serves the GMTK annual game jam community, with other jams able to run upon request. 
+
 ## Overview
 
 The Team Finder application contains three primary components:
 - **UI (:3000)**: A React UI written in TypeScript
-- **API (:8080)**: A Kotlin/Ktor REST API that handles queries, PostItem CRUD actions, admin tools etc.
-- **DB**: A MongoDB database which holds data about PostItems, user Auth status and admin tools
+- **API (:8080)**: A Kotlin/Ktor REST API that handles search queries, powers the creating/saving of posts, admin tools, and all that good stuff
+- **DB**: A MongoDB database which holds data about posts, user auth status, and so on
 
 The Team Finder also has two local tools which are used in development:
 - **DB Viewer (:8081)**: A Mongo-Express image which allows for easy access to the local database
@@ -27,7 +31,7 @@ This repo is designed to quickly and easily run within Docker. We highly recomme
 machine (if you haven't used Docker before, something like [Docker Desktop](https://www.docker.com/products/docker-desktop/) would be suitable.
 The Team Finder is a non-commercial open source project, so you do not need to pay for a licence).
 
-### Docker
+### Docker (recommended)
 
 * Navigate to the root of the project
 * Copy the file `.env.example` to a new file called `.env`
@@ -63,7 +67,7 @@ docker compose up -d app1 app2 app3
 docker compose up --build -d api db-seed 
 ```
 
-### IDE/Natively (not recommended)
+### IDE/Natively (optional)
 
 If you prefer to run the apps natively, you'll need to run the **UI**, **API** and **DB** on your machine.
 
@@ -72,6 +76,7 @@ If you prefer to run the apps natively, you'll need to run the **UI**, **API** a
 * Navigate to the root of the project
 * Copy the file `.env.example` to a new file called `.env`
   * Speak to a member of the team to get the `DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_BOT_TOKEN` values
+
 
 #### UI
 
