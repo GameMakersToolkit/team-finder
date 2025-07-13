@@ -1,6 +1,7 @@
 package com.gmtkgamejam.bot
 
 import com.gmtkgamejam.Config
+import com.gmtkgamejam.services.PostService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.withContext
@@ -17,7 +18,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrElse
 
-class DiscordBot {
+class DiscordBot(private val postService: PostService) {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
@@ -27,7 +28,7 @@ class DiscordBot {
 
     private lateinit var channel: ServerTextChannel
 
-    private val messageBuilder = BotMessageBuilder()
+    private val messageBuilder = BotMessageBuilder(postService)
 
     private val approvedUsers: MutableList<String> = mutableListOf()
 

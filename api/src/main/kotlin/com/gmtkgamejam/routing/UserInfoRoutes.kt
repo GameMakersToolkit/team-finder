@@ -16,8 +16,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.launch
 import org.koin.ktor.ext.inject
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 import java.util.*
 
@@ -25,11 +23,9 @@ typealias UserId = String
 
 fun Application.configureUserInfoRouting() {
 
-    val analyticsService = AnalyticsService()
-    val logger: Logger = LoggerFactory.getLogger(javaClass)
-
+    val analyticsService: AnalyticsService by inject()
+    val service: AuthService by inject()
     val bot: DiscordBot by inject()
-    val service = AuthService()
 
     val shortLiveCache: MutableMap<UserId, Pair<LocalDateTime, UserInfo>> = mutableMapOf()
 

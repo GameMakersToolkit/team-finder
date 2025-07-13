@@ -4,10 +4,7 @@ import com.gmtkgamejam.services.PostService
 import org.javacord.api.entity.message.embed.EmbedBuilder
 import org.javacord.api.entity.user.User
 
-class BotMessageBuilder {
-
-    private val postService = PostService()
-
+class BotMessageBuilder(private val postService: PostService) {
     fun canBuildEmbedFromUser(sender: User): Boolean = postService.getPostByAuthorId(sender.id.toString()) != null
 
     fun embedMessage(recipient: User, sender: User): EmbedBuilder {

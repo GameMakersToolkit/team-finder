@@ -42,6 +42,7 @@ class FavouritesServiceTest : KoinTest {
                 return@single KMongo.createClient(connectionString)
             }
             single<FavouritesRepository> { TestFavouritesRepository(get()) }
+            single<FavouritesService> { FavouritesServiceImpl(get()) }
         }
 
         @BeforeClass
@@ -59,7 +60,7 @@ class FavouritesServiceTest : KoinTest {
         }
     }
 
-    private val service = FavouritesService()
+    private val service: FavouritesService by inject()
     private val repository: FavouritesRepository by inject()
 
     @Before
