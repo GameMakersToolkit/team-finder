@@ -10,11 +10,12 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
 fun Application.configureFavouritesRouting() {
 
-    val authService = AuthService()
-    val favouritesService = FavouritesService()
+    val authService: AuthService by inject()
+    val favouritesService: FavouritesService by inject()
 
     routing {
         authenticate("auth-jwt") {

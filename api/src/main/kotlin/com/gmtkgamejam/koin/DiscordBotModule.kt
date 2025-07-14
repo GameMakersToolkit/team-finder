@@ -5,6 +5,6 @@ import org.koin.dsl.module
 
 val DiscordBotModule = module(createdAtStart = true) {
     single {
-        DiscordBot()
+        DiscordBot(get())
     }
 }

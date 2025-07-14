@@ -10,6 +10,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
+import org.koin.test.inject
 import kotlin.test.assertContentEquals
 
 class TestAdminRepository : AdminRepository {
@@ -31,6 +32,7 @@ class AdminServiceTest : KoinTest {
     companion object {
         private val module = module {
             single<AdminRepository> { TestAdminRepository() }
+            single<AdminService> { AdminServiceImpl(get()) }
         }
 
         @BeforeClass
@@ -51,7 +53,7 @@ class AdminServiceTest : KoinTest {
     @Before
     fun beforeEach() = TestAdminRepository.bannedUsers.clear()
 
-    private val service = AdminService()
+    private val service: AdminService by inject()
 
     @Test
     fun `should ban a user`() = run {

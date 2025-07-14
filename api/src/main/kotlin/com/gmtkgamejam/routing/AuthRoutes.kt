@@ -10,12 +10,13 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 import java.security.SecureRandom
 import java.util.*
 
 fun Application.configureAuthRouting() {
 
-    val service = AuthService()
+    val service: AuthService by inject()
 
     routing {
         authenticate("auth-oauth-discord") {

@@ -2,15 +2,11 @@ package com.gmtkgamejam.services
 
 import com.gmtkgamejam.models.jams.Jam
 import com.gmtkgamejam.repositories.JamRepository
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class JamService: KoinComponent {
+interface JamService {
+    fun getJams(): Collection<Jam>
+}
 
-    private val repository: JamRepository by inject()
-
-    fun getJams(): Collection<Jam> {
-        return repository.getJams()
-    }
-
+class JamServiceImpl(private val repository: JamRepository) : JamService {
+    override fun getJams() = repository.getJams()
 }

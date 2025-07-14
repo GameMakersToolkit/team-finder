@@ -5,14 +5,17 @@ import com.gmtkgamejam.repositories.AdminRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class AdminService : KoinComponent {
-    private val repository: AdminRepository by inject()
+interface AdminService {
+    fun banUser(bannedUser: BannedUser)
+    fun unbanUser(bannedUser: BannedUser)
+}
 
-    fun banUser(bannedUser: BannedUser) {
+class AdminServiceImpl(private val repository: AdminRepository) : AdminService {
+    override fun banUser(bannedUser: BannedUser) {
         repository.banUser(bannedUser)
     }
 
-    fun unbanUser(bannedUser: BannedUser) {
+    override fun unbanUser(bannedUser: BannedUser) {
         repository.unbanUser(bannedUser)
     }
 }

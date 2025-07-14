@@ -22,7 +22,7 @@ fun Application.configureDiscordBotRouting() {
 
     val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    val authService = AuthService()
+    val authService: AuthService by inject()
     val bot: DiscordBot by inject()
 
     val userIdMessageTimes: MutableMap<String, LocalDateTime> = mutableMapOf()

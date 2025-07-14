@@ -24,8 +24,8 @@ import org.litote.kmongo.gt
 fun Application.configureAdminRouting() {
 
     val bot: DiscordBot by inject()
-    val service = PostService()
-    val adminService = AdminService()
+    val service: PostService by inject()
+    val adminService: AdminService by inject()
 
     routing {
         authenticate("auth-jwt-admin") {
