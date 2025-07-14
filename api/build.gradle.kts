@@ -2,6 +2,7 @@ val ktorVersion: String by project
 val koinVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
+val mockkVersion: String by project
 
 plugins {
     application
@@ -60,4 +61,5 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("io.ktor:ktor-server-tests-jvm:2.3.13")
+    testImplementation("io.mockk:mockk:$mockkVersion")
 }
