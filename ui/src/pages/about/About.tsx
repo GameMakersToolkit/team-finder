@@ -97,8 +97,8 @@ export const About: React.FC = () => {
                         or contact the Jam Moderators on the {discordGroupName} Discord server.
                     </p>
                     <p>
-                        If you are encountering technical problems, please tag{" "}
-                        <span className="text-accent1">@Team Finder Tech Support</span> on
+                        If you are encountering technical problems, press 'Contact Support' in the header bar or message 
+                        <span className="text-accent1">@dotwo</span> on
                         the {discordGroupName} Discord server.
                     </p>
                 </div>
