@@ -48,7 +48,7 @@ export const MyPost: React.FC<{
 
             <div className="c-form-block bg-transparent">
                 <FieldTimezones />
-                <FieldTeamSize />
+                <FieldTeamSize current={values.size} />
             </div>
 
             {/*<FieldAvailability currentAvailability={values.availability} />*/}
@@ -187,10 +187,10 @@ const FieldTimezones: React.FC = () => {
     )
 }
 
-const FieldTeamSize: React.FC = () => {
+const FieldTeamSize: React.FC<{current: number}> = ({current}) => {
 
     const teamSizes: CustomSelectOption[] = []
-    for (let i = 1; i <= 20; i++) {
+    for (let i = 1; i <= 40; i++) {
         teamSizes.push({label: i, value: i});
     }
 
@@ -209,11 +209,13 @@ const FieldTeamSize: React.FC = () => {
             <span className="text-xs">
                 (Including you!)
             </span>
+
+            {current >= 15 && <span className="block text-xs">Wow... I hope you know what you're doing!</span>}
         </div>
     )
 }
 
-const FieldAvailability: React.FC<{currentAvailability: string}> = ({currentAvailability}) => {
+const FieldAvailability: React.FC<{ currentAvailability: string}> = ({currentAvailability}) => {
 
     const availabilityOptions: CustomSelectOption[] = [
         {label: "Not sure/haven't decided", value: "UNSURE"},
