@@ -190,7 +190,7 @@ fun Application.configurePostRouting() {
                                 data.author?.also { post.author = it }
                                 data.itchAccountIds?.also { post.itchAccountIds = it }
                                 data.description?.also { post.description = it }
-                                data.size?.also { post.size = min(it, 20) }
+                                data.size?.also { post.size = min(it, 40) }
                                 data.skillsPossessed?.also { post.skillsPossessed = it }
                                 data.skillsSought?.also { post.skillsSought = it }
                                 data.preferredTools?.also { post.preferredTools = it }
