@@ -11,6 +11,7 @@ enum class Skills(private var readableName: String) {
     TEAM_LEAD("Team lead"),
     VOICE_ACTING("Voice acting"),
     VIBES("Vibes"),
+    WRITING("Writing"),
     OTHER("Other");
 
     override fun toString(): String {

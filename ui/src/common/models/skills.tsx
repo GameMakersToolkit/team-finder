@@ -47,4 +47,8 @@ export const skills: CustomSelectOption[] = [
         value: "VIBES",
         label: (<>{getOptionsListIcon("VIBES", "skill")} Vibes</>),
     },
+    {
+        value: "WRITING",
+        label: (<>{getOptionsListIcon("WRITING", "skill")} Writing</>),
+    },
 ];
