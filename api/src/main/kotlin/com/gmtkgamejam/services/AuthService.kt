@@ -7,17 +7,19 @@ import com.mongodb.client.model.UpdateOptions
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollectionOfName
 import org.litote.kmongo.updateOne
 
-class AuthService : KoinComponent {
+interface AuthService {
+    fun storeTokenSet(tokenSet: AuthTokenSet)
+    fun getTokenSet(id: String): AuthTokenSet?
+    fun getTokenSet(call: ApplicationCall): AuthTokenSet?
+    fun updateTokenSet(tokenSet: AuthTokenSet)
+}
 
-    private val client: MongoClient by inject()
-
+class AuthServiceImpl(private val client: MongoClient) : AuthService {
     private val col: MongoCollection<AuthTokenSet>
 
     init {
@@ -25,22 +27,22 @@ class AuthService : KoinComponent {
         col = database.getCollectionOfName("auth")
     }
 
-    fun storeTokenSet(tokenSet: AuthTokenSet) {
+    override fun storeTokenSet(tokenSet: AuthTokenSet) {
         col.updateOne(AuthTokenSet::discordId eq tokenSet.discordId, tokenSet, UpdateOptions().upsert(true))
     }
 
-    fun getTokenSet(id: String): AuthTokenSet? {
+    override fun getTokenSet(id: String): AuthTokenSet? {
         return col.findOne(AuthTokenSet::id eq id)
     }
 
-    fun getTokenSet(call: ApplicationCall): AuthTokenSet? {
+    override fun getTokenSet(call: ApplicationCall): AuthTokenSet? {
         val principal = call.principal<JWTPrincipal>()!!
         val id = principal.payload.getClaim("id").asString()
 
         return getTokenSet(id)
     }
 
-    fun updateTokenSet(tokenSet: AuthTokenSet) {
+    override fun updateTokenSet(tokenSet: AuthTokenSet) {
         col.updateOne(AuthTokenSet::id eq tokenSet.id, tokenSet)
     }
 

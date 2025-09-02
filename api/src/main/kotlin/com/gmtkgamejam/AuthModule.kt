@@ -5,14 +5,18 @@ import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.gmtkgamejam.discord.discordHttpClient
 import com.gmtkgamejam.services.AuthService
+import com.gmtkgamejam.services.AuthServiceImpl
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import org.koin.ktor.ext.inject
 import java.net.URLEncoder
 
 @Suppress("unused")
 fun Application.authModule() {
+    val authService: AuthService by inject()
+
     // Set config at first point of entry
     Config.initConfig(environment.config)
 
@@ -56,7 +60,7 @@ fun Application.authModule() {
             verifier(buildJWTVerifier())
             validate {
                 val id = it.payload.getClaim("id").asString()
-                val tokenSet = AuthService().getTokenSet(id)
+                val tokenSet = authService.getTokenSet(id)
 
                 // We deliberately aren't checking `expiry` here (which is for the accessToken only),
                 // just the that record exists; the collection's TTL will clear out expired auth sessions
@@ -67,7 +71,7 @@ fun Application.authModule() {
             verifier(buildJWTVerifier())
             validate {
                 val id = it.payload.getClaim("id").asString()
-                val tokenSet = AuthService().getTokenSet(id)
+                val tokenSet = authService.getTokenSet(id)
                 val adminDiscordIds = Config.getList("jam.adminIds")
 
                 return@validate if (tokenSet != null && adminDiscordIds.contains(tokenSet.discordId)) JWTPrincipal(it.payload) else null

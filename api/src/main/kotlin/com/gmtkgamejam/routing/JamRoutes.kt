@@ -6,9 +6,10 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
 fun Application.configureJamRouting() {
-    val jamService = JamService()
+    val jamService: JamService by inject()
 
     routing {
         route("/jams") {

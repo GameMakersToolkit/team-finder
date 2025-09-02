@@ -22,6 +22,7 @@ import io.ktor.server.routing.*
 import io.ktor.util.*
 import kotlinx.coroutines.launch
 import org.bson.conversions.Bson
+import org.koin.ktor.ext.inject
 import org.litote.kmongo.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -32,10 +33,10 @@ import kotlin.text.Regex.Companion.escape
 
 fun Application.configurePostRouting() {
 
-    val analyticsService = AnalyticsService()
-    val authService = AuthService()
-    val service = PostService()
-    val favouritesService = FavouritesService()
+    val analyticsService: AnalyticsService by inject()
+    val authService: AuthService by inject()
+    val service: PostService by inject()
+    val favouritesService: FavouritesService by inject()
 
     routing {
         route("/posts") {
