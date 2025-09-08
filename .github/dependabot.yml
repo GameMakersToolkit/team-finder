@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/ui"
+    schedule:
+      interval: "weekly"
+      
+  - package-ecosystem: "gradle"
+    directory: "/api"
+    schedule:
+      interval: "weekly"
