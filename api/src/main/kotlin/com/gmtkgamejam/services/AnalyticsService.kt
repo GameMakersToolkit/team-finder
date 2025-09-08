@@ -8,7 +8,7 @@ import org.koin.core.component.KoinComponent
 interface AnalyticsService {
     fun trackQueryView(post: PostItem)
     fun trackFullPageView(post: PostItem)
-    fun trackQuery(queryParams: Map<String, Any>)
+    fun trackQuery(queryParamsString: String)
     fun trackLogin()
 }
 
@@ -24,8 +24,8 @@ class AnalyticsServiceImpl(private val repository: AnalyticsRepository, private 
         postService.addFullPageView(post)
     }
 
-    override fun trackQuery(queryParams: Map<String, Any>) {
-        repository.trackQuery(queryParams)
+    override fun trackQuery(queryParamsString: String) {
+        repository.trackQuery(queryParamsString)
     }
 
     override fun trackLogin() {

@@ -45,6 +45,11 @@ dependencies {
     // DB
     implementation("org.litote.kmongo:kmongo:5.2.0")
 
+    // SE
+    implementation("org.apache.httpcomponents.core5:httpcore5:5.3.5")
+    implementation("org.apache.httpcomponents.core5:httpcore5-h2:5.3.5")
+    implementation("org.opensearch.client:opensearch-java:3.2.0")
+
     // Discord bot
     implementation("org.javacord:javacord:3.8.0")
 

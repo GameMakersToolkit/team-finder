@@ -12,14 +12,15 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused")
 fun Application.appModule() {
-    configureRequestHandling()
-    configureUserInfoRouting()
-    configureAuthRouting()
     configureAdminRouting()
+    configureAuthRouting()
+    configureDiscordBotRouting()
+    configureFavouritesRouting()
+    configureInfraRouting()
     configureJamRouting()
     configurePostRouting()
-    configureFavouritesRouting()
-    configureDiscordBotRouting()
+    configureRequestHandling()
+    configureUserInfoRouting()
 }
 
 fun Application.configureRequestHandling() {

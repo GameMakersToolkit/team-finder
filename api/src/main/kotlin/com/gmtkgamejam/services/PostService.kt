@@ -12,7 +12,9 @@ import org.litote.kmongo.getCollectionOfName
 
 interface PostService {
     fun createPost(postItem: PostItem)
+    fun getPosts(filter: Bson): List<PostItem>
     fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem>
+    fun getPostsByOrderedIds(ids: List<String>): List<PostItem>
     fun getPost(id: String): PostItem?
     fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false): PostItem?
     fun getPostCount(filter: Bson): Int
@@ -38,9 +40,17 @@ class PostServiceImpl(private val repository: PostRepository, client: MongoClien
         repository.createPost(postItem)
     }
 
+    override fun getPosts(filter: Bson): List<PostItem> {
+        return col.find(filter).toList()
+    }
+
     // Un-paginated version should be used for Admin endpoints
     override fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem> {
         return repository.getPosts(filter, sort, page)
+    }
+
+    override fun getPostsByOrderedIds(ids: List<String>): List<PostItem> {
+        return repository.getPostsByOrderedIds(ids)
     }
 
     override fun getPost(id: String): PostItem? {

@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 interface PostRepository {
     fun createPost(postItem: PostItem)
     fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem>
+    fun getPostsByOrderedIds(ids: List<String>): List<PostItem>
     fun getPost(id: String): PostItem?
     fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false): PostItem?
     fun updatePost(postItem: PostItem)
@@ -67,6 +68,12 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository, KoinCom
 
     override fun getPostCount(filter: Bson): Int {
         return col.countDocuments(and(filter, PostItem::deletedAt eq null)).toInt()
+    }
+
+    override fun getPostsByOrderedIds(ids: List<String>): List<PostItem> {
+        // IDs need to be an array of strings (either using " or '), but Kotlin defaults to an array of numbers
+        val formattedIds = ids.joinToString(separator = "', '", prefix = "['", postfix = "']")
+        return col.find("""{id: {${MongoOperator.`in`}: $formattedIds}}}""").toList().sortedBy { result -> ids.indexOf(result.id) }
     }
 
     override fun updatePost(postItem: PostItem) {

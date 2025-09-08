@@ -1,55 +1,41 @@
 package com.gmtkgamejam.routing
 
 import com.auth0.jwt.JWT
-import com.gmtkgamejam.enumFromStringSafe
-import com.gmtkgamejam.models.posts.Availability
 import com.gmtkgamejam.models.posts.PostItem
-import com.gmtkgamejam.models.posts.Skills
-import com.gmtkgamejam.models.posts.Tools
+import com.gmtkgamejam.models.posts.SearchItem
 import com.gmtkgamejam.models.posts.dtos.*
 import com.gmtkgamejam.repositories.PostRepository
 import com.gmtkgamejam.respondJSON
-import com.gmtkgamejam.services.AnalyticsService
-import com.gmtkgamejam.services.AuthService
-import com.gmtkgamejam.services.FavouritesService
-import com.gmtkgamejam.services.PostService
+import com.gmtkgamejam.search.SearchParams
+import com.gmtkgamejam.services.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.*
 import kotlinx.coroutines.launch
-import org.bson.conversions.Bson
 import org.koin.ktor.ext.inject
-import org.litote.kmongo.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
 import kotlin.math.min
-import kotlin.reflect.full.memberProperties
-import kotlin.text.Regex.Companion.escape
 
 fun Application.configurePostRouting() {
 
     val analyticsService: AnalyticsService by inject()
     val authService: AuthService by inject()
-    val service: PostService by inject()
+    val postService: PostService by inject()
+    val searchService: SearchService by inject()
     val favouritesService: FavouritesService by inject()
 
     routing {
         route("/posts") {
             get {
-                val params = call.parameters
-                val page = params["page"]?.toInt() ?: 1
-                val filter = and(getFilterFromParameters(params))
-
-                val posts = service.getPosts(
-                    filter,
-                    getSortFromParameters(params),
-                    page
-                )
+                val searchParams = SearchParams(call.parameters)
+                val postIds = searchService.search(searchParams.query(), searchParams.sort(), searchParams.page)
+                val posts = postService.getPostsByOrderedIds(postIds)
+                val totalPosts = searchService.count(searchParams.query())
 
                 // Set isFavourite on posts for this user if they're logged in
                 call.request.header("Authorization")?.substring(7)
@@ -61,8 +47,8 @@ fun Application.configurePostRouting() {
                     }
 
                 val pagination = mapOf(
-                    "current" to page,
-                    "total" to ceil(service.getPostCount(filter) / PostRepository.PAGE_SIZE.toDouble()).toInt()
+                    "current" to searchParams.page,
+                    "total" to ceil(totalPosts / PostRepository.PAGE_SIZE.toDouble()).toInt()
                 )
 
                 call.respond(
@@ -73,13 +59,13 @@ fun Application.configurePostRouting() {
                 )
 
                 launch {
-                    analyticsService.trackQuery(params.toMap().toSortedMap())
+                    analyticsService.trackQuery(searchParams.trackableId())
                     posts.forEach { analyticsService.trackQueryView(it) }
                 }
             }
 
             get("{id}") {
-                val post: PostItem? = call.parameters["id"]?.let { service.getPost(it) }
+                val post: PostItem? = call.parameters["id"]?.let { postService.getPost(it) }
 
                 // Simple filter for full page post views
                 val jamId = call.parameters["jamId"]
@@ -112,7 +98,7 @@ fun Application.configurePostRouting() {
 
                     authService.getTokenSet(call)
                         ?.let {
-                            if (service.getPostByAuthorId(it.discordId) != null) {
+                            if (postService.getPostByAuthorId(it.discordId) != null) {
                                 return@post call.respondJSON(
                                     "Cannot have duplicate posts",
                                     status = HttpStatusCode.BadRequest
@@ -125,16 +111,14 @@ fun Application.configurePostRouting() {
                             data.timezoneOffsets = data.timezoneOffsets.filter { tz -> tz >= -12 && tz <= 12 }.toSet()
                         }
                         ?.let { PostItem.fromCreateDto(data) }
-                        ?.let { service.createPost(it) }
+                        ?.let { postService.createPost(it) }
                         ?.let { return@post call.respond(it) }
 
                     call.respondJSON("Post could not be created", status = HttpStatusCode.NotFound)
                 }
 
                 get("favourites") {
-                    val params = call.parameters
-                    val page = params["page"]?.toInt() ?: 1
-
+                    val searchParams = SearchParams(call.parameters)
                     val favourites = authService.getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
 
@@ -143,24 +127,16 @@ fun Application.configurePostRouting() {
                         return@get call.respond(emptyList<PostItem>())
                     }
 
-                    val favouritesFilters = mutableListOf<Bson>()
-                    favourites.postIds.forEach {
-                        favouritesFilters.add(and(PostItem::id eq it, PostItem::deletedAt eq null))
-                    }
+                    // Search _all_ IDs we can (pageSize: -1) to ensure we capture all favourites in response
+                    val postIds = searchService.search(searchParams.query(), searchParams.sort(), searchParams.page)
+                        .filter { favourites.postIds.contains(it) }
+                        .toList()
 
-                    val posts = service.getPosts(
-                        and(
-                            or(favouritesFilters),
-                            and(getFilterFromParameters(params))
-                        ),
-                        getSortFromParameters(params),
-                        page
-                    )
+                    val posts = postService.getPostsByOrderedIds(postIds)
                     posts.map { post -> post.isFavourite = true }
 
-
                     val pagination = mapOf(
-                        "current" to page,
+                        "current" to searchParams.page,
                         "total" to ceil(favourites.postIds.size / PostRepository.PAGE_SIZE.toDouble()).toInt()
                     )
 
@@ -175,7 +151,7 @@ fun Application.configurePostRouting() {
                 route("/mine") {
                     get {
                         authService.getTokenSet(call)
-                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let { postService.getPostByAuthorId(it.discordId) }
                             ?.let { return@get call.respond(it) }
 
                         call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
@@ -185,7 +161,7 @@ fun Application.configurePostRouting() {
                         val data = call.receive<PostItemUpdateDto>()
 
                         authService.getTokenSet(call)
-                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let { postService.getPostByAuthorId(it.discordId) }
                             ?.let { post ->
                                 // Ugly-but-functional way to update all of the fields in the DTO
                                 data.author?.also { post.author = it }
@@ -205,7 +181,8 @@ fun Application.configurePostRouting() {
                                 post.updatedAt =
                                     LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
-                                service.updatePost(post)
+                                postService.updatePost(post)
+                                searchService.update(SearchItem(post))
                                 return@put call.respond(post)
                             }
 
@@ -215,11 +192,10 @@ fun Application.configurePostRouting() {
 
                     delete {
                         authService.getTokenSet(call)
-                            ?.let { service.getPostByAuthorId(it.discordId) }
-                            ?.let {
-                                service.deletePost(it)
-                                return@delete call.respondJSON("Post deleted", status = HttpStatusCode.OK)
-                            }
+                            ?.let { postService.getPostByAuthorId(it.discordId) }
+                            ?.also { postService.deletePost(it) }
+                            ?.also { searchService.delete(it.id) }
+                            ?.let { return@delete call.respondJSON("Post deleted", status = HttpStatusCode.OK) }
 
                         // TODO: Replace BadRequest with contextual response
                         call.respondJSON("Could not delete Post", status = HttpStatusCode.BadRequest)
@@ -231,9 +207,9 @@ fun Application.configurePostRouting() {
                     post {
                         val data = call.receive<PostItemReportDto>()
 
-                        service.getPost(data.id)?.let {
+                        postService.getPost(data.id)?.let {
                             it.reportCount++
-                            service.updatePost(it)
+                            postService.updatePost(it)
                             return@post call.respond(it)
                         }
 
@@ -246,9 +222,9 @@ fun Application.configurePostRouting() {
                     post {
                         val data = call.receive<PostItemUnableToContactReportDto>()
 
-                        service.getPost(data.id)?.let {
+                        postService.getPost(data.id)?.let {
                             it.unableToContactCount++
-                            service.updatePost(it)
+                            postService.updatePost(it)
                             return@post call.respond(it)
                         }
 
@@ -257,87 +233,5 @@ fun Application.configurePostRouting() {
                 }
             }
         }
-    }
-}
-
-fun getFilterFromParameters(params: Parameters): List<Bson> {
-    val filters = mutableListOf(PostItem::deletedAt eq null)
-
-    params["jamId"]?.also { filters.add(PostItem::jamId eq it) }
-
-    params["description"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&description=`
-        ?.map { it -> it.trim() }
-        // The regex is the easiest way to check if a description contains a given substring
-        ?.forEach { filters.add(PostItem::description regex escape(it).toRegex(RegexOption.IGNORE_CASE)) }
-
-    val skillsPossessedSearchMode = params["skillsPossessedSearchMode"] ?: "and"
-    params["skillsPossessed"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&skillsPossessed=`
-        ?.mapNotNull { enumFromStringSafe<Skills>(it) }
-        ?.map { PostItem::skillsPossessed contains it }
-        ?.let { if (skillsPossessedSearchMode == "and") and(it) else or(it) }
-        ?.let(filters::add)
-
-    val skillsSoughtSearchMode = params["skillsSoughtSearchMode"] ?: "and"
-    params["skillsSought"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&skillsSought=`
-        ?.mapNotNull { enumFromStringSafe<Skills>(it) }
-        ?.map { PostItem::skillsSought contains it }
-        ?.let { if (skillsSoughtSearchMode == "and") and(it) else or(it) }
-        ?.let(filters::add)
-
-    params["tools"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&skillsSought=`
-        ?.mapNotNull { enumFromStringSafe<Tools>(it) }
-        ?.map { PostItem::preferredTools contains it }
-        ?.let(filters::addAll)
-
-    params["languages"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&languages=`
-        ?.map { PostItem::languages contains it }
-        ?.let { filters.add(or(it)) }
-
-    params["availability"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&availability=`
-        ?.mapNotNull { enumFromStringSafe<Availability>(it) }
-        ?.map { PostItem::availability eq it }
-        // Availabilities are mutually exclusive, so treat it as inclusion search
-        ?.let { filters.add(or(it)) }
-
-    // If no timezones sent, lack of filters will search all timezones
-    if (params["timezoneStart"] != null && params["timezoneEnd"] != null) {
-        val timezoneStart: Int = params["timezoneStart"]!!.toInt()
-        val timezoneEnd: Int = params["timezoneEnd"]!!.toInt()
-
-        val timezones: MutableList<Int> = mutableListOf()
-        if (timezoneStart == timezoneEnd) {
-            timezones.add(timezoneStart)
-        } else if (timezoneStart < timezoneEnd) {
-            // UTC-2 -> UTC+2 should be: [-2, -1, 0, 1, 2]
-            timezones.addAll((timezoneStart..timezoneEnd))
-        } else {
-            // UTC+9 -> UTC-9 should be: [9, 10, 11, 12, -12, -11, -10, -9]
-            timezones.addAll((timezoneStart..12))
-            timezones.addAll((-12..timezoneEnd))
-        }
-
-        // Add all timezone searches as eq checks
-        // It's brute force, but easier to confirm
-        timezones
-            .map { PostItem::timezoneOffsets contains it }
-            .let { filters.add(or(it)) }
-    }
-
-    return filters
-}
-
-fun getSortFromParameters(params: Parameters): Bson {
-    val sortByFieldName = params["sortBy"] ?: "createdAt"
-    val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
-    return when (params["sortDir"].toString()) {
-        "asc" -> ascending(sortByField)
-        "desc" -> descending(sortByField)
-        else -> descending(sortByField)
     }
 }

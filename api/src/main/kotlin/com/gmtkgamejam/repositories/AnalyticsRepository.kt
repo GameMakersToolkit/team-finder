@@ -13,7 +13,7 @@ import org.litote.kmongo.getCollectionOfName
 import org.litote.kmongo.updateOne
 
 interface AnalyticsRepository {
-    fun trackQuery(queryParams: Map<String, Any>)
+    fun trackQuery(queryParamsString: String)
     fun trackLogin()
 }
 
@@ -27,13 +27,11 @@ open class AnalyticsRepositoryImpl(val client: MongoClient) : AnalyticsRepositor
         .getDatabase("team-finder")
         .getCollectionOfName("analytics-view-events")
 
-    override fun trackQuery(queryParams: Map<String, Any>) {
-        val key = queryParams.toString()
-
-        val record = viewCol.findOne(AnalyticsViewEvent::query eq key) ?: AnalyticsViewEvent(key, 0)
+    override fun trackQuery(queryParamsString: String) {
+        val record = viewCol.findOne(AnalyticsViewEvent::query eq queryParamsString) ?: AnalyticsViewEvent(queryParamsString, 0)
         record.count += 1
 
-        viewCol.updateOne(AnalyticsViewEvent::query eq key, record, UpdateOptions().upsert(true))
+        viewCol.updateOne(AnalyticsViewEvent::query eq queryParamsString, record, UpdateOptions().upsert(true))
     }
 
     override fun trackLogin() {
