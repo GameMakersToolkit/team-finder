@@ -12,7 +12,7 @@ interface JamRepository {
 }
 
 @Single(createdAtStart = true)
-open class JamRepositoryImpl(val client: MongoClient): JamRepository, KoinComponent {
+open class JamRepositoryImpl(val client: MongoClient) : JamRepository, KoinComponent {
     private val col: MongoCollection<Jam> = client
         .getDatabase("team-finder")
         .getCollectionOfName("jams")

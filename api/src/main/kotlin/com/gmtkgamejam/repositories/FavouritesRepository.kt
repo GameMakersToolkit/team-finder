@@ -29,6 +29,10 @@ open class FavouritesRepositoryImpl(val client: MongoClient) : FavouritesReposit
     }
 
     override fun saveFavourites(favouritesToSave: FavouritesList) {
-        col.updateOne(AuthTokenSet::discordId eq favouritesToSave.discordId, favouritesToSave, UpdateOptions().upsert(true))
+        col.updateOne(
+            AuthTokenSet::discordId eq favouritesToSave.discordId,
+            favouritesToSave,
+            UpdateOptions().upsert(true)
+        )
     }
 }

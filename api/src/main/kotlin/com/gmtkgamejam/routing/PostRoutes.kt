@@ -198,9 +198,12 @@ fun Application.configurePostRouting() {
                                 data.languages?.also { post.languages = it }
                                 data.languages?.also { post.languages = it }
                                 data.availability?.also { post.availability = it }
-                                data.timezoneOffsets?.also { post.timezoneOffsets = it.filter { tz -> tz >= -12 && tz <= 12 }.toSet() }
+                                data.timezoneOffsets?.also {
+                                    post.timezoneOffsets = it.filter { tz -> tz >= -12 && tz <= 12 }.toSet()
+                                }
 
-                                post.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                                post.updatedAt =
+                                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
                                 service.updatePost(post)
                                 return@put call.respond(post)

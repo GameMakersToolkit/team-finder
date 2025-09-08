@@ -13,7 +13,8 @@ interface AnalyticsService {
 }
 
 @Single(createdAtStart = true)
-class AnalyticsServiceImpl(private val repository: AnalyticsRepository, private val postService: PostService) : AnalyticsService,
+class AnalyticsServiceImpl(private val repository: AnalyticsRepository, private val postService: PostService) :
+    AnalyticsService,
     KoinComponent {
     override fun trackQueryView(post: PostItem) {
         postService.addQueryView(post)

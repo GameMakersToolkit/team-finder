@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.abs
 
 @Serializable
-data class PostItem (
+data class PostItem(
     val id: String,
     val jamId: String,
 
@@ -43,12 +43,15 @@ data class PostItem (
     var deletedAt: String?,
 ) {
     var isFavourite: Boolean = false
+
     companion object {
         fun fromCreateDto(dto: PostItemCreateDto): PostItem {
             // TODO: Standardise datetime format
             val currentDatetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             return PostItem(
-                abs(ThreadLocalRandom.current().nextLong()).toString(), // We need to handle as string, otherwise we lose precision in JS
+                abs(
+                    ThreadLocalRandom.current().nextLong()
+                ).toString(), // We need to handle as string, otherwise we lose precision in JS
                 dto.jamId,
                 dto.author,
                 dto.authorId,

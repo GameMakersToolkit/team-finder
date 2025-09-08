@@ -14,6 +14,6 @@ enum class Tools(private var readableName: String) {
     OTHER("Other");
 
     override fun toString(): String {
-        return readableName;
+        return readableName
     }
 }

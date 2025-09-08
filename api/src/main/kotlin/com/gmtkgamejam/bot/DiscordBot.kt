@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrElse
 
 @Single(createdAtStart = true)
-class DiscordBot(postService: PostService): KoinComponent {
+class DiscordBot(postService: PostService) : KoinComponent {
 
     private val config: Config by inject()
 
@@ -91,7 +91,8 @@ class DiscordBot(postService: PostService): KoinComponent {
     }
 
     private suspend fun createFallbackChannelPingMessage(recipient: User, sender: User) {
-        val messageContents = "Hey ${recipient.mentionTag} (${recipient.name}), ${sender.mentionTag} (${sender.name}) wants to get in contact about your Team Finder post!"
+        val messageContents =
+            "Hey ${recipient.mentionTag} (${recipient.name}), ${sender.mentionTag} (${sender.name}) wants to get in contact about your Team Finder post!"
         // TODO: Validate message actually sent, give error otherwise
         channel.sendMessage(messageContents).await()
     }
@@ -114,7 +115,7 @@ class DiscordBot(postService: PostService): KoinComponent {
 
     private suspend fun trySendMessage(userId: String): Boolean {
         var didMessageFailBecausePerms = false
-         try {
+        try {
             val user: User = api.getUserById(userId).await()
 
             logger.debug("Trying to send user garbage message...")

@@ -37,7 +37,8 @@ open class AnalyticsRepositoryImpl(val client: MongoClient) : AnalyticsRepositor
     }
 
     override fun trackLogin() {
-        val record: AnalyticsCommonEvents = col.findOne(AnalyticsCommonEvents::id eq "events") ?: AnalyticsCommonEvents("events", 0)
+        val record: AnalyticsCommonEvents =
+            col.findOne(AnalyticsCommonEvents::id eq "events") ?: AnalyticsCommonEvents("events", 0)
         record.loginCount += 1
 
         col.updateOne(AnalyticsCommonEvents::id eq "events", record, UpdateOptions().upsert(true))

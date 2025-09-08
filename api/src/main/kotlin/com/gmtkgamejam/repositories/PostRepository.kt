@@ -14,8 +14,8 @@ import java.time.format.DateTimeFormatter
 interface PostRepository {
     fun createPost(postItem: PostItem)
     fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem>
-    fun getPost(id: String) : PostItem?
-    fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false) : PostItem?
+    fun getPost(id: String): PostItem?
+    fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false): PostItem?
     fun updatePost(postItem: PostItem)
     fun deletePost(postItem: PostItem)
     fun addQueryView(postItem: PostItem)
@@ -52,11 +52,11 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository, KoinCom
         return col.find(filter).sort(sort).limit(pageSize).skip(pageSize * (page - 1)).toList()
     }
 
-    override fun getPost(id: String) : PostItem? {
+    override fun getPost(id: String): PostItem? {
         return col.findOne(PostItem::id eq id)
     }
 
-    override fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean) : PostItem? {
+    override fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean): PostItem? {
         var filter = PostItem::authorId eq authorId
         if (!ignoreDeletion) {
             filter = and(filter, PostItem::deletedAt eq null)
@@ -66,7 +66,7 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository, KoinCom
     }
 
     override fun getPostCount(filter: Bson): Int {
-        return col.countDocuments(and(filter, PostItem::deletedAt eq null)).toInt();
+        return col.countDocuments(and(filter, PostItem::deletedAt eq null)).toInt()
     }
 
     override fun updatePost(postItem: PostItem) {

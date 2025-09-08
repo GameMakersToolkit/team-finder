@@ -1,14 +1,9 @@
 package com.gmtkgamejam.services
 
-import com.gmtkgamejam.models.posts.dtos.FavouritePostDto
 import com.gmtkgamejam.models.posts.FavouritesList
+import com.gmtkgamejam.models.posts.dtos.FavouritePostDto
 import com.gmtkgamejam.repositories.FavouritesRepository
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.runs
-import io.mockk.slot
-import io.mockk.verify
+import io.mockk.*
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test

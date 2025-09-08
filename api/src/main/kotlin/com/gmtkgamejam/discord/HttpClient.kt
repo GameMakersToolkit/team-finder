@@ -2,9 +2,9 @@ package com.gmtkgamejam.discord
 
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
-import kotlinx.serialization.json.Json
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 
 fun discordHttpClient(): HttpClient {
     return HttpClient(CIO) {

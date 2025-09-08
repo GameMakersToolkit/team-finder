@@ -17,6 +17,10 @@ plugins {
 group = "com.gmtkgamejam"
 version = "1.1.0"
 
+kotlin {
+    jvmToolchain(21)
+}
+
 application {
     mainClass.set("com.gmtkgamejam.ApplicationKt")
 }

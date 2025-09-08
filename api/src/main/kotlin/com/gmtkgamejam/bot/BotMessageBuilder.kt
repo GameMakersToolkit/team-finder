@@ -10,12 +10,17 @@ class BotMessageBuilder(private val postService: PostService) {
     fun embedMessage(recipient: User, sender: User): EmbedBuilder {
         val post = postService.getPostByAuthorId(sender.id.toString())!!
 
-        val shortDescription = if (post.description.length > 240) post.description.take(237) + "..." else post.description
+        val shortDescription =
+            if (post.description.length > 240) post.description.take(237) + "..." else post.description
 
         val embed = EmbedBuilder()
             .setTitle("${sender.name} wants to get in contact!")
             .setDescription("Hey there ${recipient.name}! ${sender.name} wants to get in touch - this is a summary of their current post on the Team Finder!")
-            .setAuthor("FindYourJam.Team Bot", "https://findyourjam.team/", "https://findyourjam.team/logos/jam-logo-stacked.webp")
+            .setAuthor(
+                "FindYourJam.Team Bot",
+                "https://findyourjam.team/",
+                "https://findyourjam.team/logos/jam-logo-stacked.webp"
+            )
             .addField("Description", shortDescription)
 
         // Add optional fields - turns out this includes timezones
@@ -33,7 +38,10 @@ class BotMessageBuilder(private val postService: PostService) {
         }
 
         embed
-            .addField("Like what you see?", "Check out their full post here to see more! https://findyourjam.team/gmtk/${post.id}/")
+            .addField(
+                "Like what you see?",
+                "Check out their full post here to see more! https://findyourjam.team/gmtk/${post.id}/"
+            )
             .setFooter("Feedback? DM @dotwo in the #team-finder-bot channel")
 
         return embed
