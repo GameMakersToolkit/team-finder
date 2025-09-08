@@ -64,7 +64,7 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
 
-    testImplementation("io.insert-koin:koin-test:3.3.3")
+    testImplementation("io.insert-koin:koin-test:4.1.1")
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.12.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
