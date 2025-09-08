@@ -5,6 +5,8 @@ import com.gmtkgamejam.models.posts.FavouritesList
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.UpdateOptions
+import org.koin.core.annotation.Single
+import org.koin.core.component.KoinComponent
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollectionOfName
@@ -16,7 +18,8 @@ interface FavouritesRepository {
     fun saveFavourites(favouritesToSave: FavouritesList)
 }
 
-open class FavouritesRepositoryImpl(val client: MongoClient) : FavouritesRepository {
+@Single(createdAtStart = true)
+open class FavouritesRepositoryImpl(val client: MongoClient) : FavouritesRepository, KoinComponent {
     protected val col: MongoCollection<FavouritesList> = client
         .getDatabase("team-finder")
         .getCollectionOfName("favourites")

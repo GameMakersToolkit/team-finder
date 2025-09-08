@@ -6,6 +6,8 @@ import com.gmtkgamejam.repositories.PostRepository
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import org.bson.conversions.Bson
+import org.koin.core.annotation.Single
+import org.koin.core.component.KoinComponent
 import org.litote.kmongo.getCollectionOfName
 
 interface PostService {
@@ -20,7 +22,9 @@ interface PostService {
     fun addFullPageView(postItem: PostItem)
 }
 
-class PostServiceImpl(private val repository: PostRepository, private val client: MongoClient) : PostService {
+@Single(createdAtStart = true)
+class PostServiceImpl(private val repository: PostRepository, client: MongoClient) : PostService,
+    KoinComponent {
     private val col: MongoCollection<PostItem>
     private val bannedUsersCol: MongoCollection<BannedUser>
 
@@ -67,4 +71,3 @@ class PostServiceImpl(private val repository: PostRepository, private val client
         repository.addFullPageView(postItem)
     }
 }
-

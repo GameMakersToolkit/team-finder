@@ -14,11 +14,17 @@ import org.javacord.api.entity.server.Server
 import org.javacord.api.entity.user.User
 import org.javacord.api.exception.DiscordException
 import org.javacord.api.exception.MissingPermissionsException
+import org.koin.core.annotation.Single
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrElse
 
-class DiscordBot(private val postService: PostService) {
+@Single(createdAtStart = true)
+class DiscordBot(postService: PostService): KoinComponent {
+
+    private val config: Config by inject()
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
@@ -33,11 +39,11 @@ class DiscordBot(private val postService: PostService) {
     private val approvedUsers: MutableList<String> = mutableListOf()
 
     init {
-        val token = Config.getString("bot.token")
+        val token = config.getString("bot.token")
         val builder = DiscordApiBuilder().setToken(token).setIntents(Intent.GUILD_MEMBERS)
 
-        val guildId = Config.getString("jam.guildId")
-        val channelName = Config.getString("bot.pingChannel")
+        val guildId = config.getString("jam.guildId")
+        val channelName = config.getString("bot.pingChannel")
 
         try {
             api = builder.login().join()

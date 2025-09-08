@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.gmtkgamejam.discord.discordHttpClient
 import com.gmtkgamejam.services.AuthService
-import com.gmtkgamejam.services.AuthServiceImpl
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -15,14 +14,12 @@ import java.net.URLEncoder
 
 @Suppress("unused")
 fun Application.authModule() {
+    val config: Config by inject()
     val authService: AuthService by inject()
-
-    // Set config at first point of entry
-    Config.initConfig(environment.config)
 
     install(Authentication) {
         oauth("auth-oauth-discord") {
-            urlProvider = { Config.getString("api.host") + "/callback" }
+            urlProvider = { config.getString("api.host") + "/callback" }
             providerLookup = {
                 val queryParams = this.request.queryParameters
 
@@ -30,7 +27,7 @@ fun Application.authModule() {
                 // Otherwise we'll infinitely loop against Discord
                 val authAlreadyFailed = queryParams.contains("error")
                 if (authAlreadyFailed) {
-                    val uiHost = Config.getString("ui.host")
+                    val uiHost = config.getString("ui.host")
                     val error = queryParams["error"]
                     val description = URLEncoder.encode(queryParams["error_description"], "UTF-8")
 
@@ -48,8 +45,8 @@ fun Application.authModule() {
                         authorizeUrl = "https://discord.com/api/oauth2/authorize",
                         accessTokenUrl = "https://discord.com/api/oauth2/token",
                         requestMethod = HttpMethod.Post,
-                        clientId = Config.getString("secrets.discord.client.id"),
-                        clientSecret = Config.getString("secrets.discord.client.secret"),
+                        clientId = config.getString("secrets.discord.client.id"),
+                        clientSecret = config.getString("secrets.discord.client.secret"),
                         defaultScopes = listOf("identify", "guilds.members.read")
                     )
                 }
@@ -57,7 +54,7 @@ fun Application.authModule() {
             client = discordHttpClient()
         }
         jwt("auth-jwt") {
-            verifier(buildJWTVerifier())
+            verifier(buildJWTVerifier(config))
             validate {
                 val id = it.payload.getClaim("id").asString()
                 val tokenSet = authService.getTokenSet(id)
@@ -68,11 +65,11 @@ fun Application.authModule() {
             }
         }
         jwt("auth-jwt-admin") {
-            verifier(buildJWTVerifier())
+            verifier(buildJWTVerifier(config))
             validate {
                 val id = it.payload.getClaim("id").asString()
                 val tokenSet = authService.getTokenSet(id)
-                val adminDiscordIds = Config.getList("jam.adminIds")
+                val adminDiscordIds = config.getList("jam.adminIds")
 
                 return@validate if (tokenSet != null && adminDiscordIds.contains(tokenSet.discordId)) JWTPrincipal(it.payload) else null
             }
@@ -80,10 +77,10 @@ fun Application.authModule() {
     }
 }
 
-fun buildJWTVerifier(): JWTVerifier {
-    val secret = Config.getString("jwt.secret")
-    val issuer = Config.getString("jwt.issuer")
-    val audience = Config.getString("jwt.audience")
+fun buildJWTVerifier(config: Config): JWTVerifier {
+    val secret = config.getString("jwt.secret")
+    val issuer = config.getString("jwt.issuer")
+    val audience = config.getString("jwt.audience")
 
     return JWT
         .require(Algorithm.HMAC256(secret))

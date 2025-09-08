@@ -1,9 +1,6 @@
 package com.gmtkgamejam.models.auth
 
-import com.gmtkgamejam.Config
 import kotlinx.serialization.Serializable
-
-private val adminIds: List<String> = Config.getList("jam.adminIds")
 
 @Serializable
 data class UserInfo(
@@ -14,13 +11,18 @@ data class UserInfo(
     val hasContactPermsSet: Boolean,
     val isAdmin: Boolean
 ) {
-
-    constructor(discordUserInfo: DiscordUserInfo, displayName: String, isInDiscordServer: Boolean, hasContactPermsSet: Boolean) : this(
+    constructor(
+        discordUserInfo: DiscordUserInfo,
+        displayName: String,
+        isInDiscordServer: Boolean,
+        hasContactPermsSet: Boolean,
+        isAdmin: Boolean
+    ) : this(
         discordUserInfo.id,
         displayName,
         discordUserInfo.avatar ?: "no-avatar",
         isInDiscordServer,
         hasContactPermsSet,
-        adminIds.contains(discordUserInfo.id)
+        isAdmin
     )
 }
