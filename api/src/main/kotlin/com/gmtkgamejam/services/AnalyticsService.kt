@@ -2,6 +2,8 @@ package com.gmtkgamejam.services
 
 import com.gmtkgamejam.models.posts.PostItem
 import com.gmtkgamejam.repositories.AnalyticsRepository
+import org.koin.core.annotation.Single
+import org.koin.core.component.KoinComponent
 
 interface AnalyticsService {
     fun trackQueryView(post: PostItem)
@@ -10,7 +12,9 @@ interface AnalyticsService {
     fun trackLogin()
 }
 
-class AnalyticsServiceImpl(private val repository: AnalyticsRepository, private val postService: PostService) : AnalyticsService  {
+@Single(createdAtStart = true)
+class AnalyticsServiceImpl(private val repository: AnalyticsRepository, private val postService: PostService) : AnalyticsService,
+    KoinComponent {
     override fun trackQueryView(post: PostItem) {
         postService.addQueryView(post)
     }
@@ -27,4 +31,3 @@ class AnalyticsServiceImpl(private val repository: AnalyticsRepository, private 
         repository.trackLogin()
     }
 }
-

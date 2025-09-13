@@ -5,6 +5,8 @@ import com.gmtkgamejam.models.posts.PostItem
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import org.bson.conversions.Bson
+import org.koin.core.annotation.Single
+import org.koin.core.component.KoinComponent
 import org.litote.kmongo.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -25,7 +27,8 @@ interface PostRepository {
     }
 }
 
-open class PostRepositoryImpl(val client: MongoClient) : PostRepository {
+@Single(createdAtStart = true)
+open class PostRepositoryImpl(val client: MongoClient) : PostRepository, KoinComponent {
     private val col: MongoCollection<PostItem> = client
         .getDatabase("team-finder")
         .getCollectionOfName("posts")

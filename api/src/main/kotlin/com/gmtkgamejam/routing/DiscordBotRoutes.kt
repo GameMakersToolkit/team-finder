@@ -20,6 +20,7 @@ import java.time.LocalDateTime
 
 fun Application.configureDiscordBotRouting() {
 
+    val config: Config by inject()
     val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     val authService: AuthService by inject()
@@ -31,10 +32,10 @@ fun Application.configureDiscordBotRouting() {
     val userIdPerUserMessageTimes: MutableMap<String, LocalDateTime> = mutableMapOf()
 
     // User A needs to wait X seconds between messaging User B and User C
-    val userRateLimitTimeOutInSeconds = Config.getString("bot.userRateLimit").toLong()
+    val userRateLimitTimeOutInSeconds = config.getString("bot.userRateLimit").toLong()
 
     // User A can't ping User B more than once per X seconds
-    val perUserTimeoutInSeconds = Config.getString("bot.perRecipientRateLimit").toLong()
+    val perUserTimeoutInSeconds = config.getString("bot.perRecipientRateLimit").toLong()
 
     fun canUserSendMessage(userId: String): Boolean {
         val currentDateTime = LocalDateTime.now()

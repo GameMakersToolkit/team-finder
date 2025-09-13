@@ -1,13 +1,17 @@
 val ktorVersion: String by project
 val koinVersion: String by project
+val kspVersion: String by project
+val koinAnnotationsVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val mockkVersion: String by project
 
 plugins {
     application
-    kotlin("jvm") version "2.1.20"
-    kotlin("plugin.serialization") version "2.1.20"
+    kotlin("jvm") version "2.1.21"
+    kotlin("plugin.serialization") version "2.1.21"
+//    id("com.google.devtools.ksp") version "$kspVersion"
+    id("com.google.devtools.ksp") version "2.1.21-2.0.2"
 }
 
 group = "com.gmtkgamejam"
@@ -29,6 +33,10 @@ dependencies {
 
     // Koin core features
     implementation("io.insert-koin:koin-ktor:$koinVersion")
+    // Koin KSP nonsense; manages boilerplate for stuff like @Single annotation
+    implementation("io.insert-koin:koin-annotations:$koinAnnotationsVersion")
+    // Koin Annotations KSP Compiler
+    ksp("io.insert-koin:koin-ksp-compiler:$koinAnnotationsVersion")
 
     // DB
     implementation("org.litote.kmongo:kmongo:5.2.0")

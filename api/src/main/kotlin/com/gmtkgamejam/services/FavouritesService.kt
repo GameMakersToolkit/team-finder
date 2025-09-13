@@ -1,8 +1,10 @@
 package com.gmtkgamejam.services
 
-import com.gmtkgamejam.models.posts.dtos.FavouritePostDto
 import com.gmtkgamejam.models.posts.FavouritesList
+import com.gmtkgamejam.models.posts.dtos.FavouritePostDto
 import com.gmtkgamejam.repositories.FavouritesRepository
+import org.koin.core.annotation.Single
+import org.koin.core.component.KoinComponent
 
 interface FavouritesService {
     fun getFavouritesByUserId(discordId: String): FavouritesList
@@ -10,7 +12,8 @@ interface FavouritesService {
     fun addPostAsFavourite(discordId: String, post: FavouritePostDto): FavouritesList
 }
 
-class FavouritesServiceImpl(private val repository: FavouritesRepository) : FavouritesService {
+@Single(createdAtStart = true)
+class FavouritesServiceImpl(private val repository: FavouritesRepository) : FavouritesService, KoinComponent {
     override fun getFavouritesByUserId(discordId: String): FavouritesList {
         return repository.getFavouritesByUserId(discordId) ?: FavouritesList(discordId)
     }
@@ -27,4 +30,3 @@ class FavouritesServiceImpl(private val repository: FavouritesRepository) : Favo
             }
         )
 }
-

@@ -5,6 +5,8 @@ import com.gmtkgamejam.models.analytivs.AnalyticsViewEvent
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.UpdateOptions
+import org.koin.core.annotation.Single
+import org.koin.core.component.KoinComponent
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollectionOfName
@@ -15,7 +17,8 @@ interface AnalyticsRepository {
     fun trackLogin()
 }
 
-open class AnalyticsRepositoryImpl(val client: MongoClient) : AnalyticsRepository {
+@Single(createdAtStart = true)
+open class AnalyticsRepositoryImpl(val client: MongoClient) : AnalyticsRepository, KoinComponent {
     protected val col: MongoCollection<AnalyticsCommonEvents> = client
         .getDatabase("team-finder")
         .getCollectionOfName("analytics-events")

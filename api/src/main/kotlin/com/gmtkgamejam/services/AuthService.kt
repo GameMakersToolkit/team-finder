@@ -7,6 +7,8 @@ import com.mongodb.client.model.UpdateOptions
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import org.koin.core.annotation.Single
+import org.koin.core.component.KoinComponent
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollectionOfName
@@ -19,7 +21,8 @@ interface AuthService {
     fun updateTokenSet(tokenSet: AuthTokenSet)
 }
 
-class AuthServiceImpl(private val client: MongoClient) : AuthService {
+@Single(createdAtStart = true)
+class AuthServiceImpl(client: MongoClient) : AuthService, KoinComponent {
     private val col: MongoCollection<AuthTokenSet>
 
     init {
@@ -47,4 +50,3 @@ class AuthServiceImpl(private val client: MongoClient) : AuthService {
     }
 
 }
-

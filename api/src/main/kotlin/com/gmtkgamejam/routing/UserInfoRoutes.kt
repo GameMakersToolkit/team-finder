@@ -23,6 +23,7 @@ typealias UserId = String
 
 fun Application.configureUserInfoRouting() {
 
+    val config: Config by inject()
     val analyticsService: AnalyticsService by inject()
     val service: AuthService by inject()
     val bot: DiscordBot by inject()
@@ -40,6 +41,8 @@ fun Application.configureUserInfoRouting() {
             }
 
             get("/userinfo") {
+                val adminIds: List<String> = config.getList("jam.adminIds")
+
                 val currentTime = LocalDateTime.now()
                 val principal = call.principal<JWTPrincipal>()
                 val id = principal?.payload?.getClaim("id")?.asString()
@@ -67,8 +70,8 @@ fun Application.configureUserInfoRouting() {
                     val tokenHasExpired = tokenSet.expiry <= Date(System.currentTimeMillis())
                     if (tokenHasExpired) {
                         val refreshedTokenSet = refreshTokenAsync(
-                            Config.getString("secrets.discord.client.id"),
-                            Config.getString("secrets.discord.client.secret"),
+                            config.getString("secrets.discord.client.id"),
+                            config.getString("secrets.discord.client.secret"),
                             it.refreshToken.toString()
                         )
 
@@ -87,8 +90,9 @@ fun Application.configureUserInfoRouting() {
                     val displayName = bot.getDisplayNameForUser(user.id)
                     val hasPermissions = bot.doesUserHaveValidPermissions(user.id)
                     val isUserInGuild = bot.isUserInGuild(user.id)
+                    val isAdmin = adminIds.contains(user.id)
 
-                    val userInfo = UserInfo(user, displayName, isUserInGuild, hasPermissions)
+                    val userInfo = UserInfo(user, displayName, isUserInGuild, hasPermissions, isAdmin)
                     shortLiveCache[user.id] = Pair(LocalDateTime.now(), userInfo)
                     return@get call.respond(userInfo)
                 }

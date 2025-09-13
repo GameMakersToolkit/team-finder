@@ -16,6 +16,7 @@ import java.util.*
 
 fun Application.configureAuthRouting() {
 
+    val config: Config by inject()
     val service: AuthService by inject()
 
     routing {
@@ -24,9 +25,9 @@ fun Application.configureAuthRouting() {
                 // redirects to authorize url
             }
             get("/callback") {
-                val secret = Config.getString("jwt.secret")
-                val issuer = Config.getString("jwt.issuer")
-                val audience = Config.getString("jwt.audience")
+                val secret = config.getString("jwt.secret")
+                val issuer = config.getString("jwt.issuer")
+                val audience = config.getString("jwt.audience")
 
                 val lifespanOfAppJwt = 86400000 // A user is logged into the Team Finder for 24 hours
 
@@ -52,7 +53,7 @@ fun Application.configureAuthRouting() {
                     )
                     service.storeTokenSet(tokenSet)
 
-                    val redirectTarget = Config.getString("ui.host")
+                    val redirectTarget = config.getString("ui.host")
                     call.respondRedirect("$redirectTarget/login/authorized?token=$token")
                 }
             }

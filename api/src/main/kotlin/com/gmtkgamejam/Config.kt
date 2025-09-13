@@ -1,15 +1,11 @@
 package com.gmtkgamejam
 
 import io.ktor.server.config.*
+import org.koin.core.component.KoinComponent
 
-// Use object to make Config a singleton reference
-// I truly hate that Ktor makes me do this
-object Config {
-    private lateinit var config: ApplicationConfig
-
-    fun initConfig(_config: ApplicationConfig) {
-        config = _config
-    }
+//@Single
+// Manually wired up in DependencyInjection.kt because it needs config passing in!
+class Config(private val config: ApplicationConfig) : KoinComponent {
 
     /**
      * Get property string value
