@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
+import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { useApiRequest } from "./apiRequest";
 import { useAuth } from "./AuthContext";
 

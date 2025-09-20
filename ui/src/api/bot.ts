@@ -3,7 +3,7 @@ import {
   UseMutationOptions,
   UseMutationResult,
   useQueryClient,
-} from "react-query";
+} from '@tanstack/react-query';
 import {
   Post,
   postFromApiResult,

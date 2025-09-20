@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Routes, Route, BrowserRouter, Navigate} from 'react-router-dom';
 import { JamHome } from "./pages/jamhome/JamHome.tsx";
-import {QueryClient, QueryClientProvider} from "react-query";
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {AuthContextProvider} from "./api/AuthContext.tsx";
 import {MyPostWrapper} from "./pages/mypost/MyPostWrapper.tsx";
 import {Callback} from "./pages/callback/Callback.tsx";

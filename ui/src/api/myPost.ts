@@ -6,7 +6,7 @@ import {
   UseQueryOptions,
   UseQueryResult,
   useQueryClient,
-} from "react-query";
+} from '@tanstack/react-query';
 import {
   Post,
   postFromApiResult,

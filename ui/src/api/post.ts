@@ -5,7 +5,7 @@ import {
     useQuery,
     useQueryClient,
     UseQueryResult
-} from 'react-query';
+} from '@tanstack/react-query';
 import {useApiRequest} from "./apiRequest.ts";
 import {Post, PostResponseDTO, postFromApiResult, PostResponse, PostDTO} from '../common/models/post.ts';
 import {useAuth} from './AuthContext.tsx';
