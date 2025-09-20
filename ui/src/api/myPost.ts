@@ -29,17 +29,17 @@ export function useMyPostQuery(
 ): UseQueryResult<Post | null, Error> {
   const hasAuth = Boolean(useAuth());
   const apiRequest = useApiRequest();
-  return useQuery(
-    MY_POST_QUERY_KEY,
-    () =>
-      expectNotFound(apiRequest<PostDTO>("/posts/mine")).then(
-        (result) => result && postFromApiResult(result)
-      ),
-    {
+  return useQuery({
+    queryKey: MY_POST_QUERY_KEY,
+    queryFn: () =>
+        expectNotFound(apiRequest<PostDTO>("/posts/mine")).then(
+            (result) => result && postFromApiResult(result)
+        ),
+    ...{
       ...opts,
       enabled: hasAuth && (opts?.enabled ?? true),
     }
-  );
+  });
 }
 
 export interface MyPostMutationVariables {
@@ -62,9 +62,7 @@ export function useMyPostMutation(
   return useMutation({
     ...opts,
     mutationFn: async (variables) => {
-      const existing = await queryClient.fetchQuery<PostDTO>(
-        MY_POST_QUERY_KEY
-      );
+      const existing = await queryClient.fetchQuery<PostDTO>({queryKey: MY_POST_QUERY_KEY});
       let result;
 
       if (existing) {
@@ -88,9 +86,9 @@ export function useMyPostMutation(
       return postFromApiResult(result);
     },
     mutationKey: ["posts", "mine", "update"],
-    onSuccess(data, variables, context) {
-      queryClient.invalidateQueries(MY_POST_QUERY_KEY);
-      opts?.onSuccess?.(data, variables, context);
+    onSuccess(data, variables, onMutateResult, context) {
+      queryClient.invalidateQueries({queryKey: MY_POST_QUERY_KEY});
+      opts?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 }
@@ -113,9 +111,9 @@ export function useDeleteMyPostMutation(
       return postFromApiResult(result);
     },
     mutationKey: ["posts", "mine", "delete"],
-    onSuccess(data, variables, context) {
-      queryClient.invalidateQueries(DELETE_MY_POST_QUERY_KEY);
-      opts?.onSuccess?.(data, variables, context);
+    onSuccess(data, variables, onMutateResult, context) {
+      queryClient.invalidateQueries({queryKey: DELETE_MY_POST_QUERY_KEY});
+      opts?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 }

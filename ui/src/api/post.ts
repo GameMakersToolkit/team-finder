@@ -21,12 +21,12 @@ export function usePosts(): UseQueryResult<PostResponse, Error> {
     const path = isOnlyBookmarked ? "posts/favourites" : "posts"
     const url = `/${path}?${searchParams}&jamId=${jamId}`
 
-    return useQuery(
-        ["posts", "list", searchParams.toString() ?? ""],
-        () => {
+    return useQuery({
+        queryKey: ["posts", "list", searchParams.toString() ?? ""],
+        queryFn: () => {
             return apiRequest<PostResponseDTO>(url, {method: "GET", authToken: token});
         },
-        {
+        ...{
             select: (result: PostResponseDTO) => {
                 return {
                     posts: result.posts.map(postFromApiResult),
@@ -34,7 +34,7 @@ export function usePosts(): UseQueryResult<PostResponse, Error> {
                 }
             },
         }
-    );
+    });
 }
 
 const REPORT_POST_QUERY_KEY = ["posts", "report"] as const;
@@ -57,9 +57,9 @@ export function useReportPostMutation(
             });
         },
         mutationKey: ["posts", "report"],
-        onSuccess(data, variables, context) {
-            queryClient.invalidateQueries(REPORT_POST_QUERY_KEY);
-            opts?.onSuccess?.(data, variables, context);
+        onSuccess(data, variables, onMutateResult, context) {
+            queryClient.invalidateQueries({queryKey: REPORT_POST_QUERY_KEY});
+            opts?.onSuccess?.(data, variables, onMutateResult, context);
         }
     })
 }
@@ -85,9 +85,9 @@ export function useReportBrokenDMsPostMutation(
             });
         },
         mutationKey: ["posts", "report-unable-to-contact"],
-        onSuccess(data, variables, context) {
-            queryClient.invalidateQueries(REPORT_DMS_POST_QUERY_KEY);
-            opts?.onSuccess?.(data, variables, context);
+        onSuccess(data, variables, onMutateResult, context) {
+            queryClient.invalidateQueries({queryKey: REPORT_DMS_POST_QUERY_KEY});
+            opts?.onSuccess?.(data, variables, onMutateResult, context);
         }
     })
 }
@@ -119,9 +119,9 @@ export function useFavouritePostMutation(
             return postFromApiResult(result);
         },
         mutationKey: ["posts", "favourite"],
-        onSuccess(data, variables, context) {
-            queryClient.invalidateQueries(FAVOURITE_POST_QUERY_KEY);
-            opts?.onSuccess?.(data, variables, context);
+        onSuccess(data, variables, onMutateResult, context) {
+            queryClient.invalidateQueries({queryKey: FAVOURITE_POST_QUERY_KEY});
+            opts?.onSuccess?.(data, variables, onMutateResult, context);
         },
     });
 }

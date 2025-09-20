@@ -13,13 +13,13 @@ export function useUserInfo(
 ): UseQueryResult<UserInfo | null, Error> {
   const hasAuth = Boolean(useAuth());
   const apiRequest = useApiRequest();
-  return useQuery(
-    USER_INFO_QUERY_KEY,
-    () => apiRequest<UserInfo>("/userinfo"),
-    {
-      ...opts,
-      enabled: hasAuth && (opts?.enabled ?? true),
-      staleTime: opts?.staleTime ?? 300000, // 5 minutes
-    }
-  );
+  return useQuery({
+      queryKey: USER_INFO_QUERY_KEY,
+      queryFn: () => apiRequest<UserInfo>("/userinfo"),
+      ...{
+          ...opts,
+          enabled: hasAuth && (opts?.enabled ?? true),
+          staleTime: opts?.staleTime ?? 300000, // 5 minutes
+      }
+  });
 }
