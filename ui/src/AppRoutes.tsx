@@ -37,7 +37,7 @@ export const AppRoutes: React.FC = () => {
                 <Route path="/:jamId/about" element={<About/>}/>
                 <Route path="/:jamId/finished" element={<AfterJam />}/>
                 <Route path="/:jamId/admin/*" element={<JamAdmin />}/>
-                <Route path="/:jamId/admin/styling/preview-page*" element={<PreviewPage />}/>
+                <Route path="/:jamId/admin/styling/preview-page" element={<PreviewPage />}/>
                 <Route path="/:jamId/:postId" element={<Post/>}/>
 
                 {/* TODO: replace with a proper Not Found page */}

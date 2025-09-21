@@ -1,16 +1,16 @@
 import React from 'react';
-import {JamSpecificStyling} from '../../../common/components/JamSpecificStyling.tsx';
 import {Onboarding} from '../../jamhome/components/Onboarding.tsx';
 import {SiteIntro} from '../../jamhome/components/SiteIntro.tsx';
+import { JamPreviewStyling } from "../../../common/components/JamPreviewStyling.tsx";
 
 export const PreviewPage = () => {
     return (
-        <JamSpecificStyling>
+        <JamPreviewStyling>
             <main>
                 <Onboarding />
                 <SiteIntro />
                 <div className="h-[100px]">&nbsp;</div>
             </main>
-        </JamSpecificStyling>
+        </JamPreviewStyling>
     )
 }

@@ -38,7 +38,7 @@ export const Header: React.FC = () => {
                         <div className="flex items-center">
                             <Link className="header-text-link" key={"About"} to={`/${theme.jamId}/about`}>About / How To Use</Link>
                             <Link className="header-text-link" target="_blank" key={"Contact Support"} to={`https://discord.com/users/427486675409829898`}>Contact Support</Link>
-                            {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={"/admin"}>Admin</Link>}
+                            {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={`/${theme.jamId}/admin`}>Admin</Link>}
                         </div>
                     </div>
 

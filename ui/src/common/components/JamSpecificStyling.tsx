@@ -12,7 +12,9 @@ export type Jam = {
     duration: string,
     logoLargeUrl: string,
     logoStackedUrl: string,
-    styles: object,
+    styles: {
+        [key: string]: any
+    },
     expiry: number,
 }
 
