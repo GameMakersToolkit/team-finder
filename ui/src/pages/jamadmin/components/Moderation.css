@@ -1,0 +1,41 @@
+.scrollable {
+    max-width: 100%;
+    overflow-x: auto;
+    gap: 1em;
+}
+
+.c-reported-post {
+    min-width: 400px;
+}
+
+.actionMenu {
+    position: absolute;
+    bottom: calc(100% + 0.2em);
+    right: calc(100% + 0.3em);
+    overflow-y: hidden;
+}
+
+.actionMenuContent {
+    @apply inline-block border-2 border-theme-l-7 rounded-xl py-2 px-4;
+    transition: transform 0.3s;
+    background-color: var(--theme-accent);
+    color: var(--theme-background);
+}
+
+.actionMenuContent.open {
+    transform: translate(0, 0);
+}
+
+.actionMenuContent.closed {
+    transform: translate(0, 100%);
+}
+
+.actionMenu hr {
+    border: 1px var(--theme-background) solid;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+.actionMenu .action {
+    cursor: pointer;
+}

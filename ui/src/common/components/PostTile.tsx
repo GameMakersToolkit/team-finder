@@ -65,7 +65,7 @@ const OptionalItchTag = ({itchAccountIds}) => {
     )
 }
 
-const getDescriptionParagraphs = (post: Post) => {
+export const getDescriptionParagraphs = (post: Post) => {
     const maxNumberOfCharsToDisplay = 270;
     const maxNumberOfParasToDisplay = 4;
 

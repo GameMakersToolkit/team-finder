@@ -9,6 +9,8 @@ import {Post} from "./pages/post/Post.tsx";
 import {Logout} from "./pages/logout/Logout.tsx";
 import {About} from "./pages/about/About.tsx";
 import {AfterJam} from './pages/afterjam/AfterJam.tsx';
+import { JamAdmin } from "./pages/jamadmin/JamAdmin.tsx";
+import { PreviewPage } from "./pages/jamadmin/components/PreviewPage.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -34,6 +36,8 @@ export const AppRoutes: React.FC = () => {
                 <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
                 <Route path="/:jamId/about" element={<About/>}/>
                 <Route path="/:jamId/finished" element={<AfterJam />}/>
+                <Route path="/:jamId/admin/*" element={<JamAdmin />}/>
+                <Route path="/:jamId/admin/styling/preview-page*" element={<PreviewPage />}/>
                 <Route path="/:jamId/:postId" element={<Post/>}/>
 
                 {/* TODO: replace with a proper Not Found page */}
@@ -50,7 +54,7 @@ export const AppRoutes: React.FC = () => {
  *
  * Allows us to get the userInfo and auth state on all pages
  */
-const ReactQuerySiteWrapper: React.FC<{children: string | JSX.Element | JSX.Element[]}> = ({ children }) => {
+const ReactQuerySiteWrapper: React.FC<{children: string | React.JSX.Element | React.JSX.Element[]}> = ({ children }) => {
     return (
         <AuthContextProvider>
             <QueryClientProvider client={queryClient}>
