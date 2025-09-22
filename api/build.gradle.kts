@@ -29,7 +29,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     // Logging support for Javacord
-    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.25.1")
+    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.25.2")
 
     // Koin core features
     implementation("io.insert-koin:koin-ktor:$koinVersion")
