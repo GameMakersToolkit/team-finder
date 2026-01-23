@@ -2,12 +2,13 @@ import { CommonFields } from "./styling/CommonFields.tsx";
 import { SkillsToolsLanguagesTimezones } from "./styling/SkillsToolsLanguagesTimezones.tsx";
 import { useMutation, UseMutationOptions, UseMutationResult, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Jam, JamSpecificContext } from "../../../common/components/JamSpecificStyling.tsx";
 import { getPreviewCacheKey, getPreviewTheme } from "../../../common/components/JamPreviewStyling.tsx";
 import { useApiRequest } from "../../../api/apiRequest.ts";
 import { toast } from "react-hot-toast";
 import { getPreviewThemeFields } from "./styling/PreviewThemeFields.ts";
+import { Button } from "../../../common/components/Button.tsx";
 
 export const Styling = () => {
     const theme = useContext(JamSpecificContext)
@@ -17,8 +18,6 @@ export const Styling = () => {
     const onSubmitForm = (values: any, setSubmitting: (a: boolean) => void) => {
         toast.dismiss()
 
-        console.log("Submitting styling form with values:", values)
-        console.log("Check against:", themeFields)
         previewTheme.styles = themeFields.map(f => {return {[f.name]: f.currentValue}}).reduce((a, b) => {return {...a, ...b}}, {})
         save(previewTheme)
         setTimeout(() => {
@@ -51,9 +50,16 @@ export const Styling = () => {
                         <SkillsToolsLanguagesTimezones
                           themeFields={themeFields}
                           setThemeFields={setThemeFields} />
-                        <button type="submit" disabled={params.isSubmitting || mutation.isPending}>
+
+                        <Button
+                          className="mt-4 bg-theme-d-7 rounded-xl w-full mx-auto py-3 px-6 text-center text-lg font-semibold"
+                          type="submit"
+                          variant="primary"
+                          disabled={params.isSubmitting || mutation.isPending}
+                          style={{color: "white"}}
+                        >
                             {mutation.isPending ? 'Submitting...' : 'Submit Styling'}
-                        </button>
+                        </Button>
                         {mutation.isSuccess && <div>Update successful!</div>}
                         {mutation.isError && <div style={{ color: 'red' }}>Error: {mutation.error.message}</div>}
                     </div>

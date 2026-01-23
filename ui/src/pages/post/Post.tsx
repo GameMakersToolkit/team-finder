@@ -19,13 +19,19 @@ import {iiicon} from "../../common/utils/iiicon.tsx";
 import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
 import {JamSpecificStyling} from "../../common/components/JamSpecificStyling.tsx";
 
-export const Post: React.FC<{}> = () => {
+export const Post: React.FC<{initialPost: Post}> = ({initialPost}) => {
 
     const { jamId, postId } = useParams()
     const navigate = useNavigate();
     const [post, setPost] = useState<PostModel>()
 
     useEffect(() => {
+        // Workaround for previewing a post
+        if (initialPost) {
+            setPost(initialPost);
+            return;
+        }
+
         fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}?jamId=${jamId}`)
             .then(res => res.json())
             .then(setPost)
@@ -38,17 +44,26 @@ export const Post: React.FC<{}> = () => {
     return (
         <JamSpecificStyling>
             <header className="container mx-auto px-4 pb-6 pt-4 text-xl">
-                <a className="text-grey-200 mr-2 cursor-pointer hover:underline" onClick={() => navigate(-1)}>Search results</a>
+                <a className="text-grey-200 mr-2 cursor-pointer hover:underline" onClick={() => navigate(-1)}>Search
+                    results</a>
                 <span className="mr-2">{iiicon('right-arrow', "#FFFFFF", 16, 16)}</span>
                 <span>{post.author}</span>
             </header>
 
-            <main>
-                <section className="c-post">
-                    <header className="post__header">
-                        <TeamSizeIcon size={post.size} />
+            <PostBody post={post} />
+        </JamSpecificStyling>
+    )
 
-                        <span className="grow" style={{width: "calc(100% - 100px)"}}>
+}
+
+export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
+    return (
+      <main>
+        <section className="c-post">
+            <header className="post__header">
+                <TeamSizeIcon size={post.size} />
+
+                <span className="grow" style={{ width: "calc(100% - 100px)" }}>
                             <h3 className="post__header--title">
                                 {post.author}
                             </h3>
@@ -57,52 +72,64 @@ export const Post: React.FC<{}> = () => {
                             </p>
                         </span>
 
-                        <FavouritePostIndicator post={post} className={""} />
-                    </header>
+                <FavouritePostIndicator post={post} className={""} />
+            </header>
 
-                    <div className="post__body">
-                        <div className="flex flex-col sm:flex-row">
-                            <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
-                                <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills} label={"Looking for:"} className={"[--skill-color:var(--skill-color-looking-for)] [--skill-text-color:var(--skill-color-looking-for-text)]"} />
-                                <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills} label={"Can do:"} className={"[--skill-color:var(--skill-color-possessed)] [--skill-text-color:var(--skill-color-possessed-text)]"} />
-                            </div>
-                            <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
-                                <OptionsListDisplay optionsToDisplay={post.preferredTools} totalOptions={tools} label={"Preferred Engine(s):"} className={"[--skill-color:var(--skill-color-engines)] [--skill-text-color:var(--skill-color-engines-text)]"} />
-                                <OptionsListDisplay optionsToDisplay={post.languages} totalOptions={languages} label={"Language(s):"} className={"[--skill-color:var(--skill-color-languages)] [--skill-text-color:var(--skill-color-languages-text)]"} />
-                            </div>
-
-                            <div className="hidden lg:inline-block lg:w-[33%]">
-                                <OptionsListDisplay optionsToDisplay={post.timezoneOffsets} totalOptions={timezones} label={"Timezone(s):"} className={"[--skill-color:var(--skill-color-timezones)] [--skill-text-color:var(--skill-color-timezones-text)]"} />
-                            </div>
-                        </div>
-                        {/* Full width on larger devices */}
-                        <div className="inline-block w-full lg:hidden">
-                            <OptionsListDisplay optionsToDisplay={post.timezoneOffsets} totalOptions={timezones} label={"Timezone(s):"} className={"[--skill-color:var(--skill-color-timezones)] [--skill-text-color:var(--skill-color-timezones-text)]"} />
-                        </div>
-                        <div className="post__body--description mt-6">
-                            {post.description.split("\n").map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
-                        </div>
+            <div className="post__body">
+                <div className="flex flex-col sm:flex-row">
+                    <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
+                        <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills}
+                                            label={"Looking for:"}
+                                            className={"[--skill-color:var(--skill-color-looking-for)] [--skill-text-color:var(--skill-color-looking-for-text)]"} />
+                        <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills}
+                                            label={"Can do:"}
+                                            className={"[--skill-color:var(--skill-color-possessed)] [--skill-text-color:var(--skill-color-possessed-text)]"} />
+                    </div>
+                    <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
+                        <OptionsListDisplay optionsToDisplay={post.preferredTools} totalOptions={tools}
+                                            label={"Preferred Engine(s):"}
+                                            className={"[--skill-color:var(--skill-color-engines)] [--skill-text-color:var(--skill-color-engines-text)]"} />
+                        <OptionsListDisplay optionsToDisplay={post.languages} totalOptions={languages}
+                                            label={"Language(s):"}
+                                            className={"[--skill-color:var(--skill-color-languages)] [--skill-text-color:var(--skill-color-languages-text)]"} />
                     </div>
 
-                    <div className="post__footer">
-                        <MessageOnDiscordButton author={post.author} authorId={post.authorId} unableToContactCount={post.unableToContactCount} />
-
-                        <div>
-                            <div className="inline-block w-[50%]">
-                                <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>
-                                    {iiicon('left-arrow', "#FFFFFF", 16, 16)} Back to search results
-                                </a>
-                            </div>
-                            <div className="inline-block w-[50%] text-right">
-                                <ReportButton post={post} />
-                                <ReportBrokenDMsButton post={post} />
-                            </div>
-                        </div>
+                    <div className="hidden lg:inline-block lg:w-[33%]">
+                        <OptionsListDisplay optionsToDisplay={post.timezoneOffsets} totalOptions={timezones}
+                                            label={"Timezone(s):"}
+                                            className={"[--skill-color:var(--skill-color-timezones)] [--skill-text-color:var(--skill-color-timezones-text)]"} />
                     </div>
-                </section>
-            </main>
-        </JamSpecificStyling>
-    )
+                </div>
+                {/* Full width on larger devices */}
+                <div className="inline-block w-full lg:hidden">
+                    <OptionsListDisplay optionsToDisplay={post.timezoneOffsets} totalOptions={timezones}
+                                        label={"Timezone(s):"}
+                                        className={"[--skill-color:var(--skill-color-timezones)] [--skill-text-color:var(--skill-color-timezones-text)]"} />
+                </div>
+                <div className="post__body--description mt-6">
+                    {post.description.split("\n").map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
+                </div>
+            </div>
+
+            <div className="post__footer">
+                <MessageOnDiscordButton author={post.author} authorId={post.authorId}
+                                        unableToContactCount={post.unableToContactCount} />
+
+                <div>
+                    <div className="inline-block w-[50%]">
+                        <a className="font-bold underline cursor-pointer" onClick={() => history.back()}>
+                            {iiicon("left-arrow", "#FFFFFF", 16, 16)} Back to search results
+                        </a>
+                    </div>
+                    <div className="inline-block w-[50%] text-right">
+                        <ReportButton post={post} />
+                        <ReportBrokenDMsButton post={post} />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    );
 }
 
 
