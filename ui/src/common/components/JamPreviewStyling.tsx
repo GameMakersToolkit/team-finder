@@ -50,7 +50,7 @@ export const JamPreviewStyling: React.FC<{slim: boolean, renderState: number, ch
 
     return (
         <JamSpecificContext.Provider value={activeJam}>
-            {!slim && <Header />}
+            {!slim && <Header isPreview={true} />}
             {children}
             {!slim && <Footer />}
         </JamSpecificContext.Provider>
