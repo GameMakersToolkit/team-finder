@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {JamSpecificContext} from '../../../../common/components/JamSpecificStyling.tsx';
+import React, { useContext, useEffect, useState } from "react";
+import { Jam, JamSpecificContext } from "../../../../common/components/JamSpecificStyling.tsx";
 import {BaseFieldLabel} from './BaseFieldLabel.tsx';
 import {BaseFieldColourInput} from './BaseFieldColourInput.tsx';
 import {CustomSelectOption} from '../../../jamhome/components/common/CustomSelect.tsx';
@@ -10,18 +10,22 @@ import {languages} from '../../../../common/models/languages.ts';
 import {Post as PostModel} from '../../../../common/models/post.ts';
 import {PostTile} from '../../../../common/components/PostTile.tsx';
 import {Post as FullPagePost} from '../../../post/Post.tsx';
+import { ThemeField } from "./CommonFields.tsx";
+import { getPreviewCacheKey } from "../../../../common/components/JamPreviewStyling.tsx";
 
 export const SkillsToolsLanguagesTimezones = () => {
 
+    const theme = useContext(JamSpecificContext)
+    const [themeFields, setThemeFields] = useState(getThemeFields(theme))
     const [postType, setPostType] = useState("tile")
 
-    const skillsEnginesLanguages = [
-        {subtitle: "Looking For", name: "--skill-color-looking-for", description: ""},
-        {subtitle: "Can Do", name: "--skill-color-possessed", description: ""},
-        {subtitle: "Tools", name: "--skill-color-engines", description: ""},
-        {subtitle: "Languages", name: "--skill-color-languages", description: ""},
-        {subtitle: "Timezones", name: "--skill-color-timezones", description: ""},
-    ]
+    useEffect(() => {
+      const previewThemeCacheKey = getPreviewCacheKey(theme.jamId);
+      const styles = {}
+      themeFields.forEach(field => styles[field.name] = field.currentValue)
+      const previewTheme: Jam = {...theme, styles: styles} as Jam
+      localStorage.setItem(previewThemeCacheKey, JSON.stringify(previewTheme))
+    }, [themeFields])
 
     return (
         <>
@@ -29,8 +33,12 @@ export const SkillsToolsLanguagesTimezones = () => {
             <div className="flex justify-center mb-64">
                 <div className="w-[33%]">
                     <form>
-                        {skillsEnginesLanguages.map(field => (
-                            <FieldPair field={field} />
+                        {themeFields.map(field => (
+                            <FieldPair
+                              field={field}
+                              themeFields={themeFields}
+                              setThemeFields={setThemeFields}
+                            />
                         ))}
                     </form>
                 </div>
@@ -51,31 +59,77 @@ export const SkillsToolsLanguagesTimezones = () => {
     )
 }
 
-const FieldPair = ({field}) => {
-    const theme = useContext(JamSpecificContext)
-
+const FieldPair = ({field, themeFields, setThemeFields}) => {
     return (
         <>
             <h4 className="text-xl mt-8 mb-4">{field.subtitle}</h4>
             <div className="flex justify-around mb-4">
                 <div className="grid grid-cols-4">
-                <BaseFieldLabel field={{...field, description: "Background colour"}}/>
+                <BaseFieldLabel field={field}/>
                 <BaseFieldColourInput
                     field={field}
-                    initialValue={theme.styles[field.name] || '#FFFFFF'}
-                    document={document}
-                />
-
-                <BaseFieldLabel field={{...field, description: "Text colour"}}/>
-                <BaseFieldColourInput
-                    field={field}
-                    initialValue={theme.styles[field.name + "-text"] || '#FFFFFF'}
-                    document={document}
+                    themeFields={themeFields}
+                    setThemeFields={setThemeFields}
                 />
                 </div>
             </div>
         </>
     )
+}
+
+function getThemeFields(theme: Jam): ThemeField[] {
+  return [
+    {
+      name: "--skill-color-looking-for",
+      description: "--skill-color-looking-for",
+      currentValue: theme.styles["--skill-color-looking-for"],
+    },
+    {
+      name: "--skill-color-looking-for-text",
+      description: "--skill-color-looking-for-text",
+      currentValue: theme.styles["--skill-color-looking-for-text"],
+    },
+    {
+      name: "--skill-color-possessed",
+      description: "--skill-color-possessed",
+      currentValue: theme.styles["--skill-color-possessed"],
+    },
+    {
+      name: "--skill-color-possessed-text",
+      description: "--skill-color-possessed-text",
+      currentValue: theme.styles["--skill-color-possessed-text"],
+    },
+    {
+      name: "--skill-color-engines",
+      description: "--skill-color-engines",
+      currentValue: theme.styles["--skill-color-engines"],
+    },
+    {
+      name: "--skill-color-engines-text",
+      description: "--skill-color-engines-text",
+      currentValue: theme.styles["--skill-color-engines-text"],
+    },
+    {
+      name: "--skill-color-languages",
+      description: "--skill-color-languages",
+      currentValue: theme.styles["--skill-color-languages"],
+    },
+    {
+      name: "--skill-color-languages-text",
+      description: "--skill-color-languages-text",
+      currentValue: theme.styles["--skill-color-languages-text"],
+    },
+    {
+      name: "--skill-color-timezones",
+      description: "--skill-color-timezones",
+      currentValue: theme.styles["--skill-color-timezones"],
+    },
+    {
+      name: "--skill-color-timezones-text",
+      description: "--skill-color-timezones-text",
+      currentValue: theme.styles["--skill-color-timezones-text"],
+    },
+  ];
 }
 
 

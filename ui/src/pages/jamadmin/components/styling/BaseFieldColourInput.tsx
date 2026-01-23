@@ -5,8 +5,7 @@ export const BaseFieldColourInput: React.FC<{
     field: ThemeField,
     themeFields: ThemeField[],
     setThemeFields: (fields: ThemeField[]) => void,
-    document: Document
-}> = ({field, themeFields, setThemeFields, document}) => {
+}> = ({field, themeFields, setThemeFields}) => {
 
     const [colour, setColour] = useState(field.currentValue)
 

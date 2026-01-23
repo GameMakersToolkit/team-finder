@@ -3,7 +3,7 @@
         "jamId": "gmtk",
         "name": "GMTK Jam 2024",
         "start": "2024-07-02T11:00:00Z",
-        "end": "2025-07-02T11:00:00Z",
+        "end": "2999-12-31T23:59:59Z",
         "logoLargeUrl": "https://img.itch.zone/aW1hZ2UyL2phbS8zODU3MjcvMjA3Nzk0MTEucG5n/original/6fSjCW.png",
         "logoStackedUrl": "https://findyourjam.team/logos/jam-logo-stacked.webp",
         "styles": {
@@ -11,16 +11,17 @@
             "--theme-primary": "#FEAE00",
             "--gradient-end": "#FEAE00",
             "--gradient-start": "#F29700",
-            "--theme-tile-border": "#FEAE00"
+            "--theme-tile-border": "#FEAE00",
+            "--skill-color-looking-for": "#A76B00",
+            "--skill-color-looking-for-text":"#FFa2FFF",
+            "--skill-color-possessed": "#CB7B00",
+            "--skill-color-possessed-text":"#F2D9B3",
+            "--skill-color-engines": "#DD7F00",
+            "--skill-color-engines-text":"#a0d1ff",
+            "--skill-color-languages": "#3456A6",
+            "--skill-color-languages-text":"#28c0ff",
+            "--skill-color-timezones": "#007ACC",
+            "--skill-color-timezones-text":"#22e0ff"
         }
-    },
-    {
-        "jamId": "bossrush",
-        "name": "Boss Rush Jam 2025",
-        "start": "2024-07-02T11:00:00Z",
-        "end": "2024-08-02T11:00:00Z",
-        "logoLargeUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo.webp",
-        "logoStackedUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo-stacked.webp",
-        "styles": {}
     }
 ]
