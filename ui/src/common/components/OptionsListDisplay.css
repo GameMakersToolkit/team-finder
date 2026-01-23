@@ -7,7 +7,7 @@
         }
 
         .c-options-list-display__pill {
-            @apply text-black fill-black py-1 border-2 rounded-xl flex items-center px-2 sm:px-1;
+            @apply fill-black py-1 border-2 rounded-xl flex items-center px-2 sm:px-1;
         }
     }
 }

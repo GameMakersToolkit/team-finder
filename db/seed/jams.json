@@ -13,7 +13,7 @@
             "--gradient-start": "#F29700",
             "--theme-tile-border": "#FEAE00",
             "--skill-color-looking-for": "#A76B00",
-            "--skill-color-looking-for-text":"#FFa2FFF",
+            "--skill-color-looking-for-text":"#FFa2FF",
             "--skill-color-possessed": "#CB7B00",
             "--skill-color-possessed-text":"#F2D9B3",
             "--skill-color-engines": "#DD7F00",

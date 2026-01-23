@@ -10,13 +10,14 @@ import {languages} from '../../../../common/models/languages.ts';
 import {Post as PostModel} from '../../../../common/models/post.ts';
 import {PostTile} from '../../../../common/components/PostTile.tsx';
 import {Post as FullPagePost} from '../../../post/Post.tsx';
-import { ThemeField } from "./CommonFields.tsx";
-import { getPreviewCacheKey } from "../../../../common/components/JamPreviewStyling.tsx";
+import { getPreviewCacheKey, JamPreviewStyling } from "../../../../common/components/JamPreviewStyling.tsx";
+import { getPreviewThemeFields } from "./PreviewThemeFields.ts";
 
 export const SkillsToolsLanguagesTimezones = () => {
 
     const theme = useContext(JamSpecificContext)
-    const [themeFields, setThemeFields] = useState(getThemeFields(theme))
+    const [renderState, setRenderState] = useState(0);
+    const [themeFields, setThemeFields] = useState(getPreviewThemeFields(theme).filter(field => field.ctx == "skill"))
     const [postType, setPostType] = useState("tile")
 
     useEffect(() => {
@@ -25,6 +26,7 @@ export const SkillsToolsLanguagesTimezones = () => {
       themeFields.forEach(field => styles[field.name] = field.currentValue)
       const previewTheme: Jam = {...theme, styles: styles} as Jam
       localStorage.setItem(previewThemeCacheKey, JSON.stringify(previewTheme))
+      setRenderState(Math.random())
     }, [themeFields])
 
     return (
@@ -49,8 +51,10 @@ export const SkillsToolsLanguagesTimezones = () => {
                                 <button className={`nav--button ${postType == 'tile' && 'active'}`} type="button" onClick={() => setPostType("tile")}>View post tile</button>
                                 <button className={`nav--button ${postType == 'tile' && 'active'}`} type="button" onClick={() => setPostType("full")}>View full page post</button>
                             </nav>
-                            {postType == 'tile' && <PostTile post={dummyPost}/>}
-                            {postType != 'tile' && <FullPagePost initialPost={dummyPost}/>}
+                              <JamPreviewStyling renderState={renderState} slim={true}>
+                                {postType == 'tile' && <PostTile post={dummyPost}/>}
+                                {postType != 'tile' && <FullPagePost initialPost={dummyPost}/>}
+                              </JamPreviewStyling>
                         </div>
                     </div>
                 </div>
@@ -76,62 +80,6 @@ const FieldPair = ({field, themeFields, setThemeFields}) => {
         </>
     )
 }
-
-function getThemeFields(theme: Jam): ThemeField[] {
-  return [
-    {
-      name: "--skill-color-looking-for",
-      description: "--skill-color-looking-for",
-      currentValue: theme.styles["--skill-color-looking-for"],
-    },
-    {
-      name: "--skill-color-looking-for-text",
-      description: "--skill-color-looking-for-text",
-      currentValue: theme.styles["--skill-color-looking-for-text"],
-    },
-    {
-      name: "--skill-color-possessed",
-      description: "--skill-color-possessed",
-      currentValue: theme.styles["--skill-color-possessed"],
-    },
-    {
-      name: "--skill-color-possessed-text",
-      description: "--skill-color-possessed-text",
-      currentValue: theme.styles["--skill-color-possessed-text"],
-    },
-    {
-      name: "--skill-color-engines",
-      description: "--skill-color-engines",
-      currentValue: theme.styles["--skill-color-engines"],
-    },
-    {
-      name: "--skill-color-engines-text",
-      description: "--skill-color-engines-text",
-      currentValue: theme.styles["--skill-color-engines-text"],
-    },
-    {
-      name: "--skill-color-languages",
-      description: "--skill-color-languages",
-      currentValue: theme.styles["--skill-color-languages"],
-    },
-    {
-      name: "--skill-color-languages-text",
-      description: "--skill-color-languages-text",
-      currentValue: theme.styles["--skill-color-languages-text"],
-    },
-    {
-      name: "--skill-color-timezones",
-      description: "--skill-color-timezones",
-      currentValue: theme.styles["--skill-color-timezones"],
-    },
-    {
-      name: "--skill-color-timezones-text",
-      description: "--skill-color-timezones-text",
-      currentValue: theme.styles["--skill-color-timezones-text"],
-    },
-  ];
-}
-
 
 const getRandomListOfModel = (modelType: CustomSelectOption[], maxNumber: number) => modelType
     .map(model => model.value)

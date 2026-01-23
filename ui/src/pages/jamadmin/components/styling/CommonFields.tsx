@@ -3,6 +3,7 @@ import { Jam, JamSpecificContext } from "../../../../common/components/JamSpecif
 import {BaseFieldLabel} from './BaseFieldLabel.tsx';
 import {BaseFieldColourInput} from './BaseFieldColourInput.tsx';
 import { getPreviewCacheKey } from "../../../../common/components/JamPreviewStyling.tsx";
+import { getPreviewThemeFields } from "./PreviewThemeFields.ts";
 
 export type ThemeField = {
     name: string,
@@ -12,13 +13,8 @@ export type ThemeField = {
 
 export const CommonFields = () => {
     const theme = useContext(JamSpecificContext)
-    const [iframeStateRef, setIframeStateRef] = useState<Document>()
     const [iframeState, setIframeState] = useState<number>(0)
-    const [themeFields, setThemeFields] = useState(getThemeFields(theme))
-
-    useEffect(() => {
-        setIframeStateRef((document.getElementById("preview-page") as HTMLIFrameElement)!!.contentWindow!!.document)
-    }, [])
+    const [themeFields, setThemeFields] = useState(getPreviewThemeFields(theme).filter(field => field.ctx == "common"))
 
     useEffect(() => {
         const previewThemeCacheKey = getPreviewCacheKey(theme.jamId);
@@ -42,7 +38,6 @@ export const CommonFields = () => {
                                     field={field}
                                     themeFields={themeFields}
                                     setThemeFields={setThemeFields}
-                                    document={iframeStateRef!}
                                 />
                             </div>
                         ))}
@@ -68,39 +63,4 @@ export const CommonFields = () => {
             </div>
         </>
     )
-}
-
-function getThemeFields(theme: Jam): ThemeField[] {
-    return [
-        {
-            name: "--theme-background",
-            description: "Background colour of the entire site",
-            currentValue: theme.styles["--theme-background"],
-        },
-        {
-            name: "--theme-primary",
-            description: "Primary colour of your jam page",
-            currentValue: theme.styles["--theme-primary"],
-        },
-        {
-            name: "--theme-accent",
-            description: "Accent colour of your jame page",
-            currentValue: theme.styles["--theme-accent"],
-        },
-        {
-            name: "--theme-tile-bg",
-            description: "Background colour for each post tile (in case your background colour clashes)",
-            currentValue: theme.styles["--theme-tile-bg"],
-        },
-        {
-            name: "--gradient-start",
-            description: "The starting (outside edge) colour of the gradient at the top/bottom of the site",
-            currentValue: theme.styles["--gradient-start"],
-        },
-        {
-            name: "--gradient-end",
-            description: "The ending (inside edge) colour of the gradient at the top/bottom of the site",
-            currentValue: theme.styles["--gradient-end"],
-        },
-    ];
 }

@@ -6,26 +6,34 @@ import { Jam, JamSpecificContext } from "./JamSpecificStyling.tsx";
 
 export const getPreviewCacheKey = (jamId: string) => `theme_${jamId}_preview`
 
-export const JamPreviewStyling: React.FC<{children: any}> = ({children}) => {
+export const JamPreviewStyling: React.FC<{slim: boolean, renderState: number, children: any}> = ({slim, renderState, children}) => {
     const { jamId } = useParams()
     const [activeJam, setActiveJam] = useState<Jam>()
 
+    const update = () => {
+      const baseJamStr = localStorage.getItem(`theme_${jamId}`) || "{}"
+      const baseJam = JSON.parse(baseJamStr) as Jam
+
+      const key = getPreviewCacheKey(jamId!)
+      if (!localStorage.getItem(key)) {
+        localStorage.setItem(key, JSON.stringify(baseJam))
+      }
+
+      const previewJamStr = localStorage.getItem(key)!
+      if (!previewJamStr) {
+        console.warn("Where the jam string buddy");
+      }
+      const previewJam = JSON.parse(previewJamStr) as Jam
+      setActiveJam({ ...baseJam, ...previewJam })
+    }
+
     useEffect(() => {
-        const baseJamStr = localStorage.getItem(`theme_${jamId}`) || "{}"
-        const baseJam = JSON.parse(baseJamStr) as Jam
-
-        const key = getPreviewCacheKey(jamId!)
-        if (!localStorage.getItem(key)) {
-            localStorage.setItem(key, JSON.stringify(baseJam))
-        }
-
-        const previewJamStr = localStorage.getItem(key)!
-        if (!previewJamStr) {
-            console.warn("Where the jam string buddy");
-        }
-        const previewJam = JSON.parse(previewJamStr) as Jam
-        setActiveJam({ ...baseJam, ...previewJam })
+      update()
     }, [])
+
+    useEffect(() => {
+      update()
+    }, [renderState])
 
     if (activeJam == null) {
         // TODO: Temporal handling for first load
@@ -38,9 +46,9 @@ export const JamPreviewStyling: React.FC<{children: any}> = ({children}) => {
 
     return (
         <JamSpecificContext.Provider value={activeJam}>
-            <Header />
+            {!slim && <Header />}
             {children}
-            <Footer />
+            {!slim && <Footer />}
         </JamSpecificContext.Provider>
     )
 }
