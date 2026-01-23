@@ -19,5 +19,5 @@ data class Jam(
      * '--gradient-end': '',
      * '--theme-tile-bg': '',
      */
-    val styles: Map<String, String>,
+    var styles: Map<String, String>,
 )

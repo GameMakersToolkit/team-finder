@@ -27,15 +27,6 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const cachedJamStr = localStorage.getItem(`theme_${jamId}`)
-        if (cachedJamStr) {
-            const cachedJam = JSON.parse(cachedJamStr) as Jam
-            if (cachedJam.expiry > Date.now()) {
-                setActiveJam(cachedJam)
-                return
-            }
-        }
-
         fetch(`${import.meta.env.VITE_API_URL}/jams/${jamId}`)
             .then(async res => {
                 const data = await res.json()

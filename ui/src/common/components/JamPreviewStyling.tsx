@@ -6,6 +6,20 @@ import { Jam, JamSpecificContext } from "./JamSpecificStyling.tsx";
 
 export const getPreviewCacheKey = (jamId: string) => `theme_${jamId}_preview`
 
+export const getPreviewTheme = (jamId: string): Jam => {
+  const baseJamStr = localStorage.getItem(`theme_${jamId}`) || "{}"
+  const baseJam = JSON.parse(baseJamStr) as Jam
+  const key = getPreviewCacheKey(jamId)
+
+  if (!localStorage.getItem(key)) {
+    localStorage.setItem(key, JSON.stringify(baseJam))
+  }
+
+  const previewJamStr = localStorage.getItem(key)!
+  const previewJam = JSON.parse(previewJamStr) as Jam
+  return { ...baseJam, ...previewJam }
+}
+
 export const JamPreviewStyling: React.FC<{slim: boolean, renderState: number, children: any}> = ({slim, renderState, children}) => {
     const { jamId } = useParams()
     const [activeJam, setActiveJam] = useState<Jam>()
@@ -13,17 +27,7 @@ export const JamPreviewStyling: React.FC<{slim: boolean, renderState: number, ch
     const update = () => {
       const baseJamStr = localStorage.getItem(`theme_${jamId}`) || "{}"
       const baseJam = JSON.parse(baseJamStr) as Jam
-
-      const key = getPreviewCacheKey(jamId!)
-      if (!localStorage.getItem(key)) {
-        localStorage.setItem(key, JSON.stringify(baseJam))
-      }
-
-      const previewJamStr = localStorage.getItem(key)!
-      if (!previewJamStr) {
-        console.warn("Where the jam string buddy");
-      }
-      const previewJam = JSON.parse(previewJamStr) as Jam
+      const previewJam = getPreviewTheme(jamId!)
       setActiveJam({ ...baseJam, ...previewJam })
     }
 

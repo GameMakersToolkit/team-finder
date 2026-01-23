@@ -3,7 +3,6 @@ import { Jam, JamSpecificContext } from "../../../../common/components/JamSpecif
 import {BaseFieldLabel} from './BaseFieldLabel.tsx';
 import {BaseFieldColourInput} from './BaseFieldColourInput.tsx';
 import { getPreviewCacheKey } from "../../../../common/components/JamPreviewStyling.tsx";
-import { getPreviewThemeFields } from "./PreviewThemeFields.ts";
 
 export type ThemeField = {
     name: string,
@@ -11,10 +10,9 @@ export type ThemeField = {
     currentValue: string
 }
 
-export const CommonFields = () => {
+export const CommonFields = ({themeFields, setThemeFields}) => {
     const theme = useContext(JamSpecificContext)
     const [iframeState, setIframeState] = useState<number>(0)
-    const [themeFields, setThemeFields] = useState(getPreviewThemeFields(theme).filter(field => field.ctx == "common"))
 
     useEffect(() => {
         const previewThemeCacheKey = getPreviewCacheKey(theme.jamId);
@@ -30,18 +28,16 @@ export const CommonFields = () => {
             <h3 className="text-2xl text-center mb-4">Common / Site-wide styles</h3>
             <div className="flex justify-center mb-32">
                 <div className="w-[33%]">
-                    <form>
-                        {themeFields.map(field => (
-                            <div className="flex justify-around mb-4">
-                                <BaseFieldLabel field={field}/>
-                                <BaseFieldColourInput
-                                    field={field}
-                                    themeFields={themeFields}
-                                    setThemeFields={setThemeFields}
-                                />
-                            </div>
-                        ))}
-                    </form>
+                    {themeFields.filter(f => f.ctx == "common").map(field => (
+                        <div className="flex justify-around mb-4">
+                            <BaseFieldLabel field={field}/>
+                            <BaseFieldColourInput
+                                field={field}
+                                themeFields={themeFields}
+                                setThemeFields={setThemeFields}
+                            />
+                        </div>
+                    ))}
                 </div>
                 <div className="w-[66%]">
                     <div className="px-8 m-auto h-full">

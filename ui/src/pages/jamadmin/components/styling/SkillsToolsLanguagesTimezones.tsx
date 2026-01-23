@@ -11,13 +11,11 @@ import {Post as PostModel} from '../../../../common/models/post.ts';
 import {PostTile} from '../../../../common/components/PostTile.tsx';
 import {Post as FullPagePost} from '../../../post/Post.tsx';
 import { getPreviewCacheKey, JamPreviewStyling } from "../../../../common/components/JamPreviewStyling.tsx";
-import { getPreviewThemeFields } from "./PreviewThemeFields.ts";
 
-export const SkillsToolsLanguagesTimezones = () => {
+export const SkillsToolsLanguagesTimezones = ({themeFields, setThemeFields}) => {
 
     const theme = useContext(JamSpecificContext)
     const [renderState, setRenderState] = useState(0);
-    const [themeFields, setThemeFields] = useState(getPreviewThemeFields(theme).filter(field => field.ctx == "skill"))
     const [postType, setPostType] = useState("tile")
 
     useEffect(() => {
@@ -34,15 +32,13 @@ export const SkillsToolsLanguagesTimezones = () => {
             <h3 className="text-2xl text-center mb-4">Post skills/engines/languages</h3>
             <div className="flex justify-center mb-64">
                 <div className="w-[33%]">
-                    <form>
-                        {themeFields.map(field => (
-                            <FieldPair
-                              field={field}
-                              themeFields={themeFields}
-                              setThemeFields={setThemeFields}
-                            />
-                        ))}
-                    </form>
+                    {themeFields.filter(f => f.ctx == "skill").map(field => (
+                        <FieldPair
+                          field={field}
+                          themeFields={themeFields}
+                          setThemeFields={setThemeFields}
+                        />
+                    ))}
                 </div>
                 <div className="w-[66%]">
                     <div className="px-8 m-auto">
