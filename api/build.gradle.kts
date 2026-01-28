@@ -1,3 +1,5 @@
+import java.net.URI
+
 val ktorVersion: String by project
 val koinVersion: String by project
 val kspVersion: String by project
@@ -23,6 +25,9 @@ application {
 
 repositories {
     mavenCentral()
+    maven {
+        url = URI("https://jitpack.io")
+    }
 }
 
 dependencies {
@@ -30,6 +35,9 @@ dependencies {
 
     // Logging support for Javacord
     implementation("org.apache.logging.log4j:log4j-to-slf4j:2.25.1")
+
+    // Image upload for jam styling
+    implementation("com.github.Dev-Siri:uploadthing4j:1.0.2")
 
     // Koin core features
     implementation("io.insert-koin:koin-ktor:$koinVersion")

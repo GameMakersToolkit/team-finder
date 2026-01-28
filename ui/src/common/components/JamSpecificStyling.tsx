@@ -16,6 +16,7 @@ export type Jam = {
         [key: string]: any
     },
     expiry: number,
+    bgImageUrl: string,
 }
 
 // TODO: How do you handle createContext properly?
@@ -58,6 +59,9 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
 
     // Set each CSS rule in the DB active on the page
     Object.entries(activeJam.styles).map(style => document.documentElement.style.setProperty(style[0], style[1]))
+
+    console.log("WPW", `url("${activeJam.bgImageUrl}") repeat 0 0;`)
+    document.body.style.setProperty('background-image', `url("${activeJam.bgImageUrl}")`, 'important');
     document.title = `${activeJam.name} | findyourjam.team`
 
     return (

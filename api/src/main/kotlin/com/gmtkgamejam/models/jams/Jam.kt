@@ -20,4 +20,6 @@ data class Jam(
      * '--theme-tile-bg': '',
      */
     var styles: Map<String, String>,
-)
+) {
+    lateinit var bgImageUrl: String
+}

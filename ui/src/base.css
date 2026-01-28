@@ -45,8 +45,11 @@
 
     body {
         color: #ffffff;
-        background: url("/background-image.png") repeat 0 0;
+        /* Default image that can be overriden */
+        background: url("/background-image.png");
         background-size: 480px 270px;
+        background-repeat: repeat;
+        background-position: center center;
         /*background-color: var(--theme-background);*/
     }
 

@@ -11,9 +11,23 @@ import { getPreviewThemeFields } from "./styling/PreviewThemeFields.ts";
 import { Button } from "../../../common/components/Button.tsx";
 
 export const Styling = () => {
+    const apiRequest = useApiRequest();
     const theme = useContext(JamSpecificContext)
     const previewTheme = getPreviewTheme(theme.jamId)
     const [themeFields, setThemeFields] = useState(getPreviewThemeFields(theme))
+
+    const onUploadImage = async (file: File) => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await apiRequest(`/jams/${theme.jamId}/image?ctx=bg-image`, {
+            isFileUpload: true,
+            method: "POST",
+            body: formData,
+        });
+
+        console.log(response)
+    }
 
     const onSubmitForm = (values: any, setSubmitting: (a: boolean) => void) => {
         toast.dismiss()
@@ -44,6 +58,9 @@ export const Styling = () => {
                 <Form>
                     <div className="c-admin-styling">
                         <h2>Styling</h2>
+                        <input id="file" name="file" type="file" accept="image/png" onChange={(event) => {
+                            onUploadImage(event.currentTarget!.files![0]);
+                        }} />
                         <CommonFields
                           themeFields={themeFields}
                           setThemeFields={setThemeFields} />
