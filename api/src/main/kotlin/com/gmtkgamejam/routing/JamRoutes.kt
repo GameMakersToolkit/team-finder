@@ -18,6 +18,29 @@ import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import org.koin.ktor.ext.inject
 import java.io.File
+import java.time.LocalDateTime
+
+private object UploaderFileCache {
+    @Volatile var files: List<UploadThingFileResponse>? = null
+    private val lock = Any()
+
+    fun getCachedFiles(uploader: UploadThing): List<UploadThingFileResponse> {
+        if (files == null) {
+            synchronized(lock) {
+                val fetched = uploader.listFiles().get().files
+                files = fetched
+            }
+        }
+        return files ?: emptyList()
+    }
+
+    fun refresh(uploader: UploadThing) {
+        synchronized(lock) {
+            val fetched = uploader.listFiles().get().files
+            files = fetched
+        }
+    }
+}
 
 fun Application.configureJamRouting() {
     val config: Config by inject()
@@ -38,9 +61,8 @@ fun Application.configureJamRouting() {
                 val jam: Jam = jams.find { jam -> jam.jamId == jamId }
                     ?: return@get call.respondJSON("No jam matched ID of $jamId", HttpStatusCode.NotFound)
 
-
-                // TODO: Cache this result
-                val bgImage: UploadThingFileResponse? = uploader.listFiles().get().files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:bg-image") }
+                val files = UploaderFileCache.getCachedFiles(uploader)
+                val bgImage: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:bg-image") }
                 jam.bgImageUrl = if (bgImage != null) "https://faks48l4an.ufs.sh/f/${bgImage.key}" else "https://findyourjam.team/background-image.png"
                 return@get call.respond(jam)
             }
@@ -78,7 +100,7 @@ fun Application.configureJamRouting() {
                             val fileCtx = call.queryParameters["ctx"] ?: "unknown"
                             val extension = File(part.originalFileName ?: "").extension
 
-                            // TODO: Exit early if extension is not valid image type
+                            // Exit early if extension is not valid image type
                             if (!validImageExtensions.contains(extension)) {
                                 call.respondJSON("Error uploading file - invalid file type", HttpStatusCode.BadRequest)
                                 part.dispose()
@@ -93,31 +115,28 @@ fun Application.configureJamRouting() {
                                 part.dispose()
                             }
 
-                            // TODO: Response handling, use whenComplete to manage success/failure
-                            var didError: Boolean = false
-                            uploader.deleteFile(filename)
-                                .whenComplete {
-                                    _, _ -> run {
-                                        uploader.uploadFile(file)
-                                            .whenComplete { file, thrown ->
-                                                run {
-                                                    println("FILE UPLOADED: $file")
-
-                                                    if (thrown != null) {
-                                                        didError = true
-                                                        println("Error uploading file: ${thrown.message}")
-                                                    }
-                                                }
-                                            }
-                                    }
+                            try {
+                                // Delete file if present; filenames are not unique
+                                try {
+                                    uploader.deleteFile(filename).get()
+                                } catch (e: Exception) {
+                                    // Log but ignore, as file may not exist
+                                    println("Delete file warning: ${e.message}")
                                 }
 
+                                // Upload the new file
+                                val uploadedFile = uploader.uploadFile(file).get()
+                                println("FILE UPLOADED: $uploadedFile")
 
-                            // TODO: This obviously doesn't work because the above is async
-                            if (didError) {
-                                call.respondJSON("Error uploading file", HttpStatusCode.InternalServerError)
-                            } else {
-                                call.respond(HttpStatusCode.OK)
+                                // Clean up file reference on disk
+                                file.delete()
+
+                                UploaderFileCache.refresh(uploader)
+                                call.respondJSON(text = "File uploaded at ${LocalDateTime.now()}", HttpStatusCode.OK)
+                            } catch (e: Exception) {
+                                println("Error uploading file: ${e.message}")
+                                file.delete()
+                                call.respondJSON("Error uploading file: ${e.message}", HttpStatusCode.InternalServerError)
                             }
                         }
                     }
