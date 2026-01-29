@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useCallback} from 'react';
 import {JamSpecificContext, JamSpecificStyling} from '../../common/components/JamSpecificStyling.tsx';
 import './JamAdmin.css'
 import {useMatch, useNavigate} from 'react-router-dom';
@@ -13,6 +13,10 @@ export const JamAdmin = () => {
     const auth = useAuth();
     const userInfo = useUserInfo();
 
+    // Add state to force JamSpecificStyling redraw when styling is updated
+    const [stylingKey, setStylingKey] = useState(0);
+    const forceStylingRedraw = useCallback(() => setStylingKey(k => k + 1), []);
+
     if (!auth || userInfo?.data?.isAdmin == false) {
         return <UnauthorisedView />
     }
@@ -22,14 +26,14 @@ export const JamAdmin = () => {
     }
 
     return (
-        <JamSpecificStyling>
+        <JamSpecificStyling key={stylingKey}>
             <main>
                 <h1>Admin</h1>
 
                 <NavButtons currentAdminPage={currentAdminPage}/>
 
                 {currentAdminPage == "dashboard" && <Dashboard />}
-                {currentAdminPage == "styling" && <Styling />}
+                {currentAdminPage == "styling" && <Styling forceStylingRedraw={forceStylingRedraw} />}
                 {currentAdminPage == "moderation" && <Moderation />}
             </main>
         </JamSpecificStyling>

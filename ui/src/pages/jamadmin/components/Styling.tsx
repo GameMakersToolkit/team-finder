@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 import { getPreviewThemeFields } from "./styling/PreviewThemeFields.ts";
 import { Button } from "../../../common/components/Button.tsx";
 
-export const Styling = () => {
+export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceStylingRedraw }) => {
     const apiRequest = useApiRequest();
     const theme = useContext(JamSpecificContext)
     const previewTheme = getPreviewTheme(theme.jamId)
@@ -26,7 +26,11 @@ export const Styling = () => {
             body: formData,
         });
 
-        console.log(response)
+        // Awful shorthand to check if response was a 200
+        if ('message' in response) {
+            console.log("Presumed successful upload; redrawing")
+            setTimeout(() => forceStylingRedraw(), 500);
+        }
     }
 
     const onSubmitForm = (values: any, setSubmitting: (a: boolean) => void) => {
@@ -42,6 +46,7 @@ export const Styling = () => {
 
     const onSubmitSuccess = () => {
         toast.success(`Theme updated successfully!`);
+        forceStylingRedraw(); // Force JamSpecificStyling remount after successful update
     }
 
     const { mutate: save } = useUpdateJamMutation();
