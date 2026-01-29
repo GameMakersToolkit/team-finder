@@ -7,10 +7,6 @@
         width: 100vw;
         height: 100vh;
         pointer-events: none;
-        background: linear-gradient(
-                rgba(242, 114, 0, 0.1),
-                rgba(242, 114, 0, 0.3)
-        );
         z-index: -1;
     }
 

@@ -8,8 +8,6 @@ data class Jam(
     val name: String,
     val start: String,
     val end: String,
-    val logoLargeUrl: String?,
-    val logoStackedUrl: String?,
 
     /**
      * '--theme-primary': '',
@@ -22,4 +20,6 @@ data class Jam(
     var styles: Map<String, String>,
 ) {
     lateinit var bgImageUrl: String
+    lateinit var logoLargeUrl: String
+    lateinit var logoStackedUrl: String
 }

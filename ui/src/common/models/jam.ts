@@ -5,10 +5,10 @@ export type Jam = {
   start: string,
   end: string,
   duration: string,
-  logoLargeUrl: string,
-  logoStackedUrl: string,
   styles: {
     [key: string]: any
   },
   bgImageUrl: string,
+  logoLargeUrl: string,
+  logoStackedUrl: string,
 }

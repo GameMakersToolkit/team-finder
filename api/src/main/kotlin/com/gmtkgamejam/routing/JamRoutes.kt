@@ -62,8 +62,16 @@ fun Application.configureJamRouting() {
                     ?: return@get call.respondJSON("No jam matched ID of $jamId", HttpStatusCode.NotFound)
 
                 val files = UploaderFileCache.getCachedFiles(uploader)
+
                 val bgImage: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:bg-image") }
                 jam.bgImageUrl = if (bgImage != null) "https://faks48l4an.ufs.sh/f/${bgImage.key}" else "https://findyourjam.team/background-image.png"
+
+                val logoLarge: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:logo-large") }
+                jam.logoLargeUrl = if (logoLarge != null) "https://faks48l4an.ufs.sh/f/${logoLarge.key}" else "https://findyourjam.team/background-image.png"
+
+                val logoStacked: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:logo-stacked") }
+                jam.logoStackedUrl = if (logoStacked != null) "https://faks48l4an.ufs.sh/f/${logoStacked.key}" else "https://findyourjam.team/background-image.png"
+
                 return@get call.respond(jam)
             }
 
@@ -119,6 +127,7 @@ fun Application.configureJamRouting() {
                                 // Delete file if present; filenames are not unique
                                 try {
                                     uploader.deleteFile(filename).get()
+                                    println("Deleting existing file $filename (if I can find it)")
                                 } catch (e: Exception) {
                                     // Log but ignore, as file may not exist
                                     println("Delete file warning: ${e.message}")
