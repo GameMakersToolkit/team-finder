@@ -1,5 +1,5 @@
 import { Form, Formik, FormikProps } from "formik";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { JamSpecificContext } from "../../../common/components/JamSpecificStyling.tsx";
 import { toast } from "react-hot-toast";
 import { getPreviewCacheKey } from "../../../common/components/JamPreviewStyling.tsx";
@@ -26,11 +26,23 @@ export const Dashboard = () => {
       endDateTime: formatDateTimeLocal(theme.end)//.replace(":00Z", ""),
     }
 
-    console.log("INITIAL FORM VALUES:", initialFormValues)
+  const validateForm = (values: FormikFormParameters) => {
+    const errors = {}
+    const start = new Date(values.startDateTime)
+    const end = new Date(values.endDateTime)
+
+    if (start >= end) errors.invalid = "Jam end must be after jam start"
+
+    // Toast all errors in validation
+    if (Object.keys(errors).length > 0) {
+      Object.entries(errors).map(error => toast.error(error[1] as string))
+    }
+
+    return errors
+  }
 
     const onSubmitForm = (params: FormikFormParameters, setSubmitting: (a: boolean) => void) => {
       toast.dismiss()
-      console.log("PARAMS", params)
       theme.start = params.startDateTime
       theme.end = params.endDateTime
       save(theme)
@@ -51,6 +63,9 @@ export const Dashboard = () => {
       <>
         <Formik
           initialValues={ initialFormValues }
+          validate={ validateForm }
+          validateOnBlur={ true }
+          validateOnChange={ false }
           onSubmit={ (values, { setSubmitting }) => onSubmitForm(values, setSubmitting) }
         >
           {(params: FormikProps<FormikFormParameters>) => (
@@ -65,7 +80,9 @@ export const Dashboard = () => {
                       <input
                         name="startDateTime"
                         type="datetime-local"
-                        defaultValue={initialFormValues.startDateTime}
+                        value={params.values.startDateTime}
+                        onChange={params.handleChange}
+                        onBlur={params.handleBlur}
                         className=" text-black"
                       />
                     </div>
@@ -75,7 +92,9 @@ export const Dashboard = () => {
                       <input
                         name="endDateTime"
                         type="datetime-local"
-                        defaultValue={initialFormValues.endDateTime}
+                        value={params.values.endDateTime}
+                        onChange={params.handleChange}
+                        onBlur={params.handleBlur}
                         className=" text-black"
                       />
                     </div>
