@@ -26,11 +26,11 @@ jobs:
         working-directory: ui
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v6
         with:
-          node-version: 16.15
+          node-version: 24.13
           cache: 'npm'
           # This is passed into the `actions/cache` action under the hood,
           # and doesn't appear to be affected by `working-directory: ui`
