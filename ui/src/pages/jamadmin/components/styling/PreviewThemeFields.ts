@@ -38,9 +38,9 @@ export const getPreviewThemeFields = (theme: Jam) => [
     ctx: "skill",
   },
   {
-    name: "--theme-tile-outline",
+    name: "--theme-tile-border",
     description: "Outline",
-    currentValue: theme.styles["--theme-tile-outline"],
+    currentValue: theme.styles["--theme-tile-border"],
     ctx: "skill",
   },
   {
