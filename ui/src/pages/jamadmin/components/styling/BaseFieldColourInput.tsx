@@ -13,7 +13,7 @@ export const BaseFieldColourInput: React.FC<{
         className="w-[48px]"
         type="color"
         name={field.name}
-        style={{height: 48, width: 48}}
+        style={{height: 36, width: 36}}
         value={colour}
         onChange={(value) => {
             setColour(value.target.value);
