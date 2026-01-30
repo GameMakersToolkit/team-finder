@@ -20,7 +20,7 @@ export const OptionsListDisplay: React.FC<{
             {optionsToDisplay.map((option) => {
                 const info = totalOptions.filter(s => s.value == option)[0];
                 return (
-                    <dd key={option} className="c-options-list-display__pill border-[color:var(--skill-color)] bg-[color:var(--skill-color)] text-[color:var(--skill-text-color)] fill-[color:var(--skill-text-color)]">
+                    <dd key={option} className="c-options-list-display__pill border-[color:var(--skill-color)] bg-[color:var(--skill-color)] text-[color:var(--skill-text-color)] __fill-[--has-to-be-set-above-here]">
                         <span className="flex text-xs gap-[4px]">{info?.label || "?"}</span>
                     </dd>
                 );

@@ -19,7 +19,7 @@ import {iiicon} from "../../common/utils/iiicon.tsx";
 import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
 import {JamSpecificStyling} from "../../common/components/JamSpecificStyling.tsx";
 
-export const Post: React.FC<{initialPost: Post}> = ({initialPost}) => {
+export const Post: React.FC<{initialPost: PostModel}> = ({initialPost}) => {
 
     const { jamId, postId } = useParams()
     const navigate = useNavigate();
@@ -78,33 +78,46 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
             <div className="post__body">
                 <div className="flex flex-col sm:flex-row">
                     <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
-                        <OptionsListDisplay optionsToDisplay={post.skillsSought} totalOptions={skills}
-                                            label={"Looking for:"}
-                                            className={"[--skill-color:var(--skill-color-looking-for)] [--skill-text-color:var(--skill-color-looking-for-text)]"} />
-                        <OptionsListDisplay optionsToDisplay={post.skillsPossessed} totalOptions={skills}
-                                            label={"Can do:"}
-                                            className={"[--skill-color:var(--skill-color-possessed)] [--skill-text-color:var(--skill-color-possessed-text)]"} />
+                        <div className="fill-[var(--skill-color-looking-for-text)]">
+                            <OptionsListDisplay
+                              optionsToDisplay={post.skillsSought} totalOptions={skills}
+                              label={"Looking for:"}
+                              className={"[--skill-color:var(--skill-color-looking-for)] [--skill-text-color:var(--skill-color-looking-for-text)]"} />
+                        </div>
+                        <div className="fill-[var(--skill-color-possessed-text)]">
+                            <OptionsListDisplay
+                              optionsToDisplay={post.skillsPossessed} totalOptions={skills}
+                              label={"Can do:"}
+                              className={"[--skill-color:var(--skill-color-possessed)] [--skill-text-color:var(--skill-color-possessed-text)]"} />
+                        </div>
                     </div>
                     <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
-                        <OptionsListDisplay optionsToDisplay={post.preferredTools} totalOptions={tools}
-                                            label={"Preferred Engine(s):"}
-                                            className={"[--skill-color:var(--skill-color-engines)] [--skill-text-color:var(--skill-color-engines-text)]"} />
-                        <OptionsListDisplay optionsToDisplay={post.languages} totalOptions={languages}
-                                            label={"Language(s):"}
-                                            className={"[--skill-color:var(--skill-color-languages)] [--skill-text-color:var(--skill-color-languages-text)]"} />
+                        <div className="fill-[var(--skill-color-engines-text)]">
+                            <OptionsListDisplay
+                              optionsToDisplay={post.preferredTools} totalOptions={tools}
+                              label={"Preferred Engine(s):"}
+                              className={"[--skill-color:var(--skill-color-engines)] [--skill-text-color:var(--skill-color-engines-text)]"} />
+                        </div>
+
+                        <OptionsListDisplay
+                          optionsToDisplay={post.languages} totalOptions={languages}
+                          label={"Language(s):"}
+                          className={"[--skill-color:var(--skill-color-languages)] [--skill-text-color:var(--skill-color-languages-text)]"} />
                     </div>
 
                     <div className="hidden lg:inline-block lg:w-[33%]">
-                        <OptionsListDisplay optionsToDisplay={post.timezoneOffsets} totalOptions={timezones}
-                                            label={"Timezone(s):"}
-                                            className={"[--skill-color:var(--skill-color-timezones)] [--skill-text-color:var(--skill-color-timezones-text)]"} />
+                        <OptionsListDisplay
+                          optionsToDisplay={post.timezoneOffsets} totalOptions={timezones}
+                          label={"Timezone(s):"}
+                          className={"[--skill-color:var(--skill-color-timezones)] [--skill-text-color:var(--skill-color-timezones-text)]"} />
                     </div>
                 </div>
                 {/* Full width on larger devices */}
                 <div className="inline-block w-full lg:hidden">
-                    <OptionsListDisplay optionsToDisplay={post.timezoneOffsets} totalOptions={timezones}
-                                        label={"Timezone(s):"}
-                                        className={"[--skill-color:var(--skill-color-timezones)] [--skill-text-color:var(--skill-color-timezones-text)]"} />
+                    <OptionsListDisplay
+                      optionsToDisplay={post.timezoneOffsets} totalOptions={timezones}
+                      label={"Timezone(s):"}
+                      className={"[--skill-color:var(--skill-color-timezones)] [--skill-text-color:var(--skill-color-timezones-text)]"} />
                 </div>
                 <div className="post__body--description mt-6">
                     {post.description.split("\n").map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
