@@ -59,6 +59,12 @@ export const Dashboard = () => {
     const { mutate: save } = useUpdateJamMutation();
     const mutation = useUpdateJamMutation({onSuccess: onSubmitSuccess})
 
+    const SetDateByOffset = (params: any, fieldName: string, offsetDays: number) => {
+      const date = new Date(params.values.startDateTime)
+      date.setDate(date.getDate() + offsetDays)
+      params.setFieldValue(fieldName, formatDateTimeLocal(new Date(date).toISOString()))
+    }
+
     return (
       <>
         <Formik
@@ -72,9 +78,9 @@ export const Dashboard = () => {
             <>
               <div className="c-admin-dasboard">
                 <h2>Welcome!</h2>
-                <Form>
+                <Form className="c-form">
                   <h3 className="text-2xl text-center mb-4">Jam Timing</h3>
-                  <div className="grid grid-cols-2 gap-x-8 mb-16">
+                  <div className="c-form-block grid grid-cols-2 gap-x-8 mb-16">
                     <div className="flex flex-col gap-2">
                       <label htmlFor="startDateTime">Jam start</label>
                       <input
@@ -83,8 +89,9 @@ export const Dashboard = () => {
                         value={params.values.startDateTime}
                         onChange={params.handleChange}
                         onBlur={params.handleBlur}
-                        className=" text-black"
+                        className="form-block__field text-black py-1 px-2"
                       />
+                      <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "startDateTime", 0)}>Now</span>
                     </div>
 
                     <div className="flex flex-col gap-2">
@@ -95,8 +102,14 @@ export const Dashboard = () => {
                         value={params.values.endDateTime}
                         onChange={params.handleChange}
                         onBlur={params.handleBlur}
-                        className=" text-black"
+                        className="form-block__field text-black py-1 px-2"
                       />
+                      <div className="flex flex-row gap-2 justify-between">
+                        <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 7)}>Start + 7 days</span>
+                        <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 10)}>Start + 10 days</span>
+                        <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 14)}>Start + 14 days</span>
+                        <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 28)}>Start + 28 days</span>
+                      </div>
                     </div>
                   </div>
 

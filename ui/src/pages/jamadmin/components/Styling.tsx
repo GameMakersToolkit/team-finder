@@ -121,7 +121,7 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
             onSubmit={ (_, { setSubmitting }) => onSubmitForm(themeFields, setSubmitting) }
         >
             {(params) => (
-                <Form>
+                <Form className="c-form">
                     <div className="c-admin-styling">
                         <h2 className="mb-4 text-3xl">Styling</h2>
                         <h3 className="mb-8 text-center text-xl bold text-yellow-500">Note: images will update immediately</h3>
