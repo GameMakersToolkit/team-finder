@@ -13,7 +13,7 @@ plugins {
     kotlin("jvm") version "2.2.20"
     kotlin("plugin.serialization") version "2.2.20"
 //    id("com.google.devtools.ksp") version "$kspVersion"
-    id("com.google.devtools.ksp") version "2.2.20-2.0.3"
+    id("com.google.devtools.ksp") version "2.3.5"
 }
 
 group = "com.gmtkgamejam"
