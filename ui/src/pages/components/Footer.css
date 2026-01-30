@@ -7,7 +7,8 @@
         background-image: linear-gradient(var(--gradient-end), var(--gradient-start));
 
         .footer__icon {
-            @apply px-4 h-[24px] border-r-2 border-theme-l-7 last:border-0;
+            border-color: var(--theme-accent-light);
+            @apply px-4 h-[24px] border-r-2 last:border-0;
 
             .footer__icon--link {
                 display: block;

@@ -11,7 +11,7 @@ import {useMyPostQuery} from "../../api/myPost.ts";
 import {ReactSVG} from "react-svg";
 import {JamSpecificContext} from "../../common/components/JamSpecificStyling.tsx";
 
-export const Header: React.FC = () => {
+export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
 
     const theme = useContext(JamSpecificContext)
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ export const Header: React.FC = () => {
                         <div className="flex items-center">
                             <Link className="header-text-link" key={"About"} to={`/${theme.jamId}/about`}>About / How To Use</Link>
                             <Link className="header-text-link" target="_blank" key={"Contact Support"} to={`https://discord.com/users/427486675409829898`}>Contact Support</Link>
-                            {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={"/admin"}>Admin</Link>}
+                            {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={`/${theme.jamId}/admin`}>Admin</Link>}
                         </div>
                     </div>
 
@@ -46,12 +46,13 @@ export const Header: React.FC = () => {
                     <div className="flex-1 hidden sm:flex" />
 
                     <div className="flex justify-evenly gap-2">
-                        <Link to="/" className="bg-theme-d-4 block rounded-lg mr-2 sm:hidden">
+                        <Link to="/" className="bg-[var(--theme-accent-dark)] block rounded-lg mr-2 sm:hidden">
                             <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
                         {isOnSearchPage && <ToggleBookmarks />}
-                        <MyPostButton />
-                        <LoginLogout />
+                        {isPreview ? <MyPostButtonVisual isEdit={false} /> : <MyPostButton />}
+
+                        {isPreview ? <span className="sm:block pl-2 ml-auto w-[min-content]">Welcome admin!</span> : <LoginLogout />}
                     </div>
                 </div>
             </nav>
@@ -92,12 +93,33 @@ const ToggleBookmarks: React.FC = () => {
             <ReactSVG
                 src={shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon}
                 desc={shouldLimitToFavourites ? "Show all posts" : "Filter to your bookmarked posts"}
-                className="contents svg-explicit-size h-full fill-[color:var(--theme-accent)] ml-2 my-1 mr-2"
+                className="contents svg-explicit-size h-full fill-[color:var(--theme-text)] ml-2 my-1 mr-2"
                 style={{ width: "20px", height: "20px" }}
                 width={20}
                 height={20}
             />
         </button>
+    )
+}
+
+const MyPostButtonVisual: React.FC<{isEdit: boolean}> = ({isEdit}) => {
+    return (
+      <a className="header-button disabled">
+          <div className="flex items-center h-full">
+              <ReactSVG
+                src={myPostIcon}
+                desc={isEdit ? "Edit post" : "Create post"}
+                className="svg-explicit-size h-full fill-[color:var(--theme-text)] inline-block ml-2 my-1 mr-2"
+                style={{ width: "20px", height: "20px" }}
+                width={20}
+                height={20}
+              />
+              <span className="hover:font-bold align-middle">
+                  <span className="text-xs sm:text-sm mr-2 sm:mr-0">{isEdit ? "Edit" : "Create"}</span>
+                  <span className="text-xs sm:text-sm hidden sm:inline sm:mr-2">&nbsp;post</span>
+              </span>
+          </div>
+      </a>
     )
 }
 
@@ -113,20 +135,7 @@ const MyPostButton: React.FC = () => {
             className={`header-button ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
             to={`/` + jamId + `/my-post`}
         >
-            <div className="flex items-center h-full">
-                <ReactSVG
-                    src={myPostIcon}
-                    desc={myPostQuery?.data ? "Edit post" : "Create post"}
-                    className="svg-explicit-size h-full fill-[color:var(--theme-accent)] inline-block ml-2 my-1 mr-2"
-                    style={{ width: "20px", height: "20px" }}
-                    width={20}
-                    height={20}
-                />
-                <span className="hover:font-bold align-middle">
-                    <span className="text-xs sm:text-sm mr-2 sm:mr-0">{myPostQuery?.data ? "Edit" : "Create"}</span>
-                    <span className="text-xs sm:text-sm hidden sm:inline sm:mr-2">&nbsp;post</span>
-                </span>
-            </div>
+            <MyPostButtonVisual isEdit={Boolean(myPostQuery?.data)} />
         </Link>
     )
 }

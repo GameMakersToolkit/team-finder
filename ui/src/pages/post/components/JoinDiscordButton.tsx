@@ -1,6 +1,6 @@
 export const JoinDiscordButton = () => {
     return (
-        <span className="mb-6 px-6 py-2 border-theme-l-7 bg-theme-l-7 rounded-xl text-grey-900 font-bold inline-flex cursor-pointer">
+        <span className="mb-6 px-6 py-2 border-[var(--theme-accent-light)] bg-[var(--theme-accent-light)] rounded-xl text-grey-900 font-bold inline-flex cursor-pointer">
             <a
                 target="_blank"
                 rel="noreferrer"

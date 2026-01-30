@@ -41,6 +41,7 @@ const styles = {
 };
 
 export const CustomSelect = ({
+     id,
      className,
      placeholder,
      field,
@@ -69,6 +70,7 @@ export const CustomSelect = ({
 
     return (
         <Select
+            id={id}
             className={className}
             classNamePrefix="dropdown"
             name={field.name}

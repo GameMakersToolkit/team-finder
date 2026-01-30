@@ -1,6 +1,7 @@
 @layer components {
     .c-dropdown {
-        @apply sm:inline-block w-full border-theme-d-4;
+        /*border-color: var(--theme-accent-dark);*/
+        @apply sm:inline-block w-full;
 
         & div {
             @apply text-gray-900;
@@ -20,24 +21,25 @@
         }
 
         .dropdown__option {
-            @apply flex items-center h-[48px] bg-theme;
+            /*background-color: var(--theme-primary);*/
+            @apply flex items-center h-[48px];
         }
 
         .dropdown__option--is-focused {
-            @apply bg-theme-d-9;
+            /*background-color: var(--theme-accent-light);*/
         }
 
         .dropdown__multi-value {
-            background-color: var(--theme-primary);
+            /*background-color: var(--theme-primary);*/
             @apply text-gray-900 rounded mr-1 mb-1;
 
-            & path {
-                @apply fill-gray-900;
-            }
+            /*& path {*/
+            /*    @apply fill-gray-900;*/
+            /*}*/
         }
 
         .dropdown__multi-value__label {
-            background-color: var(--theme-primary);
+            /*background-color: var(--theme-primary);*/
             @apply flex gap-1 text-gray-900 rounded m-0 p-1;
 
             /* Reset styling on images, which are in spans */
@@ -50,4 +52,61 @@
             }
         }
     }
+}
+
+/* Skills possesed */
+#skills-possessed-field .c-dropdown .dropdown__option,
+#skills-possessed-field .c-dropdown .dropdown__multi-value__label {
+    border-color: var(--skill-color-possessed);
+    background-color: var(--skill-color-possessed);
+    color: var(--skill-color-possessed-text);
+    fill: var(--skill-color-possessed-text);
+}
+#skills-possessed-field .c-dropdown path {
+    fill: var(--skill-color-possessed-text)!important;
+}
+
+/* Skills sought */
+#skills-sought-field .c-dropdown .dropdown__option,
+#skills-sought-field .c-dropdown .dropdown__multi-value__label {
+    border-color: var(--skill-color-looking-for);
+    background-color: var(--skill-color-looking-for);
+    color: var(--skill-color-looking-for-text);
+    fill: var(--skill-color-looking-for-text);
+}
+#skills-sought-field .c-dropdown path {
+    fill: var(--skill-color-looking-for-text)!important;
+}
+
+/* Languages */
+#languages-field .c-dropdown .dropdown__option,
+#languages-field .c-dropdown .dropdown__multi-value__label {
+    border-color: var(--skill-color-languages);
+    background-color: var(--skill-color-languages);
+    color: var(--skill-color-languages-text);
+}
+
+/* Engines */
+#engines-field .c-dropdown .dropdown__option,
+#engines-field .c-dropdown .dropdown__multi-value__label {
+    border-color: var(--skill-color-engines);
+    background-color: var(--skill-color-engines);
+    color: var(--skill-color-engines-text);
+    fill: var(--skill-color-engines-text);
+}
+#engines-field .c-dropdown path {
+    fill: var(--skill-color-engines-text)!important;
+}
+
+
+/* Timezones */
+#timezones-field .c-dropdown .dropdown__option,
+#timezones-field .c-dropdown .dropdown__multi-value__label {
+    border-color: var(--skill-color-timezones);
+    background-color: var(--skill-color-timezones);
+    color: var(--skill-color-timezones-text);
+    fill: var(--skill-color-timezones-text);
+}
+#timezones-field .c-dropdown path {
+    fill: var(--skill-color-timezones-text)!important;
 }

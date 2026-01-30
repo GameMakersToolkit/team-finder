@@ -41,7 +41,7 @@ export const FavouritePostIndicator: React.FC<{
           <ReactSVG
               src={post.isFavourite ? favouriteSelectedIcon : favouriteNotSelectedIcon}
               desc={post.isFavourite ? `Click to remove ${post.author}'s post from your bookmarks` : `Click to add ${post.author}'s post to your bookmarks`}
-              className="inline-block fill-[color:var(--theme-accent)]"
+              className="inline-block fill-[color:var(--theme-text)]"
           />
     </span>
     );

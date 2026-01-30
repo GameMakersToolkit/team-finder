@@ -3,24 +3,29 @@
         "jamId": "gmtk",
         "name": "GMTK Jam 2024",
         "start": "2024-07-02T11:00:00Z",
-        "end": "2025-07-02T11:00:00Z",
+        "end": "2999-12-31T23:59:59Z",
         "logoLargeUrl": "https://img.itch.zone/aW1hZ2UyL2phbS8zODU3MjcvMjA3Nzk0MTEucG5n/original/6fSjCW.png",
         "logoStackedUrl": "https://findyourjam.team/logos/jam-logo-stacked.webp",
         "styles": {
-            "--theme-accent": "#CB7B00",
             "--theme-primary": "#FEAE00",
-            "--gradient-end": "#FEAE00",
+            "--theme-accent-dark": "#CB7B00",
+            "--theme-accent-light": "#ffdf99",
             "--gradient-start": "#F29700",
-            "--theme-tile-border": "#FEAE00"
+            "--gradient-end": "#FEAE00",
+            "--theme-tile-border": "#FEAE00",
+            "--skill-color-looking-for": "#c82d2d",
+            "--skill-color-looking-for-text": "#ffffff",
+            "--skill-color-possessed": "#cb7ae1",
+            "--skill-color-possessed-text": "#ffffff",
+            "--skill-color-engines": "#0f671d",
+            "--skill-color-engines-text": "#ffffff",
+            "--skill-color-languages": "#3456A6",
+            "--skill-color-languages-text": "#ffffff",
+            "--skill-color-timezones": "#3c5667",
+            "--skill-color-timezones-text": "#ffffff",
+            "--theme-text": "#ffffff",
+            "--theme-countdown-base": "#0e0c7e",
+            "--theme-countdown-border": "#fffff"
         }
-    },
-    {
-        "jamId": "bossrush",
-        "name": "Boss Rush Jam 2025",
-        "start": "2024-07-02T11:00:00Z",
-        "end": "2024-08-02T11:00:00Z",
-        "logoLargeUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo.webp",
-        "logoStackedUrl": "https://fyjt-assets.ams3.digitaloceanspaces.com/gmtk/jam-logo-stacked.webp",
-        "styles": {}
     }
 ]

@@ -6,18 +6,11 @@ import kotlinx.serialization.Serializable
 data class Jam(
     val jamId: String,
     val name: String,
-    val start: String,
-    val end: String,
-    val logoLargeUrl: String?,
-    val logoStackedUrl: String?,
-
-    /**
-     * '--theme-primary': '',
-     * '--theme-accent': '',
-     * '--theme-background': '',
-     * '--gradient-start': '',
-     * '--gradient-end': '',
-     * '--theme-tile-bg': '',
-     */
-    val styles: Map<String, String>,
-)
+    var start: String,
+    var end: String,
+    var styles: Map<String, String>,
+) {
+    lateinit var bgImageUrl: String
+    lateinit var logoLargeUrl: String
+    lateinit var logoStackedUrl: String
+}

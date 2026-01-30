@@ -1,5 +1,6 @@
 @layer components {
     .c-onboarding-info-box {
-        @apply bg-theme-d-8 rounded-xl mt-8 px-4 py-2 mb-8;
+        background-color: var(--theme-primary);
+        @apply  rounded-xl mt-8 px-4 py-2 mb-8;
     }
 }

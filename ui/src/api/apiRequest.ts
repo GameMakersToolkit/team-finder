@@ -5,6 +5,7 @@ interface ApiRequestOptions {
   method?: "GET" | "PUT" | "POST" | "DELETE";
   authToken?: string;
   body?: unknown;
+  isFileUpload?: boolean;
 }
 
 interface ApiRequestDependencies {
@@ -40,9 +41,12 @@ export async function apiRequest<T>(
   dependencies: ApiRequestDependencies,
   apiRequestOptions: ApiRequestOptions = {}
 ): Promise<T> {
-  const headers: Headers = new Headers({
-    "Content-Type": "application/json",
-  });
+  const headers: Headers = new Headers();
+
+  if (!apiRequestOptions.isFileUpload) {
+    headers.append("Content-Type", "application/json");
+  }
+
   if (apiRequestOptions.authToken) {
     headers.append("Authorization", `Bearer ${apiRequestOptions.authToken}`);
   }
@@ -54,7 +58,10 @@ export async function apiRequest<T>(
   };
 
   if (apiRequestOptions?.body) {
-    options["body"] = JSON.stringify(apiRequestOptions.body);
+    // @ts-ignore
+    options["body"] = apiRequestOptions.isFileUpload
+      ? apiRequestOptions.body
+      : JSON.stringify(apiRequestOptions.body);
   }
 
   const res = await fetch(`${import.meta.env.VITE_API_URL}${path}`, options);

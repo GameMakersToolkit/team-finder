@@ -37,10 +37,11 @@ export const SearchForm: React.FC<{
                 />
 
                 <div className="c-form-block">
-                    <div>
-                        <label htmlFor="react-select-3-input">I'm looking for:</label>
+                    <div id="skills-possessed-field">
+                        <label htmlFor="skillsPossessed">I'm looking for:</label>
                         <Field
                             name="skillsPossessed"
+                            id="skillsPossessed"
                             className="c-dropdown form-block__field w-full"
                             options={skills}
                             component={CustomSelect}
@@ -49,8 +50,8 @@ export const SearchForm: React.FC<{
                         />
                     </div>
 
-                    <div>
-                        <label htmlFor="react-select-5-input">I can do:</label>
+                    <div id="skills-sought-field">
+                        <label htmlFor="skillsSought">I can do:</label>
                         <Field
                             name="skillsSought"
                             id="skillsSought"
@@ -84,8 +85,8 @@ export const SearchForm: React.FC<{
                         type="button"
                     >
                         {showAdvancedSearchOptions ? <>Fewer
-                            options {iiicon('up-arrow', 'var(--theme-accent)', 16, 16)}</> : <>More
-                            options {iiicon('down-arrow', 'var(--theme-accent)', 16, 16)}</>}
+                            options {iiicon('up-arrow', 'var(--theme-accent-dark)', 16, 16)}</> : <>More
+                            options {iiicon('down-arrow', 'var(--theme-accent-dark)', 16, 16)}</>}
                     </button>
                 </div>
 
@@ -103,7 +104,7 @@ export const SearchForm: React.FC<{
 
 const AdvancedOptions = () => {
     return (<div className="c-form-block">
-            <div>
+            <div id="engines-field">
                 <label htmlFor="tools">Preferred Engine(s):</label>
                 <Field
                     name="tools"
@@ -115,7 +116,7 @@ const AdvancedOptions = () => {
                     isMulti={true}
                 />
             </div>
-            <div>
+            <div id="languages-field">
                 <label htmlFor="languages">Language(s):</label>
                 <Field
                     name="languages"
@@ -127,7 +128,7 @@ const AdvancedOptions = () => {
                     isMulti={true}
                 />
             </div>
-            <div>
+            <div id="timezones-field">
                 <label htmlFor="timezoneStart">Earliest Timezone:</label>
                 <Field
                     name="timezoneStart"
@@ -139,7 +140,7 @@ const AdvancedOptions = () => {
                     isMulti={false}
                 />
             </div>
-            <div>
+            <div id="timezones-field">
                 <label htmlFor="timezoneEnd">Latest Timezone:</label>
                 <Field
                     name="timezoneEnd"
