@@ -10,10 +10,10 @@ val mockkVersion: String by project
 
 plugins {
     application
-    kotlin("jvm") version "2.2.20"
-    kotlin("plugin.serialization") version "2.2.20"
+    kotlin("jvm") version "2.3.0"
+    kotlin("plugin.serialization") version "2.3.0"
 //    id("com.google.devtools.ksp") version "$kspVersion"
-    id("com.google.devtools.ksp") version "2.2.20-2.0.3"
+    id("com.google.devtools.ksp") version "2.3.5"
 }
 
 group = "com.gmtkgamejam"
@@ -34,7 +34,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     // Logging support for Javacord
-    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.25.1")
+    implementation("org.apache.logging.log4j:log4j-to-slf4j:2.25.3")
 
     // Image upload for jam styling
     implementation("com.github.Dev-Siri:uploadthing4j:1.0.2")

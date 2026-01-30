@@ -10,3 +10,6 @@ out/
 # Application
 logs/
 src/main/resources/logback-test.xml
+
+# Debugging sessions
+.salive
