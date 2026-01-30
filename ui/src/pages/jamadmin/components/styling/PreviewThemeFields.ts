@@ -3,31 +3,31 @@ import { Jam } from "../../../../common/components/JamSpecificStyling.tsx";
 export const getPreviewThemeFields = (theme: Jam) => [
   {
     name: "--theme-background",
-    description: "Background colour of the entire site",
+    description: "Default background colour",
     currentValue: theme.styles["--theme-background"],
     ctx: "common",
   },
   {
     name: "--theme-primary",
-    description: "Primary colour of your jam page",
+    description: "Primary theme colour",
     currentValue: theme.styles["--theme-primary"],
     ctx: "common",
   },
   {
     name: "--theme-accent",
-    description: "Accent colour of your jame page",
+    description: "Accent theme colour",
     currentValue: theme.styles["--theme-accent"],
     ctx: "common",
   },
   {
     name: "--gradient-start",
-    description: "The starting (outside edge) colour of the gradient at the top/bottom of the site",
+    description: "Outside edge colour of header/footer gradient",
     currentValue: theme.styles["--gradient-start"],
     ctx: "common",
   },
   {
     name: "--gradient-end",
-    description: "The ending (inside edge) colour of the gradient at the top/bottom of the site",
+    description: "Inside edge colour of header/footer gradient",
     currentValue: theme.styles["--gradient-end"],
     ctx: "common",
   },
@@ -117,7 +117,7 @@ export const getPreviewThemeFields = (theme: Jam) => [
   },
   {
     name: "--theme-countdown-border",
-    description: "Coundown border",
+    description: "Countdown border",
     currentValue: theme.styles["--theme-countdown-border"],
     ctx: "common",
   },

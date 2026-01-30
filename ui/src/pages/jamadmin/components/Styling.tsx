@@ -123,7 +123,8 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
             {(params) => (
                 <Form>
                     <div className="c-admin-styling">
-                        <h2 className="mb-8 text-3xl">Styling</h2>
+                        <h2 className="mb-4 text-3xl">Styling</h2>
+                        <h3 className="mb-8 text-center text-xl bold text-yellow-500">Note: images will update immediately</h3>
                         <div className="grid grid-cols-3 gap-4 mb-16">
                             <DropzoneWithPreview
                               label="Background Image"
@@ -151,13 +152,13 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
                           themeFields={themeFields}
                           setThemeFields={setThemeFields} />
                         <Button
-                          className="mt-4 bg-theme-d-7 rounded-xl w-full mx-auto py-3 px-6 text-center text-lg font-semibold"
+                          className="mt-4 bg-[var(--theme-primary)] rounded-xl w-full mx-auto py-3 px-6 text-center text-lg font-semibold"
                           type="submit"
                           variant="primary"
                           disabled={params.isSubmitting || mutation.isPending}
                           style={{color: "white"}}
                         >
-                            {mutation.isPending ? 'Submitting...' : 'Submit Styling'}
+                            {mutation.isPending ? 'Submitting...' : 'Save Changes'}
                         </Button>
                         {mutation.isSuccess && <div>Update successful!</div>}
                         {mutation.isError && <div style={{ color: 'red' }}>Error: {mutation.error.message}</div>}
