@@ -44,6 +44,9 @@
         --theme-background: #000000;
         --theme-text: #FFFFFF;
 
+        --theme-countdown-base: theme('colors.theme-d-7');
+        --theme-countdown-border: theme('colors.theme');
+
         /* Post items - skills */
         --skill-color-looking-for: theme('colors.theme-d-7');
         --skill-color-looking-for-text: theme('textColor.white');

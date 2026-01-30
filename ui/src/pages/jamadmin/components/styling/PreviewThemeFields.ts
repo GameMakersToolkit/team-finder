@@ -109,4 +109,16 @@ export const getPreviewThemeFields = (theme: Jam) => [
     currentValue: theme.styles["--theme-text"],
     ctx: "common",
   },
+  {
+    name: "--theme-countdown-base",
+    description: "Countdown base",
+    currentValue: theme.styles["--theme-countdown-base"],
+    ctx: "common",
+  },
+  {
+    name: "--theme-countdown-border",
+    description: "Coundown border",
+    currentValue: theme.styles["--theme-countdown-border"],
+    ctx: "common",
+  },
 ];
