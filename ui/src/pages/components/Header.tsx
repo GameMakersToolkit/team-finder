@@ -104,9 +104,10 @@ const ToggleBookmarks: React.FC = () => {
 
 const MyPostButtonVisual: React.FC<{isEdit: boolean}> = ({isEdit}) => {
     return (
-      <a className="header-button disabled">
+      <div className="h-full header-button disabled">
           <div className="flex items-center h-full">
               <ReactSVG
+                wrapper={"span"}
                 src={myPostIcon}
                 desc={isEdit ? "Edit post" : "Create post"}
                 className="svg-explicit-size h-full fill-[color:var(--theme-text)] inline-block ml-2 my-1 mr-2"
@@ -119,7 +120,7 @@ const MyPostButtonVisual: React.FC<{isEdit: boolean}> = ({isEdit}) => {
                   <span className="text-xs sm:text-sm hidden sm:inline sm:mr-2">&nbsp;post</span>
               </span>
           </div>
-      </a>
+      </div>
     )
 }
 
