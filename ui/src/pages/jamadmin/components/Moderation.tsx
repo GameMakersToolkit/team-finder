@@ -37,7 +37,7 @@ const ReportedPostList = () => {
     }
     if(!!data) {
         return (
-            <div className="row flex scrollable">
+            <div className="grid grid-cols-3 gap-8">
                 {data.map((post: Post) => <ReportedPost post={post} key={post.id} />)}
             </div>
         );
