@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 data class Jam(
     val jamId: String,
     val name: String,
-    val start: String,
-    val end: String,
+    var start: String,
+    var end: String,
 
     /**
      * '--theme-primary': '',

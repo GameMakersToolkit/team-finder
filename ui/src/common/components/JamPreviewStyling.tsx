@@ -2,7 +2,8 @@ import React,  {useEffect, useState} from "react";
 import {useParams} from 'react-router-dom';
 import {Header} from "../../pages/components/Header.tsx";
 import Footer from "../../pages/components/Footer.tsx";
-import { Jam, JamSpecificContext } from "./JamSpecificStyling.tsx";
+import { JamSpecificContext } from "./JamSpecificStyling.tsx";
+import { Jam } from "../models/jam.ts";
 
 export const getPreviewCacheKey = (jamId: string) => `theme_${jamId}_preview`
 

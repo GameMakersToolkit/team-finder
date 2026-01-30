@@ -85,10 +85,12 @@ fun Application.configureJamRouting() {
 
                     val update = call.receive<JamUpdateDto>()
 
-                    // TODO: Rest of jam fields
-                    if (update.styles != null) {
-                        jam.styles = update.styles.ifEmpty { jam.styles }
-                    }
+                    jam.start = update.start ?: jam.start
+                    jam.end = update.end ?: jam.end
+                    jam.bgImageUrl = update.bgImageUrl ?: jam.bgImageUrl
+                    jam.logoLargeUrl = update.logoLargeUrl ?: jam.logoLargeUrl
+                    jam.logoStackedUrl = update.logoStackedUrl ?: jam.logoStackedUrl
+                    jam.styles = if (!update.styles.isNullOrEmpty()) update.styles else jam.styles
 
                     val updatedJam = jamService.updateJam(jam)
                     return@put call.respond(updatedJam)
