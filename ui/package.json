@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "echo 'There are no tests yet' && exit 0",
-    "typecheck": "tsc"
+    "test:browser": "vitest --config=vitest.browser.config.ts"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
@@ -27,13 +27,17 @@
     "@types/luxon": "^3.7.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.1.2",
     "@vitejs/plugin-react-swc": "^4.1.0",
+    "@vitest/browser-playwright": "^4.0.18",
     "autoprefixer": "^10.4.21",
+    "baseline-browser-mapping": "^2.9.19",
     "eslint-plugin-react-refresh": "^0.4.20",
     "postcss": "^8.5.6",
     "postcss-import": "^16.1.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.9.2",
-    "vite": "^7.1.6"
+    "vite": "^7.1.6",
+    "vitest-browser-react": "^2.0.5"
   }
 }
