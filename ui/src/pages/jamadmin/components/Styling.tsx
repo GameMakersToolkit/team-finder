@@ -1,6 +1,5 @@
 import { CommonFields } from "./styling/CommonFields.tsx";
 import { SkillsToolsLanguagesTimezones } from "./styling/SkillsToolsLanguagesTimezones.tsx";
-import { useMutation, UseMutationOptions, UseMutationResult, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React, { useContext, useState } from "react";
 import { JamSpecificContext } from "../../../common/components/JamSpecificStyling.tsx";
@@ -9,6 +8,7 @@ import { useApiRequest } from "../../../api/apiRequest.ts";
 import { toast } from "react-hot-toast";
 import { getPreviewThemeFields } from "./styling/PreviewThemeFields.ts";
 import { Button } from "../../../common/components/Button.tsx";
+import { useUpdateJamMutation } from "./UseUpdateJamMutation.tsx";
 
 const DropzoneWithPreview: React.FC<{
   label: string;
@@ -168,41 +168,3 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
         </Formik>
     );
 };
-
-
-interface UpdateJamMutationVariables {
-    jamId: string;
-    // name: String? = null,
-    // start: String? = null,
-    // end: String? = null,
-    // logoLargeUrl: String? = null,
-    // logoStackedUrl: String? = null,
-    styles: object,
-}
-
-
-function useUpdateJamMutation(
-  opts?: UseMutationOptions<any, Error, UpdateJamMutationVariables>
-): UseMutationResult<any, Error, UpdateJamMutationVariables> {
-    const theme = useContext(JamSpecificContext)
-    const apiRequest = useApiRequest();
-    const queryClient = useQueryClient();
-    const UPDATE_JAM_QUERY_KEY = ["jams", theme.jamId] as const;
-
-    return useMutation({
-        ...opts,
-        mutationFn: async (variables) => {
-            return await apiRequest(`/jams/${theme.jamId}`, {
-                method: "PUT",
-                body: variables,
-            });
-        },
-        mutationKey: UPDATE_JAM_QUERY_KEY,
-        onSuccess(data, variables, context) {
-            queryClient.invalidateQueries({ queryKey: UPDATE_JAM_QUERY_KEY });
-            if (opts && typeof opts.onSuccess === 'function') {
-                opts.onSuccess(data, variables, context as any, undefined);
-            }
-        },
-    });
-}

@@ -84,6 +84,7 @@ fun Application.configureJamRouting() {
                     }
 
                     val update = call.receive<JamUpdateDto>()
+//                    val formatter = DateTimeFormatter.ofPattern("YYYY-mm-dd'T'HH:mm")
 
                     jam.start = update.start ?: jam.start
                     jam.end = update.end ?: jam.end

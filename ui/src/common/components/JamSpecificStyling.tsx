@@ -19,7 +19,7 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
 
     // Lazy redirect to show end screen
     const jamHasExpired = new Date(activeJam.end) < new Date()
-    const isViewingAnyJamPage = window.location.pathname !== `/${activeJam.jamId}/finished`
+    const isViewingAnyJamPage = window.location.pathname !== `/${activeJam.jamId}/finished` && !window.location.pathname.includes('/admin')
     if (jamHasExpired && isViewingAnyJamPage) {
         return <Navigate to={`/${activeJam.jamId}/finished`} replace />
     }
