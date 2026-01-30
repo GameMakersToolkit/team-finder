@@ -34,30 +34,31 @@
 
     :root {
         /* Global */
-        --theme-primary: #db0a15;
-        --theme-accent: #ff5762;
+        --theme-primary: #FEAE00;
+        --theme-accent-dark: #CB7B00;
+        --theme-accent-light: #ffdf99;
+        --theme-text: #FFFFFF;
+        --theme-tile-border: #FEAE00;
 
         /* Header/Footer gradient */
-        --gradient-start: #88151b;
-        --gradient-end: #000000;
+        --gradient-start: #F29700;
+        --gradient-end: #FEAE00;
 
-        --theme-background: #000000;
-        --theme-text: #FFFFFF;
-
-        --theme-countdown-base: theme('colors.theme-d-7');
-        --theme-countdown-border: theme('colors.theme');
+        /* Countdown timer */
+        --theme-countdown-base: #0e0c7e;
+        --theme-countdown-border: #FFFFFF;
 
         /* Post items - skills */
-        --skill-color-looking-for: theme('colors.theme-d-7');
-        --skill-color-looking-for-text: theme('textColor.white');
-        --skill-color-possessed: theme('colors.theme-d-9');
-        --skill-color-possessed-text: theme('textColor.white');
-        --skill-color-engines: theme('colors.grey-50');
-        --skill-color-engines-text: theme('textColor.black');
-        --skill-color-languages: theme('colors.grey-800');
-        --skill-color-languages-text: theme('textColor.white');
-        --skill-color-timezones: theme('colors.grey-300');
-        --skill-color-timezones-text: theme('textColor.white');
+        --skill-color-looking-for: #c82d2d;
+        --skill-color-looking-for-text: #ffffff;
+        --skill-color-possessed: #cb7ae1;
+        --skill-color-possessed-text: #ffffff;
+        --skill-color-engines: #0f671d;
+        --skill-color-engines-text: #ffffff;
+        --skill-color-languages: #3456A6;
+        --skill-color-languages-text: #ffffff;
+        --skill-color-timezones: #3c5667;
+        --skill-color-timezones-text: #ffffff;
     }
 
 }

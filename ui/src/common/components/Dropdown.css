@@ -1,6 +1,7 @@
 @layer components {
     .c-dropdown {
-        @apply sm:inline-block w-full border-theme-d-4;
+        border-color: var(--theme-accent-dark);
+        @apply sm:inline-block w-full;
 
         & div {
             @apply text-gray-900;
@@ -20,11 +21,12 @@
         }
 
         .dropdown__option {
-            @apply flex items-center h-[48px] bg-theme;
+            background-color: var(--theme-primary);
+            @apply flex items-center h-[48px];
         }
 
         .dropdown__option--is-focused {
-            @apply bg-theme-d-9;
+            background-color: var(--theme-accent-light);
         }
 
         .dropdown__multi-value {

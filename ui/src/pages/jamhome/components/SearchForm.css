@@ -7,7 +7,8 @@
         @apply bg-white border-2 border-grey-50 rounded-xl;
 
         &:hover {
-            @apply border-theme-l-5 text-theme-l-5;
+            border-color: var(--theme-accent-dark);
+            color: var(--theme-accent-dark);
         }
     }
 
@@ -18,7 +19,7 @@
 
     #advanced-options-button {
         @apply border rounded-xl px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit;
-        border-color: var(--theme-accent);
-        color: var(--theme-accent);
+        border-color: var(--theme-accent-dark);
+        color: var(--theme-accent-dark);
     }
 }

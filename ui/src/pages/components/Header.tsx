@@ -46,7 +46,7 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
                     <div className="flex-1 hidden sm:flex" />
 
                     <div className="flex justify-evenly gap-2">
-                        <Link to="/" className="bg-theme-d-4 block rounded-lg mr-2 sm:hidden">
+                        <Link to="/" className="bg-[var(--theme-accent-dark)] block rounded-lg mr-2 sm:hidden">
                             <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
                         {isOnSearchPage && <ToggleBookmarks />}
@@ -93,7 +93,7 @@ const ToggleBookmarks: React.FC = () => {
             <ReactSVG
                 src={shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon}
                 desc={shouldLimitToFavourites ? "Show all posts" : "Filter to your bookmarked posts"}
-                className="contents svg-explicit-size h-full fill-[color:var(--theme-accent)] ml-2 my-1 mr-2"
+                className="contents svg-explicit-size h-full fill-[color:var(--theme-text)] ml-2 my-1 mr-2"
                 style={{ width: "20px", height: "20px" }}
                 width={20}
                 height={20}
@@ -109,7 +109,7 @@ const MyPostButtonVisual: React.FC<{isEdit: boolean}> = ({isEdit}) => {
               <ReactSVG
                 src={myPostIcon}
                 desc={isEdit ? "Edit post" : "Create post"}
-                className="svg-explicit-size h-full fill-[color:var(--theme-accent)] inline-block ml-2 my-1 mr-2"
+                className="svg-explicit-size h-full fill-[color:var(--theme-text)] inline-block ml-2 my-1 mr-2"
                 style={{ width: "20px", height: "20px" }}
                 width={20}
                 height={20}

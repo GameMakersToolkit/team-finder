@@ -41,7 +41,7 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
                             className="text-lg font-bold"
                             to={`${post.id}`}
                         >
-                            See more {iiicon("right-arrow", "var(--theme-accent)")}
+                            See more {iiicon("right-arrow", "var(--theme-accent-dark)")}
                         </Link>
                     </button>
                 </div>

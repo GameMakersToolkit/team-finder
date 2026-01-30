@@ -84,8 +84,8 @@ export const SearchForm: React.FC<{
                         type="button"
                     >
                         {showAdvancedSearchOptions ? <>Fewer
-                            options {iiicon('up-arrow', 'var(--theme-accent)', 16, 16)}</> : <>More
-                            options {iiicon('down-arrow', 'var(--theme-accent)', 16, 16)}</>}
+                            options {iiicon('up-arrow', 'var(--theme-accent-dark)', 16, 16)}</> : <>More
+                            options {iiicon('down-arrow', 'var(--theme-accent-dark)', 16, 16)}</>}
                     </button>
                 </div>
 

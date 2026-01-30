@@ -103,7 +103,7 @@ const ReportedPost = ({ post }: { post: Post }) => {
                     </div>
                 </div>
                 <button className="button-link-container" style={{ maxHeight: "3em" }} onClick={() => dismiss()}>
-                    Dismiss {iiicon("cross", "var(--theme-accent)")}
+                    Dismiss {iiicon("cross", "var(--theme-accent-dark)")}
                 </button>
             </div>
         </section>

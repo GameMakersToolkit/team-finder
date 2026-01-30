@@ -15,11 +15,13 @@
         }
 
         .header-button {
-            @apply rounded-lg bg-theme-d-4 text-white hover:text-white;
+            background-color: var(--theme-accent-dark);
+            @apply rounded-lg text-white hover:text-white;
         }
 
         #login-button {
-            @apply font-bold bg-theme-d-4 px-3 text-white;
+            background-color: var(--theme-accent-dark);
+            @apply font-bold px-3 text-white;
         }
     }
 }

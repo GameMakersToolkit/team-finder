@@ -8,7 +8,8 @@
         "logoStackedUrl": "https://findyourjam.team/logos/jam-logo-stacked.webp",
         "styles": {
             "--theme-primary": "#FEAE00",
-            "--theme-accent": "#CB7B00",
+            "--theme-accent-dark": "#CB7B00",
+            "--theme-accent-light": "#ffdf99",
             "--gradient-start": "#F29700",
             "--gradient-end": "#FEAE00",
             "--theme-tile-border": "#FEAE00",

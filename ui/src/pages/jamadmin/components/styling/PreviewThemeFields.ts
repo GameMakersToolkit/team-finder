@@ -14,9 +14,9 @@ export const getPreviewThemeFields = (theme: Jam) => [
     ctx: "common",
   },
   {
-    name: "--theme-accent",
+    name: "--theme-accent-dark",
     description: "Accent theme colour",
-    currentValue: theme.styles["--theme-accent"],
+    currentValue: theme.styles["--theme-accent-dark"],
     ctx: "common",
   },
   {

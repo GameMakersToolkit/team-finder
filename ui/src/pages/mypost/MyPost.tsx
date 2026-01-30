@@ -54,7 +54,7 @@ export const MyPost: React.FC<{
             {/*<FieldAvailability currentAvailability={values.availability} />*/}
 
             <Button
-                className="mt-4 bg-theme-d-7 rounded-xl w-full sm:w-full md:w-auto md:float-right"
+                className="mt-4 bg-[var(--theme-primary)] rounded-xl w-full sm:w-full md:w-auto md:float-right"
                 type="button"
                 variant="primary"
                 disabled={isSubmitting}
@@ -232,7 +232,7 @@ const FieldAvailability: React.FC<{ currentAvailability: string}> = ({currentAva
                 {availabilityOptions.map(option => (
                     <label
                         key={option.value}
-                        className={`form-block__availability ${option.value == currentAvailability ? "bg-theme" : "bg-theme-d-4 hover:bg-theme-d-7"}`}
+                        className={`form-block__availability ${option.value == currentAvailability ? "bg-[var(--theme-primary)]" : "bg-[var(--theme-primary)] hover:bg-[var(--theme-accent-light)]"}`}
                     >
                         <Field type="radio" name="availability" value={option.value} />
                         {option.label}
