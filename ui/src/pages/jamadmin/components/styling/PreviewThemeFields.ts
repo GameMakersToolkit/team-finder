@@ -103,4 +103,10 @@ export const getPreviewThemeFields = (theme: Jam) => [
     currentValue: theme.styles["--skill-color-timezones-text"],
     ctx: "skill",
   },
+  {
+    name: "--theme-text",
+    description: "Text colour",
+    currentValue: theme.styles["--theme-text"],
+    ctx: "common",
+  },
 ];

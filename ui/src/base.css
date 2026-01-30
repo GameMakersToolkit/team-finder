@@ -46,7 +46,6 @@
         background-size: 480px 270px;
         background-repeat: repeat;
         background-position: center center;
-        /*background-color: var(--theme-background);*/
     }
 
     /* Styling to keep the footer at the bottom of page/content as appropriate */
@@ -60,7 +59,7 @@
     }
 
     div, p {
-        @apply text-white;
+        color: var(--theme-text, #FFFFFF);
     }
 
     /* Override to enforce ReactSVG icons are the right size */

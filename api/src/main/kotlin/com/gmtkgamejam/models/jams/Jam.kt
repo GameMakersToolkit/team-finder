@@ -8,15 +8,6 @@ data class Jam(
     val name: String,
     var start: String,
     var end: String,
-
-    /**
-     * '--theme-primary': '',
-     * '--theme-accent': '',
-     * '--theme-background': '',
-     * '--gradient-start': '',
-     * '--gradient-end': '',
-     * '--theme-tile-bg': '',
-     */
     var styles: Map<String, String>,
 ) {
     lateinit var bgImageUrl: String

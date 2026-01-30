@@ -30,27 +30,31 @@
 /* Utilities */
 @import "tailwindcss/utilities";
 
+@layer root {
 
-:root {
-    /* Global */
-    --theme-primary: #db0a15;
-    --theme-accent: #ff5762;
+    :root {
+        /* Global */
+        --theme-primary: #db0a15;
+        --theme-accent: #ff5762;
 
-    /* Header/Footer gradient */
-    --gradient-start: #88151b;
-    --gradient-end: #000000;
+        /* Header/Footer gradient */
+        --gradient-start: #88151b;
+        --gradient-end: #000000;
 
-    --theme-background: #000000;
+        --theme-background: #000000;
+        --theme-text: #FFFFFF;
 
-    /* Post items - skills */
-    --skill-color-looking-for: theme('colors.theme-d-7');
-    --skill-color-looking-for-text: theme('textColor.white');
-    --skill-color-possessed: theme('colors.theme-d-9');
-    --skill-color-possessed-text: theme('textColor.white');
-    --skill-color-engines: theme('colors.grey-50');
-    --skill-color-engines-text: theme('textColor.black');
-    --skill-color-languages: theme('colors.grey-800');
-    --skill-color-languages-text: theme('textColor.white');
-    --skill-color-timezones: theme('colors.grey-300');
-    --skill-color-timezones-text: theme('textColor.white');
+        /* Post items - skills */
+        --skill-color-looking-for: theme('colors.theme-d-7');
+        --skill-color-looking-for-text: theme('textColor.white');
+        --skill-color-possessed: theme('colors.theme-d-9');
+        --skill-color-possessed-text: theme('textColor.white');
+        --skill-color-engines: theme('colors.grey-50');
+        --skill-color-engines-text: theme('textColor.black');
+        --skill-color-languages: theme('colors.grey-800');
+        --skill-color-languages-text: theme('textColor.white');
+        --skill-color-timezones: theme('colors.grey-300');
+        --skill-color-timezones-text: theme('textColor.white');
+    }
+
 }
