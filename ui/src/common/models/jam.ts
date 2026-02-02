@@ -1,6 +1,7 @@
 export type Jam = {
   jamId: string,
   name: string,
+  status: string,
   participants: number,
   start: string,
   end: string,

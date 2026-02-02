@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 // jamId is required for identifying the jam, but not updatable
 //
 data class JamUpdateDto(
+    val status: JamStatus? = null,
     val start: String? = null,
     val end: String? = null,
     val bgImageUrl: String? = null,

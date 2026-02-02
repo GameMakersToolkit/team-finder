@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class Jam(
     val jamId: String,
     val name: String,
+    var status: JamStatus,
     var start: String,
     var end: String,
     var styles: Map<String, String>,

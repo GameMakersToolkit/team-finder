@@ -1,12 +1,15 @@
-import { Form, Formik, FormikProps } from "formik";
+import { Field, Form, Formik, FormikProps } from "formik";
 import { useContext } from "react";
 import { JamSpecificContext } from "../../../common/components/JamSpecificStyling.tsx";
 import { toast } from "react-hot-toast";
 import { getPreviewCacheKey } from "../../../common/components/JamPreviewStyling.tsx";
 import { useUpdateJamMutation } from "./UseUpdateJamMutation.tsx";
 import { Button } from "../../../common/components/Button.tsx";
+import CustomSelect from "../../jamhome/components/common/CustomSelect.tsx";
+import * as React from "react";
 
 type FormikFormParameters = {
+  status: string;
   startDateTime: string;
   endDateTime: string;
 }
@@ -22,8 +25,9 @@ export const Dashboard = () => {
     const theme = useContext(JamSpecificContext)
     const initialFormValues = {
       // datetime-local inputs require no seconds and no timezone info
-      startDateTime: formatDateTimeLocal(theme.start),//.replace(":00Z", ""),
-      endDateTime: formatDateTimeLocal(theme.end)//.replace(":00Z", ""),
+      status: theme.status,
+      startDateTime: formatDateTimeLocal(theme.start),
+      endDateTime: formatDateTimeLocal(theme.end)
     }
 
   const validateForm = (values: FormikFormParameters) => {
@@ -43,8 +47,11 @@ export const Dashboard = () => {
 
     const onSubmitForm = (params: FormikFormParameters, setSubmitting: (a: boolean) => void) => {
       toast.dismiss()
+      // Why have I done it like this
+      theme.status = params.status
       theme.start = params.startDateTime
       theme.end = params.endDateTime
+
       mutation.mutate(theme)
       setTimeout(() => {
         setSubmitting(false)
@@ -78,6 +85,27 @@ export const Dashboard = () => {
               <div className="c-admin-dasboard">
                 <h2>Welcome!</h2>
                 <Form className="c-form">
+                  <h3 className="text-2xl text-center mb-4">Jam Status</h3>
+                  <div className="c-form-block grid grid-cols-2 gap-x-8 mb-16">
+                    <div>
+                      <h4 className="text-lg">Set visibility</h4>
+                      <p className="text-xs">Jams start hidden until set active</p>
+                    </div>
+                    <Field
+                      name="status"
+                      id="status"
+                      className="c-dropdown form-block__field"
+                      options={[
+                        { value: "HIDDEN", label: "Hidden" },
+                        { value: "VISIBLE", label: "Visible" }
+                      ]}
+                      component={CustomSelect}
+                      placeholder={'Select option(s)'}
+                      isMulti={false}
+                    />
+                  </div>
+
+
                   <h3 className="text-2xl text-center mb-4">Jam Timing</h3>
                   <div className="c-form-block grid grid-cols-2 gap-x-8 mb-16">
                     <div className="flex flex-col gap-2">
