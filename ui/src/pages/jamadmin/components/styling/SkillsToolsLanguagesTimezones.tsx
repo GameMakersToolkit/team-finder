@@ -16,7 +16,6 @@ export const SkillsToolsLanguagesTimezones = ({themeFields, setThemeFields}) => 
 
     const theme = useContext(JamSpecificContext)
     const [renderState, setRenderState] = useState(0);
-    const [postType, setPostType] = useState("full")
 
     useEffect(() => {
       const previewThemeCacheKey = getPreviewCacheKey(theme.jamId);
