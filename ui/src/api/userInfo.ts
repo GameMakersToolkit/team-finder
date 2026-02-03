@@ -20,6 +20,7 @@ export function useUserInfo(
           ...opts,
           enabled: hasAuth && (opts?.enabled ?? true),
           staleTime: opts?.staleTime ?? 300000, // 5 minutes
+          retry: opts?.retry ?? 0,
       }
   });
 }
