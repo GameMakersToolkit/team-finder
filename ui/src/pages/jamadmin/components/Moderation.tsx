@@ -9,6 +9,7 @@ import { skills } from "../../../common/models/skills";
 import { useApiRequest } from "../../../api/apiRequest";
 import { useState } from "react";
 import { useAuth } from "../../../api/AuthContext";
+import { getJamId } from "../../../common/utils/getJamId.ts";
 
 export const Moderation = () => {
     return (
@@ -24,7 +25,7 @@ const ReportedPostList = () => {
     const req = useApiRequest();
     const { data, isLoading, isError } = useQuery({
         queryFn: async () => {
-            const res: any = await req(`/admin/reports`);
+            const res: any = await req(`/${getJamId()}/admin/reports`);
             return res;
         },
         queryKey: ['reported'],
@@ -37,7 +38,7 @@ const ReportedPostList = () => {
     }
     if(!!data) {
         return (
-            <div className="grid grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-8">
                 {data.map((post: Post) => <ReportedPost post={post} key={post.id} />)}
             </div>
         );
@@ -115,7 +116,7 @@ const useDismiss = (id: string) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: () => {
-            const res = req('/admin/reports/clear', {
+            const res = req(`/${getJamId()}/admin/reports/clear`, {
                 method: 'POST',
                 body: { teamId: id },
             })
@@ -133,7 +134,7 @@ const useDelete = (id: string) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: () => {
-            const res = req('/admin/post', {
+            const res = req(`/${getJamId()}/admin/post`, {
                 method: "DELETE",
                 body: { postId: id },
             });
@@ -151,11 +152,11 @@ const useDeleteAndBan = (post: Post, adminId: string) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: () => {
-            const deleteRes = req('/admin/post', {
+            const deleteRes = req(`/${getJamId()}/admin/post`, {
                 method: "DELETE",
                 body: { postId: post.id },
             });
-            const banRes = req('/admin/user/ban', {
+            const banRes = req(`/${getJamId()}/admin/user/ban`, {
                 method: "POST",
                 body: { discordId: post.authorId, adminId: adminId },
             }).then(msg => ({ msg: msg }));

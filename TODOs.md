@@ -1,3 +1,2 @@
-* **Add a disable/hide jam button, for times when the jam page shouldn't be visible/accessible**
+* Check all moderation (and other general) UI requests all go through /{jamId}/
 * Tidy up the admin page logic
-* 

@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.gmtkgamejam.discord.discordHttpClient
 import com.gmtkgamejam.services.AuthService
+import com.gmtkgamejam.services.JamService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -16,12 +17,14 @@ import java.net.URLEncoder
 fun Application.authModule() {
     val config: Config by inject()
     val authService: AuthService by inject()
+    val jamService: JamService by inject()
 
     install(Authentication) {
         oauth("auth-oauth-discord") {
             urlProvider = { config.getString("api.host") + "/callback" }
             providerLookup = {
                 val queryParams = this.request.queryParameters
+                val jamId = this.parameters["jamId"]
 
                 // If the auth fails and redirects back to the API, we need to exit out back to the UI
                 // Otherwise we'll infinitely loop against Discord
@@ -47,7 +50,11 @@ fun Application.authModule() {
                         requestMethod = HttpMethod.Post,
                         clientId = config.getString("secrets.discord.client.id"),
                         clientSecret = config.getString("secrets.discord.client.secret"),
-                        defaultScopes = listOf("identify", "guilds.members.read")
+                        defaultScopes = listOf("identify", "guilds.members.read"),
+                        authorizeUrlInterceptor = {
+                            // Hijack the state parameter to persist jamId through discord redirect
+                            this.parameters["state"] = this.parameters["state"] + "=jamId=$jamId"
+                        }
                     )
                 }
             }
@@ -69,7 +76,10 @@ fun Application.authModule() {
             validate {
                 val id = it.payload.getClaim("id").asString()
                 val tokenSet = authService.getTokenSet(id)
-                val adminDiscordIds = config.getList("jam.adminIds") // TODO
+
+                val jamId = it.payload.getClaim("jamId").asString()
+                val jam = jamService.getJam(jamId)!!
+                val adminDiscordIds = jam.adminIds
 
                 return@validate if (tokenSet != null && adminDiscordIds.contains(tokenSet.discordId)) JWTPrincipal(it.payload) else null
             }

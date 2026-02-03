@@ -29,10 +29,10 @@ export const AppRoutes: React.FC = () => {
             <Routes>
                 <Route path="/" element={<Navigate to="/gmtk" />}/>
                 <Route path="/about" element={<About/>}/>
-                <Route path="/login/authorized" element={<Callback/>}/>
                 <Route path="/logout" element={<Logout/>}/>
 
                 <Route path="/:jamId" element={<JamHome/>}/>
+                <Route path="/:jamId/login/authorized" element={<Callback/>}/>
                 <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
                 <Route path="/:jamId/about" element={<About/>}/>
                 <Route path="/:jamId/finished" element={<AfterJam />}/>

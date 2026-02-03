@@ -25,6 +25,8 @@ fun Application.configureAuthRouting() {
                 // redirects to authorize url
             }
             get("/callback") {
+                val state = call.parameters["state"]!!
+                val jamId = state.split("=jamId=")[1] // TODO: Enforce alphanumeric here for safety
                 val secret = config.getString("jwt.secret")
                 val issuer = config.getString("jwt.issuer")
                 val audience = config.getString("jwt.audience")
@@ -38,6 +40,7 @@ fun Application.configureAuthRouting() {
                     .withAudience(audience)
                     .withIssuer(issuer)
                     .withClaim("id", randomId)
+                    .withClaim("jamId", jamId)
                     .withExpiresAt(Date(System.currentTimeMillis() + lifespanOfAppJwt))
                     .sign(Algorithm.HMAC256(secret))
 
@@ -45,6 +48,7 @@ fun Application.configureAuthRouting() {
                     val user = getUserInfoAsync(it.accessToken)
                     val tokenSet = AuthTokenSet(
                         randomId,
+                        jamId,
                         user.id,
                         it.accessToken,
                         it.tokenType,
@@ -54,7 +58,7 @@ fun Application.configureAuthRouting() {
                     service.storeTokenSet(tokenSet)
 
                     val redirectTarget = config.getString("ui.host")
-                    call.respondRedirect("$redirectTarget/login/authorized?token=$token")
+                    call.respondRedirect("$redirectTarget/$jamId/login/authorized?token=$token")
                 }
             }
         }

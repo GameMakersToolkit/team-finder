@@ -1,15 +1,14 @@
 import * as React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuthActions } from "../../api/AuthContext";
-import { LOGIN_LAST_KNOWN_JAM_KEY } from "../../api/login.ts";
+import { getJamId } from "../../common/utils/getJamId.ts";
 
 export function Callback(): React.ReactElement | null {
     const { setToken } = useAuthActions();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
-    // getJamId() won't work here
-    const jamId = localStorage.getItem(LOGIN_LAST_KNOWN_JAM_KEY)!!;
+    const jamId = getJamId();
     const token = searchParams.get("token");
 
     if (token) {
