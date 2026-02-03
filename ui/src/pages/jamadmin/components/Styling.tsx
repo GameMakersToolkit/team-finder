@@ -87,7 +87,6 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
         });
 
         if (response && typeof response === 'object' && 'message' in response) {
-            console.log(`Presumed successful upload for ${ctx}; redrawing`)
             setTimeout(() => forceStylingRedraw(), 500);
         }
     }

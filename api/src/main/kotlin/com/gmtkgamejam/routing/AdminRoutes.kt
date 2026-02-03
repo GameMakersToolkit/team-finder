@@ -35,7 +35,9 @@ fun Application.configureAdminRouting() {
                         call.respondJSON("build.general", status = HttpStatusCode.OK)
                     }
                     post {
-                        bot.sendStatusMessageToPingChannel()
+                        // TODO: Validatino
+                        val jamId = call.parameters["jamId"]!!
+                        bot.sendStatusMessageToPingChannel(jamId)
                     }
                 }
 

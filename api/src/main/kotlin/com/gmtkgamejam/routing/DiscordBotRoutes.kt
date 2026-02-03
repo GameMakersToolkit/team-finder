@@ -55,8 +55,9 @@ fun Application.configureDiscordBotRouting() {
 
     routing {
         authenticate("auth-jwt") {
-            route("/bot") {
+            route("/{jamId}/bot") {
                 post("/dm") {
+                    val jamId = call.parameters["jamId"]!! // TODO
                     val data = call.receive<BotDmDto>()
 
                     val tokenSet = authService.getTokenSet(call) ?: return@post call.respondJSON(
@@ -84,7 +85,7 @@ fun Application.configureDiscordBotRouting() {
                     try {
                         val sendTime = LocalDateTime.now()
 
-                        bot.createContactUserPingMessage(recipientId, senderId)
+                        bot.createContactUserPingMessage(jamId, recipientId, senderId)
                         userIdMessageTimes[senderId] = sendTime
                         userIdPerUserMessageTimes[Pair(senderId, recipientId).toString()] = sendTime
                         logger.error("Sender [$senderId] has pinged Recipient [$recipientId] at [$sendTime]")

@@ -1,6 +1,7 @@
 package com.gmtkgamejam.bot
 
 import com.gmtkgamejam.Config
+import com.gmtkgamejam.services.JamService
 import com.gmtkgamejam.services.PostService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.future.await
@@ -21,18 +22,21 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrElse
 
+typealias JamId = String
+
 @Single(createdAtStart = true)
 class DiscordBot(postService: PostService): KoinComponent {
 
     private val config: Config by inject()
+    private val jamService: JamService by inject()
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private lateinit var api: DiscordApi
 
-    private lateinit var server: Server
+    private var servers: MutableMap<JamId, Server> = mutableMapOf()
 
-    private lateinit var channel: ServerTextChannel
+    private var channels: MutableMap<JamId, ServerTextChannel> = mutableMapOf()
 
     private val messageBuilder = BotMessageBuilder(postService)
 
@@ -42,29 +46,38 @@ class DiscordBot(postService: PostService): KoinComponent {
         val token = config.getString("bot.token")
         val builder = DiscordApiBuilder().setToken(token).setIntents(Intent.GUILD_MEMBERS)
 
-        val guildId = config.getString("jam.guildId")
-        val channelName = config.getString("bot.pingChannel")
-
         try {
             api = builder.login().join()
-            server = api.getServerById(guildId).get()
-
-            channel = api.getServerTextChannelsByNameIgnoreCase(channelName).first()
-
-            api.setMessageCacheSize(0, 0)
-            channel.messageCache.capacity = 0
-            channel.messageCache.storageTimeInSeconds = 0
-
             logger.info("Discord bot is online and ready for action!")
-        } catch (ex: NoSuchElementException) { // NoSuchElementException triggered by calling `.first()` on Collection
-            logger.warn("Discord bot could not connect to pingChannel [$channelName] - ping message integration offline.")
         } catch (ex: Exception) {
             logger.warn("Discord bot could not be initialised - continuing...")
             logger.warn(ex.toString())
         }
     }
 
-    suspend fun createContactUserPingMessage(recipientUserId: String, senderUserId: String) {
+    fun getOrFindServer(jamId: JamId): Server {
+        if (!servers.containsKey(jamId)) {
+            // TODO handling
+            val jam = jamService.getJam(jamId)!!
+            val server = api.getServerById(jam.guildId).get()
+            servers[jamId] = server
+        }
+
+        return servers[jamId]!!
+    }
+
+    fun getOrFindChannel(jamId: JamId): ServerTextChannel {
+        if (!channels.containsKey(jamId)) {
+            // TODO handling
+            val jam = jamService.getJam(jamId)!!
+            val channel = api.getServerTextChannelById(jam.channelId).get()
+            channels[jamId] = channel
+        }
+
+        return channels[jamId]!!
+    }
+
+    suspend fun createContactUserPingMessage(jamId: JamId, recipientUserId: String, senderUserId: String) {
         val recipient: User = api.getUserById(recipientUserId).await()
         val sender: User = api.getUserById(senderUserId).await()
         val dmChannel = recipient.privateChannel.getOrElse { recipient.openPrivateChannel().get() }
@@ -82,17 +95,18 @@ class DiscordBot(postService: PostService): KoinComponent {
                 messageSendAttempt.get()
             }
 
-            createFallbackChannelPingMessage(recipient, sender)
+            createFallbackChannelPingMessage(jamId, recipient, sender)
         } catch (ex: InterruptedException) {
-            createFallbackChannelPingMessage(recipient, sender)
+            createFallbackChannelPingMessage(jamId, recipient, sender)
         } catch (ex: java.util.concurrent.ExecutionException) {
-            createFallbackChannelPingMessage(recipient, sender)
+            createFallbackChannelPingMessage(jamId, recipient, sender)
         }
     }
 
-    private suspend fun createFallbackChannelPingMessage(recipient: User, sender: User) {
+    private suspend fun createFallbackChannelPingMessage(jamId: String, recipient: User, sender: User) {
         val messageContents = "Hey ${recipient.mentionTag} (${recipient.name}), ${sender.mentionTag} (${sender.name}) wants to get in contact about your Team Finder post!"
         // TODO: Validate message actually sent, give error otherwise
+        val channel = getOrFindChannel(jamId)
         channel.sendMessage(messageContents).await()
     }
 
@@ -139,24 +153,26 @@ class DiscordBot(postService: PostService): KoinComponent {
         return !didMessageFailBecausePerms
     }
 
-    fun isUserInGuild(userId: String): Boolean {
+    fun isUserInGuild(jamId: JamId, userId: String): Boolean {
+        val server = getOrFindServer(jamId)
         return server.getMemberById(userId).isPresent
     }
 
-    fun getDisplayNameForUser(userId: String): String {
+    fun getDisplayNameForUser(jamId: JamId, userId: String): String {
         val baseUserName = api.getUserById(userId).get().name
 
         return try {
+            val server = getOrFindServer(jamId)
             server.getMemberById(userId).get().getNickname(server).get()
         } catch (ex: NoSuchElementException) {
             baseUserName
         }
     }
 
-    suspend fun sendStatusMessageToPingChannel() {
+    suspend fun sendStatusMessageToPingChannel(jamId: JamId) {
         val messageContents = "[STATUS] Discord bot is alive and well!"
         // TODO: Validate message actually sent, give error otherwise
-        channel.sendMessage(messageContents).await()
+        getOrFindChannel(jamId).sendMessage(messageContents).await()
     }
 
 }

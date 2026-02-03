@@ -53,7 +53,6 @@ export const Dashboard = () => {
     }
 
     const onSubmitSuccess = () => {
-      console.log("Theme updated")
       toast.success(`Theme updated successfully!`);
     }
 

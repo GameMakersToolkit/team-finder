@@ -8,6 +8,7 @@ import com.gmtkgamejam.models.auth.UserInfo
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AnalyticsService
 import com.gmtkgamejam.services.AuthService
+import com.gmtkgamejam.services.JamService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -25,6 +26,7 @@ fun Application.configureUserInfoRouting() {
 
     val config: Config by inject()
     val analyticsService: AnalyticsService by inject()
+    val jamService: JamService by inject()
     val service: AuthService by inject()
     val bot: DiscordBot by inject()
 
@@ -40,8 +42,9 @@ fun Application.configureUserInfoRouting() {
                 call.respondJSON("Hello, id: $id and expires at: $expiresAt")
             }
 
-            get("/userinfo") {
-                val adminIds: List<String> = config.getList("jam.adminIds")
+            get("/{jamId}/userinfo") {
+                val jamId = call.parameters["jamId"]!! // TODO
+                val jam = jamService.getJam(jamId)!! // TODO
 
                 val currentTime = LocalDateTime.now()
                 val principal = call.principal<JWTPrincipal>()
@@ -87,10 +90,10 @@ fun Application.configureUserInfoRouting() {
                         analyticsService.trackLogin()
                     }
 
-                    val displayName = bot.getDisplayNameForUser(user.id)
+                    val displayName = bot.getDisplayNameForUser(jam.jamId, user.id)
                     val hasPermissions = bot.doesUserHaveValidPermissions(user.id)
-                    val isUserInGuild = bot.isUserInGuild(user.id)
-                    val isAdmin = adminIds.contains(user.id)
+                    val isUserInGuild = bot.isUserInGuild(jam.jamId, user.id)
+                    val isAdmin = jam.adminIds.contains(user.id)
 
                     val userInfo = UserInfo(user, displayName, isUserInGuild, hasPermissions, isAdmin)
                     shortLiveCache[user.id] = Pair(LocalDateTime.now(), userInfo)
