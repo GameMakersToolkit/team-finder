@@ -1,12 +1,12 @@
 import * as React from "react";
 import { useQueryClient } from '@tanstack/react-query';
+import { getJamId } from "../common/utils/getJamId.ts";
 
 const LOCAL_STORAGE_KEY = "team_finder_auth";
 
 export interface AuthContextValue {
   currentState: AuthState | null;
   setState: (state: AuthState | null) => void;
-  persistToLocalStorage: boolean;
 }
 
 export interface AuthState {
@@ -14,20 +14,24 @@ export interface AuthState {
 }
 
 export interface AuthActions {
-  setToken: (token: string) => void;
-  logout: () => void;
+  setToken: (jamId: string, token: string) => void;
+  logout: (jamId: string) => void;
 }
 
 export const AuthContext = React.createContext<AuthContextValue | undefined>(
   undefined
 );
 
-export function useAuth(): AuthState | null {
+export function useAuth(overrideJamId?: string): AuthState | null {
+  const jamId = overrideJamId ?? getJamId()
+
   const authContext = React.useContext(AuthContext);
   if (!authContext) {
     throw new Error("useAuth must be used within an AuthContext");
   }
-  return authContext.currentState;
+
+  const token = localStorage.getItem(`${LOCAL_STORAGE_KEY}:${jamId}`);
+  return token ? { token } : null;
 }
 
 export function useAuthActions(): AuthActions {
@@ -37,56 +41,50 @@ export function useAuthActions(): AuthActions {
     throw new Error("useAuthActions must be used within an AuthContext");
   }
   const { setState } = authContext;
-  const { persistToLocalStorage } = authContext;
   return React.useMemo(
     () => ({
-      setToken: (token) => {
-        if (persistToLocalStorage) {
-          localStorage.setItem(LOCAL_STORAGE_KEY, token);
-        }
+      setToken: (jamId: string, token: string) => {
+        localStorage.setItem(`${LOCAL_STORAGE_KEY}:${jamId}`, token);
         setState({ token });
       },
-      logout: () => {
-        if (persistToLocalStorage) {
-          localStorage.removeItem(LOCAL_STORAGE_KEY);
+      logout: (jamId: string) => {
+        if (jamId === "*") {
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith(LOCAL_STORAGE_KEY)) {
+                    localStorage.removeItem(key);
+                }
+            });
+        } else {
+            localStorage.removeItem(`${LOCAL_STORAGE_KEY}:${jamId}`);
         }
         setState(null);
         queryClient.invalidateQueries();
       },
     }),
-    [setState, queryClient, persistToLocalStorage]
+    [setState, queryClient]
   );
 }
 
 export function AuthContextProvider({
   children,
-  initialToken,
-  persistToLocalStorage = true,
 }: {
   children?: React.ReactNode;
-  initialToken?: string;
-  persistToLocalStorage?: boolean;
 }): React.ReactElement {
-  const [currentState, setState] = React.useState<AuthState | null>(() => {
-    if (initialToken) {
-      return { token: initialToken };
+  const jamId = getJamId()
+  const [currentState, setAuthState] = React.useState<AuthState | null>(
+    () => {
+        const key = `${LOCAL_STORAGE_KEY}:${jamId}`
+        const existingToken = localStorage.getItem(key);
+        return { token: existingToken } as AuthState;
     }
-    if (persistToLocalStorage) {
-      const existingToken = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (existingToken) {
-        return { token: existingToken };
-      }
-    }
-    return null;
-  });
+  );
 
   const value: AuthContextValue = React.useMemo(
     () => ({
       currentState,
-      setState,
-      persistToLocalStorage,
+      setState: (state: AuthState | null) => setAuthState(state),
     }),
-    [currentState, persistToLocalStorage]
+    [currentState]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

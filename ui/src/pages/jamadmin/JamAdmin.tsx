@@ -7,6 +7,7 @@ import {Styling} from './components/Styling.tsx';
 import {Moderation} from './components/Moderation.tsx';
 import {useAuth} from '../../api/AuthContext.tsx';
 import {useUserInfo} from '../../api/userInfo.ts';
+import { getJamId } from "../../common/utils/getJamId.ts";
 
 export const JamAdmin = () => {
     const currentAdminPage = useMatch("/:jamId/admin/:page")?.params.page || "dashboard";
@@ -41,7 +42,7 @@ export const JamAdmin = () => {
 }
 
 const NavButtons: React.FC<{currentAdminPage: string}> = ({currentAdminPage}) => {
-    const theme = useContext(JamSpecificContext)
+    const jamId = getJamId()
     const navigate = useNavigate()
 
     return (
@@ -49,21 +50,21 @@ const NavButtons: React.FC<{currentAdminPage: string}> = ({currentAdminPage}) =>
             <button
                 className={`nav--button ${currentAdminPage == 'dashboard' && 'active'}`}
                 type="button"
-                onClick={() => navigate(`/${theme.jamId}/admin`)}
+                onClick={() => navigate(`/${jamId}/admin`)}
             >
                 Admin dashboard
             </button>
             <button
                 className={`nav--button ${currentAdminPage == 'styling' && 'active'}`}
                 type="button"
-                onClick={() => navigate(`/${theme.jamId}/admin/styling`)}
+                onClick={() => navigate(`/${jamId}/admin/styling`)}
             >
                 Site Styling
             </button>
             <button
                 className={`nav--button ${currentAdminPage == 'moderation' && 'active'}`}
                 type="button"
-                onClick={() => navigate(`/${theme.jamId}/admin/moderation`)}
+                onClick={() => navigate(`/${jamId}/admin/moderation`)}
             >
                 Post moderation
             </button>

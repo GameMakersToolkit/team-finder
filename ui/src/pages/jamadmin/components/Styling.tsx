@@ -98,7 +98,7 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
         previewTheme.styles = themeFields
           .map(f => {return {[f.name]: f.currentValue}})
           .reduce((a, b) => {return {...a, ...b}}, {})
-        save(previewTheme)
+        mutation.mutate(previewTheme)
         setTimeout(() => {
             setSubmitting(false)
         }, 800)
@@ -110,7 +110,6 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
         forceStylingRedraw();
     }
 
-    const { mutate: save } = useUpdateJamMutation();
     const mutation = useUpdateJamMutation({onSuccess: onSubmitSuccess})
 
     return (

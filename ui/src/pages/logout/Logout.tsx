@@ -4,13 +4,13 @@ import {useSearchParams} from "react-router-dom";
 
 export function Logout(): null {
     const [searchParams] = useSearchParams()
-    const auth = useAuth();
+    const jamId = searchParams.get("redirect") || "*"
+    const auth = useAuth(jamId);
     const { logout } = useAuthActions();
-    const jamId = searchParams.get("redirect")
 
     React.useEffect(() => {
         if (auth) {
-            logout();
+            logout(jamId);
             window.location.replace(`/${jamId}`); // Do a browser movement to refresh page and reload userInfo
         }
     }, [auth, logout]);

@@ -1,8 +1,9 @@
-const LOGIN_URL = `${import.meta.env.VITE_API_URL}/login`;
+import { getJamId } from "../common/utils/getJamId.ts";
 
-export const LOCAL_STORAGE_RETURN_AUTH_PATH_KEY = "auth_redirect_path";
+export const LOGIN_LAST_KNOWN_JAM_KEY = "auth:last_known_jam"
 
 export const login = () => {
-    localStorage.setItem(LOCAL_STORAGE_RETURN_AUTH_PATH_KEY, window.location.pathname);
-    window.location.href = LOGIN_URL;
+  const jamId = getJamId();
+  localStorage.setItem(LOGIN_LAST_KNOWN_JAM_KEY, jamId);
+  window.location.href = `${import.meta.env.VITE_API_URL}/login?jamId=${getJamId()}`;
 }

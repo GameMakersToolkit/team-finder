@@ -74,7 +74,6 @@ export const MyPostWrapper: React.FC = () => {
         toast.dismiss()
 
         if (values.itchAccountIds === undefined) {
-            console.log("UNDEEFINED YO")
             values.itchAccountIds = ""
         }
         save(values)

@@ -31,7 +31,7 @@ export const Dashboard = () => {
     const start = new Date(values.startDateTime)
     const end = new Date(values.endDateTime)
 
-    if (start >= end) errors.invalid = "Jam end must be after jam start"
+    if (start >= end) errors["invalid"] = "Jam end must be after jam start"
 
     // Toast all errors in validation
     if (Object.keys(errors).length > 0) {
@@ -45,7 +45,7 @@ export const Dashboard = () => {
       toast.dismiss()
       theme.start = params.startDateTime
       theme.end = params.endDateTime
-      save(theme)
+      mutation.mutate(theme)
       setTimeout(() => {
         setSubmitting(false)
       }, 800)
@@ -53,10 +53,10 @@ export const Dashboard = () => {
     }
 
     const onSubmitSuccess = () => {
+      console.log("Theme updated")
       toast.success(`Theme updated successfully!`);
     }
 
-    const { mutate: save } = useUpdateJamMutation();
     const mutation = useUpdateJamMutation({onSuccess: onSubmitSuccess})
 
     const SetDateByOffset = (params: any, fieldName: string, offsetDays: number) => {
@@ -91,7 +91,7 @@ export const Dashboard = () => {
                         onBlur={params.handleBlur}
                         className="form-block__field text-black py-1 px-2"
                       />
-                      <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "startDateTime", 0)}>Now</span>
+                      <span className="text-sm cursor-pointer bold" onClick={() => params.setFieldValue("startDateTime", formatDateTimeLocal(new Date().toISOString()))}>Now</span>
                     </div>
 
                     <div className="flex flex-col gap-2">
@@ -105,10 +105,10 @@ export const Dashboard = () => {
                         className="form-block__field text-black py-1 px-2"
                       />
                       <div className="flex flex-row gap-2 justify-between">
-                        <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 7)}>Start + 7 days</span>
-                        <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 10)}>Start + 10 days</span>
-                        <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 14)}>Start + 14 days</span>
-                        <span className="text-sm pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 28)}>Start + 28 days</span>
+                        <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 7)}>Start + 7 days</span>
+                        <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 10)}>Start + 10 days</span>
+                        <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 14)}>Start + 14 days</span>
+                        <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 28)}>Start + 28 days</span>
                       </div>
                     </div>
                   </div>
