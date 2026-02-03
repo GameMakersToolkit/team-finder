@@ -69,7 +69,7 @@ fun Application.authModule() {
             validate {
                 val id = it.payload.getClaim("id").asString()
                 val tokenSet = authService.getTokenSet(id)
-                val adminDiscordIds = config.getList("jam.adminIds")
+                val adminDiscordIds = config.getList("jam.adminIds") // TODO
 
                 return@validate if (tokenSet != null && adminDiscordIds.contains(tokenSet.discordId)) JWTPrincipal(it.payload) else null
             }

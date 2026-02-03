@@ -1,5 +1,5 @@
-import React, {useContext, useState, useCallback} from 'react';
-import {JamSpecificContext, JamSpecificStyling} from '../../common/components/JamSpecificStyling.tsx';
+import React, {useState, useCallback} from 'react';
+import {JamSpecificStyling} from '../../common/components/JamSpecificStyling.tsx';
 import './JamAdmin.css'
 import {useMatch, useNavigate} from 'react-router-dom';
 import {Dashboard} from './components/Dashboard.tsx';

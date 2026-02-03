@@ -29,13 +29,13 @@ fun Application.configureAdminRouting() {
 
     routing {
         authenticate("auth-jwt-admin") {
-            route("/admin") {
+            route("/{jamId}/admin") {
                 route("/bot") {
                     get {
                         call.respondJSON("build.general", status = HttpStatusCode.OK)
                     }
                     post {
-                        // TODO: Validatino
+                        // TODO: Validation
                         val jamId = call.parameters["jamId"]!!
                         bot.sendStatusMessageToPingChannel(jamId)
                     }

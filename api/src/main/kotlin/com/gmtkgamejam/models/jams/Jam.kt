@@ -10,9 +10,9 @@ data class Jam(
     var start: String,
     var end: String,
     var styles: Map<String, String>,
-    var adminIds: List<String>,
-    var guildId: String,
-    var channelId: String,
+    val adminIds: List<String>,
+    val guildId: String,
+    val channelId: String,
 ) {
     lateinit var bgImageUrl: String
     lateinit var logoLargeUrl: String
