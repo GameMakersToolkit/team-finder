@@ -10,6 +10,7 @@ import {toast} from "react-hot-toast";
 import {useMyPostQuery} from "../../api/myPost.ts";
 import {ReactSVG} from "react-svg";
 import {JamSpecificContext} from "../../common/components/JamSpecificStyling.tsx";
+import { Jam } from "../../common/models/jam.ts";
 
 export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
 
@@ -24,7 +25,7 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
     }, [navigate]);
 
     const userInfo = useUserInfo();
-    const shouldDisplayAdminLink = Boolean(userInfo.data?.isAdmin);
+    const isAdminUser = Boolean(userInfo.data?.isAdmin);
 
     return (
         <>
@@ -38,7 +39,7 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
                         <div className="flex items-center">
                             <Link className="header-text-link" key={"About"} to={`/${theme.jamId}/about`}>About / How To Use</Link>
                             <Link className="header-text-link" target="_blank" key={"Contact Support"} to={`https://discord.com/users/427486675409829898`}>Contact Support</Link>
-                            {shouldDisplayAdminLink && <Link className="header-text-link" key={"Admin"} to={`/${theme.jamId}/admin`}>Admin</Link>}
+                            {isAdminUser && <Link className="header-text-link" key={"Admin"} to={`/${theme.jamId}/admin`}>Admin</Link>}
                         </div>
                     </div>
 
@@ -56,6 +57,7 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
                     </div>
                 </div>
             </nav>
+            {isAdminUser && <AdminHeaderPanel jam={theme} />}
         </>
     )
 }
@@ -166,5 +168,19 @@ const LoginLogout: React.FC = () => {
                 (Click here to logout)
             </Link>
         </p>
+    )
+}
+
+const AdminHeaderPanel: React.FC<{jam: Jam}> = ({jam}) => {
+    const jamIsHidden = jam.status == "HIDDEN"
+    const statusTheme = jamIsHidden ? "bg-orange-600" : "bg-green-900 text-white"
+    return (
+      <div className={`flex flex-row justify-between ${statusTheme} text-xs px-4 py-1 mt-[-16px] mb-[16px]`}>
+        <h4 className="font-bold">Admin Panel</h4>
+        <p>Start: <span>{new Date(jam.start).toISOString()}</span></p>
+        <p>End: <span>{new Date(jam.end).toISOString()}</span></p>
+        <p>Page status: <span className="font-bold">{jam.status.toLowerCase()}</span></p>
+        <p>Jam is visible to: <span className="font-bold">{jamIsHidden ? 'admins only' : 'everyone'}</span></p>
+      </div>
     )
 }
