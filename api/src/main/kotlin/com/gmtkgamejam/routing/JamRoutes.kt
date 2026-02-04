@@ -4,6 +4,7 @@ import com.gmtkgamejam.Config
 import com.gmtkgamejam.models.jams.Jam
 import com.gmtkgamejam.models.jams.JamUpdateDto
 import com.gmtkgamejam.respondJSON
+import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.JamService
 import dev.siri.uploadthing.UploadThing
 import dev.siri.uploadthing.dto.responses.UploadThingFileResponse
@@ -44,20 +45,25 @@ private object UploaderFileCache {
 
 fun Application.configureJamRouting() {
     val config: Config by inject()
+    val authService: AuthService by inject()
     val jamService: JamService by inject()
     val uploader = UploadThing(config.getString("uploadthingKey"))
 
     routing {
         route("/jams") {
             get {
-                return@get call.respond(jamService.getJams())
+                val tokenSet = authService.getTokenSet(call)
+                val jams = jamService.getJams(tokenSet)
+
+                return@get call.respond(jams)
             }
         }
 
         route("/jams/{jamId}") {
             get {
                 val jamId = call.parameters["jamId"]
-                val jams = jamService.getJams()
+                val tokenSet = authService.getTokenSet(call)
+                val jams = jamService.getJams(tokenSet)
                 val jam: Jam = jams.find { jam -> jam.jamId == jamId }
                     ?: return@get call.respondJSON("No jam matched ID of $jamId", HttpStatusCode.NotFound)
 

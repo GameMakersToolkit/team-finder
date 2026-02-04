@@ -1,5 +1,6 @@
 package com.gmtkgamejam.services
 
+import com.auth0.jwt.JWT
 import com.gmtkgamejam.models.auth.AuthTokenSet
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
@@ -7,6 +8,7 @@ import com.mongodb.client.model.UpdateOptions
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import io.ktor.server.request.*
 import org.koin.core.annotation.Single
 import org.koin.core.component.KoinComponent
 import org.litote.kmongo.eq
@@ -39,10 +41,20 @@ class AuthServiceImpl(client: MongoClient) : AuthService, KoinComponent {
     }
 
     override fun getTokenSet(call: ApplicationCall): AuthTokenSet? {
-        val principal = call.principal<JWTPrincipal>()!!
-        val id = principal.payload.getClaim("id").asString()
+        val principal: JWTPrincipal? = call.principal<JWTPrincipal>()
 
-        return getTokenSet(id)
+        if (principal != null) {
+            val id = principal.payload.getClaim("id").asString()
+            return getTokenSet(id)
+        }
+
+        // Fallback attempt if the current request isn't in an `authenticate("auth-jwt")` route
+        val id = call.request.header("Authorization")?.substring(7)
+                ?.let { JWT.decode(it) }
+                ?.getClaim("id")
+                ?.asString()
+
+        return id?.let { getTokenSet(it) }
     }
 
     override fun updateTokenSet(tokenSet: AuthTokenSet) {
