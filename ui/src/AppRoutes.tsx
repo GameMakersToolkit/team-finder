@@ -11,6 +11,7 @@ import {About} from "./pages/about/About.tsx";
 import {AfterJam} from './pages/afterjam/AfterJam.tsx';
 import { JamAdmin } from "./pages/jamadmin/JamAdmin.tsx";
 import { PreviewPage } from "./pages/jamadmin/components/PreviewPage.tsx";
+import { Login } from "./pages/login/Login.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -32,6 +33,7 @@ export const AppRoutes: React.FC = () => {
                 <Route path="/logout" element={<Logout/>}/>
 
                 <Route path="/:jamId" element={<JamHome/>}/>
+                <Route path="/:jamId/login/" element={<Login/>}/>
                 <Route path="/:jamId/login/authorized" element={<Callback/>}/>
                 <Route path="/:jamId/my-post" element={<MyPostWrapper/>}/>
                 <Route path="/:jamId/about" element={<About/>}/>
