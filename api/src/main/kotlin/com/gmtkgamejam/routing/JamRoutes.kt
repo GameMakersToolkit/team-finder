@@ -1,7 +1,7 @@
 package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.Config
-import com.gmtkgamejam.models.jams.Jam
+import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.models.jams.JamUpdateDto
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
@@ -47,6 +47,7 @@ fun Application.configureJamRouting() {
     val config: Config by inject()
     val authService: AuthService by inject()
     val jamService: JamService by inject()
+    val discordBot: DiscordBot by inject()
     val uploader = UploadThing(config.getString("uploadthingKey"))
 
     routing {
@@ -62,10 +63,13 @@ fun Application.configureJamRouting() {
         route("/jams/{jamId}") {
             get {
                 val jamId = call.parameters["jamId"]
+                    ?: return@get call.respondJSON("Missing jam ID", HttpStatusCode.BadRequest)
                 val tokenSet = authService.getTokenSet(call)
-                val jams = jamService.getJams(tokenSet)
-                val jam: Jam = jams.find { jam -> jam.jamId == jamId }
+                val jam = jamService.getJam(jamId, tokenSet)
                     ?: return@get call.respondJSON("No jam matched ID of $jamId", HttpStatusCode.NotFound)
+
+                val adminInfo = discordBot.getAdminInfo(jam.jamId, jam.adminIds)
+                jam.adminInfo = adminInfo
 
                 val files = UploaderFileCache.getCachedFiles(uploader)
 

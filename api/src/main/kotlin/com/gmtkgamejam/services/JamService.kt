@@ -11,6 +11,7 @@ interface JamService {
     fun getJams(tokenSet: AuthTokenSet?): Collection<Jam>
     fun updateJam(jam: Jam): Jam
     fun getJam(jamId: String): Jam?
+    fun getJam(jamId: String, tokenSet: AuthTokenSet?): Jam?
 }
 
 @Single(createdAtStart = true)
@@ -23,5 +24,14 @@ class JamServiceImpl(private val repository: JamRepository) : JamService, KoinCo
             }
     }
     override fun updateJam(jam: Jam): Jam = repository.updateJam(jam)
+
+    override fun getJam(jamId: String, tokenSet: AuthTokenSet?): Jam? {
+        val jam = repository.getJam(jamId)
+        return when {
+            jam?.status == JamStatus.VISIBLE -> jam
+            jam?.adminIds?.contains(tokenSet?.discordId) == true -> jam
+            else -> null
+        }
+    }
     override fun getJam(jamId: String) = repository.getJam(jamId)
 }

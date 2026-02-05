@@ -14,6 +14,7 @@ data class Jam(
     val guildId: String,
     val channelId: String,
 ) {
+    lateinit var adminInfo: Map<String, AdminInfo>
     lateinit var bgImageUrl: String
     lateinit var logoLargeUrl: String
     lateinit var logoStackedUrl: String

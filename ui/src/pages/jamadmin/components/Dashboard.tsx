@@ -140,6 +140,16 @@ export const Dashboard = () => {
                     </div>
                   </div>
 
+                  <h3 className="text-2xl text-center mb-4">Jam Admins</h3>
+                  <div className="c-form-block grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-16">
+                    {Object.values(theme?.adminInfo).map(admin => (
+                      <div className="bg-[var(--theme-primary)] rounded-xl mx-auto py-3 px-6 text-center font-semibold text-sm">
+                        <p>{admin.username}</p>
+                        <span className="text-xs">({admin.discordId})</span>
+                      </div>
+                    ))}
+                  </div>
+
                   <div className="flex flex-row justify-center">
                     <Button
                       className="mt-4 bg-[var(--theme-primary)] rounded-xl w-[240px] mx-auto py-3 px-6 text-center text-lg font-semibold"

@@ -12,4 +12,5 @@ export type Jam = {
   bgImageUrl: string,
   logoLargeUrl: string,
   logoStackedUrl: string,
+  adminInfo?: {[key: string]: {discordId: string, username: string}}
 }

@@ -1,6 +1,7 @@
 package com.gmtkgamejam.bot
 
 import com.gmtkgamejam.Config
+import com.gmtkgamejam.models.jams.AdminInfo
 import com.gmtkgamejam.services.JamService
 import com.gmtkgamejam.services.PostService
 import kotlinx.coroutines.Dispatchers
@@ -173,6 +174,14 @@ class DiscordBot(postService: PostService): KoinComponent {
         val messageContents = "[STATUS] Discord bot is alive and well!"
         // TODO: Validate message actually sent, give error otherwise
         getOrFindChannel(jamId).sendMessage(messageContents).await()
+    }
+
+    fun getAdminInfo(jamId: JamId, ids: List<String>): Map<String, AdminInfo> {
+        val info = ids.associateBy(
+            {it},
+            {AdminInfo(it, getDisplayNameForUser(jamId, it))}
+        )
+        return info
     }
 
 }
