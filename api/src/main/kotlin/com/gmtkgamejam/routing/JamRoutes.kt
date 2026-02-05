@@ -102,6 +102,7 @@ fun Application.configureJamRouting() {
                     jam.logoLargeUrl = update.logoLargeUrl ?: jam.logoLargeUrl
                     jam.logoStackedUrl = update.logoStackedUrl ?: jam.logoStackedUrl
                     jam.styles = if (!update.styles.isNullOrEmpty()) update.styles else jam.styles
+                    jam.adminInfo = mapOf() // Deliberately blank, this was the wrong approach
 
                     val updatedJam = jamService.updateJam(jam)
                     return@put call.respond(updatedJam)
