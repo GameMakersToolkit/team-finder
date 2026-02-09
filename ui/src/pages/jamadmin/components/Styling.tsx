@@ -127,19 +127,19 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
                             <DropzoneWithPreview
                               label="Background Image"
                               ctx="bg-image"
-                              currentImagePreview={theme.bgImageUrl}
+                              currentImagePreview={theme.imageUrls['bgImage']}
                               onUploadImage={onUploadImage}
                             />
                             <DropzoneWithPreview
                               label="Main Logo Image"
                               ctx="logo-large"
-                              currentImagePreview={theme.logoLargeUrl}
+                              currentImagePreview={theme.imageUrls['logoLarge']}
                               onUploadImage={onUploadImage}
                             />
                             <DropzoneWithPreview
                               label="Small Logo Image"
                               ctx="logo-stacked"
-                              currentImagePreview={theme.logoStackedUrl}
+                              currentImagePreview={theme.imageUrls['logoStacked']}
                               onUploadImage={onUploadImage}
                             />
                         </div>

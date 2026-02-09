@@ -34,7 +34,7 @@ const AfterJamBody = () => {
                 <img
                     className="block"
                     style={{margin: "0 auto"}}
-                    src={theme?.logoLargeUrl}
+                    src={theme?.imageUrls['logoLarge']}
                     width={400}
                     alt={`${theme?.name} Team Finder`}
                 />

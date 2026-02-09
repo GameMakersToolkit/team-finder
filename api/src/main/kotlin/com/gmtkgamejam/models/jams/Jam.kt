@@ -15,7 +15,5 @@ data class Jam(
     val channelId: String,
 ) {
     lateinit var adminInfo: Map<String, AdminInfo>
-    lateinit var bgImageUrl: String
-    lateinit var logoLargeUrl: String
-    lateinit var logoStackedUrl: String
+    var imageUrls: MutableMap<String, String> = mutableMapOf()
 }

@@ -9,8 +9,6 @@ export type Jam = {
   styles: {
     [key: string]: any
   },
-  bgImageUrl: string,
-  logoLargeUrl: string,
-  logoStackedUrl: string,
+  imageUrls: { [key: string]: string },
   adminInfo?: {[key: string]: {discordId: string, username: string}}
 }

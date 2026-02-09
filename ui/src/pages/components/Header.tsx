@@ -33,7 +33,7 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
                 <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
                         <Link to={`/${theme.jamId}`}>
-                            <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black rounded-lg mr-2 hover:scale-125"/>
+                            <img src={theme.imageUrls['logoStacked']} width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black rounded-lg mr-2 hover:scale-125"/>
                         </Link>
 
                         <div className="flex items-center">
@@ -48,7 +48,7 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
 
                     <div className="flex justify-evenly gap-2">
                         <Link to="/" className="bg-[var(--theme-accent-dark)] block rounded-lg mr-2 sm:hidden">
-                            <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
+                            <img src={theme.imageUrls['logoStacked']} width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
                         {isOnSearchPage && <ToggleBookmarks />}
                         {isPreview ? <MyPostButtonVisual isEdit={false} /> : <MyPostButton />}

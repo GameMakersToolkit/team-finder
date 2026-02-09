@@ -11,7 +11,7 @@ export const SiteIntro = () => {
     return (<div className="mb-8 sm:mb-8">
             <img
                 className="m-auto mb-2"
-                src={theme.logoLargeUrl}
+                src={theme.imageUrls['logoLarge']}
                 width={"50%"}
                 style={{maxWidth: "480px"}}
                 alt={theme.name + " Team Finder logo"}

@@ -57,7 +57,7 @@ const JamTile: React.FC<{jam: Jam}> = ({ jam }) => {
     return (
         <a href={jam.jamId} className="mb-4">
             <section className="h-full bg-grey-500 border-2 border-neutral-900 rounded-xl p-4 flex flex-col justify-evenly">
-                <img src={jam.logoStackedUrl} alt={jam.name} className="mx-auto mb-8 h-[128px] bg-gray-700" />
+                <img src={jam.imageUrls['logoStacked']} alt={jam.name} className="mx-auto mb-8 h-[128px] bg-gray-700" />
                 <h2 className="text-xl font-bold text-center mb-2 whitespace-break-spaces">{jam.name}</h2>
                 <h3>{jam.participants} participants</h3>
                 <p className="text-xs">Starts in {daysInFuture} days</p>

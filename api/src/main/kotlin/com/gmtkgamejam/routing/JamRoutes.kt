@@ -74,13 +74,13 @@ fun Application.configureJamRouting() {
                 val files = UploaderFileCache.getCachedFiles(uploader)
 
                 val bgImage: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:bg-image") }
-                jam.bgImageUrl = if (bgImage != null) "https://faks48l4an.ufs.sh/f/${bgImage.key}" else "https://findyourjam.team/background-image.png"
+                jam.imageUrls["bgImage"] = if (bgImage != null) "https://faks48l4an.ufs.sh/f/${bgImage.key}" else "https://findyourjam.team/background-image.png"
 
                 val logoLarge: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:logo-large") }
-                jam.logoLargeUrl = if (logoLarge != null) "https://faks48l4an.ufs.sh/f/${logoLarge.key}" else "https://findyourjam.team/background-image.png"
+                jam.imageUrls["logoLarge"] = if (logoLarge != null) "https://faks48l4an.ufs.sh/f/${logoLarge.key}" else "https://findyourjam.team/background-image.png"
 
                 val logoStacked: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:logo-stacked") }
-                jam.logoStackedUrl = if (logoStacked != null) "https://faks48l4an.ufs.sh/f/${logoStacked.key}" else "https://findyourjam.team/background-image.png"
+                jam.imageUrls["logoStacked"] = if (logoStacked != null) "https://faks48l4an.ufs.sh/f/${logoStacked.key}" else "https://findyourjam.team/background-image.png"
 
                 return@get call.respond(jam)
             }
@@ -98,9 +98,9 @@ fun Application.configureJamRouting() {
                     jam.status = update.status ?: jam.status
                     jam.start = update.start ?: jam.start
                     jam.end = update.end ?: jam.end
-                    jam.bgImageUrl = update.bgImageUrl ?: jam.bgImageUrl
-                    jam.logoLargeUrl = update.logoLargeUrl ?: jam.logoLargeUrl
-                    jam.logoStackedUrl = update.logoStackedUrl ?: jam.logoStackedUrl
+                    if (update.imageUrls != null) {
+                        jam.imageUrls.putAll(update.imageUrls)
+                    }
                     jam.styles = if (!update.styles.isNullOrEmpty()) update.styles else jam.styles
                     jam.adminInfo = mapOf() // Deliberately blank, this was the wrong approach
 
