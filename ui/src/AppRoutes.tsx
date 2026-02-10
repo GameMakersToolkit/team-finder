@@ -12,6 +12,7 @@ import {AfterJam} from './pages/afterjam/AfterJam.tsx';
 import { JamAdmin } from "./pages/jamadmin/JamAdmin.tsx";
 import { PreviewPage } from "./pages/jamadmin/components/PreviewPage.tsx";
 import { Login } from "./pages/login/Login.tsx";
+import { Index } from "./pages/index";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -28,7 +29,7 @@ export const AppRoutes: React.FC = () => {
             <ReactQuerySiteWrapper>
 
             <Routes>
-                <Route path="/" element={<Navigate to="/gmtk" />}/>
+                <Route path="/" element={<Index />}/>
                 <Route path="/about" element={<About/>}/>
                 <Route path="/logout" element={<Logout/>}/>
 
