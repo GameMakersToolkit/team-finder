@@ -18,4 +18,5 @@ data class Jam(
     lateinit var bgImageUrl: String
     lateinit var logoLargeUrl: String
     lateinit var logoStackedUrl: String
+    lateinit var faviconUrl: String
 }

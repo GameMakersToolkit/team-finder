@@ -29,10 +29,12 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
     // Set each CSS rule in the DB active on the page
     Object.entries(activeJam.styles).map(style => document.documentElement.style.setProperty(style[0], style[1]))
 
-    document.body.style.setProperty('background-image', `url("${activeJam.bgImageUrl}")`, 'important')
-    document.title = `${activeJam.name} | findyourjam.team`
+    document.body.style.setProperty('background-image', `url("${activeJam.bgImageUrl}")`, 'important');
+    document.title = `${activeJam.name} | findyourjam.team`;
+    (document.getElementById("favicon") as HTMLLinkElement).href = activeJam.faviconUrl;
 
-    return (
+
+  return (
         <JamSpecificContext.Provider value={activeJam}>
             <Header isPreview={false} />
             {children}

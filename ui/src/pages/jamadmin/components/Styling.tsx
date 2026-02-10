@@ -74,7 +74,7 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
                     <div className="c-admin-styling">
                         <h2 className="mb-4 text-3xl">Styling</h2>
                         <h3 className="mb-8 text-center text-xl bold text-yellow-500">Note: images will update immediately</h3>
-                        <div className="grid grid-cols-3 gap-4 mb-16">
+                        <div className="grid grid-cols-4 gap-4 mb-16">
                             <DropzoneWithPreview
                               label="Background Image"
                               ctx="bg-image"
@@ -90,11 +90,18 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
                               isUploading={uploadingStates['logo-large']}
                             />
                             <DropzoneWithPreview
-                              label="Small Logo Image"
+                              label="Home Button Image"
                               ctx="logo-stacked"
                               currentImagePreview={theme.logoStackedUrl}
                               onUploadImage={onUploadImage}
                               isUploading={uploadingStates['logo-stacked']}
+                            />
+                            <DropzoneWithPreview
+                              label="Favicon"
+                              ctx="favicon"
+                              currentImagePreview={theme.faviconUrl}
+                              onUploadImage={onUploadImage}
+                              isUploading={uploadingStates['favicon']}
                             />
                         </div>
                         <CommonFields

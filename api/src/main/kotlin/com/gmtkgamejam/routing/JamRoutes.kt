@@ -82,6 +82,9 @@ fun Application.configureJamRouting() {
                 val logoStacked: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:logo-stacked") }
                 jam.logoStackedUrl = if (logoStacked != null) "https://faks48l4an.ufs.sh/f/${logoStacked.key}" else "https://findyourjam.team/background-image.png"
 
+                val favicon: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:favicon") }
+                jam.faviconUrl = if (favicon != null) "https://faks48l4an.ufs.sh/f/${favicon.key}" else "https://findyourjam.team/favicon.webp"
+
                 return@get call.respond(jam)
             }
 
@@ -101,6 +104,7 @@ fun Application.configureJamRouting() {
                     jam.bgImageUrl = update.bgImageUrl ?: jam.bgImageUrl
                     jam.logoLargeUrl = update.logoLargeUrl ?: jam.logoLargeUrl
                     jam.logoStackedUrl = update.logoStackedUrl ?: jam.logoStackedUrl
+                    jam.faviconUrl = update.faviconUrl ?: jam.faviconUrl
                     jam.styles = if (!update.styles.isNullOrEmpty()) update.styles else jam.styles
                     jam.adminInfo = mapOf() // Deliberately blank, this was the wrong approach
 

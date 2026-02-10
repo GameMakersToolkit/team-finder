@@ -15,6 +15,7 @@ data class JamUpdateDto(
     val bgImageUrl: String? = null,
     val logoLargeUrl: String? = null,
     val logoStackedUrl: String? = null,
+    val faviconUrl: String? = null,
     val styles: Map<String, String>? = null,
     val adminIds: List<String>? = null,
     // val guildId: String? = null, // Updates to this require an admin
