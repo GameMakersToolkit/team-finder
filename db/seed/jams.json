@@ -31,5 +31,38 @@
         "adminIds": ["427486675409829898"],
         "guildId": "839578524242149376",
         "channelId": "972872682456641647"
+    },
+    {
+        "jamId": "example-jam",
+        "name": "Example Jam",
+        "status": "VISIBLE",
+        "start": "2026-02-01T00:00:00Z",
+        "end": "2029-02-10T23:59:59Z",
+        "logoLargeUrl": "https://findyourjam.team/logos/jam-logo-stacked.webp",
+        "logoStackedUrl": "https://findyourjam.team/logos/jam-logo-stacked.webp",
+        "styles": {
+            "--theme-primary": "#4A90E2",
+            "--theme-accent-dark": "#003366",
+            "--theme-accent-light": "#B3D4FC",
+            "--gradient-start": "#4A90E2",
+            "--gradient-end": "#357ABD",
+            "--theme-tile-border": "#4A90E2",
+            "--skill-color-looking-for": "#E94E77",
+            "--skill-color-looking-for-text": "#ffffff",
+            "--skill-color-possessed": "#50E3C2",
+            "--skill-color-possessed-text": "#222222",
+            "--skill-color-engines": "#F5A623",
+            "--skill-color-engines-text": "#222222",
+            "--skill-color-languages": "#9013FE",
+            "--skill-color-languages-text": "#ffffff",
+            "--skill-color-timezones": "#417505",
+            "--skill-color-timezones-text": "#ffffff",
+            "--theme-text": "#FFFFFF",
+            "--theme-countdown-base": "#003366",
+            "--theme-countdown-border": "#4A90E2"
+        },
+        "adminIds": ["427486675409829898"],
+        "guildId": "1470708876998344861",
+        "channelId": "1470709052504932456"
     }
 ]

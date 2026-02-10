@@ -10,8 +10,15 @@ mongoimport --host db --port 27017 \
   --authenticationDatabase admin --username root --password example \
   --drop --file /data.json --jsonArray
 
+for filename in /posts/*.json; \
+do echo "Importing $filename"; mongoimport --host db --port 27017 \
+  --db team-finder --collection posts \
+  --authenticationDatabase admin --username root --password example \
+  --drop --file $filename --jsonArray; \
+done
+
+
 # Use latest contents of jams.json to fill in itch.io jams integration
-echo "Seeding jams - run python3 jams.py to create jams.json file if it doesn't exist!"
 mongoimport --host db --port 27017 \
   --db team-finder --collection jams \
   --authenticationDatabase admin --username root --password example \
