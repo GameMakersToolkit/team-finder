@@ -2,6 +2,7 @@ package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.Config
 import com.gmtkgamejam.bot.DiscordBot
+import com.gmtkgamejam.getImageUrlOrDefault
 import com.gmtkgamejam.models.jams.JamUpdateDto
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
@@ -41,6 +42,9 @@ private object UploaderFileCache {
             files = fetched
         }
     }
+
+    fun findJamFile(uploader: UploadThing, jamId: String, suffix: String): UploadThingFileResponse? =
+        getCachedFiles(uploader).firstOrNull { it.name.startsWith("${jamId}:$suffix") }
 }
 
 fun Application.configureJamRouting() {
@@ -55,6 +59,19 @@ fun Application.configureJamRouting() {
             get {
                 val tokenSet = authService.getTokenSet(call)
                 val jams = jamService.getJams(tokenSet)
+
+                // TODO: Fix bad use of lateinit
+                jams.map {
+                    it.adminInfo = mapOf()
+                    it.bgImageUrl = UploaderFileCache.findJamFile(uploader, it.jamId, "bg-image")
+                    .getImageUrlOrDefault("background-image.png")
+                    it.logoLargeUrl = UploaderFileCache.findJamFile(uploader, it.jamId, "logo-large")
+                    .getImageUrlOrDefault("background-image.png")
+                    it.logoStackedUrl = UploaderFileCache.findJamFile(uploader, it.jamId, "logo-stacked")
+                    .getImageUrlOrDefault("background-image.png")
+                    it.faviconUrl = UploaderFileCache.findJamFile(uploader, it.jamId, "favicon")
+                    .getImageUrlOrDefault("favicon.webp")
+                }
 
                 return@get call.respond(jams)
             }
@@ -71,19 +88,14 @@ fun Application.configureJamRouting() {
                 val adminInfo = discordBot.getAdminInfo(jam.jamId, jam.adminIds)
                 jam.adminInfo = adminInfo
 
-                val files = UploaderFileCache.getCachedFiles(uploader)
-
-                val bgImage: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:bg-image") }
-                jam.bgImageUrl = if (bgImage != null) "https://faks48l4an.ufs.sh/f/${bgImage.key}" else "https://findyourjam.team/background-image.png"
-
-                val logoLarge: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:logo-large") }
-                jam.logoLargeUrl = if (logoLarge != null) "https://faks48l4an.ufs.sh/f/${logoLarge.key}" else "https://findyourjam.team/background-image.png"
-
-                val logoStacked: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:logo-stacked") }
-                jam.logoStackedUrl = if (logoStacked != null) "https://faks48l4an.ufs.sh/f/${logoStacked.key}" else "https://findyourjam.team/background-image.png"
-
-                val favicon: UploadThingFileResponse? = files.firstOrNull { file -> file.name.startsWith("${jam.jamId}:favicon") }
-                jam.faviconUrl = if (favicon != null) "https://faks48l4an.ufs.sh/f/${favicon.key}" else "https://findyourjam.team/favicon.webp"
+                jam.bgImageUrl = UploaderFileCache.findJamFile(uploader, jam.jamId, "bg-image")
+                    .getImageUrlOrDefault("background-image.png")
+                jam.logoLargeUrl = UploaderFileCache.findJamFile(uploader, jam.jamId, "logo-large")
+                    .getImageUrlOrDefault("background-image.png")
+                jam.logoStackedUrl = UploaderFileCache.findJamFile(uploader, jam.jamId, "logo-stacked")
+                    .getImageUrlOrDefault("background-image.png")
+                jam.faviconUrl = UploaderFileCache.findJamFile(uploader, jam.jamId, "favicon")
+                    .getImageUrlOrDefault("favicon.webp")
 
                 return@get call.respond(jam)
             }
