@@ -95,7 +95,7 @@ fun Application.configurePostRouting() {
                     ?.let { authService.getTokenSet(it) }
                     ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
                     ?.let { favouritesList ->
-                        post?.isFavourite = favouritesList.postIds.contains(post?.id)
+                        post?.isFavourite = favouritesList.postIds.contains(post.id)
                     }
 
                 post
@@ -113,6 +113,12 @@ fun Application.configurePostRouting() {
                     if (jamId == null) {
                         return@post call.respondJSON("Missing required query parameter: jamId", status = HttpStatusCode.BadRequest)
                     }
+
+                    // Sanitize portfolioLinks
+                    if (data.portfolioLinks.any { !isSafePortfolioUrl(it) }) {
+                        return@post call.respondJSON("Portfolio links must only contain protocol, domain, and path. Remove query parameters, fragments, or suspicious characters.", status = HttpStatusCode.BadRequest)
+                    }
+
                     authService.getTokenSet(call)
                         ?.let {
                             if (service.getPostByAuthorId(it.discordId, jamId) != null) {
@@ -195,6 +201,12 @@ fun Application.configurePostRouting() {
                         }
                         val data = call.receive<PostItemUpdateDto>()
 
+                        // Sanitize portfolioLinks
+                        val links = data.portfolioLinks
+                        if (links != null && links.any { !isSafePortfolioUrl(it) }) {
+                            return@put call.respondJSON("Portfolio links must only contain protocol, domain, and path. Remove query parameters, fragments, or suspicious characters.", status = HttpStatusCode.BadRequest)
+                        }
+
                         authService.getTokenSet(call)
                             ?.let { service.getPostByAuthorId(it.discordId, jamId) }
                             ?.let { post ->
@@ -206,7 +218,6 @@ fun Application.configurePostRouting() {
                                 data.skillsPossessed?.also { post.skillsPossessed = it }
                                 data.skillsSought?.also { post.skillsSought = it }
                                 data.preferredTools?.also { post.preferredTools = it }
-                                data.languages?.also { post.languages = it }
                                 data.languages?.also { post.languages = it }
                                 data.availability?.also { post.availability = it }
                                 data.timezoneOffsets?.also { post.timezoneOffsets = it.filter { tz -> tz >= -12 && tz <= 12 }.toSet() }
@@ -352,4 +363,13 @@ fun getSortFromParameters(params: Parameters): Bson {
         "desc" -> descending(sortByField)
         else -> descending(sortByField)
     }
+}
+
+// TODO: Naive check, add better validation!
+fun isSafePortfolioUrl(url: String): Boolean {
+    // Only allow protocol+domain+path, disallow query params, fragments, whitespace, and suspicious characters
+    return  !url.contains("?") && !url.contains("#") &&
+            !url.contains("&") && !url.contains("%") &&
+            !url.contains(" ") && !url.contains("\t") &&
+            !url.contains("\n")
 }

@@ -6,7 +6,6 @@ export const ReactSelectFormik = ({ field, form }: any) => {
   return (
     <ReactSelect
       isMulti
-      placeholder="Add itch.io profile or game links"
       value={value}
       onChange={selected => {
         form.setFieldValue(field.name, selected ? selected.map((opt: any) => opt.value) : []);

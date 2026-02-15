@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {Post} from "../models/post.ts";
 import {TeamSizeIcon} from "./TeamSizeIcon.tsx";
 import {Link} from "react-router-dom";
@@ -6,6 +6,11 @@ import {OptionsListDisplay} from "./OptionsListDisplay.tsx";
 import {skills} from "../models/skills.tsx";
 import {FavouritePostIndicator} from "./FavouritePostIndicator.tsx";
 import {iiicon} from "../utils/iiicon.tsx";
+import { JamSpecificContext } from "./JamSpecificStyling.tsx";
+import favouriteSelectedIcon from "../../assets/icons/bookmark/selected.svg";
+import favouriteNotSelectedIcon from "../../assets/icons/bookmark/unselected.svg";
+import { ReactSVG } from "react-svg";
+import { PortfolioIcon } from "./PortfolioIcon.tsx";
 
 export const PostTile: React.FC<{post: Post}> = ({post}) => {
     return (
@@ -55,34 +60,80 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
     )
 }
 
-const OptionalPortfolioLinks = ({portfolioLinks}) => {
-    const PortfolioLink: React.FC<{icon: any, url: string, label: string}> = ({icon, url, label}) => {
-        return (
-            <Link to={url} className="text-xs text-gray-400 flex">
-              <span className="mr-1">{icon}</span>
-              {label}
-            </Link>
-        )
-    }
+const OptionalPortfolioLinks: React.FC<{ portfolioLinks: string[] }> = ({ portfolioLinks }) => {
+  const PortfolioLink: React.FC<{ icon: any, url: string, label: string }> = ({ icon, url, label }) => {
+    return (
+      <Link to={url} className="text-xs flex">
+        <span className="mr-1">
+          <PortfolioIcon site={icon} />
+        </span>
+        {label}
+      </Link>
+    );
+  };
 
-  return portfolioLinks.map(link => {
-    const data = getPortfolioLink(link)
-    console.log(data)
-    if (!data || !data.label) return <></>
-    return (<PortfolioLink icon={data.icon} url={data.url} label={data.label} />)
-  })
-}
+  return (
+    <div className="mt-2 flex flex-row flex-wrap justify-unset gap-y-1 gap-x-2 fill-[var(--theme-accent-dark)]">
+      {portfolioLinks.map((link: string) => {
+        const data = getPortfolioLink(link);
+        if (!data || !data.label) return <></>;
+        return (<PortfolioLink icon={data.icon} url={data.url} label={data.label} />);
+      })}
+    </div>
+  );
+};
 
 const getPortfolioLink = (link: string) => {
   // TODO: Try/Catch
-  let url = new URL(link)
-  if (url.host.endsWith("itch.io")) {
-    return {
-      icon: iiicon('itchio-small', '#9ca3af', 16, 16),
-      url: url.toString(),
-      label: url.host.replace(".itch.io", "")
+  let url: URL;
+  try {
+    url = new URL(link);
+    url.protocol = "https"
+    url.search = ""
+  } catch {
+    return undefined;
+  }
+
+  // List of supported portfolio sites
+  const portfolioSites = [
+    {
+      host: 'itch.io',
+      icon: 'itchio-small',
+      label: (url: URL) => url.host.replace('.itch.io', ''),
+    },
+    {
+      host: 'artstation.com',
+      icon: 'artstation',
+      label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.artstation.com', ''),
+    },
+    {
+      host: 'deviantart.com',
+      icon: 'deviantart',
+      label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.deviantart.com', ''),
+    },
+    {
+      host: 'github.com',
+      icon: 'github',
+      label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.github.com', ''),
+    },
+  ];
+
+  for (const site of portfolioSites) {
+    if (url.host.endsWith(site.host)) {
+      return {
+        icon: site.icon,
+        url: url.toString(),
+        label: site.label(url),
+      };
     }
   }
+
+  // fallback: just show the link
+  return {
+    icon: 'other',
+    url: url.toString(),
+    label: url.host,
+  };
 }
 
 export const getDescriptionParagraphs = (post: Post) => {

@@ -4,7 +4,12 @@
     "jamId": "example-jam",
     "author": "Dotwo",
     "authorId": "0000000000000000001",
-    "portfolioLinks": ["dotwogames"],
+    "portfolioLinks": [
+      "https://github.com/dotwogames",
+      "https://dotwogames.itch.io",
+      "https://deviantart.com/dotwogames",
+      "https://artstation.com/dotwogames"
+    ],
     "description": "Hey there, welcome to the Team Finder! This is an example post to show you how your post will look 😁\n\nCreate a post so people can find you, or browse the posts (and use the search tools above!) to find people looking for your skills.",
     "size": 1,
     "skillsPossessed": [
@@ -34,7 +39,10 @@
   {
     "id": "0000000000000000002",
     "jamId": "example-jam",
-    "portfolioLinks": ["pixelartpioneer"],
+    "portfolioLinks": [
+      "https://github.com/pixelartpioneer",
+      "https://pixelartpioneer.itch.io"
+    ],
     "author": "Test User 5",
     "authorId": "0000000000000000002",
     "description": "Game designer and 3D artist, interested in collaborating on a unique jam project. I enjoy prototyping and working with new engines. Let's make something memorable!",
@@ -68,7 +76,10 @@
   {
     "id": "0000000000000000003",
     "jamId": "example-jam",
-    "portfolioLinks": ["soundcraftlegend"],
+    "portfolioLinks": [
+      "https://soundcraftlegend.itch.io",
+      "https://deviantart.com/soundcraftlegend"
+    ],
     "author": "Test User 6",
     "authorId": "0000000000000000003",
     "description": "Designer audio et animateur, prêt à rejoindre une équipe qui a besoin de musique, SFX ou animation. Je fais partie d'une équipe de 3 personnes avec de l'expérience dans plusieurs jams et j'adore travailler avec de nouvelles personnes.",
@@ -101,7 +112,9 @@
   {
     "id": "0000000000000000004",
     "jamId": "example-jam",
-    "portfolioLinks": ["teamleadgenius"],
+    "portfolioLinks": [
+      "https://artstation.com/teamleadgenius"
+    ],
     "author": "Test User 7",
     "authorId": "0000000000000000004",
     "description": "Producer and team lead, happy to help organize and motivate a team. I'm part of a team of 2 people and can also contribute to design and testing. Available for daily check-ins!",
@@ -132,7 +145,11 @@
   {
     "id": "0000000000000000005",
     "jamId": "example-jam",
-    "portfolioLinks": ["artbugfixer"],
+    "portfolioLinks": [
+      "https://github.com/artbugfixer",
+      "https://artbugfixer.itch.io",
+      "https://deviantart.com/artbugfixer"
+    ],
     "author": "Test User 8",
     "authorId": "0000000000000000005",
     "description": "QA tester and 2D artist, looking for a team that values polish and accessibility. I can help with bug finding, UI, and art assets.",
@@ -163,7 +180,9 @@
   {
     "id": "0000000000000000006",
     "jamId": "example-jam",
-    "portfolioLinks": ["codeitaliano"],
+    "portfolioLinks": [
+      "https://github.com/codeitaliano"
+    ],
     "author": "Test User 9",
     "authorId": "0000000000000000006",
     "description": "Programmatore e team lead, esperto in Unity e Unreal. Mi piace lavorare su giochi multiplayer e puzzle. Aperto a qualsiasi genere!",
@@ -196,7 +215,11 @@
   {
     "id": "0000000000000000007",
     "jamId": "example-jam",
-    "portfolioLinks": ["pixeljamjp"],
+    "portfolioLinks": [
+      "https://github.com/pixeljamjp",
+      "https://pixeljamjp.itch.io",
+      "https://deviantart.com/pixeljamjp"
+    ],
     "author": "Test User 10",
     "authorId": "0000000000000000007",
     "description": "ピクセルアーティスト兼ミュージシャンです。レトロなビジュアルやチップチューン音楽が必要なチームを探しています。10人のチームの一員として、クリエイティブなプロジェクトに参加できるのが楽しみです！",
@@ -230,7 +253,9 @@
   {
     "id": "0000000000000000008",
     "jamId": "example-jam",
-    "portfolioLinks": ["soundjammer"],
+    "portfolioLinks": [
+      "https://soundjammer.itch.io"
+    ],
     "author": "Test User 11",
     "authorId": "0000000000000000008",
     "description": "Composer and sound designer, available for the whole jam. I can create original music and SFX in a variety of styles. Let's make something that sounds great!",
@@ -263,7 +288,10 @@
   {
     "id": "0000000000000000009",
     "jamId": "example-jam",
-    "portfolioLinks": ["unitywiz"],
+    "portfolioLinks": [
+      "https://github.com/unitywiz",
+      "https://unitywiz.itch.io"
+    ],
     "author": "Test User 1",
     "authorId": "0000000000000000009",
     "description": "Hey! I'm a Unity and Godot developer with a passion for 2D platformers. I'm part of a team of 2 people looking to create something fun and fast-paced. I can also help with 2D art. Let's make something awesome!",
@@ -296,7 +324,11 @@
   {
     "id": "0000000000000000010",
     "jamId": "example-jam",
-    "portfolioLinks": ["storyru"],
+    "portfolioLinks": [
+      "https://github.com/storyru",
+      "https://storyru.itch.io",
+      "https://deviantart.com/storyru"
+    ],
     "author": "Test User 2",
     "authorId": "0000000000000000010",
     "description": "Всем привет! Я нарративный дизайнер и продюсер, люблю сюжетные игры. Ищу команду для работы над геймдизайном, написанием или управлением проектом. Открыт к сотрудничеству с художниками и программистами!",
@@ -331,7 +363,9 @@
   {
     "id": "0000000000000000011",
     "jamId": "example-jam",
-    "portfolioLinks": ["musicitalia"],
+    "portfolioLinks": [
+      "https://artstation.com/musicitalia"
+    ],
     "author": "Test User 3",
     "authorId": "0000000000000000011",
     "description": "Ciao! Sono un compositore e team lead, entusiasta di unirmi a un team per creare un puzzle o un rhythm game. Posso aiutare a organizzare i compiti e comporre musica originale. Non vedo l'ora di lavorare con persone creative!",
@@ -363,7 +397,10 @@
   {
     "id": "0000000000000000012",
     "jamId": "example-jam",
-    "portfolioLinks": ["narrativista"],
+    "portfolioLinks": [
+      "https://github.com/narrativista",
+      "https://narrativista.itch.io"
+    ],
     "author": "Test User 12",
     "authorId": "0000000000000000012",
     "description": "Scrittore e sound designer, cerco un team che abbia bisogno di aiuto con la narrativa, i dialoghi o l'audio. Faccio parte di un team di 3 persone e adoro lavorare su giochi atmosferici.",

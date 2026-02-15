@@ -15,6 +15,12 @@
             .post-tile__header--subtitle {
                 @apply font-normal text-sm;
             }
+
+            /* SVG-specific workaround */
+            .icon--small svg {
+                width: 16px;
+                height: 16px;
+            }
         }
 
         .post-tile__body {

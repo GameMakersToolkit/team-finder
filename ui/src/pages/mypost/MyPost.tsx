@@ -70,17 +70,17 @@ export const MyPost: React.FC<{
     )
 }
 
-const FieldPortfolioLinks: React.FC<{portfolioLinks: string[]}> = ({portfolioLinks}) => {
+const FieldPortfolioLinks: React.FC<{portfolioLinks: string[]}> = () => {
     return (
       <div id="portfolio-links-field">
             <label htmlFor="portfolioLinks" className="text-lg flex gap-1">
-                {iiicon('itchio', '#FFFFFF')} itch.io account links for your team. Enter one or more URLs.
+                (Optional) Portfolio account links
             </label>
             <Field
                 name="portfolioLinks"
                 component={ReactSelectFormik}
             />
-            <small className="block mb-2">Add links to itch.io profiles or games. Each entry must be a valid URL.</small>
+            <small className="block mb-2">Each entry must be a valid URL.</small>
         </div>
     );
 };

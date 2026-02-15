@@ -81,6 +81,26 @@ const MyPostPage: React.FC = () => {
     const onSubmitForm = (values: any, setSubmitting: (a: boolean) => void) => {
         toast.dismiss()
 
+        // Validate portfolioLinks for malicious URLs
+        if (values.portfolioLinks) {
+            for (const url of values.portfolioLinks) {
+                if (typeof url !== "string") continue;
+                // Disallow query params, fragments, and other suspicious characters
+                if (
+                  url.includes("?") ||
+                  url.includes("#") ||
+                  url.includes("&") ||
+                  url.includes("%") ||
+                  url.match(/\s/)
+                ) {
+                    toast.error("Portfolio links should not contain a query string. " +
+                      "Remove all query parameters, fragments, or suspicious characters.");
+                    setSubmitting(false);
+                    return;
+                }
+            }
+        }
+
         // if (values.itchAccountIds === undefined) {
         //     values.itchAccountIds = ""
         // }
