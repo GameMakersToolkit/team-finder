@@ -15,7 +15,7 @@ import {getDefaultLanguage, getDefaultTimezoneOffset} from '../../utils.ts';
 const defaultFormValues: Post = {
     jamId: "",
     description: "",
-    itchAccountIds: undefined,
+    portfolioLinks: [],
     size: 1,
     skillsPossessed: [],
     skillsSought: [],
@@ -53,21 +53,21 @@ const MyPostPage: React.FC = () => {
         if (values.skillsSought.length == 0 && values.skillsPossessed.length == 0) errors.skills = "Please add some skills you have and/or are looking for"
 
         // itch.io username validation
-        if (values.itchAccountIds) {
+        if (values.portfolioLinks) {
             // If any usernames include 'itch.io', the user did it wrong
-            if (values.itchAccountIds.includes("itch.io")) {
-                // @ts-ignore
-                errors.itchAccountIds = "Don't include the itch.io page of the account username!"
-            }
+            // if (values.itchAccountIds.includes("itch.io")) {
+            //     // @ts-ignore
+            //     errors.itchAccountIds = "Don't include the itch.io page of the account username!"
+            // }
 
-            const pattern = /[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?/;
-            for (const rawSubdomain of values.itchAccountIds.split(",")) {
-                const subdomain = rawSubdomain.trim()
-                if (!pattern.test(subdomain)) {
-                    // @ts-ignore
-                    errors.itchAccountIds = `${subdomain} isn't a valid itch.io username`
-                }
-            }
+            // const pattern = /[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?/;
+            // for (const rawSubdomain of values.itchAccountIds.split(",")) {
+            //     const subdomain = rawSubdomain.trim()
+            //     if (!pattern.test(subdomain)) {
+            //         // @ts-ignore
+            //         errors.itchAccountIds = `${subdomain} isn't a valid itch.io username`
+            //     }
+            // }
         }
 
         // Toast all errors in validation
@@ -81,9 +81,9 @@ const MyPostPage: React.FC = () => {
     const onSubmitForm = (values: any, setSubmitting: (a: boolean) => void) => {
         toast.dismiss()
 
-        if (values.itchAccountIds === undefined) {
-            values.itchAccountIds = ""
-        }
+        // if (values.itchAccountIds === undefined) {
+        //     values.itchAccountIds = ""
+        // }
         save(values)
         setTimeout(() => {
             setSubmitting(false)

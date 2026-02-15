@@ -13,7 +13,7 @@ data class PostItemCreateDto(
     var jamId: String,
     var author: String,
     var authorId: String,
-    var itchAccountIds: String,
+    var portfolioLinks: Set<String>,
     var description: String,
     var size: Int,
     var skillsPossessed: Set<Skills>,

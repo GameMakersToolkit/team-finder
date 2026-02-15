@@ -26,7 +26,8 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
 
                         <FavouritePostIndicator post={post} className={""} />
                     </div>
-                    {post.itchAccountIds && <OptionalItchTag itchAccountIds={post.itchAccountIds} />}
+                    {/*TODO*/}
+                    {post.portfolioLinks && <OptionalPortfolioLinks portfolioLinks={post.portfolioLinks} />}
                 </header>
 
                 <div className="post-tile__body">
@@ -54,19 +55,34 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
     )
 }
 
-const OptionalItchTag = ({itchAccountIds}) => {
-    const ids = Array.from(new Set(itchAccountIds.split(",").map(id => id.trim())))
-    return (
-        <div className="text-xs text-gray-400 flex gap-0.5 mt-2 flex-wrap">
-            <span className="mr-1">{iiicon('itchio-small', '#9ca3af', 16, 16)}</span>
-            {ids.map((id: string, idx: number) => (
-                <>
-                    {idx > 0 && <span className="mx-0.5">|</span>}
-                    <Link to={`https://${id.trim()}.itch.io`}>{id.trim()}</Link>
-                </>
-            ))}
-        </div>
-    )
+const OptionalPortfolioLinks = ({portfolioLinks}) => {
+    const PortfolioLink: React.FC<{icon: any, url: string, label: string}> = ({icon, url, label}) => {
+        return (
+            <Link to={url} className="text-xs text-gray-400 flex">
+              <span className="mr-1">{icon}</span>
+              {label}
+            </Link>
+        )
+    }
+
+  return portfolioLinks.map(link => {
+    const data = getPortfolioLink(link)
+    console.log(data)
+    if (!data || !data.label) return <></>
+    return (<PortfolioLink icon={data.icon} url={data.url} label={data.label} />)
+  })
+}
+
+const getPortfolioLink = (link: string) => {
+  // TODO: Try/Catch
+  let url = new URL(link)
+  if (url.host.endsWith("itch.io")) {
+    return {
+      icon: iiicon('itchio-small', '#9ca3af', 16, 16),
+      url: url.toString(),
+      label: url.host.replace(".itch.io", "")
+    }
+  }
 }
 
 export const getDescriptionParagraphs = (post: Post) => {

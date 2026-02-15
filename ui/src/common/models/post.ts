@@ -3,7 +3,7 @@ export interface Post {
   jamId: string;
   author: string;
   authorId: string;
-  itchAccountIds: string | undefined;
+  portfolioLinks: string[];
   description: string;
   size: number;
   skillsPossessed: string[];

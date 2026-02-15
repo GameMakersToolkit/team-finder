@@ -200,7 +200,7 @@ fun Application.configurePostRouting() {
                             ?.let { post ->
                                 // Ugly-but-functional way to update all of the fields in the DTO
                                 data.author?.also { post.author = it }
-                                data.itchAccountIds?.also { post.itchAccountIds = it }
+                                data.portfolioLinks?.also { post.portfolioLinks = it }
                                 data.description?.also { post.description = it }
                                 data.size?.also { post.size = min(it, 40) }
                                 data.skillsPossessed?.also { post.skillsPossessed = it }

@@ -1,13 +1,14 @@
 import React from "react";
-import {Button} from "../../common/components/Button.tsx";
-import {Field, Form, FormikProps} from "formik";
-import {skills} from "../../common/models/skills.tsx";
-import CustomSelect, {CustomSelectOption} from "../jamhome/components/common/CustomSelect.tsx";
-import {languages} from "../../common/models/languages.ts";
-import {tools} from "../../common/models/engines.tsx";
-import {timezones} from "../../common/models/timezones.ts";
-import {Post} from "../../common/models/post.ts";
-import {iiicon} from '../../common/utils/iiicon.tsx';
+import { Button } from "../../common/components/Button.tsx";
+import { Field, Form, FormikProps } from "formik";
+import { skills } from "../../common/models/skills.tsx";
+import CustomSelect, { CustomSelectOption } from "../jamhome/components/common/CustomSelect.tsx";
+import { languages } from "../../common/models/languages.ts";
+import { tools } from "../../common/models/engines.tsx";
+import { timezones } from "../../common/models/timezones.ts";
+import { Post } from "../../common/models/post.ts";
+import { iiicon } from "../../common/utils/iiicon.tsx";
+import { ReactSelectFormik } from "./components/ReactSelectFormik.tsx";
 
 export const MyPost: React.FC<{
     params: FormikProps<Post>,
@@ -29,7 +30,7 @@ export const MyPost: React.FC<{
         <Form>
             <FieldDescription description={values.description} />
 
-            <FieldItchAccount itchAccountIds={values.itchAccountIds} />
+            <FieldPortfolioLinks portfolioLinks={values.portfolioLinks} />
 
             {/* This is jank, improve this later with a look up on submit */}
             <Field name="jamId" value={jamId} type="hidden" />
@@ -69,22 +70,20 @@ export const MyPost: React.FC<{
     )
 }
 
-const FieldItchAccount: React.FC<{itchAccountIds: string | undefined}> = ({itchAccountIds}) => {
+const FieldPortfolioLinks: React.FC<{portfolioLinks: string[]}> = ({portfolioLinks}) => {
     return (
-        <>
-            <label htmlFor="itchAccountIds" className="text-lg !flex gap-1">
-                {iiicon('itchio', '#FFFFFF')} itch.io username(s) of your team. Separate multiple accounts with a comma.
+      <div id="portfolio-links-field">
+            <label htmlFor="portfolioLinks" className="text-lg flex gap-1">
+                {iiicon('itchio', '#FFFFFF')} itch.io account links for your team. Enter one or more URLs.
             </label>
             <Field
-                name="itchAccountIds"
-                className="form-block__field block w-full text-black hover:text-black py-1 px-2 h-[42px]"
-                placeholder={'dotwogames, wayfarergames'}
-                value={itchAccountIds}
+                name="portfolioLinks"
+                component={ReactSelectFormik}
             />
-            <small className="block mb-2">This is optional, but a fun way to show people your previous games!</small>
-        </>
-    )
-}
+            <small className="block mb-2">Add links to itch.io profiles or games. Each entry must be a valid URL.</small>
+        </div>
+    );
+};
 
 const FieldDescription: React.FC<{ description: string}> = ({description}) => {
     return (
