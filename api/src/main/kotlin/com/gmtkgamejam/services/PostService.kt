@@ -14,7 +14,7 @@ interface PostService {
     fun createPost(postItem: PostItem)
     fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem>
     fun getPost(id: String) : PostItem?
-    fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false) : PostItem?
+    fun getPostByAuthorId(authorId: String, jamId: String, ignoreDeletion: Boolean = false) : PostItem?
     fun getPostCount(filter: Bson): Int
     fun updatePost(postItem: PostItem)
     fun deletePost(postItem: PostItem)
@@ -47,8 +47,8 @@ class PostServiceImpl(private val repository: PostRepository, client: MongoClien
         return repository.getPost(id)
     }
 
-    override fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean) : PostItem? {
-        return repository.getPostByAuthorId(authorId, ignoreDeletion)
+    override fun getPostByAuthorId(authorId: String, jamId: String, ignoreDeletion: Boolean) : PostItem? {
+        return repository.getPostByAuthorId(authorId, jamId, ignoreDeletion)
     }
 
     override fun getPostCount(filter: Bson): Int {

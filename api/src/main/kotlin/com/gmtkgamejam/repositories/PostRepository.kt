@@ -15,7 +15,7 @@ interface PostRepository {
     fun createPost(postItem: PostItem)
     fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem>
     fun getPost(id: String) : PostItem?
-    fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean = false) : PostItem?
+    fun getPostByAuthorId(authorId: String, jamId: String, ignoreDeletion: Boolean = false) : PostItem?
     fun updatePost(postItem: PostItem)
     fun deletePost(postItem: PostItem)
     fun addQueryView(postItem: PostItem)
@@ -56,12 +56,11 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository, KoinCom
         return col.findOne(PostItem::id eq id)
     }
 
-    override fun getPostByAuthorId(authorId: String, ignoreDeletion: Boolean) : PostItem? {
-        var filter = PostItem::authorId eq authorId
+    override fun getPostByAuthorId(authorId: String, jamId: String, ignoreDeletion: Boolean) : PostItem? {
+        var filter: Bson = and(PostItem::authorId eq authorId, PostItem::jamId eq jamId)
         if (!ignoreDeletion) {
             filter = and(filter, PostItem::deletedAt eq null)
         }
-
         return col.findOne(filter)
     }
 

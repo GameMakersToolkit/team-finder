@@ -35,7 +35,7 @@ export function useMyPostQuery(
   return useQuery({
     queryKey: MY_POST_QUERY_KEY,
     queryFn: () =>
-        expectNotFound(apiRequest<PostDTO>(`${theme.jamId}/posts/mine`)).then(
+        expectNotFound(apiRequest<PostDTO>(`/posts/mine?jamId=${theme.jamId}`)).then(
             (result) => result && postFromApiResult(result)
         ),
     ...{
@@ -70,7 +70,7 @@ export function useMyPostMutation(
       let result;
 
       if (existing) {
-        result = await apiRequest<PostDTO>(`${theme.jamId}/posts/mine`, {
+        result = await apiRequest<PostDTO>(`/posts/mine?jamId=${theme.jamId}`, {
           method: "PUT",
           body: {
             ...variables,
@@ -109,7 +109,7 @@ export function useDeleteMyPostMutation(
   return useMutation({
     ...opts,
     mutationFn: async (variables) => {
-      const result = await apiRequest<PostDTO>(`${theme.jamId}/posts/mine`, {
+      const result = await apiRequest<PostDTO>(`/posts/mine?jamId=${theme.jamId}`, {
         method: "DELETE",
         body: variables,
       });

@@ -26,6 +26,14 @@ const defaultFormValues: Post = {
 }
 
 export const MyPostWrapper: React.FC = () => {
+  return (
+    <JamSpecificStyling>
+      <MyPostPage />
+    </JamSpecificStyling>
+  )
+}
+
+const MyPostPage: React.FC = () => {
 
     useEnsureLoggedIn();
     const userInfo = useUserInfo();
@@ -102,32 +110,30 @@ export const MyPostWrapper: React.FC = () => {
     if (myPostQuery?.isLoading) {return (<></>)}
 
     return (
-        <JamSpecificStyling>
-            <main>
-                <div className="c-form bg-transparent">
-                    <Formik
-                        initialValues={ initialValues }
-                        validate={ onValidateForm }
-                        validateOnChange={false}
-                        validateOnBlur={false}
-                        onSubmit={ (values, { setSubmitting }) => onSubmitForm(values, setSubmitting) }
-                    >
-                        {(params: FormikProps<Post>) => (
-                            <>
-                                <h1 className="text-3xl my-4">Create New Post</h1>
-                                <MyPost params={params}
-                                        jamId={jamId!!}
-                                        author={userInfo.data!.username as string}
-                                        authorId={userInfo.data!.userId as string}
-                                        hasPost={Boolean(post)}
-                                />
-                            </>
-                        )}
-                    </Formik>
-                    {post && <DeletePostButton postId={post.id} onClickHandler={() => deletePostMutation.mutate({ postId: post.id })} />}
-                </div>
-            </main>
-        </JamSpecificStyling>
+        <main>
+            <div className="c-form bg-transparent">
+                <Formik
+                    initialValues={ initialValues }
+                    validate={ onValidateForm }
+                    validateOnChange={false}
+                    validateOnBlur={false}
+                    onSubmit={ (values, { setSubmitting }) => onSubmitForm(values, setSubmitting) }
+                >
+                    {(params: FormikProps<Post>) => (
+                        <>
+                            <h1 className="text-3xl my-4">Create New Post</h1>
+                            <MyPost params={params}
+                                    jamId={jamId!!}
+                                    author={userInfo.data!.username as string}
+                                    authorId={userInfo.data!.userId as string}
+                                    hasPost={Boolean(post)}
+                            />
+                        </>
+                    )}
+                </Formik>
+                {post && <DeletePostButton postId={post.id} onClickHandler={() => deletePostMutation.mutate({ postId: post.id })} />}
+            </div>
+        </main>
     )
 }
 

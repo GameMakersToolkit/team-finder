@@ -5,10 +5,10 @@ import org.javacord.api.entity.message.embed.EmbedBuilder
 import org.javacord.api.entity.user.User
 
 class BotMessageBuilder(private val postService: PostService) {
-    fun canBuildEmbedFromUser(sender: User): Boolean = postService.getPostByAuthorId(sender.id.toString()) != null
+    fun canBuildEmbedFromUser(sender: User, jamId: String): Boolean = postService.getPostByAuthorId(sender.id.toString(), jamId) != null
 
-    fun embedMessage(recipient: User, sender: User): EmbedBuilder {
-        val post = postService.getPostByAuthorId(sender.id.toString())!!
+    fun embedMessage(recipient: User, sender: User, jamId: String): EmbedBuilder {
+        val post = postService.getPostByAuthorId(sender.id.toString(), jamId)!!
 
         val shortDescription = if (post.description.length > 240) post.description.take(237) + "..." else post.description
 

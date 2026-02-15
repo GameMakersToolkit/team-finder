@@ -109,10 +109,13 @@ fun Application.configurePostRouting() {
 
                 post {
                     val data = call.receive<PostItemCreateDto>()
-
+                    val jamId = data.jamId
+                    if (jamId == null) {
+                        return@post call.respondJSON("Missing required query parameter: jamId", status = HttpStatusCode.BadRequest)
+                    }
                     authService.getTokenSet(call)
                         ?.let {
-                            if (service.getPostByAuthorId(it.discordId) != null) {
+                            if (service.getPostByAuthorId(it.discordId, jamId) != null) {
                                 return@post call.respondJSON(
                                     "Cannot have duplicate posts",
                                     status = HttpStatusCode.BadRequest
@@ -174,18 +177,26 @@ fun Application.configurePostRouting() {
 
                 route("/mine") {
                     get {
+                        val jamId = call.parameters["jamId"]
+                        if (jamId == null) {
+                            return@get call.respondJSON("Missing required query parameter: jamId", status = HttpStatusCode.BadRequest)
+                        }
                         authService.getTokenSet(call)
-                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let { service.getPostByAuthorId(it.discordId, jamId) }
                             ?.let { return@get call.respond(it) }
 
                         call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
                     }
 
                     put {
+                        val jamId = call.parameters["jamId"]
+                        if (jamId == null) {
+                            return@put call.respondJSON("Missing required query parameter: jamId", status = HttpStatusCode.BadRequest)
+                        }
                         val data = call.receive<PostItemUpdateDto>()
 
                         authService.getTokenSet(call)
-                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let { service.getPostByAuthorId(it.discordId, jamId) }
                             ?.let { post ->
                                 // Ugly-but-functional way to update all of the fields in the DTO
                                 data.author?.also { post.author = it }
@@ -211,8 +222,12 @@ fun Application.configurePostRouting() {
                     }
 
                     delete {
+                        val jamId = call.parameters["jamId"]
+                        if (jamId == null) {
+                            return@delete call.respondJSON("Missing required query parameter: jamId", status = HttpStatusCode.BadRequest)
+                        }
                         authService.getTokenSet(call)
-                            ?.let { service.getPostByAuthorId(it.discordId) }
+                            ?.let { service.getPostByAuthorId(it.discordId, jamId) }
                             ?.let {
                                 service.deletePost(it)
                                 return@delete call.respondJSON("Post deleted", status = HttpStatusCode.OK)

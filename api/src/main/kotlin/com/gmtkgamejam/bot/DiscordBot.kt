@@ -83,9 +83,9 @@ class DiscordBot(postService: PostService): KoinComponent {
         val sender: User = api.getUserById(senderUserId).await()
         val dmChannel = recipient.privateChannel.getOrElse { recipient.openPrivateChannel().get() }
 
-        val messageSendAttempt = if (messageBuilder.canBuildEmbedFromUser(sender)) {
+        val messageSendAttempt = if (messageBuilder.canBuildEmbedFromUser(sender, jamId)) {
             logger.info("[CONTACT] [EMBED] ${sender.name} ($senderUserId) contacted ${recipient.name} ($recipientUserId)")
-            dmChannel.sendMessage(messageBuilder.embedMessage(recipient, sender))
+            dmChannel.sendMessage(messageBuilder.embedMessage(recipient, sender, jamId))
         } else {
             logger.info("[CONTACT] [BASIC] ${sender.name} ($senderUserId) contacted ${recipient.name} ($recipientUserId)")
             dmChannel.sendMessage(messageBuilder.basicMessage(recipient, sender))
