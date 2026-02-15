@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useJams } from "../../api/jam.ts";
 import { Jam } from "../../common/models/jam.ts";
+import { Link } from "react-router-dom";
 
 export const Index: React.FC = () => {
 
@@ -8,16 +9,26 @@ export const Index: React.FC = () => {
 
     return (
         <main>
-            <h1 className="text-center text-4xl mt-16 mb-8">
+            <h1 className="text-center text-2xl mt-12 mb-6">
                 <span className="block mono-header">FIND</span>
                 <span className="block mono-header">YOUR</span>
                 <span className="block mono-header">JAM.</span>
                 <span className="block mono-header">TEAM</span>
             </h1>
 
-            <h2 className="text-center text-2xl mb-8">
-              The easiest way to find your next game jam partners
-            </h2>
+            {/* Intro description section */}
+            <section className="max-w-2xl mx-auto mb-8 p-4 bg-neutral-800 rounded-xl shadow-lg text-center">
+              <h2 className="text-2xl font-bold mb-4">Welcome!</h2>
+              <p className="mb-4">
+                The Team Finder is an open platform aimed to help you connect with other game jam participants and easily form teams for your jams. Explore upcoming jams, find partners, and make amazing games together!
+              </p>
+              <p className="mb-4">
+                Why use the Team Finder? It's a super simple way to browse community game jams and meet new teammates. Whether you're a veteran or new to game jams, the Team Finder makes team formation simple and fun.
+              </p>
+              <p className="mb-4 font-semibold text-[#ea2155]">
+                Have a jam you'd like to share? The Team Finder is open for submissions - message  <Link className="font-bold underline cursor-pointer" target="_blank" to={`https://discord.com/users/427486675409829898`}>@Dotwo</Link> to add your jam and invite your community to join!
+              </p>
+            </section>
 
             {jams !== undefined ? (<JamInfo jams={jams!!} />) : <p className="text-center">Loading...</p>}
         </main>
@@ -49,7 +60,7 @@ const JamInfo: React.FC<{jams: Jam[]}> = ({jams}) => {
 
 
       <h3 className="mono-header text-[#ea2155] drop-shadow-[0_1.4px_1.4px_rgba(0,0,0,0.8)] text-center text-2xl font-bold mb-4">Not sure?</h3>
-      <h4 className="text-center">Check out the example page to see how this site works</h4>
+      <h4 className="text-center mb-2">Check out the example page to see how this site works</h4>
       <div className="flex flex-row justify-center">
         <ExampleJamTile jam={exampleJam} />
       </div>
