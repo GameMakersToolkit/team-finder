@@ -35,8 +35,13 @@ export const Index: React.FC = () => {
     )
 }
 
-const JamInfo: React.FC<{jams: Jam[]}> = ({jams}) => {
+const NoJamsMessage: React.FC<{ label: string }> = ({ label }) => (
+  <div className="col-span-full text-center py-8 text-neutral-400 italic">
+    No {label} jams at the moment.
+  </div>
+);
 
+const JamInfo: React.FC<{jams: Jam[]}> = ({jams}) => {
   const exampleJam = jams.find(jam => jam.jamId == "example-jam")!!
   const now = Date.now()
   const notStartedJams = jams
@@ -50,12 +55,12 @@ const JamInfo: React.FC<{jams: Jam[]}> = ({jams}) => {
     <>
       <h3 className="mono-header text-[#ea2155] drop-shadow-[0_1.4px_1.4px_rgba(0,0,0,0.8)] text-center text-2xl font-bold mb-4">Active Jams</h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-8 md:gap-16 lg:gap-16">
-          {startedJams.map(jam => <JamTile jam={jam} />)}
+          {startedJams.length === 0 ? <NoJamsMessage label="active" /> : startedJams.map(jam => <JamTile jam={jam} />)}
       </div>
 
       <h3 className="mono-header text-[#ea2155] drop-shadow-[0_1.4px_1.4px_rgba(0,0,0,0.8)] text-center text-2xl font-bold mb-4">Starting Soon</h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-8 md:gap-16 lg:gap-16">
-          {notStartedJams.map(jam => <JamTile jam={jam} />)}
+          {notStartedJams.length === 0 ? <NoJamsMessage label="upcoming" /> : notStartedJams.map(jam => <JamTile jam={jam} />)}
       </div>
 
 
