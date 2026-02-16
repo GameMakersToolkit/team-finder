@@ -62,7 +62,7 @@
     color: var(--skill-color-possessed-text);
     fill: var(--skill-color-possessed-text);
 }
-#skills-possessed-field .c-dropdown path {
+#skills-possessed-field .c-dropdown .dropdown__value-container path {
     fill: var(--skill-color-possessed-text)!important;
 }
 
@@ -74,7 +74,7 @@
     color: var(--skill-color-looking-for-text);
     fill: var(--skill-color-looking-for-text);
 }
-#skills-sought-field .c-dropdown path {
+#skills-sought-field .c-dropdown .dropdown__value-container path {
     fill: var(--skill-color-looking-for-text)!important;
 }
 
@@ -94,7 +94,7 @@
     color: var(--skill-color-engines-text);
     fill: var(--skill-color-engines-text);
 }
-#engines-field .c-dropdown path {
+#engines-field .c-dropdown .dropdown__value-container path {
     fill: var(--skill-color-engines-text)!important;
 }
 
@@ -107,6 +107,12 @@
     color: var(--skill-color-timezones-text);
     fill: var(--skill-color-timezones-text);
 }
-#timezones-field .c-dropdown path {
+#timezones-field .c-dropdown .dropdown__value-container path {
     fill: var(--skill-color-timezones-text)!important;
+}
+
+
+/* Goes last */
+.c-dropdown .dropdown__indicator svg path {
+    fill: var(--theme-text)!important;
 }
