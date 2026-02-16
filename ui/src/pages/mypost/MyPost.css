@@ -1,7 +1,9 @@
 @layer components {
     .c-form-block {
         .form-block__availability {
-            @apply block sm:inline-block rounded-lg p-2 m-0 mb-2 mr-2 border border-white text-white;
+            @apply block sm:inline-block rounded-lg p-2 m-0 mb-2 mr-2 border;
+            color: var(--theme-text);
+            border-color: var(--theme-text);
         }
     }
 }

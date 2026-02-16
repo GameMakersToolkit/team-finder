@@ -7,8 +7,8 @@ import { languages } from "../../common/models/languages.ts";
 import { tools } from "../../common/models/engines.tsx";
 import { timezones } from "../../common/models/timezones.ts";
 import { Post } from "../../common/models/post.ts";
-import { iiicon } from "../../common/utils/iiicon.tsx";
 import { ReactSelectFormik } from "./components/ReactSelectFormik.tsx";
+import { availability } from "../../common/models/availability.ts";
 
 export const MyPost: React.FC<{
     params: FormikProps<Post>,
@@ -52,7 +52,7 @@ export const MyPost: React.FC<{
                 <FieldTeamSize current={values.size} />
             </div>
 
-            {/*<FieldAvailability currentAvailability={values.availability} />*/}
+            <FieldAvailability currentAvailability={values.availability} />
 
             <Button
                 className="mt-4 bg-[var(--theme-primary)] rounded-xl w-full sm:w-full md:w-auto md:float-right"
@@ -216,22 +216,14 @@ const FieldTeamSize: React.FC<{current: number}> = ({current}) => {
 
 const FieldAvailability: React.FC<{ currentAvailability: string}> = ({currentAvailability}) => {
 
-    const availabilityOptions: CustomSelectOption[] = [
-        {label: "Not sure/haven't decided", value: "UNSURE"},
-        {label: "A few hours over the whole jam", value: "MINIMAL"},
-        {label: "Less than 4 hours per day", value: "PART_TIME"},
-        {label: "4-8 hours per day", value: "FULL_TIME"},
-        {label: "As much time as I can", value: "OVERTIME"}
-    ];
-
     return (
         <div className="c-form-block bg-transparent w-full grid-cols-1">
             <div id="availability-radio-group">Availability</div>
             <div role="group" aria-labelledby="availability-radio-group">
-                {availabilityOptions.map(option => (
+                {availability.map(option => (
                     <label
                         key={option.value}
-                        className={`form-block__availability ${option.value == currentAvailability ? "bg-[var(--theme-primary)]" : "bg-[var(--theme-primary)] hover:bg-[var(--theme-accent-light)]"}`}
+                        className={`text-xs form-block__availability ${option.value == currentAvailability ? "bg-[var(--theme-accent-dark)]" : "bg-[var(--theme-primary)] hover:bg-[var(--theme-accent-light)]"}`}
                     >
                         <Field type="radio" name="availability" value={option.value} />
                         {option.label}

@@ -1,4 +1,5 @@
 export type SearchParameters = {
+    availability: string[];
     jamId?: string;
     description: string;
     skillsPossessed: string[];
@@ -13,6 +14,7 @@ export type SearchParameters = {
 }
 
 export const blankSearchParameters: SearchParameters = {
+    availability: [],
     description: "",
     skillsPossessed: [],
     skillsSought: [],
@@ -27,6 +29,7 @@ export const blankSearchParameters: SearchParameters = {
 export const searchParametersFromQueryString = (queryParams: URLSearchParams): SearchParameters => {
     return {
         ...blankSearchParameters,
+        availability: queryParams.get("availability")?.split(","),
         description: queryParams.get("description"),
         skillsPossessed: queryParams.get('skillsPossessed')?.split(","),
         skillsSought: queryParams.get('skillsSought')?.split(","),

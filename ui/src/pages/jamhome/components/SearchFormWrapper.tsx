@@ -27,6 +27,12 @@ export const SearchFormWrapper: React.FC<{
         formattedValues.bookmarked = searchParams.get('bookmarked') ? true : null
         if (formattedValues.bookmarked == null) delete formattedValues.bookmarked
 
+        if (values.availability.length > 0) {
+          formattedValues.availability = values.availability.join(",");
+        } else {
+          delete formattedValues.availability
+        }
+
         // @ts-ignore
         setSearchParams(formattedValues)
     }

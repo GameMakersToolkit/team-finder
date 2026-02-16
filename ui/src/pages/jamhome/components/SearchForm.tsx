@@ -11,6 +11,7 @@ import {SortingOptions} from './SortingOptions.tsx';
 import {iiicon} from '../../../common/utils/iiicon.tsx';
 import {blankSearchParameters} from '../models/SearchParameters.ts';
 import {useSearchParams} from 'react-router-dom';
+import { availability } from "../../../common/models/availability.ts";
 
 export const SearchForm: React.FC<{
     params: FormikSearchFormParameters
@@ -152,6 +153,54 @@ const AdvancedOptions = () => {
                     isMulti={false}
                 />
             </div>
+          <div>
+            <Field name="availability" component={AvailabilitySelectorFormik} />
+          </div>
         </div>
     );
+};
+
+// TODO: How on earth do I typehint these Formik fields
+const AvailabilitySelectorFormik: React.FC<{field: any, form: any}> = ({ field, form }) => {
+
+  // field.value is `undefined` or `string[]`
+  const value: string[] = field.value ?? [];
+  const handleToggle = (optionValue: string) => {
+    let current: string[] = [...value];
+    if (current.includes(optionValue)) {
+      current = current.filter(v => v !== optionValue);
+    } else {
+      current.push(optionValue);
+    }
+    form.setFieldValue(field.name, current);
+  };
+
+  const isChecked = (optionValue: string) => {
+    return value.includes(optionValue);
+  };
+
+  return (
+    <>
+      <label htmlFor="availability-field">Availability</label>
+      <div id="availability-field">
+        {availability.map((option) => {
+          const optionStr = option.value?.toString() ?? '';
+          return (
+            <button
+              type="button"
+              name="availability"
+              key={optionStr}
+              role="checkbox"
+              aria-checked={isChecked(optionStr)}
+              className={`rounded-xl text-[var(--theme-text)] text-sm cursor-pointer px-2 py-1 mr-2 mb-2 w-full border border-[var(--theme-text)] ${isChecked(optionStr) ? 'bg-[var(--theme-accent-light)]' : 'bg-[var(--theme-tile-bg)]'} sm:w-fit`}
+              data-availability={optionStr}
+              onClick={() => handleToggle(optionStr)}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    </>
+  );
 };
