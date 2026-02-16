@@ -14,7 +14,8 @@
 
     /* TODO: Refactor out common button styling somewhere */
     #clear-search-button {
-        @apply border rounded-xl text-white px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit;
+        @apply border rounded-xl  px-4 py-2 mt-4 mr-2 mb-2 w-full sm:w-fit;
+        color: var(--theme-text);
     }
 
     #advanced-options-button {

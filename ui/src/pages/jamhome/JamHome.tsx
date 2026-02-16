@@ -75,7 +75,7 @@ const PaginationButtons: React.FC<{
         })
     }
 
-    const buttonClass = "w-[140px] py-2 border-2 border-[var(--theme-tile-border)] disabled:border-gray-500 rounded-xl font-bold text-center cursor-pointer"
+    const buttonClass = "w-[140px] bg-[var(--theme-tile-bg)] py-2 border-2 border-[var(--theme-tile-border)] disabled:border-gray-500 disabled:cursor-not-allowed rounded-xl font-bold text-center cursor-pointer"
     return (
         <div className="w-full flex justify-between pb-4">
             <button className={buttonClass} onClick={() => movePage(-1)} disabled={currentPage <= 1}>
