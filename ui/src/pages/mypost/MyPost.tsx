@@ -29,7 +29,8 @@ export const MyPost: React.FC<{
     const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false);
 
     return (
-        <Form>
+        <>
+        <Form className="text-[var(--theme-text)]">
             <FieldDescription description={values.description} />
 
             <FieldPortfolioLinks portfolioLinks={values.portfolioLinks} />
@@ -55,19 +56,19 @@ export const MyPost: React.FC<{
             </button>
             {showAdvancedSearchOptions && <AdvancedOptions values={values} />}
 
-            <Button
-                className="mt-4 bg-[var(--theme-primary)] rounded-xl w-full sm:w-full md:w-auto md:float-right"
-                type="button"
-                variant="primary"
-                disabled={isSubmitting}
-                style={{color: "white"}}
-                onClick={submitForm}
-            >
-                {isSubmitting ? "Please wait..." : `${hasPost ? "Update" : "Create"} Post`}
-            </Button>
             {/* Quick workaround to stop Create Post button falling off bottom of form, until we replace float-right */}
             <div className="clear-both h-[0px]">&nbsp;</div>
         </Form>
+        <Button
+          className="mt-4 bg-[var(--theme-primary)] text-[var(--theme-text)] rounded-xl w-full sm:w-full md:w-auto"
+          type="button"
+          variant="primary"
+          disabled={isSubmitting}
+          onClick={submitForm}
+        >
+            {isSubmitting ? "Please wait..." : `${hasPost ? "Update" : "Create"} Post`}
+        </Button>
+        </>
     )
 }
 

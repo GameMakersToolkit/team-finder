@@ -160,7 +160,7 @@ const MyPostPage: React.FC = () => {
 const DeletePostButton: React.FC<{postId: string, onClickHandler: any}> = ({onClickHandler}) => {
     return (
         <Button
-            className="mt-4 bg-white text-black rounded-xl w-full sm:w-full md:w-auto md:left"
+            className="mt-4 bg-red-600 text-white rounded-xl w-full sm:w-full md:w-auto md:float-right"
             type="submit"
             variant="default"
             disabled={false}

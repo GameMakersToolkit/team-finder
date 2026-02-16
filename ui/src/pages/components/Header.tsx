@@ -11,6 +11,7 @@ import {useMyPostQuery} from "../../api/myPost.ts";
 import {ReactSVG} from "react-svg";
 import {JamSpecificContext} from "../../common/components/JamSpecificStyling.tsx";
 import { Jam } from "../../common/models/jam.ts";
+import { getJamId } from "../../common/utils/getJamId.ts";
 
 export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
 
@@ -127,16 +128,13 @@ const MyPostButtonVisual: React.FC<{isEdit: boolean}> = ({isEdit}) => {
 }
 
 const MyPostButton: React.FC = () => {
-    // TODO: Get from storage somewhere
-    const jamId = useMatch("/:jamId/:postId?")?.params.jamId;
-
     const userInfo = useUserInfo();
     const myPostQuery = useMyPostQuery();
 
     return (
         <Link
             className={`header-button ${userInfo.isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
-            to={`/` + jamId + `/my-post`}
+            to={`/` + getJamId() + `/my-post`}
         >
             <MyPostButtonVisual isEdit={Boolean(myPostQuery?.data)} />
         </Link>

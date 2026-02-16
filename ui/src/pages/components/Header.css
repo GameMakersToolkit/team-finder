@@ -6,22 +6,24 @@
         background-image: linear-gradient(var(--gradient-start), var(--gradient-end));
 
         #toggle-bookmark-button {
-            @apply leading-none py-2 px-2 hover:font-bold hover:text-white rounded-lg;
+            @apply leading-none py-2 px-2 hover:font-bold rounded-lg;
             width: 40px;
         }
 
         .header-text-link {
-            @apply text-white leading-none h-full flex items-center py-1 px-2 mr-2 hover:font-bold hover:text-white;
+            @apply leading-none h-full flex items-center py-1 px-2 mr-2 hover:font-bold;
+            color: var(--theme-text);
         }
 
         .header-button {
             background-color: var(--theme-accent-dark);
-            @apply rounded-lg text-white hover:text-white;
+            @apply rounded-lg;
         }
 
         #login-button {
             background-color: var(--theme-accent-dark);
-            @apply font-bold px-3 text-white;
+            color: var(--theme-text);
+            @apply font-bold px-3 ;
         }
     }
 }
