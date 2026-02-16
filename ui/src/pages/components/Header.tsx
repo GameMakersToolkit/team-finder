@@ -34,7 +34,9 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
                 <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
                         <Link to={`/${theme.jamId}`}>
-                            <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"} className="bg-black rounded-lg mr-2 hover:scale-125"/>
+                            <div className="flex items-center max-h-[40px] aspect-square">
+                                <img src={theme.logoStackedUrl} width="60" alt={"jamName" + " Team Finder logo"} className="border p-1 rounded-lg mr-2 hover:scale-125"/>
+                            </div>
                         </Link>
 
                         <div className="flex items-center">
@@ -48,7 +50,7 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
                     <div className="flex-1 hidden sm:flex" />
 
                     <div className="flex justify-evenly gap-2">
-                        <Link to="/" className="bg-[var(--theme-accent-dark)] block rounded-lg mr-2 sm:hidden">
+                        <Link to={`/${theme.jamId}`} className="bg-[var(--theme-accent-dark)] block rounded-lg mr-2 sm:hidden">
                             <img src={theme.logoStackedUrl} width="40" height="40" alt={"jamName" + " Team Finder logo"}/>
                         </Link>
                         {isOnSearchPage && <ToggleBookmarks />}
