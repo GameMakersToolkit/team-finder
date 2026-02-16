@@ -13,6 +13,7 @@ data class Jam(
     val adminIds: List<String>,
     val guildId: String,
     val channelId: String,
+    var guildInviteLink: String?,
 ) {
     lateinit var adminInfo: Map<String, AdminInfo>
     lateinit var bgImageUrl: String

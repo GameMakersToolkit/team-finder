@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {useAuth} from "../../../api/AuthContext.tsx";
 import {useUserInfo} from "../../../api/userInfo.ts";
 import {login} from "../../../api/login.ts";
 import {iiicon} from "../../../common/utils/iiicon.tsx";
-
-const discordGroupName = import.meta.env.VITE_DISCORD_NAME;
-const discordGroupInviteUrl = import.meta.env.VITE_DISCORD_INVITE_URL;
+import { JamSpecificContext } from "../../../common/components/JamSpecificStyling.tsx";
 
 const LOGIN_POPUP_KEY = "login_popup_dismissed"
 
 export const Onboarding: React.FC = () => {
+    const theme = useContext(JamSpecificContext)
     const isLoggedIn = Boolean(useAuth());
     const userInfo = useUserInfo();
     const userIsInDiscordServer = userInfo.data?.isInDiscordServer;
@@ -46,8 +45,8 @@ export const Onboarding: React.FC = () => {
         return (
             <div className="c-onboarding-info-box">
                 <p className="text-black">
-                    You need to be in the {discordGroupName} Discord server to contact other users -&nbsp;
-                    <a href={discordGroupInviteUrl} className="font-bold underline">click here to join!</a>
+                    You need to be in the {theme.name} Discord server to contact other users -&nbsp;
+                    <a href={theme.guildInviteLink} className="font-bold underline">click here to join!</a>
                 </p>
             </div>
         )

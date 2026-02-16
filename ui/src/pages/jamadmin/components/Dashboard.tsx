@@ -9,6 +9,7 @@ import CustomSelect from "../../jamhome/components/common/CustomSelect.tsx";
 import * as React from "react";
 
 type FormikFormParameters = {
+  guildInviteLink: string;
   status: string;
   startDateTime: string;
   endDateTime: string;
@@ -51,6 +52,7 @@ export const Dashboard = () => {
       theme.status = params.status
       theme.start = params.startDateTime
       theme.end = params.endDateTime
+      theme.guildInviteLink = params.guildInviteLink
 
       mutation.mutate(theme)
       setTimeout(() => {
@@ -138,6 +140,13 @@ export const Dashboard = () => {
                         <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 28)}>Start + 28 days</span>
                       </div>
                     </div>
+                  </div>
+
+
+                  <h3 className="text-2xl text-center mb-4">Discord Invite Link</h3>
+                  <div className="c-form-block grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-16">
+                    <Field name="guildInviteLink" type="text" className="form-block__field px-2 py-2" placeholder="https://discord.gg/abcdef" />
+                    <p>Users need to be in your discord server for the login and contact functionality to work.</p>
                   </div>
 
                   <h3 className="text-2xl text-center mb-4">Jam Admins</h3>
