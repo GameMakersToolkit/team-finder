@@ -14,7 +14,7 @@ export const JamHome: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [isViewingBookmarks, setIsViewingBookmarks] = useState<boolean>(searchParams.get('bookmarked') === "true");
 
-    const posts = usePosts();
+    const posts = usePosts(searchParams);
 
     // Trigger API call every time query string changes
     // Not sure if we actually need react-query here, but I'm keeping it everywhere else for now to avoid unnecessary work

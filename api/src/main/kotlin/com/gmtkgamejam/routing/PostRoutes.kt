@@ -60,9 +60,9 @@ fun Application.configurePostRouting() {
                         posts.map { it.isFavourite = favouritesList.postIds.contains(it.id) }
                     }
 
-                val pagination = mapOf(
-                    "current" to page,
-                    "total" to ceil(service.getPostCount(filter) / PostRepository.PAGE_SIZE.toDouble()).toInt()
+                val pagination = Pagination(
+                    page,
+                    ceil(service.getPostCount(filter) / PostRepository.PAGE_SIZE.toDouble()).toInt()
                 )
 
                 call.respond(
@@ -149,7 +149,12 @@ fun Application.configurePostRouting() {
 
                     // Exit early if the user don't have any favourites set
                     if (favourites!!.postIds.isEmpty()) {
-                        return@get call.respond(emptyList<PostItem>())
+                        return@get call.respond(
+                            PostsDTO(
+                                emptyList(),
+                                Pagination(1, 1)
+                            )
+                        )
                     }
 
                     val favouritesFilters = mutableListOf<Bson>()
@@ -168,17 +173,12 @@ fun Application.configurePostRouting() {
                     posts.map { post -> post.isFavourite = true }
 
 
-                    val pagination = mapOf(
-                        "current" to page,
-                        "total" to ceil(favourites.postIds.size / PostRepository.PAGE_SIZE.toDouble()).toInt()
+                    val pagination = Pagination(
+                        page,
+                        ceil(favourites.postIds.size / PostRepository.PAGE_SIZE.toDouble()).toInt()
                     )
 
-                    call.respond(
-                        PostsDTO(
-                            posts,
-                            pagination
-                        )
-                    )
+                    call.respond(PostsDTO(posts, pagination))
                 }
 
                 route("/mine") {
