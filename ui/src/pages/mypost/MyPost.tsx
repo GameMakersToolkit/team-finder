@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../../common/components/Button.tsx";
 import { Field, Form, FormikProps } from "formik";
 import { skills } from "../../common/models/skills.tsx";
@@ -9,6 +9,7 @@ import { timezones } from "../../common/models/timezones.ts";
 import { Post } from "../../common/models/post.ts";
 import { ReactSelectFormik } from "./components/ReactSelectFormik.tsx";
 import { availability } from "../../common/models/availability.ts";
+import { iiicon } from "../../common/utils/iiicon.tsx";
 
 export const MyPost: React.FC<{
     params: FormikProps<Post>,
@@ -25,6 +26,7 @@ export const MyPost: React.FC<{
 }) => {
 
     const {values, submitForm, isSubmitting} = params;
+    const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false);
 
     return (
         <Form>
@@ -42,17 +44,16 @@ export const MyPost: React.FC<{
                 <FieldSkillsSought />
             </div>
 
-            <div className="c-form-block bg-transparent">
-                <FieldLanguages />
-                <FieldTools />
-            </div>
-
-            <div className="c-form-block bg-transparent">
-                <FieldTimezones />
-                <FieldTeamSize current={values.size} />
-            </div>
-
-            <FieldAvailability currentAvailability={values.availability} />
+            <button
+              id="advanced-options-button"
+              onClick={() => setShowAdvancedSearchOptions(!showAdvancedSearchOptions)}
+              type="button"
+            >
+              {showAdvancedSearchOptions
+                ? <>Show more options {iiicon('up-arrow', 'var(--theme-accent-dark)', 16, 16)}</>
+                : <>Hide more options {iiicon('down-arrow', 'var(--theme-accent-dark)', 16, 16)}</>}
+            </button>
+            {showAdvancedSearchOptions && <AdvancedOptions values={values} />}
 
             <Button
                 className="mt-4 bg-[var(--theme-primary)] rounded-xl w-full sm:w-full md:w-auto md:float-right"
@@ -68,6 +69,24 @@ export const MyPost: React.FC<{
             <div className="clear-both h-[0px]">&nbsp;</div>
         </Form>
     )
+}
+
+const AdvancedOptions: React.FC<{values: Post}> = ({values}) => {
+  return (
+    <>
+        <div className="c-form-block bg-transparent">
+            <FieldLanguages />
+            <FieldTools />
+        </div>
+
+        <div className="c-form-block bg-transparent">
+           <FieldTimezones />
+           <FieldTeamSize current={values.size} />
+        </div>
+
+        <FieldAvailability currentAvailability={values.availability} />
+    </>
+  );
 }
 
 const FieldPortfolioLinks: React.FC<{portfolioLinks: string[]}> = () => {
