@@ -119,6 +119,7 @@ fun Application.configureJamRouting() {
                     jam.faviconUrl = update.faviconUrl ?: jam.faviconUrl
                     jam.styles = if (!update.styles.isNullOrEmpty()) update.styles else jam.styles
                     jam.adminInfo = mapOf() // Deliberately blank, this was the wrong approach
+                    jam.guildInviteLink = update.guildInviteLink ?: jam.guildInviteLink
 
                     val updatedJam = jamService.updateJam(jam)
                     return@put call.respond(updatedJam)

@@ -18,5 +18,6 @@ data class JamUpdateDto(
     val faviconUrl: String? = null,
     val styles: Map<String, String>? = null,
     val adminIds: List<String>? = null,
+    val guildInviteLink: String? = null,
     // val guildId: String? = null, // Updates to this require an admin
 )
