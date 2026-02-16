@@ -85,13 +85,16 @@ const OptionalPortfolioLinks: React.FC<{ portfolioLinks: string[] }> = ({ portfo
 
 const getPortfolioLink = (link: string) => {
   // TODO: Try/Catch
-  let url: URL;
+  let url: URL | undefined;
   try {
     url = new URL(link);
-    url.protocol = "https"
-    url.search = ""
   } catch {
-    return undefined;
+    url = new URL(`https://${link}`)
+  } finally {
+    if (url != undefined) {
+      url.protocol = "https"
+      url.search = ""
+    }
   }
 
   // List of supported portfolio sites
