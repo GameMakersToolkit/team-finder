@@ -77,7 +77,7 @@ const OptionalPortfolioLinks: React.FC<{ portfolioLinks: string[] }> = ({ portfo
       {portfolioLinks.map((link: string) => {
         const data = getPortfolioLink(link);
         if (!data || !data.label) return <></>;
-        return (<PortfolioLink icon={data.icon} url={data.url} label={data.label} />);
+        return (<PortfolioLink key={`portfolio-link--${data.url}`} icon={data.icon} url={data.url} label={data.label} />);
       })}
     </div>
   );
