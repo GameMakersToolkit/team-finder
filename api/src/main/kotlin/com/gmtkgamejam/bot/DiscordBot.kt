@@ -39,7 +39,7 @@ class DiscordBot(postService: PostService): KoinComponent {
 
     private var channels: MutableMap<JamId, ServerTextChannel> = mutableMapOf()
 
-    private val messageBuilder = BotMessageBuilder(postService)
+    private val messageBuilder = BotMessageBuilder(postService, jamService)
 
     private val approvedUsers: MutableList<String> = mutableListOf()
 
@@ -88,7 +88,7 @@ class DiscordBot(postService: PostService): KoinComponent {
             dmChannel.sendMessage(messageBuilder.embedMessage(recipient, sender, jamId))
         } else {
             logger.info("[CONTACT] [BASIC] ${sender.name} ($senderUserId) contacted ${recipient.name} ($recipientUserId)")
-            dmChannel.sendMessage(messageBuilder.basicMessage(recipient, sender))
+            dmChannel.sendMessage(messageBuilder.basicMessage(recipient, sender, jamId))
         }
 
         try {

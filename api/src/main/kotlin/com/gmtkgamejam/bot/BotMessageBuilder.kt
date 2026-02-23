@@ -1,20 +1,25 @@
 package com.gmtkgamejam.bot
 
+import com.gmtkgamejam.services.JamService
 import com.gmtkgamejam.services.PostService
 import org.javacord.api.entity.message.embed.EmbedBuilder
 import org.javacord.api.entity.user.User
 
-class BotMessageBuilder(private val postService: PostService) {
+class BotMessageBuilder(
+    private val postService: PostService,
+    private val jamService: JamService
+) {
     fun canBuildEmbedFromUser(sender: User, jamId: String): Boolean = postService.getPostByAuthorId(sender.id.toString(), jamId) != null
 
     fun embedMessage(recipient: User, sender: User, jamId: String): EmbedBuilder {
         val post = postService.getPostByAuthorId(sender.id.toString(), jamId)!!
+        val jam = jamService.getJam(jamId)!!
 
         val shortDescription = if (post.description.length > 240) post.description.take(237) + "..." else post.description
 
         val embed = EmbedBuilder()
-            .setTitle("${sender.name} wants to get in contact!")
-            .setDescription("Hey there ${recipient.name}! ${sender.name} wants to get in touch - this is a summary of their current post on the Team Finder!")
+            .setTitle("[${jam.name}] ${sender.name} wants to get in contact!")
+            .setDescription("Hey there ${recipient.name}! ${sender.name} wants to get in touch - this is a summary of their current post on the ${jam.name} Team Finder!")
             .setAuthor("FindYourJam.Team Bot", "https://findyourjam.team/", "https://findyourjam.team/logos/jam-logo-stacked.webp")
             .addField("Description", shortDescription)
 
@@ -33,16 +38,17 @@ class BotMessageBuilder(private val postService: PostService) {
         }
 
         embed
-            .addField("Like what you see?", "Check out their full post here to see more! https://findyourjam.team/gmtk/${post.id}/")
-            .setFooter("Feedback? DM @dotwo in the #team-finder-bot channel")
+            .addField("Like what you see?", "Check out their full post here to see more! https://findyourjam.team/${jamId}/${post.id}/")
+            .setFooter("Feedback? Issues? DM @dotwo on Discord for support.")
 
         return embed
     }
 
     // TODO: Add a variety of messages to mix things up a bit?
-    fun basicMessage(recipient: User, sender: User): String {
+    fun basicMessage(recipient: User, sender: User, jamId: JamId): String {
+        val jam = jamService.getJam(jamId)!!
         return """
-            Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your Team Finder post!
+            Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your ${jam.name} Team Finder post!
             They don't have a post on the Team Finder yet, so why not drop them a message and find out more?
         """.trimIndent()
     }
