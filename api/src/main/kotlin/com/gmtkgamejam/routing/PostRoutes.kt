@@ -1,11 +1,8 @@
 package com.gmtkgamejam.routing
 
+import SearchParams
 import com.auth0.jwt.JWT
-import com.gmtkgamejam.enumFromStringSafe
-import com.gmtkgamejam.models.posts.Availability
 import com.gmtkgamejam.models.posts.PostItem
-import com.gmtkgamejam.models.posts.Skills
-import com.gmtkgamejam.models.posts.Tools
 import com.gmtkgamejam.models.posts.dtos.*
 import com.gmtkgamejam.repositories.PostRepository
 import com.gmtkgamejam.respondJSON
@@ -23,13 +20,13 @@ import io.ktor.util.*
 import kotlinx.coroutines.launch
 import org.bson.conversions.Bson
 import org.koin.ktor.ext.inject
-import org.litote.kmongo.*
+import org.litote.kmongo.and
+import org.litote.kmongo.eq
+import org.litote.kmongo.or
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
 import kotlin.math.min
-import kotlin.reflect.full.memberProperties
-import kotlin.text.Regex.Companion.escape
 
 fun Application.configurePostRouting() {
 
@@ -43,11 +40,11 @@ fun Application.configurePostRouting() {
             get {
                 val params = call.parameters
                 val page = params["page"]?.toInt() ?: 1
-                val filter = and(getFilterFromParameters(params))
+                val searchParams = SearchParams(params)
 
                 val posts = service.getPosts(
-                    filter,
-                    getSortFromParameters(params),
+                    searchParams.toBson(),
+                    searchParams.getSort(),
                     page
                 )
 
@@ -62,7 +59,7 @@ fun Application.configurePostRouting() {
 
                 val pagination = Pagination(
                     page,
-                    ceil(service.getPostCount(filter) / PostRepository.PAGE_SIZE.toDouble()).toInt()
+                    ceil(service.getPostCount(searchParams.toBson()) / PostRepository.PAGE_SIZE.toDouble()).toInt()
                 )
 
                 call.respond(
@@ -162,12 +159,11 @@ fun Application.configurePostRouting() {
                         favouritesFilters.add(and(PostItem::id eq it, PostItem::deletedAt eq null))
                     }
 
+                    val searchParams = SearchParams(params)
+                    val bson = and(or(favouritesFilters), and(searchParams.toBson()))
                     val posts = service.getPosts(
-                        and(
-                            or(favouritesFilters),
-                            and(getFilterFromParameters(params))
-                        ),
-                        getSortFromParameters(params),
+                        bson,
+                        searchParams.getSort(),
                         page
                     )
                     posts.map { post -> post.isFavourite = true }
@@ -283,87 +279,6 @@ fun Application.configurePostRouting() {
     }
 }
 
-fun getFilterFromParameters(params: Parameters): List<Bson> {
-    val filters = mutableListOf(PostItem::deletedAt eq null)
-
-    params["jamId"]?.also { filters.add(PostItem::jamId eq it) }
-
-    params["description"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&description=`
-        ?.map { it -> it.trim() }
-        // The regex is the easiest way to check if a description contains a given substring
-        ?.forEach { filters.add(PostItem::description regex escape(it).toRegex(RegexOption.IGNORE_CASE)) }
-
-    val skillsPossessedSearchMode = params["skillsPossessedSearchMode"] ?: "and"
-    params["skillsPossessed"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&skillsPossessed=`
-        ?.mapNotNull { enumFromStringSafe<Skills>(it) }
-        ?.map { PostItem::skillsPossessed contains it }
-        ?.let { if (skillsPossessedSearchMode == "and") and(it) else or(it) }
-        ?.let(filters::add)
-
-    val skillsSoughtSearchMode = params["skillsSoughtSearchMode"] ?: "and"
-    params["skillsSought"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&skillsSought=`
-        ?.mapNotNull { enumFromStringSafe<Skills>(it) }
-        ?.map { PostItem::skillsSought contains it }
-        ?.let { if (skillsSoughtSearchMode == "and") and(it) else or(it) }
-        ?.let(filters::add)
-
-    params["tools"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&skillsSought=`
-        ?.mapNotNull { enumFromStringSafe<Tools>(it) }
-        ?.map { PostItem::preferredTools contains it }
-        ?.let(filters::addAll)
-
-    params["languages"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&languages=`
-        ?.map { PostItem::languages contains it }
-        ?.let { filters.add(or(it)) }
-
-    params["availability"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&availability=`
-        ?.mapNotNull { enumFromStringSafe<Availability>(it) }
-        ?.map { PostItem::availability eq it }
-        // Availabilities are mutually exclusive, so treat it as inclusion search
-        ?.let { filters.add(or(it)) }
-
-    // If no timezones sent, lack of filters will search all timezones
-    if (params["timezoneStart"] != null && params["timezoneEnd"] != null) {
-        val timezoneStart: Int = params["timezoneStart"]!!.toInt()
-        val timezoneEnd: Int = params["timezoneEnd"]!!.toInt()
-
-        val timezones: MutableList<Int> = mutableListOf()
-        if (timezoneStart == timezoneEnd) {
-            timezones.add(timezoneStart)
-        } else if (timezoneStart < timezoneEnd) {
-            // UTC-2 -> UTC+2 should be: [-2, -1, 0, 1, 2]
-            timezones.addAll((timezoneStart..timezoneEnd))
-        } else {
-            // UTC+9 -> UTC-9 should be: [9, 10, 11, 12, -12, -11, -10, -9]
-            timezones.addAll((timezoneStart..12))
-            timezones.addAll((-12..timezoneEnd))
-        }
-
-        // Add all timezone searches as eq checks
-        // It's brute force, but easier to confirm
-        timezones
-            .map { PostItem::timezoneOffsets contains it }
-            .let { filters.add(or(it)) }
-    }
-
-    return filters
-}
-
-fun getSortFromParameters(params: Parameters): Bson {
-    val sortByFieldName = params["sortBy"] ?: "createdAt"
-    val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
-    return when (params["sortDir"].toString()) {
-        "asc" -> ascending(sortByField)
-        "desc" -> descending(sortByField)
-        else -> descending(sortByField)
-    }
-}
 
 // TODO: Naive check, add better validation!
 fun isSafePortfolioUrl(url: String): Boolean {
