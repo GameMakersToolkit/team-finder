@@ -5,10 +5,9 @@ import {login} from "../../../api/login.ts";
 import {iiicon} from "../../../common/utils/iiicon.tsx";
 import { JamSpecificContext } from "../../../common/components/JamSpecificStyling.tsx";
 
-const LOGIN_POPUP_KEY = "login_popup_dismissed"
-
 export const Onboarding: React.FC = () => {
     const theme = useContext(JamSpecificContext)
+    const LOGIN_POPUP_KEY = `login_popup_dismissed:${theme.jamId}`
     const isLoggedIn = Boolean(useAuth());
     const userInfo = useUserInfo();
     const userIsInDiscordServer = userInfo.data?.isInDiscordServer;
@@ -41,7 +40,8 @@ export const Onboarding: React.FC = () => {
         )
     }
 
-    if (!userIsInDiscordServer) {
+    {/* Try to bring people into the server only if there's a discord integration */}
+    if (!userIsInDiscordServer && theme.discordEnabled) {
         return (
             <div className="c-onboarding-info-box">
                 <p className="text-black">

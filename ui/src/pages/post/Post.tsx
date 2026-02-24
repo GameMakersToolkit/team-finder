@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Post as PostModel } from "../../common/models/post.ts"
 import {useNavigate, useParams} from "react-router-dom";
 import {TeamSizeIcon} from "../../common/components/TeamSizeIcon.tsx";
@@ -17,7 +17,7 @@ import {ReportBrokenDMsButton} from "./components/ReportBrokenDMsButton.tsx";
 import {FavouritePostIndicator} from "../../common/components/FavouritePostIndicator.tsx";
 import {iiicon} from "../../common/utils/iiicon.tsx";
 import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
-import {JamSpecificStyling} from "../../common/components/JamSpecificStyling.tsx";
+import { JamSpecificContext, JamSpecificStyling } from "../../common/components/JamSpecificStyling.tsx";
 
 export const Post: React.FC<{initialPost: PostModel}> = ({initialPost}) => {
 
@@ -162,6 +162,7 @@ const MessageOnDiscordButton: React.FC<{
     authorId,
     unableToContactCount,
 }) => {
+    const { discordEnabled } = useContext(JamSpecificContext)
     const isLoggedIn = Boolean(useAuth());
     const userInfo = useUserInfo();
     const canPostAuthorBeDMd = unableToContactCount < 5; // Arbitrary number
@@ -173,7 +174,7 @@ const MessageOnDiscordButton: React.FC<{
 
     const fallbackPingMessage = canPostAuthorBeDMd ? "Message button not working?" : "This post's author cannot receive direct messages"
 
-    if (userIsLoggedIn && !inDiscordServer) {
+    if (discordEnabled && userIsLoggedIn && !inDiscordServer) {
         return (
             <div className="text-center">
                 <JoinDiscordButton />
@@ -182,7 +183,8 @@ const MessageOnDiscordButton: React.FC<{
     }
 
     {/* If the user isn't logged in, don't display any ping message; it just looks kinda bad */}
-    if (!userIsLoggedIn) {
+    {/* Same if the Jam doesn't have a discord server to bring people into */}
+    if (!userIsLoggedIn || !discordEnabled) {
         return (
             <div className="text-center">
                 {canPostAuthorBeDMd && <DiscordMessageButton authorId={authorId} author={author} isLoggedIn={isLoggedIn} />}
