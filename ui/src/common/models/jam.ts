@@ -13,5 +13,8 @@ export type Jam = {
   logoStackedUrl: string,
   faviconUrl: string,
   adminInfo?: {[key: string]: {discordId: string, username: string}},
+  discordEnabled?: boolean,
+  guildId?: string,
   guildInviteLink?: string,
+  channelId?: string,
 }

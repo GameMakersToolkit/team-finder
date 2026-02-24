@@ -11,9 +11,10 @@ data class Jam(
     var end: String,
     var styles: Map<String, String>,
     val adminIds: List<String>,
-    val guildId: String,
-    val channelId: String,
+    var guildId: String,
+    var channelId: String,
     var guildInviteLink: String?,
+    var discordEnabled: Boolean = true
 ) {
     lateinit var adminInfo: Map<String, AdminInfo>
     lateinit var bgImageUrl: String
