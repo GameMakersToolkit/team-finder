@@ -11,7 +11,7 @@ val mockkVersion: String by project
 plugins {
     application
     kotlin("jvm") version "2.3.0"
-    kotlin("plugin.serialization") version "2.3.0"
+    kotlin("plugin.serialization") version "2.3.10"
 //    id("com.google.devtools.ksp") version "$kspVersion"
     id("com.google.devtools.ksp") version "2.3.5"
 }
