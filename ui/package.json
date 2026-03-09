@@ -21,7 +21,7 @@
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.13.1",
     "react-select": "^5.10.2",
-    "react-svg": "^17.2.2"
+    "react-svg": "^17.2.4"
   },
   "devDependencies": {
     "@types/luxon": "^3.7.1",
