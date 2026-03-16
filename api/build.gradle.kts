@@ -47,7 +47,7 @@ dependencies {
     ksp("io.insert-koin:koin-ksp-compiler:$koinAnnotationsVersion")
 
     // DB
-    implementation("org.litote.kmongo:kmongo:5.5.1")
+    implementation("org.litote.kmongo:kmongo:5.6.0")
 
     // Discord bot
     implementation("org.javacord:javacord:3.8.0")
