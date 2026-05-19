@@ -83,6 +83,35 @@ const OptionalPortfolioLinks: React.FC<{ portfolioLinks: string[] }> = ({ portfo
   );
 };
 
+// List of supported portfolio sites
+export const portfolioSites = [
+  {
+    host: 'itch.io',
+    icon: 'itchio-small',
+    label: (url: URL) => url.host.replace('.itch.io', ''),
+  },
+  {
+    host: 'artstation.com',
+    icon: 'artstation',
+    label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.artstation.com', ''),
+  },
+  {
+    host: 'deviantart.com',
+    icon: 'deviantart',
+    label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.deviantart.com', ''),
+  },
+  {
+    host: 'github.com',
+    icon: 'github',
+    label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.github.com', ''),
+  },
+  {
+    host: '',
+    icon: 'other',
+    label: (_: URL) =>'',
+  }
+];
+
 const getPortfolioLink = (link: string) => {
   // TODO: Try/Catch
   let url: URL | undefined;
@@ -96,30 +125,6 @@ const getPortfolioLink = (link: string) => {
       url.search = ""
     }
   }
-
-  // List of supported portfolio sites
-  const portfolioSites = [
-    {
-      host: 'itch.io',
-      icon: 'itchio-small',
-      label: (url: URL) => url.host.replace('.itch.io', ''),
-    },
-    {
-      host: 'artstation.com',
-      icon: 'artstation',
-      label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.artstation.com', ''),
-    },
-    {
-      host: 'deviantart.com',
-      icon: 'deviantart',
-      label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.deviantart.com', ''),
-    },
-    {
-      host: 'github.com',
-      icon: 'github',
-      label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.github.com', ''),
-    },
-  ];
 
   for (const site of portfolioSites) {
     if (url.host.endsWith(site.host)) {

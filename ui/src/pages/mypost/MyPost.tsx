@@ -10,6 +10,8 @@ import { Post } from "../../common/models/post.ts";
 import { ReactSelectFormik } from "./components/ReactSelectFormik.tsx";
 import { availability } from "../../common/models/availability.ts";
 import { iiicon } from "../../common/utils/iiicon.tsx";
+import { portfolioSites } from "../../common/components/PostTile.tsx";
+import { PortfolioIcon } from "../../common/components/PortfolioIcon.tsx";
 
 export const MyPost: React.FC<{
     params: FormikProps<Post>,
@@ -51,8 +53,8 @@ export const MyPost: React.FC<{
               type="button"
             >
               {showAdvancedSearchOptions
-                ? <>Show more options {iiicon('up-arrow', 'var(--theme-accent-dark)', 16, 16)}</>
-                : <>Hide more options {iiicon('down-arrow', 'var(--theme-accent-dark)', 16, 16)}</>}
+                ? <>Hide more options {iiicon('up-arrow', 'var(--theme-accent-dark)', 16, 16)}</>
+                : <>Show more options {iiicon('down-arrow', 'var(--theme-accent-dark)', 16, 16)}</>}
             </button>
             {showAdvancedSearchOptions && <AdvancedOptions values={values} />}
 
@@ -100,7 +102,17 @@ const FieldPortfolioLinks: React.FC<{portfolioLinks: string[]}> = () => {
                 name="portfolioLinks"
                 component={ReactSelectFormik}
             />
-            <small className="block mb-2">Each entry must be a valid URL.</small>
+            <small className="flex justify-between mt-2 mb-2">
+              <span className="mr-2">Each entry must be a valid URL.<br/>Current icons:</span>
+              <span className="inline-flex gap-x-4">
+              {portfolioSites.map(site => (
+                <span>
+                  <PortfolioIcon key={site.host} site={site.icon} override_classes={"fill-white"} />
+                  <span>{site.host || "anything else"}</span>
+                </span>
+              ))}
+              </span>
+            </small>
         </div>
     );
 };
