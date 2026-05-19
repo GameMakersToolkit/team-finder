@@ -22,7 +22,7 @@
 
         #login-button {
             background-color: var(--theme-accent-dark);
-            color: var(--theme-text);
+            color: black;
             @apply font-bold px-3 ;
         }
     }

@@ -1,6 +1,6 @@
 import React from "react";
 import discordIcon from "../../assets/icons/social/discord.svg";
-import gmtkIcon from "../../assets/icons/social/gmtk-letter-logo.png";
+import gmtkIcon from "../../assets/icons/social/gmtk.webp";
 import youtubeIcon from "../../assets/icons/social/youtube.svg";
 
 const jamUrl = import.meta.env.VITE_JAM_URL;

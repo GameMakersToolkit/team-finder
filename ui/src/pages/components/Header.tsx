@@ -34,7 +34,7 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
                 <div className="sm:flex h-[40px]">
                     <div className="hidden sm:flex">
                         <Link to={`/${theme.jamId}`}>
-                            <div className="flex items-center max-h-[40px] aspect-square">
+                            <div className="flex items-center max-h-[40px] aspect-square ">
                                 <img src={theme.logoStackedUrl} width="60" alt={"jamName" + " Team Finder logo"} className="border p-1 rounded-lg mr-2 hover:scale-125"/>
                             </div>
                         </Link>
@@ -98,7 +98,7 @@ const ToggleBookmarks: React.FC = () => {
             <ReactSVG
                 src={shouldLimitToFavourites ? favouriteSelectedIcon : favouriteNotSelectedIcon}
                 desc={shouldLimitToFavourites ? "Show all posts" : "Filter to your bookmarked posts"}
-                className="contents svg-explicit-size h-full fill-[color:var(--theme-text)] ml-2 my-1 mr-2"
+                className="contents svg-explicit-size h-full fill-black ml-2 my-1 mr-2"
                 style={{ width: "20px", height: "20px" }}
                 width={20}
                 height={20}
@@ -115,14 +115,14 @@ const MyPostButtonVisual: React.FC<{isEdit: boolean}> = ({isEdit}) => {
                 wrapper={"span"}
                 src={myPostIcon}
                 desc={isEdit ? "Edit post" : "Create post"}
-                className="svg-explicit-size h-full fill-[color:var(--theme-text)] inline-block ml-2 my-1 mr-2"
+                className="svg-explicit-size h-full fill-black inline-block ml-2 my-1 mr-2"
                 style={{ width: "20px", height: "20px" }}
                 width={20}
                 height={20}
               />
               <span className="hover:font-bold align-middle">
-                  <span className="text-xs sm:text-sm mr-2 sm:mr-0">{isEdit ? "Edit" : "Create"}</span>
-                  <span className="text-xs sm:text-sm hidden sm:inline sm:mr-2">&nbsp;post</span>
+                  <span className="text-xs sm:text-sm mr-2 sm:mr-0 text-black">{isEdit ? "Edit" : "Create"}</span>
+                  <span className="text-xs sm:text-sm hidden sm:inline sm:mr-2 text-black">&nbsp;post</span>
               </span>
           </div>
       </div>
