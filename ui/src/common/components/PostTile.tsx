@@ -1,16 +1,12 @@
-import React, { useContext } from "react";
-import {Post} from "../models/post.ts";
-import {TeamSizeIcon} from "./TeamSizeIcon.tsx";
-import {Link} from "react-router-dom";
-import {OptionsListDisplay} from "./OptionsListDisplay.tsx";
-import {skills} from "../models/skills.tsx";
-import {FavouritePostIndicator} from "./FavouritePostIndicator.tsx";
-import {iiicon} from "../utils/iiicon.tsx";
-import { JamSpecificContext } from "./JamSpecificStyling.tsx";
-import favouriteSelectedIcon from "../../assets/icons/bookmark/selected.svg";
-import favouriteNotSelectedIcon from "../../assets/icons/bookmark/unselected.svg";
-import { ReactSVG } from "react-svg";
-import { PortfolioIcon } from "./PortfolioIcon.tsx";
+import React from "react";
+import { Post } from "../models/post.ts";
+import { TeamSizeIcon } from "./TeamSizeIcon.tsx";
+import { Link } from "react-router-dom";
+import { OptionsListDisplay } from "./OptionsListDisplay.tsx";
+import { skills } from "../models/skills.tsx";
+import { FavouritePostIndicator } from "./FavouritePostIndicator.tsx";
+import { iiicon } from "../utils/iiicon.tsx";
+import { OptionalPortfolioLinks } from "./OptionalPortfolioLinks.tsx";
 
 export const PostTile: React.FC<{post: Post}> = ({post}) => {
     return (
@@ -60,94 +56,6 @@ export const PostTile: React.FC<{post: Post}> = ({post}) => {
     )
 }
 
-const OptionalPortfolioLinks: React.FC<{ portfolioLinks: string[] }> = ({ portfolioLinks }) => {
-  const PortfolioLink: React.FC<{ icon: any, url: string, label: string }> = ({ icon, url, label }) => {
-    return (
-      <Link to={url} className="text-xs flex">
-        <span className="mr-1">
-          <PortfolioIcon site={icon} />
-        </span>
-        {label}
-      </Link>
-    );
-  };
-
-  return (
-    <div className="mt-2 flex flex-row flex-wrap justify-unset gap-y-1 gap-x-2 fill-[var(--theme-accent-dark)]">
-      {portfolioLinks.map((link: string) => {
-        const data = getPortfolioLink(link);
-        if (!data || !data.label) return <></>;
-        return (<PortfolioLink key={`portfolio-link--${data.url}`} icon={data.icon} url={data.url} label={data.label} />);
-      })}
-    </div>
-  );
-};
-
-// List of supported portfolio sites
-export const portfolioSites = [
-  {
-    host: 'itch.io',
-    icon: 'itchio-small',
-    label: (url: URL) => url.host.replace('.itch.io', ''),
-  },
-  {
-    host: 'artstation.com',
-    icon: 'artstation',
-    label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.artstation.com', ''),
-  },
-  {
-    host: 'deviantart.com',
-    icon: 'deviantart',
-    label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.deviantart.com', ''),
-  },
-  {
-    host: 'soundcloud.com',
-    icon: 'soundcloud',
-    label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.soundcloud.com', ''),
-  },
-  {
-    host: 'github.com',
-    icon: 'github',
-    label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.github.com', ''),
-  },
-  {
-    host: '',
-    icon: 'other',
-    label: (_: URL) =>'',
-  }
-];
-
-const getPortfolioLink = (link: string) => {
-  // TODO: Try/Catch
-  let url: URL | undefined;
-  try {
-    url = new URL(link);
-  } catch {
-    url = new URL(`https://${link}`)
-  } finally {
-    if (url != undefined) {
-      url.protocol = "https"
-      url.search = ""
-    }
-  }
-
-  for (const site of portfolioSites) {
-    if (url.host.endsWith(site.host)) {
-      return {
-        icon: site.icon,
-        url: url.toString(),
-        label: site.label(url),
-      };
-    }
-  }
-
-  // fallback: just show the link
-  return {
-    icon: 'other',
-    url: url.toString(),
-    label: url.host,
-  };
-}
 
 export const getDescriptionParagraphs = (post: Post) => {
     const maxNumberOfCharsToDisplay = 270;

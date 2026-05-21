@@ -10,8 +10,8 @@ import { Post } from "../../common/models/post.ts";
 import { ReactSelectFormik } from "./components/ReactSelectFormik.tsx";
 import { availability } from "../../common/models/availability.ts";
 import { iiicon } from "../../common/utils/iiicon.tsx";
-import { portfolioSites } from "../../common/components/PostTile.tsx";
 import { PortfolioIcon } from "../../common/components/PortfolioIcon.tsx";
+import { portfolioSites } from "../../common/components/PortfolioSites.ts";
 
 export const MyPost: React.FC<{
     params: FormikProps<Post>,

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Post as PostModel } from "../../common/models/post.ts"
-import {useNavigate, useParams} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {TeamSizeIcon} from "../../common/components/TeamSizeIcon.tsx";
 import {OptionsListDisplay} from "../../common/components/OptionsListDisplay.tsx";
 import {skills} from "../../common/models/skills.tsx";
@@ -18,6 +18,8 @@ import {FavouritePostIndicator} from "../../common/components/FavouritePostIndic
 import {iiicon} from "../../common/utils/iiicon.tsx";
 import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
 import { JamSpecificContext, JamSpecificStyling } from "../../common/components/JamSpecificStyling.tsx";
+import { PortfolioIcon } from "../../common/components/PortfolioIcon.tsx";
+import { getPortfolioLink } from "../../common/components/PortfolioSites.ts";
 
 export const Post: React.FC<{initialPost: PostModel}> = ({initialPost}) => {
 
@@ -63,17 +65,23 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
             <header className="post__header">
                 <TeamSizeIcon size={post.size} />
 
-                <span className="grow" style={{ width: "calc(100% - 100px)" }}>
-                            <h3 className="post__header--title">
-                                {post.author}
-                            </h3>
-                            <p className="post__header--subtitle">
-                                {post.size > 1 ? ` and ${post.size - 1} others are` : `is`} looking for members
-                            </p>
-                        </span>
+                <span className="grow" style={{ width: "calc(100% - 200px)" }}>
+                    <h3 className="post__header--title">
+                        {post.author}
+                    </h3>
+                    <p className="post__header--subtitle">
+                        {post.size > 1 ? ` and ${post.size - 1} others are` : `is`} looking for members
+                    </p>
+                </span>
 
                 <FavouritePostIndicator post={post} className={""} />
             </header>
+
+            {post.portfolioLinks.length > 0 && (
+              <div className="flex-none mb-8">
+                {post.portfolioLinks && <OptionalPortfolioLinks portfolioLinks={post.portfolioLinks} />}
+              </div>
+            )}
 
             <div className="post__body">
                 <div className="flex flex-col sm:flex-row">
@@ -144,6 +152,30 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
     </main>
     );
 }
+
+
+const OptionalPortfolioLinks: React.FC<{ portfolioLinks: string[] }> = ({ portfolioLinks }) => {
+    const PortfolioLink: React.FC<{ icon: any, url: string, label: string }> = ({ icon, url, label }) => {
+        return (
+          <Link to={url} className="text-xs flex">
+                <span className="mr-1 w-[16px] h-[16px]">
+                  <PortfolioIcon site={icon} override_classes={undefined} />
+                </span>
+              {label}
+          </Link>
+        );
+    };
+
+    return (
+      <div className="mt-2 flex flex-row flex-wrap justify-unset gap-y-1 gap-x-2 fill-[var(--theme-accent-dark)]">
+          {portfolioLinks.map((link: string) => {
+              const data = getPortfolioLink(link);
+              if (!data || !data.label) return <></>;
+              return (<PortfolioLink key={`portfolio-link--${data.url}`} icon={data.icon} url={data.url} label={data.label} />);
+          })}
+      </div>
+    );
+};
 
 
 /**
