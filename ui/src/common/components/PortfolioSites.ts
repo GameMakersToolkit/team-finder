@@ -32,7 +32,7 @@ export const portfolioSites = [
   {
     host: "store.steampowered.com",
     icon: "steam",
-    label: (url: URL) => url.pathname.split("/")[3].replaceAll("_", " ") || url.host.replace("https://store.steampowered.com", "")
+    label: (url: URL) => url.pathname.split("/")[3]?.replaceAll("_", " ") || url.host.replace("https://store.steampowered.com", "")
   },
   {
     host: "",
