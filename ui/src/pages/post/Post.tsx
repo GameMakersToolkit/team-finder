@@ -77,7 +77,7 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
                 <FavouritePostIndicator post={post} className={""} />
             </header>
 
-            {post.portfolioLinks.length > 0 && (
+            {post.portfolioLinks?.length > 0 && (
               <div className="flex-none mb-8">
                 {post.portfolioLinks && <OptionalPortfolioLinks portfolioLinks={post.portfolioLinks} />}
               </div>
