@@ -25,6 +25,16 @@ export const portfolioSites = [
     label: (url: URL) => url.pathname.split("/")[1] || url.host.replace(".github.com", "")
   },
   {
+    host: "linkedin.com",
+    icon: "linkedin",
+    label: (url: URL) => url.pathname.split("/")[2] || url.host.replace(".linkedin.com", "")
+  },
+  {
+    host: "store.steampowered.com",
+    icon: "steam",
+    label: (url: URL) => url.pathname.split("/")[3].replaceAll("_", " ") || url.host.replace("https://store.steampowered.com", "")
+  },
+  {
     host: "",
     icon: "other",
     label: (_: URL) => ""
