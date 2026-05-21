@@ -102,9 +102,9 @@ const FieldPortfolioLinks: React.FC<{portfolioLinks: string[]}> = () => {
                 name="portfolioLinks"
                 component={ReactSelectFormik}
             />
-            <small className="flex justify-between mt-2 mb-2">
-              <span className="mr-2">Each entry must be a valid URL.<br/>Current icons:</span>
-              <span className="inline-flex gap-x-4">
+            <small className="block sm:flex justify-between mt-2 mb-2">
+              <span className="mr-8 mb-4 block sm:inline">Each entry must be a valid URL.<br/>Current icons:</span>
+              <span className="grow flex-wrap inline-flex gap-x-4">
               {portfolioSites.map(site => (
                 <span>
                   <PortfolioIcon key={site.host} site={site.icon} override_classes={"fill-white"} />
