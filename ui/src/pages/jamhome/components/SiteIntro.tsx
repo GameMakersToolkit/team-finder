@@ -53,12 +53,33 @@ const CountdownSection = ({countdownTarget, label}) => {
             <p className="text-center mb-2">{label}:</p>
             <div className="flex justify-evenly bg-[var(--theme-countdown-base)] border[var(--theme-countdown-base)] border-2 rounded-xl mx-4 px-2 py-3 text-4xl">
                 {countdown.days > 0 && <>
-                    <span>{`${countdown.days.toString().padStart(2, '0')}`}</span><span>:</span></>}
+                    <div className="flex flex-col justify-evenly">
+                        <span>{`${countdown.days.toString().padStart(2, '0')}`}</span>
+                        <span className="text-[0.6rem] leading-3">days</span>
+                    </div>
+                    <span>:</span>
+                </>}
+
                 {(countdown.days > 0 || countdown.hours > 0) && <>
-                    <span>{`${countdown.hours.toString().padStart(2, '0')}`}</span><span>:</span></>}
+                    <div className="flex flex-col justify-evenly">
+                        <span>{`${countdown.hours.toString().padStart(2, '0')}`}</span>
+                        <span className="text-[0.6rem] leading-3">hours</span>
+                    </div>
+                    <span>:</span>
+                </>}
+
                 {(countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0) && <>
-                    <span>{`${countdown.minutes.toString().padStart(2, '0')} `}</span><span>:</span></>}
-                <span>{`${countdown.seconds.toString().padStart(2, '0')} `}</span>
+                    <div className="flex flex-col justify-evenly">
+                        <span>{`${countdown.minutes.toString().padStart(2, '0')} `}</span>
+                        <span className="text-[0.6rem] leading-3">minutes</span>
+                    </div>
+                <span>:</span>
+                </>}
+
+                <div className="flex flex-col justify-evenly">
+                    <span>{`${countdown.seconds.toString().padStart(2, '0')} `}</span>
+                    <span className="text-[0.6rem] leading-3">seconds</span>
+                </div>
             </div>
         </>)
 }
