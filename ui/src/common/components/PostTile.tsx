@@ -101,6 +101,11 @@ export const portfolioSites = [
     label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.deviantart.com', ''),
   },
   {
+    host: 'soundcloud.com',
+    icon: 'soundcloud',
+    label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.soundcloud.com', ''),
+  },
+  {
     host: 'github.com',
     icon: 'github',
     label: (url: URL) => url.pathname.split('/')[1] || url.host.replace('.github.com', ''),

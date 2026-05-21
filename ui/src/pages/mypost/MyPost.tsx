@@ -108,7 +108,7 @@ const FieldPortfolioLinks: React.FC<{portfolioLinks: string[]}> = () => {
               {portfolioSites.map(site => (
                 <span>
                   <PortfolioIcon key={site.host} site={site.icon} override_classes={"fill-white"} />
-                  <span>{site.host || "anything else"}</span>
+                  <span className="text-xs">{site.host || "anything else"}</span>
                 </span>
               ))}
               </span>
