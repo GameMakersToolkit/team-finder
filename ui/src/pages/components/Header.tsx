@@ -35,7 +35,7 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
                     <div className="hidden sm:flex">
                         <Link to={`/${theme.jamId}`}>
                             <div className="flex items-center max-h-[40px] aspect-square ">
-                                <img src={theme.logoStackedUrl} width="60" alt={"jamName" + " Team Finder logo"} className="border p-1 rounded-lg mr-2 hover:scale-125"/>
+                                <img src={theme.logoStackedUrl} alt={"jamName" + " Team Finder logo"} className="border p-1 rounded-lg mr-2 hover:scale-125 bg-black w-[60px] h-[45px]"/>
                             </div>
                         </Link>
 
