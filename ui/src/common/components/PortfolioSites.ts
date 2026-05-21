@@ -50,7 +50,7 @@ export const getPortfolioLink = (link: string) => {
       return {
         icon: site.icon,
         url: url.toString(),
-        label: site.label(url),
+        label: site.icon === "other" ? url.host : site.label(url),
       };
     }
   }
