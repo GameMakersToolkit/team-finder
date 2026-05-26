@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { useApiRequest } from "./apiRequest";
-import { useAuth } from "./AuthContext";
+import { useAuth, useAuthActions } from "./AuthContext";
 import { getJamId } from "../common/utils/getJamId.ts";
 
 const USER_INFO_QUERY_KEY = ["userInfo"] as const;
@@ -14,8 +14,9 @@ export function useUserInfo(
 ): UseQueryResult<UserInfo | null, Error> {
   const jamId = getJamId()
   const hasAuth = Boolean(useAuth());
+  const { logout } = useAuthActions();
   const apiRequest = useApiRequest();
-  return useQuery({
+  const queryResult = useQuery({
       queryKey: USER_INFO_QUERY_KEY,
       queryFn: () => apiRequest<UserInfo>(`/${jamId}/userinfo`),
       ...{
@@ -25,4 +26,11 @@ export function useUserInfo(
           retry: opts?.retry ?? 0,
       }
   });
+
+  if (queryResult.status == "error") {
+    logout(jamId)
+    window.location.reload()
+  }
+
+  return queryResult;
 }
