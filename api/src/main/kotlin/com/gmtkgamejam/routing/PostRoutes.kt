@@ -41,6 +41,7 @@ fun Application.configurePostRouting() {
     routing {
         route("/posts") {
             get {
+                val start = LocalDateTime.now()
                 val params = call.parameters
                 val page = params["page"]?.toInt() ?: 1
                 val filter = and(getFilterFromParameters(params))
@@ -50,6 +51,7 @@ fun Application.configurePostRouting() {
                     getSortFromParameters(params),
                     page
                 )
+                val queryEnd = LocalDateTime.now()
 
                 // Set isFavourite on posts for this user if they're logged in
                 call.request.header("Authorization")?.substring(7)
@@ -65,12 +67,17 @@ fun Application.configurePostRouting() {
                     ceil(service.getPostCount(filter) / PostRepository.PAGE_SIZE.toDouble()).toInt()
                 )
 
+                val startResponse = LocalDateTime.now()
                 call.respond(
                     PostsDTO(
                         posts,
                         pagination
                     )
                 )
+                val endResponse = LocalDateTime.now()
+                if (params["debug"] == "true") {
+                    log.info("TIMINGS CHECK: start ${start}, queryEnd ${queryEnd}, startResponse: ${startResponse}, endResponse: ${endResponse}")
+                }
 
                 launch {
                     analyticsService.trackQuery(params.toMap().toSortedMap())
