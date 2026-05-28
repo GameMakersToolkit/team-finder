@@ -5,7 +5,7 @@ export const KoFiButton = () => {
         <a
             href='https://ko-fi.com/U7U01FEUVS'
             target='_blank'
-            className="sticky left-4 bottom-4 flex w-[36px]"
+            className="sticky top-[95vh] left-4 bottom-4 flex w-[36px]"
         >
             <img
                 src={logo}
