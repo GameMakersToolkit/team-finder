@@ -35,6 +35,21 @@ export const portfolioSites = [
     label: (url: URL) => url.pathname.split("/")[3]?.replaceAll("_", " ") || url.host.replace("https://store.steampowered.com", "")
   },
   {
+    host: "bandcamp.com",
+    icon: "bandcamp",
+    label: (url: URL) => url.host.replace(".bandcamp.com", ""),
+  },
+  {
+    host: "youtube.com",
+    icon: "youtube",
+    label: (url: URL) => url.pathname.split("/")[1] || url.host.replace("https://youtube.com", "")
+  },
+  {
+    host: "bsky.app",
+    icon: "bluesky",
+    label: (url: URL) => url.pathname.split("2")[1] || url.pathname.replace("/profile/", "")
+  },
+  {
     host: "",
     icon: "other",
     label: (_: URL) => ""
