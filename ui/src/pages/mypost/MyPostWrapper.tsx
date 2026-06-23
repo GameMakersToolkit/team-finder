@@ -145,7 +145,7 @@ const MyPostPage: React.FC = () => {
                             <MyPost params={params}
                                     jamId={jamId!!}
                                     author={userInfo.data!.username as string}
-                                    authorId={userInfo.data!.userId as string}
+                                    authorId={userInfo.data!.id as string}
                                     hasPost={Boolean(post)}
                             />
                         </>

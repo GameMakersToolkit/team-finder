@@ -56,7 +56,7 @@ export const MyPost: React.FC<{
                 ? <>Hide more options {iiicon('up-arrow', 'var(--theme-accent-dark)', 16, 16)}</>
                 : <>Show more options {iiicon('down-arrow', 'var(--theme-accent-dark)', 16, 16)}</>}
             </button>
-            {showAdvancedSearchOptions && <AdvancedOptions values={values} />}
+            {showAdvancedSearchOptions && <AdvancedOptions values={values} authorId={authorId} />}
 
             {/* Quick workaround to stop Create Post button falling off bottom of form, until we replace float-right */}
             <div className="clear-both h-[0px]">&nbsp;</div>
@@ -74,7 +74,7 @@ export const MyPost: React.FC<{
     )
 }
 
-const AdvancedOptions: React.FC<{values: Post}> = ({values}) => {
+const AdvancedOptions: React.FC<{values: Post, authorId: string}> = ({values, authorId}) => {
   return (
     <>
         <div className="c-form-block bg-transparent">
@@ -84,7 +84,7 @@ const AdvancedOptions: React.FC<{values: Post}> = ({values}) => {
 
         <div className="c-form-block bg-transparent">
            <FieldTimezones />
-           <FieldTeamSize current={values.size} />
+           <FieldTeamSize current={values.size} authorId={authorId} />
         </div>
 
         <FieldAvailability currentAvailability={values.availability} />
@@ -218,10 +218,28 @@ const FieldTimezones: React.FC = () => {
     )
 }
 
-const FieldTeamSize: React.FC<{current: number}> = ({current}) => {
+const FieldTeamSize: React.FC<{current: number, authorId: string}> = ({current, authorId}) => {
+    const bigTeamOwners = ["243087971992076288", "427486675409829898"]
+    if (bigTeamOwners.includes(authorId)) {
+        return (
+            <div>
+                <label htmlFor="size">Team size - you do you Gram.</label>
+                <Field
+                    name="size"
+                    className="c-dropdown form-block__field h-[43px] text-black px-4 text-right"
+                    placeholder={"Select option(s)"}
+                    type="number"
+                />
+
+                <span className="text-xs">
+                    The actual limit now is 100, but I'm not going to subject anyone to that dropdown.
+                </span>
+            </div>
+        )
+    }
 
     const teamSizes: CustomSelectOption[] = []
-    for (let i = 1; i <= 40; i++) {
+    for (let i = 1; i <= 15; i++) {
         teamSizes.push({label: i, value: i});
     }
 
@@ -241,7 +259,7 @@ const FieldTeamSize: React.FC<{current: number}> = ({current}) => {
                 (Including you!)
             </span>
 
-            {current >= 15 && <span className="block text-xs">Wow... I hope you know what you're doing!</span>}
+            {current >= 8 && <span className="block text-xs">Wow... I hope you know what you're doing!</span>}
         </div>
     )
 }

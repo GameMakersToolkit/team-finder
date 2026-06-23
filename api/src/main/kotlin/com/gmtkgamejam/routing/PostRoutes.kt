@@ -221,7 +221,7 @@ fun Application.configurePostRouting() {
                                 data.author?.also { post.author = it }
                                 data.portfolioLinks?.also { post.portfolioLinks = it }
                                 data.description?.also { post.description = it }
-                                data.size?.also { post.size = min(it, 40) }
+                                data.size?.also { post.size = min(it, 100) }
                                 data.skillsPossessed?.also { post.skillsPossessed = it }
                                 data.skillsSought?.also { post.skillsSought = it }
                                 data.preferredTools?.also { post.preferredTools = it }
