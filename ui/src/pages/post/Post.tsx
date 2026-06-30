@@ -194,7 +194,9 @@ const MessageOnDiscordButton: React.FC<{
     authorId,
     unableToContactCount,
 }) => {
-    const { discordEnabled } = useContext(JamSpecificContext)
+    // Extremely odd bug with true results being filtered out from /jams/
+    // Suppressing while GMTK is the only jam in town; likely not being fixed because other jams will be removed
+    const discordEnabled = true; // useContext(JamSpecificContext)
     const isLoggedIn = Boolean(useAuth());
     const userInfo = useUserInfo();
     const canPostAuthorBeDMd = unableToContactCount < 5; // Arbitrary number
