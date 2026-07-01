@@ -3,9 +3,6 @@ import {Link} from "react-router-dom";
 import { JamSpecificStyling } from "../../common/components/JamSpecificStyling";
 
 const discordGroupName = import.meta.env.VITE_DISCORD_NAME;
-const discordGroupInviteUrl = import.meta.env.VITE_DISCORD_INVITE_URL;
-const jamName = import.meta.env.VITE_JAM_NAME;
-const jamUrl = import.meta.env.VITE_JAM_URL;
 
 export const About: React.FC = () => {
     return (
@@ -14,11 +11,13 @@ export const About: React.FC = () => {
             <div className=" border-white border-b-2 mb-6">
                 <h1>About the Team Finder</h1>
                 <h2>What is the Team Finder?</h2>
-                <p className="mb-6">
+                <p className="mb-2">
                     Welcome to the Team Finder!
                     You can use this website to find other game jam participants to team up with
                     for the game jam. Browse the post list or make a post of your own!
                 </p>
+                <p className="mb-2">⚠️ Please note! ⚠️</p>
+                <p className="mb-6">This project exists with Mark's blessing, but Mark isn't directly involved with the project. If you need help, contact <Link className="font-bold" target="_blank" key={"Contact Support"} to={`https://discord.com/users/427486675409829898`}>@Dotwo</Link> for support using the Contact Support button above. <span className="font-bold">Do not contact Mark for support!</span></p>
             </div>
 
             <div className="flex flex-wrap gap-4">
