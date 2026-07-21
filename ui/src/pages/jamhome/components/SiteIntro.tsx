@@ -1,12 +1,16 @@
 import {useContext, useEffect, useState} from "react";
 import {JamSpecificContext} from "../../../common/components/JamSpecificStyling.tsx";
 
-// Set the date we're counting down to
+const JAM_START = new Date(1784739600 * 1000);
+const SUBMISSIONS_CLOSE = new Date(1785085200 * 1000);
+
 export const SiteIntro = () => {
     const theme = useContext(JamSpecificContext)
-    const countdown = new Date(theme.start) > new Date()
-        ? {target: theme.start, label: "The jam starts in", visible: true}
-        : {target: theme.end, label: "The jam ends in", visible: theme.end !== undefined};
+    const now = new Date();
+
+    const countdown = now < JAM_START
+        ? {target: JAM_START, label: "The jam starts in", visible: true}
+        : {target: SUBMISSIONS_CLOSE, label: "Submissions close in", visible: now < SUBMISSIONS_CLOSE};
 
     return (<div className="mb-8 sm:mb-8">
             <img
@@ -31,7 +35,7 @@ export const SiteIntro = () => {
     </div>);
 }
 
-const CountdownSection = ({countdownTarget, label}) => {
+const CountdownSection = ({countdownTarget, label}: {countdownTarget: Date, label: string}) => {
     const [countdown, setCountdown] = useState(getCountdownComponents(countdownTarget, Date.now()))
 
     useEffect(() => {
@@ -84,16 +88,14 @@ const CountdownSection = ({countdownTarget, label}) => {
         </>)
 }
 
-const getCountdownComponents = (countdownTarget: Date, time: number) => {
-    // Find the distance between now and the countdown date
-    const distance = countdownTarget.getTime() - time;
+const getCountdownComponents = (countdownTarget: Date, date_now: number) => {
+    const diffMs = countdownTarget.getTime() - date_now;
+    const absDiffMs = Math.abs(diffMs);
 
-    // Time calculations for days, hours, minutes and seconds
-    const weeks = Math.floor(distance / (1000 * 60 * 60 * 24 * 7));
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    return {weeks, days, hours, minutes, seconds};
+    return {
+        days: Math.floor(absDiffMs / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((absDiffMs / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((absDiffMs / (1000 * 60)) % 60),
+        seconds: Math.floor((absDiffMs / 1000) % 60)
+    };
 }
