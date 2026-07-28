@@ -16,6 +16,7 @@
 @import url(./pages/components/Footer.css);
 
 @import url(./pages/about/About.css);
+@import url(./pages/index/Index.css);
 
 @import url(pages/jamhome/JamHome.css);
 @import url(pages/jamhome/components/Onboarding.css);

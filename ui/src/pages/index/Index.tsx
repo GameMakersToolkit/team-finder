@@ -1,113 +1,142 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { useJams } from "../../api/jam.ts";
 import { Jam } from "../../common/models/jam.ts";
 
 const getJamStartTime = (start: string | number): number => {
   return typeof start === "number" ? start : Date.parse(start);
-}
+};
+
+const getJamEndTime = (end: string | number): number => {
+  return typeof end === "number" ? end : Date.parse(end);
+};
 
 export const Index: React.FC = () => {
-
-    const { data: jams } = useJams()
-
-    return (
-        <main>
-            <h1 className="text-center text-2xl mt-12 mb-6">
-                <span className="block mono-header">FIND</span>
-                <span className="block mono-header">YOUR</span>
-                <span className="block mono-header">JAM.</span>
-                <span className="block mono-header">TEAM</span>
-            </h1>
-
-            {/* Intro description section */}
-            <section className="max-w-2xl mx-auto mb-8 p-4 bg-neutral-800 rounded-xl shadow-lg text-center">
-              <h2 className="text-2xl font-bold mb-4">Welcome!</h2>
-              <p className="mb-4">
-                The Team Finder is an open platform aimed to help you connect with other game jam participants and easily form teams for your jams. Explore upcoming jams, find partners, and make amazing games together!
-              </p>
-              <p className="mb-4">
-                Why use the Team Finder? It's a super simple way to browse community game jams and meet new teammates. Whether you're a veteran or new to game jams, the Team Finder makes team formation simple and fun.
-              </p>
-              <p className="mb-4 font-semibold text-[#ea2155]">
-                Have a jam you'd like to share? The Team Finder is open for submissions - reach out to the platform support team to add your jam and invite your community to join.
-              </p>
-            </section>
-
-            {jams !== undefined ? (<JamInfo jams={jams!!} />) : <p className="text-center">Loading...</p>}
-        </main>
-    )
-}
-
-const NoJamsMessage: React.FC<{ label: string }> = ({ label }) => (
-  <div className="col-span-full text-center py-8 text-neutral-400 italic">
-    No {label} jams at the moment.
-  </div>
-);
-
-const JamInfo: React.FC<{jams: Jam[]}> = ({jams}) => {
-  const exampleJam = jams.find(jam => jam.jamId == "example-jam")!!
-  const now = Date.now()
-  const notStartedJams = jams
-    .filter(jam => getJamStartTime(jam.start) < now)
-    .filter(jam => jam.jamId !== exampleJam.jamId)
-  const startedJams = jams
-    .filter(jam => getJamStartTime(jam.start) >= now)
-    .filter(jam => jam.jamId !== exampleJam.jamId)
+  const { data: jams } = useJams();
 
   return (
     <>
-      <h3 className="mono-header text-[#ea2155] drop-shadow-[0_1.4px_1.4px_rgba(0,0,0,0.8)] text-center text-2xl font-bold mb-4">Active Jams</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-8 md:gap-16 lg:gap-16">
-          {startedJams.length === 0 ? <NoJamsMessage label="active" /> : startedJams.map(jam => <JamTile jam={jam} />)}
-      </div>
+      <main className="c-index-page">
+        <section className="c-index-hero">
+          <p className="c-index-hero__eyebrow">Open community platform</p>
+          <h1 className="c-index-hero__title">
+            <span className="block mono-header">FIND YOUR</span>
+            <span className="block mono-header">JAM TEAM</span>
+          </h1>
+          <p className="c-index-hero__body">
+            The Team Finder helps game jam participants (like you!) discover jams, find teammates, and start building games together!
+          </p>
+          <div className="c-index-hero__actions">
+            <a href="#active-jams" className="button-link-container">Browse Active Jams</a>
+            <a href="#upcoming-jams" className="button-link-container">See Upcoming Jams</a>
+          </div>
+        </section>
 
-      <h3 className="mono-header text-[#ea2155] drop-shadow-[0_1.4px_1.4px_rgba(0,0,0,0.8)] text-center text-2xl font-bold mb-4">Starting Soon</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-8 md:gap-16 lg:gap-16">
-          {notStartedJams.length === 0 ? <NoJamsMessage label="upcoming" /> : notStartedJams.map(jam => <JamTile jam={jam} />)}
-      </div>
+        <section className="c-index-feature-grid" aria-label="Why Team Finder">
+          <article className="c-index-feature-card">
+            <h2>Discover</h2>
+            <p>Explore open jam communities and jump straight into their Team Finder pages.</p>
+          </article>
+          <article className="c-index-feature-card">
+            <h2>Connect</h2>
+            <p>Meet collaborators with the right skills, tools, and availability for your team.</p>
+          </article>
+          <Link className="" target="_blank" key={"Contact Support"} to={`https://discord.com/users/427486675409829898`}>
+          <article className="c-index-feature-card">
+            <h2>Share Your Jam</h2>
+            <p>
+              Want your jam listed here? Reach out to <span className="font-bold">@Dotwo</span> on discord and we can add it for your community.
+            </p>
+          </article>
+          </Link>
+        </section>
 
+        {jams ? <JamInfo jams={jams} /> : <p className="text-center text-lg">Loading jams...</p>}
+      </main>
 
-      <h3 className="mono-header text-[#ea2155] drop-shadow-[0_1.4px_1.4px_rgba(0,0,0,0.8)] text-center text-2xl font-bold mb-4">Not sure?</h3>
-      <h4 className="text-center mb-2">Check out the example page to see how this site works</h4>
-      <div className="flex flex-row justify-center">
-        <ExampleJamTile jam={exampleJam} />
-      </div>
+      <footer className="c-index-footer">
+        <span className="c-index-footer__item">&#x2190; Like this site? Consider donating $1!</span>
+        <span className="c-index-footer__item">Proudly open source since 2021</span>
+        <a
+          className="c-index-footer__item c-index-footer__link"
+          href="https://github.com/GameMakersToolkit/team-finder"
+          target="_blank"
+          rel="noreferrer"
+        >
+          View the project on GitHub
+        </a>
+      </footer>
     </>
-    )
-}
+  );
+};
 
-const JamTile: React.FC<{jam: Jam}> = ({ jam }) => {
-    const start = new Date(getJamStartTime(jam.start))
-    const daysInFuture = Math.ceil(Math.abs(start.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+const NoJamsMessage: React.FC<{ label: string }> = ({ label }) => (
+  <div className="c-index-empty-state">No {label} jams at the moment.</div>
+);
 
-    return (
-        <a href={jam.jamId} className="mb-4">
-            <section
-              className={`h-full bg-[${jam.styles["--gradient-end"]}] border-neutral-900 rounded-xl p-4 flex flex-col justify-evenly`}
-              style={{
-                backgroundImage: `linear-gradient(${jam.styles["--gradient-start"]}, ${jam.styles["--gradient-end"]})`
-              }}
-            >
-                <img src={jam.logoStackedUrl} alt={jam.name} className="mx-auto mb-8 h-[128px] bg-gray-700" />
-                <h2 className="text-xl font-bold text-center mb-2 whitespace-break-spaces">{jam.name}</h2>
-                <p className="text-xs">Starts in {daysInFuture} days</p>
-            </section>
-        </a>
-    )
-}
+const JamInfo: React.FC<{ jams: Jam[] }> = ({ jams }) => {
+  const now = Date.now();
+  const exampleJam = jams.find(jam => jam.jamId === "example-jam");
+  const nonFinishedJams = jams
+    .filter(jam => jam.jamId !== "example-jam")
+    .filter(jam => getJamEndTime(jam.end) >= now);
 
-const ExampleJamTile: React.FC<{jam: Jam}> = ({ jam }) => {
-    return (
-        <a href={jam.jamId} className="mb-4">
-          <section
-            className={`h-full bg-[${jam.styles["--gradient-end"]}] border-neutral-900 rounded-xl p-4 flex flex-col justify-evenly`}
-            style={{
-              backgroundImage: `linear-gradient(${jam.styles["--gradient-start"]}, ${jam.styles["--gradient-end"]})`
-            }}
-          >
-                <img src={jam.logoStackedUrl} alt={jam.name} className="mx-auto mb-8 h-[128px] bg-gray-700" />
-                <h2 className="text-xl font-bold text-center mb-2 whitespace-break-spaces">{jam.name}</h2>
-            </section>
-        </a>
-    )
-}
+  const activeJams = nonFinishedJams
+    .filter(jam => getJamStartTime(jam.start) <= now)
+    .filter(jam => jam.jamId !== exampleJam?.jamId);
+
+  const upcomingJams = nonFinishedJams
+    .filter(jam => getJamStartTime(jam.start) > now)
+    .filter(jam => jam.jamId !== exampleJam?.jamId);
+
+  return (
+    <>
+      <section id="active-jams" className="c-index-jam-section">
+        <h3 className="mono-header c-index-section-title">Active Jams</h3>
+        <div className="c-index-jam-grid">
+          {activeJams.length === 0
+            ? <NoJamsMessage label="active" />
+            : activeJams.map(jam => <JamTile key={jam.jamId} jam={jam} />)}
+        </div>
+      </section>
+
+      <section id="upcoming-jams" className="c-index-jam-section">
+        <h3 className="mono-header c-index-section-title">Starting Soon</h3>
+        <div className="c-index-jam-grid">
+          {upcomingJams.length === 0
+            ? <NoJamsMessage label="upcoming" />
+            : upcomingJams.map(jam => <JamTile key={jam.jamId} jam={jam} />)}
+        </div>
+      </section>
+
+      {exampleJam && (
+        <section className="c-index-jam-section">
+          <h3 className="mono-header c-index-section-title">Not Sure Where To Start?</h3>
+          <p className="text-center mb-4">Try the example jam page to see how Team Finder works.</p>
+          <div className="c-index-jam-grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
+          <div className="hidden lg:block">&nbsp;</div>
+          <div className="c-index-example-wrapper">
+            <JamTile jam={exampleJam} />
+          </div>
+          </div>
+        </section>
+      )}
+    </>
+  );
+};
+
+const JamTile: React.FC<{ jam: Jam }> = ({ jam }) => {
+  return (
+    <Link to={`/${jam.jamId}`} className="c-index-jam-link">
+      <section
+        className="c-index-jam-tile"
+        style={{
+          backgroundImage: `linear-gradient(${jam.styles["--gradient-start"]}, ${jam.styles["--gradient-end"]})`
+        }}
+      >
+        <img src={jam.logoStackedUrl} alt={jam.name} className="c-index-jam-tile__logo" />
+        <h4 className="c-index-jam-tile__title">{jam.name}</h4>
+      </section>
+    </Link>
+  );
+};
