@@ -1,5 +1,6 @@
 import React from "react";
 import {toast} from "react-hot-toast";
+import { DiscordActionPill } from "./DiscordActionPill.tsx";
 
 export const DiscordPingButton: React.FC<{
     authorId: string,
@@ -31,7 +32,7 @@ export const DiscordPingButton: React.FC<{
     return (
         <>
             <p className="mb-2">{message}</p>
-            <span className="mb-6 p-2 inline-flex cursor-pointer rounded-xl border border-[var(--theme-accent-light)] text-[var(--theme-accent-light)]">
+            <DiscordActionPill variant="outline">
                 <a
                     target="_blank"
                     rel="noreferrer"
@@ -40,7 +41,7 @@ export const DiscordPingButton: React.FC<{
                 >
                     Ping them on Discord
                 </a>
-            </span>
+            </DiscordActionPill>
         </>
     );
 };

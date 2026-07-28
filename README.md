@@ -10,9 +10,9 @@
 
 The Team Finder is a website that helps Game Jam participants find people to work with!
 
-This repo (originally running on https://teamfinder.gamemakerstoolkit.com) now powers the https://findyourjam.team
-website. The FYJT website is migrating towards a self-service platform for any community to run their own jam Team
-Finder, but until then it primarily serves the GMTK annual game jam community, with other jams able to run upon request. 
+This repo (originally running on https://teamfinder.gamemakerstoolkit.com) now powers https://findyourjam.team.
+It is a self-service platform for communities to run their own jam Team Finder with jam-specific branding and content
+managed from the database and admin dashboard.
 
 ## Overview
 

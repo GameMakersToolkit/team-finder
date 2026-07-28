@@ -1,12 +1,18 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
 import { JamSpecificStyling } from "../../common/components/JamSpecificStyling";
+import { JamSpecificContext } from "../../common/components/JamSpecificStyling.tsx";
 
-const discordGroupName = import.meta.env.VITE_DISCORD_NAME;
+const AboutBody: React.FC = () => {
+    const theme = useContext(JamSpecificContext);
+    const supportContactUrl = theme.styles["support-contact-url"];
+    const supportContactLabel = theme.styles["support-contact-label"] || "Contact Support";
+    const supportHandle = theme.styles["support-contact-handle"] || "the support team";
+    const supportDisclaimer = theme.styles["support-disclaimer"]
+        || `This project is community-run for ${theme.name}. If you need help using the Team Finder, please contact support using the header link.`;
 
-export const About: React.FC = () => {
     return (
-        <JamSpecificStyling>
         <main>
             <div className=" border-white border-b-2 mb-6">
                 <h1>About the Team Finder</h1>
@@ -17,7 +23,15 @@ export const About: React.FC = () => {
                     for the game jam. Browse the post list or make a post of your own!
                 </p>
                 <p className="mb-2">⚠️ Please note! ⚠️</p>
-                <p className="mb-6">This project exists with Mark's blessing, but Mark isn't directly involved with the project. If you need help, contact <Link className="font-bold" target="_blank" key={"Contact Support"} to={`https://discord.com/users/427486675409829898`}>@Dotwo</Link> for support using the Contact Support button above. <span className="font-bold">Do not contact Mark for support!</span></p>
+                <p className="mb-6">
+                    {supportDisclaimer}
+                    {supportContactUrl && (
+                        <>
+                            {" "}
+                            <a className="font-bold" target="_blank" rel="noreferrer" href={supportContactUrl}>{supportContactLabel}</a>
+                        </>
+                    )}
+                </p>
             </div>
 
             <div className="flex flex-wrap gap-4">
@@ -26,7 +40,7 @@ export const About: React.FC = () => {
                     <p>
                         If you are looking for a team to join or for someone to join your team, use the search tools
                         on&nbsp;
-                        <Link className="hover:underline cursor-pointer" to="/gmtk/my-post">the homepage</Link> to find
+                        <Link className="hover:underline cursor-pointer" to={`/${theme.jamId}/my-post`}>the homepage</Link> to find
                         other
                         jammers!
                     </p>
@@ -75,7 +89,7 @@ export const About: React.FC = () => {
                     <p>
                         If you&#39;ve filled a role and are no longer looking for it, you
                         can edit your team post in the <Link className="hover:underline cursor-pointer"
-                                                             to="/gmtk/my-post">Post
+                                                             to={`/${theme.jamId}/my-post`}>Post
                         /
                         Edit Your Team tab above!</Link>
                     </p>
@@ -85,7 +99,7 @@ export const About: React.FC = () => {
                     </p>
                     <p>
                         The option to delete your post is in the bottom-left of the <Link
-                        className="hover:underline cursor-pointer" to="/gmtk/my-post">Post / Edit Your Team page</Link>.
+                        className="hover:underline cursor-pointer" to={`/${theme.jamId}/my-post`}>Post / Edit Your Team page</Link>.
                     </p>
                 </div>
 
@@ -93,16 +107,22 @@ export const About: React.FC = () => {
                     <h2>Can I report team posts?</h2>
                     <p>
                         Yes! If you have any moderation concerns, use the Report function
-                        or contact the Jam Moderators on the {discordGroupName} Discord server.
+                        or contact the Jam Moderators in your community Discord server.
                     </p>
                     <p>
-                        If you are encountering technical problems, press 'Contact Support' in the header bar or message
-                        <span className="text-accent1">@dotwo</span> on
-                        the {discordGroupName} Discord server.
+                        If you are encountering technical problems, press '{supportContactLabel}' in the header bar or message
+                        <span className="text-accent1">{supportHandle}</span> in your community Discord server.
                     </p>
                 </div>
             </div>
         </main>
+    )
+}
+
+export const About: React.FC = () => {
+    return (
+        <JamSpecificStyling>
+            <AboutBody />
         </JamSpecificStyling>
     )
 }

@@ -5,8 +5,8 @@ import { getJamId } from "../../../common/utils/getJamId.ts";
 
 interface UpdateJamMutationVariables {
   jamId: string;
-  start: string;
-  end: string;
+  start: string | number;
+  end: string | number;
   styles: object;
 }
 

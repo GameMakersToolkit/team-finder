@@ -1,4 +1,3 @@
 User-agent: *
-Allow: /gmtk$
 Allow: /assets/
-Disallow: /
+Allow: /

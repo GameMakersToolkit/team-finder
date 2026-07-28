@@ -46,8 +46,9 @@ export const JamPreviewStyling: React.FC<{slim: boolean, renderState: number, ch
         // return (<>No jam of that ID could be found</>)
     }
 
-    // Lazy redirect to show end screen
-    Object.entries(activeJam.styles).map(style => document.documentElement.style.setProperty(style[0], style[1]))
+    Object.entries(activeJam.styles)
+        .filter(([styleName]) => styleName.startsWith("--"))
+        .forEach(style => document.documentElement.style.setProperty(style[0], style[1]))
 
     return (
         <JamSpecificContext.Provider value={activeJam}>

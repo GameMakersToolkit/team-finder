@@ -39,7 +39,7 @@ class BotMessageBuilder(
 
         embed
             .addField("Like what you see?", "Check out their full post here to see more! https://findyourjam.team/${jamId}/${post.id}/")
-            .setFooter("Feedback? Issues? DM @dotwo on Discord for support.")
+            .setFooter("Feedback? Issues? Please contact your jam moderators or support team.")
 
         return embed
     }

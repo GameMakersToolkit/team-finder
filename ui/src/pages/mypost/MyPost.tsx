@@ -13,6 +13,11 @@ import { iiicon } from "../../common/utils/iiicon.tsx";
 import { PortfolioIcon } from "../../common/components/PortfolioIcon.tsx";
 import { portfolioSites } from "../../common/components/PortfolioSites.ts";
 
+const teamSizes: CustomSelectOption[] = Array.from({ length: 15 }, (_, idx) => ({
+    label: idx + 1,
+    value: idx + 1,
+}));
+
 export const MyPost: React.FC<{
     params: FormikProps<Post>,
     jamId: string,
@@ -35,7 +40,7 @@ export const MyPost: React.FC<{
         <Form className="text-[var(--theme-text)]">
             <FieldDescription description={values.description} />
 
-            <FieldPortfolioLinks portfolioLinks={values.portfolioLinks} />
+            <FieldPortfolioLinks />
 
             {/* This is jank, improve this later with a look up on submit */}
             <Field name="jamId" value={jamId} type="hidden" />
@@ -56,7 +61,7 @@ export const MyPost: React.FC<{
                 ? <>Hide more options {iiicon('up-arrow', 'var(--theme-accent-dark)', 16, 16)}</>
                 : <>Show more options {iiicon('down-arrow', 'var(--theme-accent-dark)', 16, 16)}</>}
             </button>
-            {showAdvancedSearchOptions && <AdvancedOptions values={values} authorId={authorId} />}
+            {showAdvancedSearchOptions && <AdvancedOptions values={values} />}
 
             {/* Quick workaround to stop Create Post button falling off bottom of form, until we replace float-right */}
             <div className="clear-both h-[0px]">&nbsp;</div>
@@ -74,7 +79,7 @@ export const MyPost: React.FC<{
     )
 }
 
-const AdvancedOptions: React.FC<{values: Post, authorId: string}> = ({values, authorId}) => {
+const AdvancedOptions: React.FC<{values: Post}> = ({values}) => {
   return (
     <>
         <div className="c-form-block bg-transparent">
@@ -84,7 +89,7 @@ const AdvancedOptions: React.FC<{values: Post, authorId: string}> = ({values, au
 
         <div className="c-form-block bg-transparent">
            <FieldTimezones />
-           <FieldTeamSize current={values.size} authorId={authorId} />
+            <FieldTeamSize current={values.size} />
         </div>
 
         <FieldAvailability currentAvailability={values.availability} />
@@ -92,7 +97,40 @@ const AdvancedOptions: React.FC<{values: Post, authorId: string}> = ({values, au
   );
 }
 
-const FieldPortfolioLinks: React.FC<{portfolioLinks: string[]}> = () => {
+type SelectFieldProps = {
+    id: string,
+    name: string,
+    label: string,
+    options: CustomSelectOption[],
+    isMulti?: boolean,
+    helperText?: string,
+}
+
+const SelectField: React.FC<SelectFieldProps> = ({
+    id,
+    name,
+    label,
+    options,
+    isMulti = true,
+    helperText,
+}) => {
+    return (
+      <div id={id}>
+            <label htmlFor={name}>{label}</label>
+            <Field
+                name={name}
+                className="c-dropdown form-block__field"
+                options={options}
+                component={CustomSelect}
+                placeholder={"Select option(s)"}
+                isMulti={isMulti}
+            />
+            {helperText && <span className="text-xs">{helperText}</span>}
+        </div>
+    )
+}
+
+const FieldPortfolioLinks: React.FC = () => {
     return (
       <div id="portfolio-links-field">
             <label htmlFor="portfolioLinks" className="text-lg flex gap-1">
@@ -106,8 +144,8 @@ const FieldPortfolioLinks: React.FC<{portfolioLinks: string[]}> = () => {
               <span className="mr-8 mb-4 block sm:inline">Each entry must be a valid URL.<br/>Current icons:</span>
               <span className="grow flex-wrap inline-flex gap-x-4">
               {portfolioSites.map(site => (
-                <span>
-                  <PortfolioIcon key={site.host} site={site.icon} override_classes={"fill-white"} />
+                <span key={site.host}>
+                  <PortfolioIcon site={site.icon} override_classes={"fill-white"} />
                   <span className="text-xs">{site.host || "anything else"}</span>
                 </span>
               ))}
@@ -136,112 +174,61 @@ const FieldDescription: React.FC<{ description: string}> = ({description}) => {
 
 const FieldSkillsPossessed: React.FC = () => {
     return (
-        <div id="skills-possessed-field">
-          <label htmlFor="skillsPossessed">What skills do you have?</label>
-          <Field
-              name="skillsPossessed"
-              className="c-dropdown form-block__field"
-              options={skills}
-              component={CustomSelect}
-              placeholder={"Select option(s)"}
-              isMulti={true}
-          />
-      </div>
+        <SelectField
+            id="skills-possessed-field"
+            name="skillsPossessed"
+            label="What skills do you have?"
+            options={skills}
+        />
     )
 }
 
 const FieldSkillsSought: React.FC = () => {
     return (
-        <div id="skills-sought-field">
-          <label htmlFor="skillsSought">What skills are you looking for?</label>
-          <Field
-              name="skillsSought"
-              className="c-dropdown form-block__field"
-              options={skills}
-              component={CustomSelect}
-              placeholder={"Select option(s)"}
-              isMulti={true}
-          />
-        </div>
+        <SelectField
+            id="skills-sought-field"
+            name="skillsSought"
+            label="What skills are you looking for?"
+            options={skills}
+        />
     )
 }
 
 const FieldLanguages: React.FC = () => {
     return (
-      <div id="languages-field">
-          <label htmlFor="languages">What languages do you speak?</label>
-          <Field
-              name="languages"
-              className="c-dropdown form-block__field"
-              options={languages}
-              component={CustomSelect}
-              placeholder={"Select option(s)"}
-              isMulti={true}
-          />
-        </div>
+        <SelectField
+            id="languages-field"
+            name="languages"
+            label="What languages do you speak?"
+            options={languages}
+        />
     )
 }
 
 const FieldTools: React.FC = () => {
     return (
-      <div id="engines-field">
-          <label htmlFor="preferredTools">What tools do you want to work with?</label>
-          <Field
-              name="preferredTools"
-              className="c-dropdown form-block__field"
-              options={tools}
-              component={CustomSelect}
-              placeholder={"Select option(s)"}
-              isMulti={true}
-          />
-        </div>
+        <SelectField
+            id="engines-field"
+            name="preferredTools"
+            label="What tools do you want to work with?"
+            options={tools}
+        />
     )
 }
 
 const FieldTimezones: React.FC = () => {
     return (
-      <div id="timezones-field">
-            <label htmlFor="timezoneOffsets">What timezone(s) are you working in?</label>
-            <Field
-                name="timezoneOffsets"
-                className="c-dropdown form-block__field"
-                options={timezones}
-                component={CustomSelect}
-                placeholder={"Select option(s)"}
-                isMulti={true}
-            />
-
-            <span className="text-xs">
-                Timezone is an optional way for other participants to find people who will be awake/online at roughly the same of day.
-            </span>
-        </div>
+        <SelectField
+            id="timezones-field"
+            name="timezoneOffsets"
+            label="What timezone(s) are you working in?"
+            options={timezones}
+            helperText="Timezone is an optional way for other participants to find people who will be awake/online at roughly the same of day."
+        />
     )
 }
 
-const FieldTeamSize: React.FC<{current: number, authorId: string}> = ({current, authorId}) => {
-    const bigTeamOwners = ["243087971992076288", "427486675409829898"]
-    if (bigTeamOwners.includes(authorId)) {
-        return (
-            <div>
-                <label htmlFor="size">Team size - you do you Gram.</label>
-                <Field
-                    name="size"
-                    className="c-dropdown form-block__field h-[43px] text-black px-4 text-right"
-                    placeholder={"Select option(s)"}
-                    type="number"
-                />
-
-                <span className="text-xs">
-                    The actual limit now is 100, but I'm not going to subject anyone to that dropdown.
-                </span>
-            </div>
-        )
-    }
-
-    const teamSizes: CustomSelectOption[] = []
-    for (let i = 1; i <= 15; i++) {
-        teamSizes.push({label: i, value: i});
-    }
+const FieldTeamSize: React.FC<{current: number}> = ({current}) => {
 
     return (
         <div>

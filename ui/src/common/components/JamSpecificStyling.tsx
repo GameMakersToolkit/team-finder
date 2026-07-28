@@ -26,11 +26,13 @@ export const JamSpecificStyling: React.FC<{children: any}> = ({children}) => {
 
     localStorage.setItem(`theme_${jamId}`, JSON.stringify(activeJam))
 
-    // Set each CSS rule in the DB active on the page
-    Object.entries(activeJam.styles).map(style => document.documentElement.style.setProperty(style[0], style[1]))
+    // Set only CSS custom properties on the page; non-CSS metadata also lives in styles.
+    Object.entries(activeJam.styles)
+        .filter(([styleName]) => styleName.startsWith("--"))
+        .forEach(style => document.documentElement.style.setProperty(style[0], style[1]))
 
     document.body.style.setProperty('background-image', `url("${activeJam.bgImageUrl}")`, 'important');
-    document.title = `${activeJam.name} | findyourjam.team`;
+    document.title = `${activeJam.name} | Team Finder`;
     (document.getElementById("favicon") as HTMLLinkElement).href = activeJam.faviconUrl;
 
 

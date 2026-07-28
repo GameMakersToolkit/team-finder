@@ -11,14 +11,29 @@ type FormikFormParameters = {
   status: string;
   startDateTime: string;
   endDateTime: string;
+  jamStartTimestamp?: string,
+  submissionsCloseTimestamp?: string,
   discordEnabled: boolean;
   guildId?: string,
   guildInviteLink?: string,
   channelId?: string,
+  supportContactUrl?: string,
+  supportContactLabel?: string,
+  supportContactHandle?: string,
+  supportDisclaimer?: string,
+  footerPrimaryLabel?: string,
+  footerPrimaryUrl?: string,
+  footerPrimaryIconUrl?: string,
+  footerSecondaryLabel?: string,
+  footerSecondaryUrl?: string,
+  footerSecondaryIconUrl?: string,
+  footerTertiaryLabel?: string,
+  footerTertiaryUrl?: string,
+  footerTertiaryIconUrl?: string,
 }
 
 // Get current time in local timezone in order to prep for datetime-local input
-const formatDateTimeLocal = (dateTime: string) => {
+const formatDateTimeLocal = (dateTime: string | number) => {
   const dt = new Date(dateTime);
   dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
   return dt.toISOString().slice(0,16);
@@ -33,9 +48,24 @@ export const Dashboard = () => {
       startDateTime: formatDateTimeLocal(theme.start),
       endDateTime: formatDateTimeLocal(theme.end),
       discordEnabled: theme.discordEnabled ?? true,
+      jamStartTimestamp: theme.styles["jam-start-timestamp"] ?? "",
+      submissionsCloseTimestamp: theme.styles["submissions-close-timestamp"] ?? "",
       guildInviteLink: theme.guildInviteLink ?? "",
       guildId: theme.guildId ?? "",
       channelId: theme.channelId ?? "",
+      supportContactUrl: theme.styles["support-contact-url"] ?? "",
+      supportContactLabel: theme.styles["support-contact-label"] ?? "Contact Support",
+      supportContactHandle: theme.styles["support-contact-handle"] ?? "",
+      supportDisclaimer: theme.styles["support-disclaimer"] ?? "",
+      footerPrimaryLabel: theme.styles["footer-primary-label"] ?? `${theme.name} homepage`,
+      footerPrimaryUrl: theme.styles["footer-primary-url"] ?? "",
+      footerPrimaryIconUrl: theme.styles["footer-primary-icon-url"] ?? "",
+      footerSecondaryLabel: theme.styles["footer-secondary-label"] ?? "Community channel",
+      footerSecondaryUrl: theme.styles["footer-secondary-url"] ?? "",
+      footerSecondaryIconUrl: theme.styles["footer-secondary-icon-url"] ?? "",
+      footerTertiaryLabel: theme.styles["footer-tertiary-label"] ?? "Community Discord",
+      footerTertiaryUrl: theme.styles["footer-tertiary-url"] ?? "",
+      footerTertiaryIconUrl: theme.styles["footer-tertiary-icon-url"] ?? "",
     }
 
   const validateForm = (values: FormikFormParameters) => {
@@ -63,6 +93,27 @@ export const Dashboard = () => {
       theme.guildId = params.guildId ?? ""
       theme.guildInviteLink = params.guildInviteLink ?? ""
       theme.channelId = params.channelId ?? ""
+      theme.styles = {
+        ...theme.styles,
+        "jam-start-timestamp": params.jamStartTimestamp ?? "",
+        "submissions-close-timestamp": params.submissionsCloseTimestamp ?? "",
+      }
+      theme.styles = {
+        ...theme.styles,
+        "support-contact-url": params.supportContactUrl ?? "",
+        "support-contact-label": params.supportContactLabel ?? "",
+        "support-contact-handle": params.supportContactHandle ?? "",
+        "support-disclaimer": params.supportDisclaimer ?? "",
+        "footer-primary-label": params.footerPrimaryLabel ?? "",
+        "footer-primary-url": params.footerPrimaryUrl ?? "",
+        "footer-primary-icon-url": params.footerPrimaryIconUrl ?? "",
+        "footer-secondary-label": params.footerSecondaryLabel ?? "",
+        "footer-secondary-url": params.footerSecondaryUrl ?? "",
+        "footer-secondary-icon-url": params.footerSecondaryIconUrl ?? "",
+        "footer-tertiary-label": params.footerTertiaryLabel ?? "",
+        "footer-tertiary-url": params.footerTertiaryUrl ?? "",
+        "footer-tertiary-icon-url": params.footerTertiaryIconUrl ?? "",
+      }
 
       mutation.mutate(theme)
       setTimeout(() => {
@@ -153,6 +204,23 @@ export const Dashboard = () => {
                   </div>
 
 
+                  <h3 className="text-2xl text-center mb-4">Countdown Display</h3>
+                  <div className="mb-4">
+                    <p>Display countdown timers on the jam page. Leave empty to disable countdowns.</p>
+                  </div>
+                  <div className="c-form-block grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-16">
+                    <div>
+                      <label htmlFor="jamStartTimestamp">Jam start countdown (milliseconds timestamp)</label>
+                      <p className="text-xs">Empty = no countdown displayed</p>
+                    </div>
+                    <Field name="jamStartTimestamp" type="text" className="form-block__field px-2 py-2" />
+                    <div>
+                      <label htmlFor="submissionsCloseTimestamp">Submissions close countdown (milliseconds timestamp)</label>
+                      <p className="text-xs">Empty = no countdown displayed</p>
+                    </div>
+                    <Field name="submissionsCloseTimestamp" type="text" className="form-block__field px-2 py-2" />
+                  </div>
+
                   <h3 className="text-2xl text-center mb-4">Discord Integration</h3>
                   <div className="mb-4">
                     <p>Discord integration is optional. If enabled, only users in your community will be able to post and get DM links to other users. Otherwise, all logged-in users can post to your jam page.</p>
@@ -167,7 +235,7 @@ export const Dashboard = () => {
                       as="select"
                       name="discordEnabled"
                       className="form-block__field px-2 py-2"
-                      onChange={e => {
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                         const value = e.target.value === "true";
                         params.setFieldValue("discordEnabled", value);
                         setDiscordSectionOpen(value);
@@ -180,6 +248,51 @@ export const Dashboard = () => {
                   </div>
 
                   {discordSectionOpen && <DiscordIntegrationSettings />}
+
+                  <h3 className="text-2xl text-center mb-4">Support Contact</h3>
+                  <div className="c-form-block grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
+                    <div>
+                      <label htmlFor="supportContactLabel">Support button label</label>
+                    </div>
+                    <Field name="supportContactLabel" type="text" className="form-block__field px-2 py-2" />
+                    <div>
+                      <label htmlFor="supportContactUrl">Support URL</label>
+                    </div>
+                    <Field name="supportContactUrl" type="text" className="form-block__field px-2 py-2" />
+                    <div>
+                      <label htmlFor="supportContactHandle">Support handle (for About page text)</label>
+                    </div>
+                    <Field name="supportContactHandle" type="text" className="form-block__field px-2 py-2" />
+                    <div>
+                      <label htmlFor="supportDisclaimer">Support disclaimer</label>
+                      <p className="text-xs">Shown in the About page warning section</p>
+                    </div>
+                    <Field as="textarea" name="supportDisclaimer" rows={3} className="form-block__field px-2 py-2" />
+                  </div>
+
+                  <h3 className="text-2xl text-center mb-4">Footer Links</h3>
+                  <div className="c-form-block grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
+                    <div><label htmlFor="footerPrimaryLabel">Primary footer label</label></div>
+                    <Field name="footerPrimaryLabel" type="text" className="form-block__field px-2 py-2" />
+                    <div><label htmlFor="footerPrimaryUrl">Primary footer URL</label></div>
+                    <Field name="footerPrimaryUrl" type="text" className="form-block__field px-2 py-2" />
+                    <div><label htmlFor="footerPrimaryIconUrl">Primary footer icon URL</label></div>
+                    <Field name="footerPrimaryIconUrl" type="text" className="form-block__field px-2 py-2" />
+
+                    <div><label htmlFor="footerSecondaryLabel">Secondary footer label</label></div>
+                    <Field name="footerSecondaryLabel" type="text" className="form-block__field px-2 py-2" />
+                    <div><label htmlFor="footerSecondaryUrl">Secondary footer URL</label></div>
+                    <Field name="footerSecondaryUrl" type="text" className="form-block__field px-2 py-2" />
+                    <div><label htmlFor="footerSecondaryIconUrl">Secondary footer icon URL</label></div>
+                    <Field name="footerSecondaryIconUrl" type="text" className="form-block__field px-2 py-2" />
+
+                    <div><label htmlFor="footerTertiaryLabel">Tertiary footer label</label></div>
+                    <Field name="footerTertiaryLabel" type="text" className="form-block__field px-2 py-2" />
+                    <div><label htmlFor="footerTertiaryUrl">Tertiary footer URL</label></div>
+                    <Field name="footerTertiaryUrl" type="text" className="form-block__field px-2 py-2" />
+                    <div><label htmlFor="footerTertiaryIconUrl">Tertiary footer icon URL</label></div>
+                    <Field name="footerTertiaryIconUrl" type="text" className="form-block__field px-2 py-2" />
+                  </div>
 
                   <h3 className="text-2xl text-center mb-4">Jam Admins</h3>
                   <div className="c-form-block grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-16">

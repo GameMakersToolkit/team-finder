@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Post as PostModel } from "../../common/models/post.ts"
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {TeamSizeIcon} from "../../common/components/TeamSizeIcon.tsx";
 import {OptionsListDisplay} from "../../common/components/OptionsListDisplay.tsx";
 import {skills} from "../../common/models/skills.tsx";
@@ -18,16 +18,20 @@ import {FavouritePostIndicator} from "../../common/components/FavouritePostIndic
 import {iiicon} from "../../common/utils/iiicon.tsx";
 import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
 import { JamSpecificContext, JamSpecificStyling } from "../../common/components/JamSpecificStyling.tsx";
-import { PortfolioIcon } from "../../common/components/PortfolioIcon.tsx";
-import { getPortfolioLink } from "../../common/components/PortfolioSites.ts";
+import { OptionalPortfolioLinks } from "../../common/components/OptionalPortfolioLinks.tsx";
+import { CustomSelectOption } from "../jamhome/components/common/CustomSelect.tsx";
 
-export const Post: React.FC<{initialPost: PostModel}> = ({initialPost}) => {
+export const Post: React.FC<{initialPost?: PostModel}> = ({initialPost}) => {
 
     const { jamId, postId } = useParams()
     const navigate = useNavigate();
     const [post, setPost] = useState<PostModel>()
 
     useEffect(() => {
+        if (!jamId || !postId) {
+            return;
+        }
+
         // Workaround for previewing a post
         if (initialPost) {
             setPost(initialPost);
@@ -37,7 +41,7 @@ export const Post: React.FC<{initialPost: PostModel}> = ({initialPost}) => {
         fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}?jamId=${jamId}`)
             .then(res => res.json())
             .then(setPost)
-    }, [])
+    }, [initialPost, jamId, postId])
 
     if (!post) {
         return (<></>)
@@ -59,6 +63,36 @@ export const Post: React.FC<{initialPost: PostModel}> = ({initialPost}) => {
 }
 
 export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
+    const listSections = [
+        {
+            optionsToDisplay: post.skillsSought,
+            totalOptions: skills,
+            label: "Looking for:",
+            className: "[--skill-color:var(--skill-color-looking-for)] [--skill-text-color:var(--skill-color-looking-for-text)]",
+            wrapperClassName: "fill-[var(--skill-color-looking-for-text)]",
+        },
+        {
+            optionsToDisplay: post.skillsPossessed,
+            totalOptions: skills,
+            label: "Can do:",
+            className: "[--skill-color:var(--skill-color-possessed)] [--skill-text-color:var(--skill-color-possessed-text)]",
+            wrapperClassName: "fill-[var(--skill-color-possessed-text)]",
+        },
+        {
+            optionsToDisplay: post.preferredTools,
+            totalOptions: tools,
+            label: "Preferred Engine(s):",
+            className: "[--skill-color:var(--skill-color-engines)] [--skill-text-color:var(--skill-color-engines-text)]",
+            wrapperClassName: "fill-[var(--skill-color-engines-text)]",
+        },
+        {
+            optionsToDisplay: post.languages,
+            totalOptions: languages,
+            label: "Language(s):",
+            className: "[--skill-color:var(--skill-color-languages)] [--skill-text-color:var(--skill-color-languages-text)]",
+        },
+    ];
+
     return (
       <main>
         <section className="c-post">
@@ -86,31 +120,14 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
             <div className="post__body">
                 <div className="flex flex-col sm:flex-row">
                     <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
-                        <div className="fill-[var(--skill-color-looking-for-text)]">
-                            <OptionsListDisplay
-                              optionsToDisplay={post.skillsSought} totalOptions={skills}
-                              label={"Looking for:"}
-                              className={"[--skill-color:var(--skill-color-looking-for)] [--skill-text-color:var(--skill-color-looking-for-text)]"} />
-                        </div>
-                        <div className="fill-[var(--skill-color-possessed-text)]">
-                            <OptionsListDisplay
-                              optionsToDisplay={post.skillsPossessed} totalOptions={skills}
-                              label={"Can do:"}
-                              className={"[--skill-color:var(--skill-color-possessed)] [--skill-text-color:var(--skill-color-possessed-text)]"} />
-                        </div>
+                        {listSections.slice(0, 2).map(section => (
+                            <PostOptionListSection key={section.label} {...section} />
+                        ))}
                     </div>
                     <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
-                        <div className="fill-[var(--skill-color-engines-text)]">
-                            <OptionsListDisplay
-                              optionsToDisplay={post.preferredTools} totalOptions={tools}
-                              label={"Preferred Engine(s):"}
-                              className={"[--skill-color:var(--skill-color-engines)] [--skill-text-color:var(--skill-color-engines-text)]"} />
-                        </div>
-
-                        <OptionsListDisplay
-                          optionsToDisplay={post.languages} totalOptions={languages}
-                          label={"Language(s):"}
-                          className={"[--skill-color:var(--skill-color-languages)] [--skill-text-color:var(--skill-color-languages-text)]"} />
+                        {listSections.slice(2, 4).map(section => (
+                            <PostOptionListSection key={section.label} {...section} />
+                        ))}
                     </div>
 
                     <div className="hidden lg:inline-block lg:w-[33%]">
@@ -153,29 +170,24 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
     );
 }
 
-
-const OptionalPortfolioLinks: React.FC<{ portfolioLinks: string[] }> = ({ portfolioLinks }) => {
-    const PortfolioLink: React.FC<{ icon: any, url: string, label: string }> = ({ icon, url, label }) => {
-        return (
-          <Link to={url} className="text-xs flex">
-                <span className="mr-1 w-[16px] h-[16px]">
-                  <PortfolioIcon site={icon} override_classes={undefined} />
-                </span>
-              {label}
-          </Link>
-        );
-    };
-
-    return (
-      <div className="mt-2 flex flex-row flex-wrap justify-unset gap-y-1 gap-x-2 fill-[var(--theme-accent-dark)]">
-          {portfolioLinks.map((link: string) => {
-              const data = getPortfolioLink(link);
-              if (!data || !data.label) return <></>;
-              return (<PortfolioLink key={`portfolio-link--${data.url}`} icon={data.icon} url={data.url} label={data.label} />);
-          })}
-      </div>
+const PostOptionListSection: React.FC<{
+    optionsToDisplay: string[],
+    totalOptions: CustomSelectOption[],
+    label: string,
+    className: string,
+    wrapperClassName?: string,
+}> = ({ optionsToDisplay, totalOptions, label, className, wrapperClassName }) => {
+    const list = (
+      <OptionsListDisplay
+        optionsToDisplay={optionsToDisplay}
+        totalOptions={totalOptions}
+        label={label}
+        className={className}
+      />
     );
-};
+
+    return wrapperClassName ? <div className={wrapperClassName}>{list}</div> : list;
+}
 
 
 /**
@@ -194,9 +206,8 @@ const MessageOnDiscordButton: React.FC<{
     authorId,
     unableToContactCount,
 }) => {
-    // Extremely odd bug with true results being filtered out from /jams/
-    // Suppressing while GMTK is the only jam in town; likely not being fixed because other jams will be removed
-    const discordEnabled = true; // useContext(JamSpecificContext)
+    const jam = useContext(JamSpecificContext)
+    const discordEnabled = jam.discordEnabled ?? false;
     const isLoggedIn = Boolean(useAuth());
     const userInfo = useUserInfo();
     const canPostAuthorBeDMd = unableToContactCount < 5; // Arbitrary number
@@ -235,9 +246,11 @@ const MessageOnDiscordButton: React.FC<{
                 : <>
                     <p>Sorry, you can&apos;t contact this user right now.</p>
                     <p>
-                        <a target="_blank" rel="noreferrer" href={import.meta.env.VITE_DISCORD_INVITE_URL} className="underline text-sm">
-                            {`Please make sure you've joined the discord server!`}
-                        </a>
+                        {jam.guildInviteLink && (
+                            <a target="_blank" rel="noreferrer" href={jam.guildInviteLink} className="underline text-sm">
+                                {`Please make sure you've joined the discord server!`}
+                            </a>
+                        )}
                     </p>
                 </>
             }

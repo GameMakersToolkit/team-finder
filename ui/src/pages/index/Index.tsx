@@ -1,7 +1,10 @@
 import * as React from "react";
 import { useJams } from "../../api/jam.ts";
 import { Jam } from "../../common/models/jam.ts";
-import { Link } from "react-router-dom";
+
+const getJamStartTime = (start: string | number): number => {
+  return typeof start === "number" ? start : Date.parse(start);
+}
 
 export const Index: React.FC = () => {
 
@@ -26,7 +29,7 @@ export const Index: React.FC = () => {
                 Why use the Team Finder? It's a super simple way to browse community game jams and meet new teammates. Whether you're a veteran or new to game jams, the Team Finder makes team formation simple and fun.
               </p>
               <p className="mb-4 font-semibold text-[#ea2155]">
-                Have a jam you'd like to share? The Team Finder is open for submissions - message  <Link className="font-bold underline cursor-pointer" target="_blank" to={`https://discord.com/users/427486675409829898`}>@Dotwo</Link> to add your jam and invite your community to join!
+                Have a jam you'd like to share? The Team Finder is open for submissions - reach out to the platform support team to add your jam and invite your community to join.
               </p>
             </section>
 
@@ -45,10 +48,10 @@ const JamInfo: React.FC<{jams: Jam[]}> = ({jams}) => {
   const exampleJam = jams.find(jam => jam.jamId == "example-jam")!!
   const now = Date.now()
   const notStartedJams = jams
-    .filter(jam => Date.parse(jam.start) < now)
+    .filter(jam => getJamStartTime(jam.start) < now)
     .filter(jam => jam.jamId !== exampleJam.jamId)
   const startedJams = jams
-    .filter(jam => Date.parse(jam.start) >= now)
+    .filter(jam => getJamStartTime(jam.start) >= now)
     .filter(jam => jam.jamId !== exampleJam.jamId)
 
   return (
@@ -74,7 +77,7 @@ const JamInfo: React.FC<{jams: Jam[]}> = ({jams}) => {
 }
 
 const JamTile: React.FC<{jam: Jam}> = ({ jam }) => {
-    const start = new Date(Date.parse(jam.start))
+    const start = new Date(getJamStartTime(jam.start))
     const daysInFuture = Math.ceil(Math.abs(start.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
 
     return (

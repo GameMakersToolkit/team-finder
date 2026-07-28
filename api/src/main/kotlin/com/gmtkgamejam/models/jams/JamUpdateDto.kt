@@ -10,8 +10,8 @@ import kotlinx.serialization.Serializable
 //
 data class JamUpdateDto(
     val status: JamStatus? = null,
-    val start: String? = null,
-    val end: String? = null,
+    val start: Long? = null,
+    val end: Long? = null,
     val bgImageUrl: String? = null,
     val logoLargeUrl: String? = null,
     val logoStackedUrl: String? = null,

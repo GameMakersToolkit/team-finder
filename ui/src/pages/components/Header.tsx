@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Link, useMatch, useNavigate, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {useUserInfo} from "../../api/userInfo.ts";
 import {login} from "../../api/login.ts";
 // Probably a better way to manage these
@@ -27,6 +27,8 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
 
     const userInfo = useUserInfo();
     const isAdminUser = Boolean(userInfo.data?.isAdmin);
+    const supportContactUrl = theme.styles["support-contact-url"];
+    const supportContactLabel = theme.styles["support-contact-label"] || "Contact Support";
 
     return (
         <>
@@ -41,7 +43,9 @@ export const Header: React.FC<{isPreview: boolean}> = ({isPreview}) => {
 
                         <div className="flex items-center">
                             <Link className="header-text-link" key={"About"} to={`/${theme.jamId}/about`}>About / How To Use</Link>
-                            <Link className="header-text-link" target="_blank" key={"Contact Support"} to={`https://discord.com/users/427486675409829898`}>Contact Support</Link>
+                            {supportContactUrl && (
+                                <a className="header-text-link" target="_blank" rel="noreferrer" href={supportContactUrl}>{supportContactLabel}</a>
+                            )}
                             {isAdminUser && <Link className="header-text-link" key={"Admin"} to={`/${theme.jamId}/admin`}>Admin</Link>}
                         </div>
                     </div>

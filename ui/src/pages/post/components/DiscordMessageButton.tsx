@@ -1,5 +1,6 @@
 import React from "react";
 import {login} from "../../../api/login.ts";
+import { DiscordActionPill } from "./DiscordActionPill.tsx";
 
 export const DiscordMessageButton: React.FC<{
     authorId: string,
@@ -11,7 +12,7 @@ export const DiscordMessageButton: React.FC<{
     isLoggedIn,
 }) => {
     return (
-        <span className="mb-6 px-6 py-2 border-[var(--theme-accent-light)] bg-[var(--theme-accent-light)] rounded-xl text-grey-900 font-bold inline-flex cursor-pointer">
+        <DiscordActionPill>
             <a
                 target="_blank"
                 rel="noreferrer"
@@ -21,6 +22,6 @@ export const DiscordMessageButton: React.FC<{
             >
                 Message {author} on Discord{' '} {!isLoggedIn && <>(Log in to continue)</>}
             </a>
-        </span >
+        </DiscordActionPill>
     );
 };

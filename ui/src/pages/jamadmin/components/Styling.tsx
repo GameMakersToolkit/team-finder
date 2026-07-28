@@ -45,9 +45,16 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
     // Helper for dropzone file selection
     const onSubmitForm = (_: any, setSubmitting: (a: boolean) => void) => {
         toast.dismiss()
-        previewTheme.styles = themeFields
+        const cssStyles = themeFields
           .map(f => {return {[f.name]: f.currentValue}})
           .reduce((a, b) => {return {...a, ...b}}, {})
+        const nonCssStyles = Object.fromEntries(
+          Object.entries(previewTheme.styles ?? {}).filter(([styleName]) => !styleName.startsWith("--"))
+        )
+        previewTheme.styles = {
+          ...nonCssStyles,
+          ...cssStyles,
+        }
         mutation.mutate(previewTheme)
         setTimeout(() => {
             setSubmitting(false)

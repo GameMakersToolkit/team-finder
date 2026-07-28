@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Jam, JamSpecificContext } from "../../../../common/components/JamSpecificStyling.tsx";
+import { JamSpecificContext } from "../../../../common/components/JamSpecificStyling.tsx";
+import { Jam } from "../../../../common/models/jam.ts";
 import {BaseFieldLabel} from './BaseFieldLabel.tsx';
 import {BaseFieldColourInput} from './BaseFieldColourInput.tsx';
 import { getPreviewCacheKey } from "../../../../common/components/JamPreviewStyling.tsx";
@@ -10,13 +11,25 @@ export type ThemeField = {
     currentValue: string
 }
 
-export const CommonFields = ({themeFields, setThemeFields}) => {
+type CommonFieldsProps = {
+    themeFields: ThemeField[],
+    setThemeFields: (themeFields: ThemeField[]) => void,
+}
+
+const fieldSections: { title: string, indices: number[] }[] = [
+    { title: "Jam Theme", indices: [1, 2] },
+    { title: "Header/Footer", indices: [3, 4] },
+    { title: "General", indices: [0, 17] },
+    { title: "Countdown", indices: [18, 19] },
+]
+
+export const CommonFields: React.FC<CommonFieldsProps> = ({themeFields, setThemeFields}) => {
     const theme = useContext(JamSpecificContext)
     const [iframeState, setIframeState] = useState<number>(0)
 
     useEffect(() => {
         const previewThemeCacheKey = getPreviewCacheKey(theme.jamId);
-        const styles = {}
+        const styles = {...(theme.styles ?? {})}
         themeFields.forEach(field => styles[field.name] = field.currentValue)
         const previewTheme: Jam = {...theme, styles: styles} as Jam
         localStorage.setItem(previewThemeCacheKey, JSON.stringify(previewTheme))
@@ -28,26 +41,19 @@ export const CommonFields = ({themeFields, setThemeFields}) => {
             <h3 className="text-2xl text-center mb-4">Common / Site-wide styles</h3>
             <div className="grid grid-cols-2 mb-16">
                 <div className="grid grid-cols-2">
-                    <div className="mb-4">
-                        <h4 className="text-xl _text-center mb-2">Jam Theme</h4>
-                        <FieldPair field={themeFields[1]} themeFields={themeFields} setThemeFields={setThemeFields} />
-                        <FieldPair field={themeFields[2]} themeFields={themeFields} setThemeFields={setThemeFields} />
-                    </div>
-                    <div className="mb-4">
-                        <h4 className="text-xl _text-center mb-2">Header/Footer</h4>
-                        <FieldPair field={themeFields[3]} themeFields={themeFields} setThemeFields={setThemeFields} />
-                        <FieldPair field={themeFields[4]} themeFields={themeFields} setThemeFields={setThemeFields} />
-                    </div>
-                    <div className="mb-4">
-                        <h4 className="text-xl _text-center mb-2">General</h4>
-                        <FieldPair field={themeFields[0]} themeFields={themeFields} setThemeFields={setThemeFields} />
-                        <FieldPair field={themeFields[17]} themeFields={themeFields} setThemeFields={setThemeFields} />
-                    </div>
-                    <div className="mb-4">
-                        <h4 className="text-xl _text-center mb-2">Countdown</h4>
-                        <FieldPair field={themeFields[18]} themeFields={themeFields} setThemeFields={setThemeFields} />
-                        <FieldPair field={themeFields[19]} themeFields={themeFields} setThemeFields={setThemeFields} />
-                    </div>
+                    {fieldSections.map(section => (
+                        <div className="mb-4" key={section.title}>
+                            <h4 className="text-xl _text-center mb-2">{section.title}</h4>
+                            {section.indices.map(index => (
+                                <FieldPair
+                                    key={themeFields[index].name}
+                                    field={themeFields[index]}
+                                    themeFields={themeFields}
+                                    setThemeFields={setThemeFields}
+                                />
+                            ))}
+                        </div>
+                    ))}
                 </div>
                 <div className="">
                     <div className="px-8 m-auto h-full">
@@ -71,7 +77,7 @@ export const CommonFields = ({themeFields, setThemeFields}) => {
     )
 }
 
-const FieldPair = ({field, themeFields, setThemeFields}) => {
+const FieldPair: React.FC<{field: ThemeField, themeFields: ThemeField[], setThemeFields: (themeFields: ThemeField[]) => void}> = ({field, themeFields, setThemeFields}) => {
     return (
       <div className="flex flex-row justify-items-center gap-4 items-center mb-2">
           <BaseFieldLabel field={field}/>

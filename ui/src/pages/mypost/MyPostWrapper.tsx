@@ -151,13 +151,13 @@ const MyPostPage: React.FC = () => {
                         </>
                     )}
                 </Formik>
-                {post && <DeletePostButton postId={post.id} onClickHandler={() => deletePostMutation.mutate({ postId: post.id })} />}
+                {post && <DeletePostButton onClickHandler={() => deletePostMutation.mutate({ postId: post.id })} />}
             </div>
         </main>
     )
 }
 
-const DeletePostButton: React.FC<{postId: string, onClickHandler: any}> = ({onClickHandler}) => {
+const DeletePostButton: React.FC<{onClickHandler: any}> = ({onClickHandler}) => {
     return (
         <Button
             className="mt-4 bg-red-600 text-white rounded-xl w-full sm:w-full md:w-auto md:float-right"

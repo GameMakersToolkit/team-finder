@@ -2,8 +2,8 @@ export type Jam = {
   jamId: string,
   name: string,
   status: string,
-  start: string,
-  end: string,
+  start: string | number,
+  end: string | number,
   duration: string,
   styles: {
     [key: string]: any

@@ -1,14 +1,24 @@
+import { useContext } from "react";
+import { JamSpecificContext } from "../../../common/components/JamSpecificStyling.tsx";
+import { DiscordActionPill } from "./DiscordActionPill.tsx";
+
 export const JoinDiscordButton = () => {
+    const jam = useContext(JamSpecificContext);
+
+    if (!jam.guildInviteLink) {
+        return null;
+    }
+
     return (
-        <span className="mb-6 px-6 py-2 border-[var(--theme-accent-light)] bg-[var(--theme-accent-light)] rounded-xl text-grey-900 font-bold inline-flex cursor-pointer">
+        <DiscordActionPill>
             <a
                 target="_blank"
                 rel="noreferrer"
-                href={import.meta.env.VITE_DISCORD_INVITE_URL}
+                href={jam.guildInviteLink}
                 className="text-sm"
             >
-                {`Join the ${import.meta.env.VITE_DISCORD_NAME} server to send messages to other jammers!`}
+                {`Join the ${jam.name} community Discord server to send messages to other jammers!`}
             </a>
-        </span >
+        </DiscordActionPill>
     )
 }
