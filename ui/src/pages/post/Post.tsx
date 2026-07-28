@@ -207,7 +207,7 @@ const MessageOnDiscordButton: React.FC<{
     unableToContactCount,
 }) => {
     const jam = useContext(JamSpecificContext)
-    const discordEnabled = jam.discordEnabled ?? false;
+    const discordEnabled = true;//jam.discordEnabled ?? false;
     const isLoggedIn = Boolean(useAuth());
     const userInfo = useUserInfo();
     const canPostAuthorBeDMd = unableToContactCount < 5; // Arbitrary number
