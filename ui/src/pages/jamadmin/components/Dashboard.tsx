@@ -87,8 +87,8 @@ export const Dashboard = () => {
       toast.dismiss()
       // Why have I done it like this
       theme.status = params.status
-      theme.start = params.startDateTime
-      theme.end = params.endDateTime
+      theme.start = new Date(params.startDateTime).getTime()
+      theme.end = new Date(params.endDateTime).getTime()
       theme.discordEnabled = params.discordEnabled ?? false
       theme.guildId = params.guildId ?? ""
       theme.guildInviteLink = params.guildInviteLink ?? ""
