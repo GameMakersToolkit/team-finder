@@ -29,7 +29,7 @@ export const AppRoutes: React.FC = () => {
             <ReactQuerySiteWrapper>
 
             <Routes>
-                <Route path="/" element={<Navigate to="/gmtk" />}/>
+                <Route path="/" element={<Index />}/>
                 <Route path="/about" element={<About/>}/>
                 <Route path="/logout" element={<Logout/>}/>
 
