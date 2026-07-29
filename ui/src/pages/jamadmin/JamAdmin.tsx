@@ -5,6 +5,7 @@ import {useMatch, useNavigate} from 'react-router-dom';
 import {Dashboard} from './components/Dashboard.tsx';
 import {Styling} from './components/Styling.tsx';
 import {Moderation} from './components/Moderation.tsx';
+import {Footer} from './components/Footer.tsx';
 import {useAuth} from '../../api/AuthContext.tsx';
 import {useUserInfo} from '../../api/userInfo.ts';
 import { getJamId } from "../../common/utils/getJamId.ts";
@@ -35,6 +36,7 @@ export const JamAdmin = () => {
 
                 {currentAdminPage == "dashboard" && <Dashboard />}
                 {currentAdminPage == "styling" && <Styling forceStylingRedraw={forceStylingRedraw} />}
+                {currentAdminPage == "footer" && <Footer />}
                 {currentAdminPage == "moderation" && <Moderation />}
             </main>
         </JamSpecificStyling>
@@ -60,6 +62,13 @@ const NavButtons: React.FC<{currentAdminPage: string}> = ({currentAdminPage}) =>
                 onClick={() => navigate(`/${jamId}/admin/styling`)}
             >
                 Site Styling
+            </button>
+            <button
+                className={`nav--button ${currentAdminPage == 'footer' && 'active'}`}
+                type="button"
+                onClick={() => navigate(`/${jamId}/admin/footer`)}
+            >
+                Footer
             </button>
             <button
                 className={`nav--button ${currentAdminPage == 'moderation' && 'active'}`}

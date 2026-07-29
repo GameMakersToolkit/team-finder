@@ -11,8 +11,6 @@ type FormikFormParameters = {
   status: string;
   startDateTime: string;
   endDateTime: string;
-  jamStartTimestamp?: string,
-  submissionsCloseTimestamp?: string,
   discordEnabled: boolean;
   guildId?: string,
   guildInviteLink?: string,
@@ -21,15 +19,6 @@ type FormikFormParameters = {
   supportContactLabel?: string,
   supportContactHandle?: string,
   supportDisclaimer?: string,
-  footerPrimaryLabel?: string,
-  footerPrimaryUrl?: string,
-  footerPrimaryIconUrl?: string,
-  footerSecondaryLabel?: string,
-  footerSecondaryUrl?: string,
-  footerSecondaryIconUrl?: string,
-  footerTertiaryLabel?: string,
-  footerTertiaryUrl?: string,
-  footerTertiaryIconUrl?: string,
 }
 
 // Get current time in local timezone in order to prep for datetime-local input
@@ -48,8 +37,6 @@ export const Dashboard = () => {
       startDateTime: formatDateTimeLocal(theme.start),
       endDateTime: formatDateTimeLocal(theme.end),
       discordEnabled: theme.discordEnabled ?? true,
-      jamStartTimestamp: theme.styles["jam-start-timestamp"] ?? "",
-      submissionsCloseTimestamp: theme.styles["submissions-close-timestamp"] ?? "",
       guildInviteLink: theme.guildInviteLink ?? "",
       guildId: theme.guildId ?? "",
       channelId: theme.channelId ?? "",
@@ -57,15 +44,6 @@ export const Dashboard = () => {
       supportContactLabel: theme.styles["support-contact-label"] ?? "Contact Support",
       supportContactHandle: theme.styles["support-contact-handle"] ?? "",
       supportDisclaimer: theme.styles["support-disclaimer"] ?? "",
-      footerPrimaryLabel: theme.styles["footer-primary-label"] ?? `${theme.name} homepage`,
-      footerPrimaryUrl: theme.styles["footer-primary-url"] ?? "",
-      footerPrimaryIconUrl: theme.styles["footer-primary-icon-url"] ?? "",
-      footerSecondaryLabel: theme.styles["footer-secondary-label"] ?? "Community channel",
-      footerSecondaryUrl: theme.styles["footer-secondary-url"] ?? "",
-      footerSecondaryIconUrl: theme.styles["footer-secondary-icon-url"] ?? "",
-      footerTertiaryLabel: theme.styles["footer-tertiary-label"] ?? "Community Discord",
-      footerTertiaryUrl: theme.styles["footer-tertiary-url"] ?? "",
-      footerTertiaryIconUrl: theme.styles["footer-tertiary-icon-url"] ?? "",
     }
 
   const validateForm = (values: FormikFormParameters) => {
@@ -95,24 +73,10 @@ export const Dashboard = () => {
       theme.channelId = params.channelId ?? ""
       theme.styles = {
         ...theme.styles,
-        "jam-start-timestamp": params.jamStartTimestamp ?? "",
-        "submissions-close-timestamp": params.submissionsCloseTimestamp ?? "",
-      }
-      theme.styles = {
-        ...theme.styles,
         "support-contact-url": params.supportContactUrl ?? "",
         "support-contact-label": params.supportContactLabel ?? "",
         "support-contact-handle": params.supportContactHandle ?? "",
         "support-disclaimer": params.supportDisclaimer ?? "",
-        "footer-primary-label": params.footerPrimaryLabel ?? "",
-        "footer-primary-url": params.footerPrimaryUrl ?? "",
-        "footer-primary-icon-url": params.footerPrimaryIconUrl ?? "",
-        "footer-secondary-label": params.footerSecondaryLabel ?? "",
-        "footer-secondary-url": params.footerSecondaryUrl ?? "",
-        "footer-secondary-icon-url": params.footerSecondaryIconUrl ?? "",
-        "footer-tertiary-label": params.footerTertiaryLabel ?? "",
-        "footer-tertiary-url": params.footerTertiaryUrl ?? "",
-        "footer-tertiary-icon-url": params.footerTertiaryIconUrl ?? "",
       }
 
       mutation.mutate(theme)
@@ -170,6 +134,9 @@ export const Dashboard = () => {
 
 
                   <h3 className="text-2xl text-center mb-4">Jam Timing</h3>
+                  <div className="mb-4">
+                    <p className="text-sm"><strong className="text-yellow-400">⚠️ Times are in UTC:</strong> All jam times are stored in UTC (Coordinated Universal Time). Your browser will display them in your local timezone, but the actual start and end times will be UTC.</p>
+                  </div>
                   <div className="c-form-block grid grid-cols-2 gap-x-8 mb-16">
                     <div className="flex flex-col gap-2">
                       <label htmlFor="startDateTime">Jam start</label>
@@ -201,24 +168,6 @@ export const Dashboard = () => {
                         <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 28)}>Start + 28 days</span>
                       </div>
                     </div>
-                  </div>
-
-
-                  <h3 className="text-2xl text-center mb-4">Countdown Display</h3>
-                  <div className="mb-4">
-                    <p>Display countdown timers on the jam page. Leave empty to disable countdowns.</p>
-                  </div>
-                  <div className="c-form-block grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-16">
-                    <div>
-                      <label htmlFor="jamStartTimestamp">Jam start countdown (milliseconds timestamp)</label>
-                      <p className="text-xs">Empty = no countdown displayed</p>
-                    </div>
-                    <Field name="jamStartTimestamp" type="text" className="form-block__field px-2 py-2" />
-                    <div>
-                      <label htmlFor="submissionsCloseTimestamp">Submissions close countdown (milliseconds timestamp)</label>
-                      <p className="text-xs">Empty = no countdown displayed</p>
-                    </div>
-                    <Field name="submissionsCloseTimestamp" type="text" className="form-block__field px-2 py-2" />
                   </div>
 
                   <h3 className="text-2xl text-center mb-4">Discord Integration</h3>
@@ -268,30 +217,6 @@ export const Dashboard = () => {
                       <p className="text-xs">Shown in the About page warning section</p>
                     </div>
                     <Field as="textarea" name="supportDisclaimer" rows={3} className="form-block__field px-2 py-2" />
-                  </div>
-
-                  <h3 className="text-2xl text-center mb-4">Footer Links</h3>
-                  <div className="c-form-block grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
-                    <div><label htmlFor="footerPrimaryLabel">Primary footer label</label></div>
-                    <Field name="footerPrimaryLabel" type="text" className="form-block__field px-2 py-2" />
-                    <div><label htmlFor="footerPrimaryUrl">Primary footer URL</label></div>
-                    <Field name="footerPrimaryUrl" type="text" className="form-block__field px-2 py-2" />
-                    <div><label htmlFor="footerPrimaryIconUrl">Primary footer icon URL</label></div>
-                    <Field name="footerPrimaryIconUrl" type="text" className="form-block__field px-2 py-2" />
-
-                    <div><label htmlFor="footerSecondaryLabel">Secondary footer label</label></div>
-                    <Field name="footerSecondaryLabel" type="text" className="form-block__field px-2 py-2" />
-                    <div><label htmlFor="footerSecondaryUrl">Secondary footer URL</label></div>
-                    <Field name="footerSecondaryUrl" type="text" className="form-block__field px-2 py-2" />
-                    <div><label htmlFor="footerSecondaryIconUrl">Secondary footer icon URL</label></div>
-                    <Field name="footerSecondaryIconUrl" type="text" className="form-block__field px-2 py-2" />
-
-                    <div><label htmlFor="footerTertiaryLabel">Tertiary footer label</label></div>
-                    <Field name="footerTertiaryLabel" type="text" className="form-block__field px-2 py-2" />
-                    <div><label htmlFor="footerTertiaryUrl">Tertiary footer URL</label></div>
-                    <Field name="footerTertiaryUrl" type="text" className="form-block__field px-2 py-2" />
-                    <div><label htmlFor="footerTertiaryIconUrl">Tertiary footer icon URL</label></div>
-                    <Field name="footerTertiaryIconUrl" type="text" className="form-block__field px-2 py-2" />
                   </div>
 
                   <h3 className="text-2xl text-center mb-4">Jam Admins</h3>
