@@ -43,7 +43,8 @@ fun Application.configureAdminRouting() {
 
                 route("/reports") {
                     get {
-                        val filters = mutableListOf(PostItem::deletedAt eq null, PostItem::reportCount gt 0)
+                        val jamId = call.parameters["jamId"]!!
+                        val filters = mutableListOf(PostItem::jamId eq jamId, PostItem::deletedAt eq null, PostItem::reportCount gt 0)
                         call.respond(service.getPosts(and(filters), descending(PostItem::reportCount), 1))
                     }
                     post("/clear") {
