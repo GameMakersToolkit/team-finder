@@ -13,6 +13,25 @@ import io.ktor.server.auth.jwt.*
 import org.koin.ktor.ext.inject
 import java.net.URLEncoder
 
+private const val STATE_JAM_DELIMITER = ".jamId."
+private val JAM_ID_REGEX = Regex("^[a-zA-Z0-9-]{1,64}$")
+
+fun appendJamIdToOAuthState(state: String?, jamId: String?): String? {
+    if (state.isNullOrBlank() || jamId.isNullOrBlank()) return null
+    if (!JAM_ID_REGEX.matches(jamId)) return null
+
+    return "$state$STATE_JAM_DELIMITER$jamId"
+}
+
+fun extractJamIdFromOAuthState(state: String?): String? {
+    if (state.isNullOrBlank()) return null
+    val delimiterIndex = state.lastIndexOf(STATE_JAM_DELIMITER)
+    if (delimiterIndex == -1) return null
+
+    val jamId = state.substring(delimiterIndex + STATE_JAM_DELIMITER.length)
+    return if (JAM_ID_REGEX.matches(jamId)) jamId else null
+}
+
 @Suppress("unused")
 fun Application.authModule() {
     val config: Config by inject()
@@ -52,8 +71,8 @@ fun Application.authModule() {
                         clientSecret = config.getString("secrets.discord.client.secret"),
                         defaultScopes = listOf("identify", "guilds.members.read"),
                         authorizeUrlInterceptor = {
-                            // Hijack the state parameter to persist jamId through discord redirect
-                            this.parameters["state"] = this.parameters["state"] + "=jamId=$jamId"
+                            appendJamIdToOAuthState(this.parameters["state"], jamId)
+                                ?.let { this.parameters["state"] = it }
                         }
                     )
                 }
@@ -78,10 +97,14 @@ fun Application.authModule() {
                 val tokenSet = authService.getTokenSet(id)
 
                 val jamId = it.payload.getClaim("jamId").asString()
-                val jam = jamService.getJam(jamId)!!
-                val adminDiscordIds = jam.adminIds
+                val jam = jamService.getJam(jamId)
+                val adminDiscordIds = jam?.adminIds
 
-                return@validate if (tokenSet != null && adminDiscordIds.contains(tokenSet.discordId)) JWTPrincipal(it.payload) else null
+                if (tokenSet == null || adminDiscordIds == null) {
+                    return@validate null
+                }
+
+                return@validate if (adminDiscordIds.contains(tokenSet.discordId)) JWTPrincipal(it.payload) else null
             }
         }
     }
@@ -96,5 +119,5 @@ fun buildJWTVerifier(config: Config): JWTVerifier {
         .require(Algorithm.HMAC256(secret))
         .withAudience(audience)
         .withIssuer(issuer)
-        .build()!!
+        .build()
 }

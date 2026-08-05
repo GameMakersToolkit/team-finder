@@ -23,9 +23,9 @@ export const Moderation = () => {
 
 const ReportedPostList = () => {
     const req = useApiRequest();
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError } = useQuery<Post[]>({
         queryFn: async () => {
-            const res: any = await req(`/${getJamId()}/admin/reports`);
+            const res = await req<Post[]>(`/${getJamId()}/admin/reports`);
             return res;
         },
         queryKey: ['reported'],

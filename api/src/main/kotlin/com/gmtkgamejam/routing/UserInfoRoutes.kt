@@ -5,6 +5,7 @@ import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.discord.refreshTokenAsync
 import com.gmtkgamejam.models.auth.UserInfo
+import com.gmtkgamejam.respondData
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AnalyticsService
 import com.gmtkgamejam.services.AuthService
@@ -39,31 +40,40 @@ fun Application.configureUserInfoRouting() {
                 val id = principal?.payload?.getClaim("id")?.asString()
                 val expiresAt = principal?.expiresAt?.time?.minus(System.currentTimeMillis())
 
-                call.respondJSON("Hello, id: $id and expires at: $expiresAt")
+                call.respondData(mapOf("message" to "Hello, id: $id and expires at: $expiresAt"))
             }
 
             get("/{jamId}/userinfo") {
-                val jamId = call.parameters["jamId"]!! // TODO
-                val jam = jamService.getJam(jamId)!! // TODO
+                val jamId = call.parameters["jamId"]
+                    ?: return@get call.respondJSON("Missing jamId", HttpStatusCode.BadRequest, "missing_jam_id")
+                val jam = jamService.getJam(jamId)
+                    ?: return@get call.respondJSON("Jam not found", HttpStatusCode.NotFound, "jam_not_found")
 
                 val currentTime = LocalDateTime.now()
                 val principal = call.principal<JWTPrincipal>()
                 val id = principal?.payload?.getClaim("id")?.asString()
 
-                service.getTokenSet(id!!)?.let {
+                if (id == null) {
+                    return@get call.respondJSON("Invalid token", HttpStatusCode.Unauthorized, "invalid_token")
+                }
+
+                service.getTokenSet(id)?.let {
                     val tokenSet = it
 
                     // Very short TTL cache to avoid unnecessary traffic for quick turnaround behaviour
                     // We don't expect the cache to expire during regular traffic
                     if (shortLiveCache.containsKey(tokenSet.discordId)) {
-                        val (cacheSetTime, userInfo) = shortLiveCache[tokenSet.discordId]!!
+                        val cachedEntry = shortLiveCache[tokenSet.discordId]
+                        if (cachedEntry != null) {
+                            val (cacheSetTime, userInfo) = cachedEntry
                         shortLiveCache.remove(tokenSet.discordId)
 
                         // If the cache set was less than 5 minutes ago, don't hit discord again
                         if (currentTime < cacheSetTime.plusMinutes(5L)) {
                             // Refresh cache entry
                             shortLiveCache[userInfo.id] = Pair(LocalDateTime.now(), userInfo)
-                            return@get call.respond(userInfo)
+                            return@get call.respondData(userInfo)
+                        }
                         }
                     }
 
@@ -87,7 +97,7 @@ fun Application.configureUserInfoRouting() {
                     val user = getUserInfoAsync(accessToken)
 
                     launch {
-                        analyticsService.trackLogin()
+                        analyticsService.trackLogin(jamId)
                     }
 
                     val displayName = bot.getDisplayNameForUser(jam.jamId, user.id)
@@ -97,10 +107,10 @@ fun Application.configureUserInfoRouting() {
 
                     val userInfo = UserInfo(user, displayName, isUserInGuild, hasPermissions, isAdmin)
                     shortLiveCache[user.id] = Pair(LocalDateTime.now(), userInfo)
-                    return@get call.respond(userInfo)
+                    return@get call.respondData(userInfo)
                 }
 
-                call.respondJSON("Couldn't load token set from DB", status = HttpStatusCode.NotFound)
+                call.respondJSON("Couldn't load token set from DB", status = HttpStatusCode.NotFound, code = "token_set_not_found")
             }
         }
     }

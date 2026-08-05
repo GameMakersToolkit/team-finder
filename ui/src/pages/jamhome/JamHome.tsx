@@ -9,6 +9,7 @@ import {Post} from "../../common/models/post.ts";
 import { JamSpecificStyling } from "../../common/components/JamSpecificStyling.tsx";
 import {usePosts} from '../../api/post.ts';
 import {iiicon} from '../../common/utils/iiicon.tsx';
+import { usePagination } from "../../common/hooks/usePagination.ts";
 
 export const JamHome: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -28,7 +29,11 @@ export const JamHome: React.FC = () => {
             <main>
                 <Onboarding />
                 <SiteIntro />
-                <SearchFormWrapper searchParams={searchParams} setSearchParams={setSearchParams} />
+                <SearchFormWrapper
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
+                    resultCounts={posts.data?.pagination}
+                />
 
                 {posts?.data?.pagination
                     ? <>
@@ -56,37 +61,24 @@ const PaginationButtons: React.FC<{
     pagination: {
         current: number;
         total: number;
+        filteredCount: number;
+        totalCount: number;
     }
 }> = ({pagination}) => {
-    const [_, setSearchParams] = useSearchParams();
-
-    const currentPage = pagination.current
-    const maxPage = pagination.total
-
-    const movePage = (diff: number) => {
-        setTimeout(() => {
-            document.getElementById('search-results')!.scrollIntoView({behavior: 'smooth'})
-        }, 100)
-
-        setSearchParams(params => {
-            const newPage = currentPage <= maxPage ? Math.max(1, currentPage + diff) : maxPage;
-            params.set("page", newPage.toString())
-            return params
-        })
-    }
+    const { canMoveBackward, canMoveForward, previousPage, nextPage, movePage } = usePagination(pagination);
 
     const buttonClass = "w-[140px] bg-[var(--theme-tile-bg)] py-2 border-2 border-[var(--theme-tile-border)] disabled:border-gray-500 disabled:cursor-not-allowed rounded-xl font-bold text-center cursor-pointer"
     return (
         <div className="w-full flex justify-between pb-4">
-            <button className={buttonClass} onClick={() => movePage(-1)} disabled={currentPage <= 1}>
-                <span className={`flex justify-center mr-3 ${currentPage <= 1 ? `text-gray-500` : `text-[var(--theme-tile-border)]`}`}>
-                    {iiicon("left-arrow", currentPage <= 1 ? "#6b7280" : "var(--theme-tile-border)")} Page {Math.max(1, currentPage - 1)}
+            <button className={buttonClass} onClick={() => movePage(-1)} disabled={!canMoveBackward}>
+                <span className={`flex justify-center mr-3 ${!canMoveBackward ? `text-gray-500` : `text-[var(--theme-tile-border)]`}`}>
+                    {iiicon("left-arrow", !canMoveBackward ? "#6b7280" : "var(--theme-tile-border)")} Page {previousPage}
                 </span>
             </button>
 
-            <button className={buttonClass} onClick={() => movePage(1)} disabled={currentPage >= maxPage}>
-                <span className={`flex justify-center ml-3 ${currentPage >= maxPage ? `text-gray-500` : `text-[var(--theme-tile-border)]`}`}>
-                    Page {Math.min(maxPage, currentPage + 1)} {iiicon("right-arrow", currentPage >= maxPage ? "#6b7280" : "var(--theme-tile-border)")}
+            <button className={buttonClass} onClick={() => movePage(1)} disabled={!canMoveForward}>
+                <span className={`flex justify-center ml-3 ${!canMoveForward ? `text-gray-500` : `text-[var(--theme-tile-border)]`}`}>
+                    Page {nextPage} {iiicon("right-arrow", !canMoveForward ? "#6b7280" : "var(--theme-tile-border)")}
                 </span>
             </button>
         </div>

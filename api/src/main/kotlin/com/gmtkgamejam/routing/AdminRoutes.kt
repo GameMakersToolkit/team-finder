@@ -6,6 +6,7 @@ import com.gmtkgamejam.models.admin.dtos.BanUnbanUserDto
 import com.gmtkgamejam.models.admin.dtos.DeletePostDto
 import com.gmtkgamejam.models.admin.dtos.ReportedUsersClearDto
 import com.gmtkgamejam.models.posts.PostItem
+import com.gmtkgamejam.respondData
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AdminService
 import com.gmtkgamejam.services.PostService
@@ -32,27 +33,29 @@ fun Application.configureAdminRouting() {
             route("/{jamId}/admin") {
                 route("/bot") {
                     get {
-                        call.respondJSON("build.general", status = HttpStatusCode.OK)
+                        call.respondData(mapOf("message" to "build.general"), status = HttpStatusCode.OK)
                     }
                     post {
-                        // TODO: Validation
-                        val jamId = call.parameters["jamId"]!!
+                        val jamId = call.parameters["jamId"]
+                            ?: return@post call.respondJSON("Missing jamId", HttpStatusCode.BadRequest, "missing_jam_id")
                         bot.sendStatusMessageToPingChannel(jamId)
+                        return@post call.respondData(mapOf("message" to "Status message sent"))
                     }
                 }
 
                 route("/reports") {
                     get {
-                        val jamId = call.parameters["jamId"]!!
+                        val jamId = call.parameters["jamId"]
+                            ?: return@get call.respondJSON("Missing jamId", HttpStatusCode.BadRequest, "missing_jam_id")
                         val filters = mutableListOf(PostItem::jamId eq jamId, PostItem::deletedAt eq null, PostItem::reportCount gt 0)
-                        call.respond(service.getPosts(and(filters), descending(PostItem::reportCount), 1))
+                        call.respondData(service.getPosts(and(filters), descending(PostItem::reportCount), 1))
                     }
                     post("/clear") {
                         val data = call.receive<ReportedUsersClearDto>()
                         service.getPost(data.teamId)?.let {
                             it.reportCount = 0
                             service.updatePost(it)
-                            return@post call.respond(it)
+                            return@post call.respondData(it)
                         }
 
                         call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
@@ -63,7 +66,7 @@ fun Application.configureAdminRouting() {
                         val data = call.receive<DeletePostDto>()
                         service.getPost(data.postId)?.let {
                             service.deletePost(it)
-                            return@delete call.respond(it)
+                            return@delete call.respondData(it)
                         }
 
                         call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
@@ -74,14 +77,14 @@ fun Application.configureAdminRouting() {
                         val data = call.receive<BanUnbanUserDto>()
                         val userToBan = BannedUser(data)
                         adminService.banUser(userToBan).let {
-                            return@post call.respond("User banned")
+                            return@post call.respondData(mapOf("message" to "User banned"))
                         }
                     }
                     post("/unban") {
                         val data = call.receive<BanUnbanUserDto>()
                         val userToBan = BannedUser(data)
                         adminService.unbanUser(userToBan).let {
-                            return@post call.respond("User unbanned")
+                            return@post call.respondData(mapOf("message" to "User unbanned"))
                         }
                     }
                 }

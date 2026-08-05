@@ -1,6 +1,11 @@
 import * as React from "react";
 import { useQueryClient } from '@tanstack/react-query';
 import { getJamId } from "../common/utils/getJamId.ts";
+import {
+  safeGetString,
+  safeRemoveItem,
+  safeSetString,
+} from "../common/utils/storageUtils.ts";
 
 const LOCAL_STORAGE_KEY = "team_finder_auth";
 
@@ -30,7 +35,7 @@ export function useAuth(overrideJamId?: string): AuthState | null {
     throw new Error("useAuth must be used within an AuthContext");
   }
 
-  const token = localStorage.getItem(`${LOCAL_STORAGE_KEY}:${jamId}`);
+  const token = safeGetString(`${LOCAL_STORAGE_KEY}:${jamId}`);
   return token ? { token } : null;
 }
 
@@ -44,18 +49,18 @@ export function useAuthActions(): AuthActions {
   return React.useMemo(
     () => ({
       setToken: (jamId: string, token: string) => {
-        localStorage.setItem(`${LOCAL_STORAGE_KEY}:${jamId}`, token);
+        safeSetString(`${LOCAL_STORAGE_KEY}:${jamId}`, token);
         setState({ token });
       },
       logout: (jamId: string) => {
         if (jamId === "*") {
-            Object.keys(localStorage).forEach(key => {
+            Object.keys(localStorage).forEach((key) => {
                 if (key.startsWith(LOCAL_STORAGE_KEY)) {
-                    localStorage.removeItem(key);
+                    safeRemoveItem(key);
                 }
             });
         } else {
-            localStorage.removeItem(`${LOCAL_STORAGE_KEY}:${jamId}`);
+            safeRemoveItem(`${LOCAL_STORAGE_KEY}:${jamId}`);
         }
         setState(null);
         queryClient.invalidateQueries();
@@ -74,8 +79,8 @@ export function AuthContextProvider({
   const [currentState, setAuthState] = React.useState<AuthState | null>(
     () => {
         const key = `${LOCAL_STORAGE_KEY}:${jamId}`
-        const existingToken = localStorage.getItem(key);
-        return { token: existingToken } as AuthState;
+        const existingToken = safeGetString(key);
+        return existingToken ? { token: existingToken } : null;
     }
   );
 

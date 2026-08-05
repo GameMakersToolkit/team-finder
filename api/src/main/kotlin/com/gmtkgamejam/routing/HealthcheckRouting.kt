@@ -15,23 +15,48 @@ fun Application.configureHealthcheckRouting() {
 
     routing {
         get("/health") {
-            try {
-                var isDbAvailable = false
-                withTimeout(500L) {
-                    val db = client.getDatabase("team-finder")
-                    val pingResult = db.runCommand(Document("ping", 1)).append("maxTimeMS", 250)
-                    isDbAvailable = pingResult["ok"].toString() == "1" || pingResult["ok"].toString() == "1.0"
-                }
-                if (isDbAvailable) {
-                    call.respond(HttpStatusCode.OK, mapOf("status" to "UP"))
-                } else {
-                    call.respond(HttpStatusCode.FailedDependency, mapOf("status" to "DOWN", "reason" to "unavailable"))
-                }
-            } catch (_: TimeoutCancellationException) {
-                call.respond(HttpStatusCode.FailedDependency, mapOf("status" to "DOWN", "reason" to "timeout"))
-            } catch (e: Exception) {
-                call.respond(HttpStatusCode.FailedDependency, mapOf("status" to "DOWN", "reason" to e.message))
+            val health = evaluateMongoHealth(client)
+            val statusCode = if (health.isUp) HttpStatusCode.OK else HttpStatusCode.ServiceUnavailable
+            call.respond(
+                statusCode,
+                mapOf(
+                    "status" to if (health.isUp) "UP" else "DOWN",
+                    "database" to if (health.isUp) "UP" else "DOWN",
+                    "reason" to health.reason,
+                )
+            )
+        }
+
+        // DigitalOcean can target this route for startup and liveness probes.
+        get("/health/ready") {
+            val health = evaluateMongoHealth(client)
+            if (health.isUp) {
+                call.respond(HttpStatusCode.OK, mapOf("status" to "ready"))
+            } else {
+                call.respond(HttpStatusCode.ServiceUnavailable, mapOf("status" to "not_ready", "reason" to health.reason))
             }
         }
+
+        get("/health/live") {
+            call.respond(HttpStatusCode.OK, mapOf("status" to "alive"))
+        }
+    }
+}
+
+private data class HealthStatus(val isUp: Boolean, val reason: String? = null)
+
+private suspend fun evaluateMongoHealth(client: MongoClient): HealthStatus {
+    return try {
+        var isDbAvailable = false
+        withTimeout(300L) {
+            val db = client.getDatabase("team-finder")
+            val pingResult = db.runCommand(Document("ping", 1)).append("maxTimeMS", 200)
+            isDbAvailable = pingResult["ok"].toString() == "1" || pingResult["ok"].toString() == "1.0"
+        }
+        if (isDbAvailable) HealthStatus(isUp = true) else HealthStatus(isUp = false, reason = "unavailable")
+    } catch (_: TimeoutCancellationException) {
+        HealthStatus(isUp = false, reason = "timeout")
+    } catch (e: Exception) {
+        HealthStatus(isUp = false, reason = e.message ?: "unknown")
     }
 }

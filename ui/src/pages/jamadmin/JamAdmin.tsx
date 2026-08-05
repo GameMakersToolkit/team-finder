@@ -3,6 +3,7 @@ import {JamSpecificStyling} from '../../common/components/JamSpecificStyling.tsx
 import './JamAdmin.css'
 import {useMatch, useNavigate} from 'react-router-dom';
 import {Dashboard} from './components/Dashboard.tsx';
+import {Overview} from './components/Overview.tsx';
 import {Styling} from './components/Styling.tsx';
 import {Moderation} from './components/Moderation.tsx';
 import {Footer} from './components/Footer.tsx';
@@ -11,7 +12,7 @@ import {useUserInfo} from '../../api/userInfo.ts';
 import { getJamId } from "../../common/utils/getJamId.ts";
 
 export const JamAdmin = () => {
-    const currentAdminPage = useMatch("/:jamId/admin/:page")?.params.page || "dashboard";
+    const currentAdminPage = useMatch("/:jamId/admin/:page")?.params.page || "overview";
     const auth = useAuth();
     const userInfo = useUserInfo();
 
@@ -34,6 +35,7 @@ export const JamAdmin = () => {
 
                 <NavButtons currentAdminPage={currentAdminPage}/>
 
+                {currentAdminPage == "overview" && <Overview />}
                 {currentAdminPage == "dashboard" && <Dashboard />}
                 {currentAdminPage == "styling" && <Styling forceStylingRedraw={forceStylingRedraw} />}
                 {currentAdminPage == "footer" && <Footer />}
@@ -50,11 +52,18 @@ const NavButtons: React.FC<{currentAdminPage: string}> = ({currentAdminPage}) =>
     return (
         <nav id="admin-nav" className="row flex justify-center mb-16">
             <button
+                className={`nav--button ${currentAdminPage == 'overview' && 'active'}`}
+                type="button"
+                onClick={() => navigate(`/${jamId}/admin/overview`)}
+            >
+                Overview
+            </button>
+            <button
                 className={`nav--button ${currentAdminPage == 'dashboard' && 'active'}`}
                 type="button"
-                onClick={() => navigate(`/${jamId}/admin`)}
+                onClick={() => navigate(`/${jamId}/admin/dashboard`)}
             >
-                Admin dashboard
+                Dashboard
             </button>
             <button
                 className={`nav--button ${currentAdminPage == 'styling' && 'active'}`}

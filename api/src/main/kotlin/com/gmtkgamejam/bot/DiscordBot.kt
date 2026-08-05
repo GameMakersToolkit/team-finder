@@ -58,24 +58,28 @@ class DiscordBot(postService: PostService): KoinComponent {
 
     fun getOrFindServer(jamId: JamId): Server {
         if (!servers.containsKey(jamId)) {
-            // TODO handling
-            val jam = jamService.getJam(jamId)!!
-            val server = api.getServerById(jam.guildId).get()
+            val jam = jamService.getJam(jamId)
+                ?: throw IllegalArgumentException("Jam '$jamId' does not exist")
+            val server = api.getServerById(jam.guildId)
+                .orElseThrow { IllegalStateException("Server '${jam.guildId}' was not found for jam '$jamId'") }
             servers[jamId] = server
         }
 
-        return servers[jamId]!!
+        return servers[jamId]
+            ?: throw IllegalStateException("Server cache failed for jam '$jamId'")
     }
 
     fun getOrFindChannel(jamId: JamId): ServerTextChannel {
         if (!channels.containsKey(jamId)) {
-            // TODO handling
-            val jam = jamService.getJam(jamId)!!
-            val channel = api.getServerTextChannelById(jam.channelId).get()
+            val jam = jamService.getJam(jamId)
+                ?: throw IllegalArgumentException("Jam '$jamId' does not exist")
+            val channel = api.getServerTextChannelById(jam.channelId)
+                .orElseThrow { IllegalStateException("Channel '${jam.channelId}' was not found for jam '$jamId'") }
             channels[jamId] = channel
         }
 
-        return channels[jamId]!!
+        return channels[jamId]
+            ?: throw IllegalStateException("Channel cache failed for jam '$jamId'")
     }
 
     suspend fun createContactUserPingMessage(jamId: JamId, recipientUserId: String, senderUserId: String) {
@@ -160,12 +164,19 @@ class DiscordBot(postService: PostService): KoinComponent {
     }
 
     fun getDisplayNameForUser(jamId: JamId, userId: String): String {
-        val baseUserName = api.getUserById(userId).get().name
+        val baseUserName = try {
+            api.getUserById(userId).get().name
+        } catch (ex: Exception) {
+            userId
+        }
 
         return try {
             val server = getOrFindServer(jamId)
-            server.getMemberById(userId).get().getNickname(server).get()
-        } catch (ex: NoSuchElementException) {
+            server
+                .getMemberById(userId)
+                .flatMap { it.getNickname(server) }
+                .orElse(baseUserName)
+        } catch (ex: Exception) {
             baseUserName
         }
     }

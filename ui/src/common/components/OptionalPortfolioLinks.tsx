@@ -4,7 +4,7 @@ import { PortfolioIcon } from "./PortfolioIcon.tsx";
 import { getPortfolioLink } from "./PortfolioSites.ts";
 
 export const OptionalPortfolioLinks: React.FC<{ portfolioLinks: string[] }> = ({ portfolioLinks }) => {
-  const PortfolioLink: React.FC<{ icon: any, url: string, label: string }> = ({ icon, url, label }) => {
+  const PortfolioLink: React.FC<{ icon: string, url: string, label: string }> = ({ icon, url, label }) => {
     return (
       <Link to={url} className="text-xs flex">
         <span className="mr-1">

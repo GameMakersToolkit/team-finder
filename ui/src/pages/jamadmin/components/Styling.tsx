@@ -43,7 +43,7 @@ export const Styling: React.FC<{ forceStylingRedraw: () => void }> = ({ forceSty
     }
 
     // Helper for dropzone file selection
-    const onSubmitForm = (_: any, setSubmitting: (a: boolean) => void) => {
+    const onSubmitForm = (_: unknown, setSubmitting: (a: boolean) => void) => {
         toast.dismiss()
         const cssStyles = themeFields
           .map(f => {return {[f.name]: f.currentValue}})

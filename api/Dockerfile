@@ -1,15 +1,12 @@
 ## Build stage image ##
-FROM amazoncorretto:21-alpine AS builder
-
-# Required for strip-debug to work
-RUN apk add --no-cache binutils
+FROM ghcr.io/graalvm/jdk-community:25 AS builder
 
 # Build small JRE image
 # This tiny JRE lets us use alpine:latest for the prod image below to cut down filesize
 RUN $JAVA_HOME/bin/jlink \
          --verbose \
+         --module-path "$JAVA_HOME/jmods" \
          --add-modules ALL-MODULE-PATH \
-         --strip-debug \
          --no-man-pages \
          --no-header-files \
          --compress=2 \
@@ -41,10 +38,18 @@ RUN ./gradlew build -x test
 
 
 ## Production build image ##
-FROM alpine:latest AS team-finder
+FROM debian:bookworm-slim AS team-finder
 
 ENV JAVA_HOME=/jre
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
+
+# Grafana integration
+ADD https://github.com/grafana/grafana-opentelemetry-java/releases/latest/download/grafana-opentelemetry-java.jar /app/otel-agent.jar
+# Keep runtime opts minimal by default; operators can still override JAVA_OPTS.
+ENV JAVA_OPTS="-javaagent:/app/otel-agent.jar"
 
 COPY --from=builder /customjre $JAVA_HOME
 

@@ -3,9 +3,12 @@ package com.gmtkgamejam.routing
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.gmtkgamejam.Config
+import com.gmtkgamejam.extractJamIdFromOAuthState
+import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.models.auth.AuthTokenSet
 import com.gmtkgamejam.services.AuthService
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*
@@ -25,13 +28,17 @@ fun Application.configureAuthRouting() {
                 // redirects to authorize url
             }
             get("/callback") {
-                val state = call.parameters["state"]!!
-                val jamId = state.split("=jamId=")[1] // TODO: Enforce alphanumeric here for safety
+                val jamId = extractJamIdFromOAuthState(call.parameters["state"])
+                    ?: return@get call.respondJSON(
+                        text = "Invalid OAuth callback state",
+                        status = HttpStatusCode.BadRequest,
+                        code = "invalid_oauth_state"
+                    )
                 val secret = config.getString("jwt.secret")
                 val issuer = config.getString("jwt.issuer")
                 val audience = config.getString("jwt.audience")
 
-                val lifespanOfAppJwt = 86400000 // A user is logged into the Team Finder for 24 hours
+                val lifespanOfAppJwt = config.getString("jwt.sessionLifespanMs").toLongOrNull() ?: 86_400_000L
 
                 // A securely random ID is used to ensure a JWT is unique, and that another JWT can't be brute-forced
                 val randomId = getSecureId()

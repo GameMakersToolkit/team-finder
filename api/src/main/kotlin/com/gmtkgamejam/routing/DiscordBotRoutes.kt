@@ -3,6 +3,7 @@ package com.gmtkgamejam.routing
 import com.gmtkgamejam.Config
 import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.models.bot.dtos.BotDmDto
+import com.gmtkgamejam.respondData
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.toJsonElement
@@ -57,7 +58,8 @@ fun Application.configureDiscordBotRouting() {
         authenticate("auth-jwt") {
             route("/{jamId}/bot") {
                 post("/dm") {
-                    val jamId = call.parameters["jamId"]!! // TODO
+                    val jamId = call.parameters["jamId"]
+                        ?: return@post call.respondJSON("Missing jamId", HttpStatusCode.BadRequest, "missing_jam_id")
                     val data = call.receive<BotDmDto>()
 
                     val tokenSet = authService.getTokenSet(call) ?: return@post call.respondJSON(
@@ -88,10 +90,10 @@ fun Application.configureDiscordBotRouting() {
                         bot.createContactUserPingMessage(jamId, recipientId, senderId)
                         userIdMessageTimes[senderId] = sendTime
                         userIdPerUserMessageTimes[Pair(senderId, recipientId).toString()] = sendTime
-                        logger.error("Sender [$senderId] has pinged Recipient [$recipientId] at [$sendTime]")
-                        return@post call.respondJSON(
-                            "Sender [$senderId] has pinged Recipient [$recipientId] at [$sendTime]",
-                            status = HttpStatusCode.OK
+                        logger.info("Sender [$senderId] pinged recipient [$recipientId] at [$sendTime]")
+                        return@post call.respondData(
+                            mapOf("message" to "Sender [$senderId] has pinged Recipient [$recipientId] at [$sendTime]"),
+                            status = HttpStatusCode.OK,
                         )
                     } catch (ex: Exception) {
                         logger.error("Could not create ping message: $ex")
@@ -112,7 +114,7 @@ fun Application.configureDiscordBotRouting() {
                         )
 
                         // .toJsonElement required as Ktor can't serialise collections of different element types
-                        return@get call.respond(data.toJsonElement())
+                        return@get call.respondData(data.toJsonElement())
                     }
                 }
             }

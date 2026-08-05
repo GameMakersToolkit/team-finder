@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Field, Form} from 'formik';
+import {Field, FieldInputProps, Form, FormikProps} from 'formik';
 import {FormikSearchFormParameters} from '../models/FormikSearchFormParameters.ts';
 import CustomSelect from './common/CustomSelect.tsx';
 import {languages} from '../../../common/models/languages.ts';
@@ -10,12 +10,17 @@ import {useState} from 'react';
 import {SortingOptions} from './SortingOptions.tsx';
 import {iiicon} from '../../../common/utils/iiicon.tsx';
 import {blankSearchParameters} from '../models/SearchParameters.ts';
+import { SearchParameters } from "../models/SearchParameters.ts";
 import {useSearchParams} from 'react-router-dom';
 import { availability } from "../../../common/models/availability.ts";
 
 export const SearchForm: React.FC<{
-    params: FormikSearchFormParameters
-}> = ({params}) => {
+    params: FormikSearchFormParameters,
+    resultCounts?: {
+        filteredCount: number;
+        totalCount: number;
+    }
+}> = ({params, resultCounts}) => {
     const [searchParams, _] = useSearchParams();
     const {values, handleChange, handleBlur} = params;
     const [showAdvancedSearchOptions, setShowAdvancedSearchOptions] = useState(false);
@@ -95,12 +100,30 @@ export const SearchForm: React.FC<{
             </div>
 
             <div className="md:flex justify-between items-center mt-4 mb-4">
-                <h2 className="text-3xl my-4 mr-2 inline-block">Search results</h2>
+                <div className="my-4 mr-2">
+                    <h2 className="text-3xl">Search results</h2>
+                    <p className="text-lg text-[var(--theme-text)] whitespace-nowrap">
+                        {formatResultCountLabel(resultCounts)}
+                    </p>
+                </div>
                 <SortingOptions/>
             </div>
 
         </Form>
     );
+};
+
+const formatResultCountLabel = (resultCounts?: { filteredCount: number; totalCount: number }) => {
+    if (!resultCounts) {
+        return "Results: ...";
+    }
+
+    const {filteredCount, totalCount} = resultCounts;
+    if (filteredCount === totalCount) {
+        return `Results: ${totalCount}`;
+    }
+
+    return `Results: ${filteredCount} (Total: ${totalCount})`;
 };
 
 const AdvancedOptions = () => {
@@ -160,8 +183,10 @@ const AdvancedOptions = () => {
     );
 };
 
-// TODO: How on earth do I typehint these Formik fields
-const AvailabilitySelectorFormik: React.FC<{field: any, form: any}> = ({ field, form }) => {
+const AvailabilitySelectorFormik: React.FC<{
+  field: FieldInputProps<string[] | undefined>;
+  form: FormikProps<SearchParameters>;
+}> = ({ field, form }) => {
 
   // field.value is `undefined` or `string[]`
   const value: string[] = field.value ?? [];

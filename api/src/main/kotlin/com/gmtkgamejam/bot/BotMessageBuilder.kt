@@ -12,8 +12,10 @@ class BotMessageBuilder(
     fun canBuildEmbedFromUser(sender: User, jamId: String): Boolean = postService.getPostByAuthorId(sender.id.toString(), jamId) != null
 
     fun embedMessage(recipient: User, sender: User, jamId: String): EmbedBuilder {
-        val post = postService.getPostByAuthorId(sender.id.toString(), jamId)!!
-        val jam = jamService.getJam(jamId)!!
+        val post = postService.getPostByAuthorId(sender.id.toString(), jamId)
+            ?: throw IllegalArgumentException("No post found for sender ${sender.id} in jam '$jamId'")
+        val jam = jamService.getJam(jamId)
+            ?: throw IllegalArgumentException("Jam '$jamId' not found")
 
         val shortDescription = if (post.description.length > 240) post.description.take(237) + "..." else post.description
 
@@ -46,7 +48,8 @@ class BotMessageBuilder(
 
     // TODO: Add a variety of messages to mix things up a bit?
     fun basicMessage(recipient: User, sender: User, jamId: JamId): String {
-        val jam = jamService.getJam(jamId)!!
+        val jam = jamService.getJam(jamId)
+            ?: throw IllegalArgumentException("Jam '$jamId' not found")
         return """
             Hey ${recipient.mentionTag}, ${sender.mentionTag} wants to get in contact about your ${jam.name} Team Finder post!
             They don't have a post on the Team Finder yet, so why not drop them a message and find out more?

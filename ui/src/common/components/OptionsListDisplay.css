@@ -7,7 +7,11 @@
         }
 
         .c-options-list-display__pill {
-            @apply py-1 border-2 rounded-xl flex items-center px-2 sm:px-1;
+            @apply py-1 border-2 rounded-xl flex items-center px-2 sm:px-1 max-w-[140px] min-h-[30px] overflow-hidden;
+        }
+
+        .c-options-list-display__pill-text {
+            @apply min-w-0 overflow-hidden text-ellipsis whitespace-nowrap;
         }
     }
 }

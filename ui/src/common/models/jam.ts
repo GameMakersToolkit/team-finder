@@ -6,7 +6,7 @@ export type Jam = {
   end: string | number,
   duration: string,
   styles: {
-    [key: string]: any
+    [key: string]: string
   },
   bgImageUrl: string,
   logoLargeUrl: string,

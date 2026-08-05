@@ -1,6 +1,7 @@
 package com.gmtkgamejam.routing
 
 import com.gmtkgamejam.models.posts.dtos.FavouritePostDto
+import com.gmtkgamejam.respondData
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
@@ -24,12 +25,13 @@ fun Application.configureFavouritesRouting() {
                     val postToFavourite = call.receive<FavouritePostDto>()
 
                     val tokenSet = authService.getTokenSet(call)
-                        ?: return@post call.respond(
+                        ?: return@post call.respondJSON(
+                            text = "Failed to favourite post.",
                             status = HttpStatusCode.BadRequest,
-                            mapOf("message" to "Failed to favourite post.")
+                            code = "favourite_failed",
                         )
 
-                    return@post call.respond(favouritesService.addPostAsFavourite(tokenSet.discordId, postToFavourite))
+                    return@post call.respondData(favouritesService.addPostAsFavourite(tokenSet.discordId, postToFavourite))
                 }
                 delete {
                     val postToUnFavourite = call.receive<FavouritePostDto>()
@@ -38,9 +40,9 @@ fun Application.configureFavouritesRouting() {
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
                         ?.also { it.postIds.remove(postToUnFavourite.postId) }
                         ?.let { favouritesService.saveFavourites(it) }
-                        ?.let { return@delete call.respond(it) }
+                        ?.let { return@delete call.respondData(it) }
 
-                    call.respondJSON("Favourite couldn't be added", status = HttpStatusCode.BadRequest)
+                    call.respondJSON("Favourite couldn't be added", status = HttpStatusCode.BadRequest, code = "favourite_failed")
                 }
             }
         }

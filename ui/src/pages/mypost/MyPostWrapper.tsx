@@ -1,6 +1,6 @@
 import React from "react";
-import {Formik, FormikProps} from "formik";
-import {Post} from "../../common/models/post.ts";
+import {Formik, FormikErrors, FormikHelpers, FormikProps} from "formik";
+import {PostFormValues} from "../../common/models/post.ts";
 import {MyPost} from "./MyPost.tsx";
 import {toast} from "react-hot-toast";
 import {useDeleteMyPostMutation, useMyPostMutation, useMyPostQuery} from "../../api/myPost.ts";
@@ -10,10 +10,19 @@ import {useUserInfo} from "../../api/userInfo.ts";
 import {useParams} from "react-router-dom";
 import {JamSpecificStyling} from "../../common/components/JamSpecificStyling.tsx";
 import {getDefaultLanguage, getDefaultTimezoneOffset} from '../../utils.ts';
+import {
+  PostFormValidationErrors,
+  validatePortfolioLinks,
+  validateRequiredDescription,
+  validateSkillsSelection,
+} from "../../common/utils/formValidation.ts";
+import { LoadingSpinner } from "../../common/components/LoadingSpinner.tsx";
+import { ErrorDisplay } from "../../common/components/ErrorDisplay.tsx";
 
-// @ts-ignore
-const defaultFormValues: Post = {
-    jamId: "",
+const getDefaultFormValues = (jamId: string): PostFormValues => ({
+    jamId,
+    author: "",
+    authorId: "",
     description: "",
     portfolioLinks: [],
     size: 1,
@@ -22,8 +31,8 @@ const defaultFormValues: Post = {
     languages: [getDefaultLanguage()],
     preferredTools: [],
     availability: "UNSURE",
-    timezoneOffsets: [getDefaultTimezoneOffset()],
-}
+    timezoneOffsets: [getDefaultTimezoneOffset().toString()],
+})
 
 export const MyPostWrapper: React.FC = () => {
   return (
@@ -38,76 +47,69 @@ const MyPostPage: React.FC = () => {
     useEnsureLoggedIn();
     const userInfo = useUserInfo();
     const myPostQuery = useMyPostQuery();
-    const post = myPostQuery?.data as Post;
+    const post = myPostQuery.data;
 
-    const { jamId } = useParams()
-    defaultFormValues.jamId = jamId!!;
-
-    const initialValues: Post = post ? {...post, timezoneOffsets: post?.timezoneOffsets.map(i => i.toString())} : defaultFormValues
-
-    const onValidateForm = (values: Post) => {
-        const errors = {}
-        // @ts-ignore
-        if (!values.description) errors.description = "A description is required"
-        // @ts-ignore
-        if (values.skillsSought.length == 0 && values.skillsPossessed.length == 0) errors.skills = "Please add some skills you have and/or are looking for"
-
-        // itch.io username validation
-        if (values.portfolioLinks) {
-            // If any usernames include 'itch.io', the user did it wrong
-            // if (values.itchAccountIds.includes("itch.io")) {
-            //     // @ts-ignore
-            //     errors.itchAccountIds = "Don't include the itch.io page of the account username!"
-            // }
-
-            // const pattern = /[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?/;
-            // for (const rawSubdomain of values.itchAccountIds.split(",")) {
-            //     const subdomain = rawSubdomain.trim()
-            //     if (!pattern.test(subdomain)) {
-            //         // @ts-ignore
-            //         errors.itchAccountIds = `${subdomain} isn't a valid itch.io username`
-            //     }
-            // }
-        }
-
-        // Toast all errors in validation
-        if (Object.keys(errors).length > 0) {
-            Object.entries(errors).map(error => toast.error(error[1] as string))
-        }
-
-        return errors
+    const { jamId } = useParams();
+    if (!jamId) {
+      return <ErrorDisplay message="Missing jamId in route." actionLabel="Go home" onAction={() => window.location.assign("/")} />;
     }
 
-    const onSubmitForm = (values: any, setSubmitting: (a: boolean) => void) => {
-        toast.dismiss()
+    const initialValues: PostFormValues = post
+      ? {
+          jamId,
+          author: post.author,
+          authorId: post.authorId,
+          portfolioLinks: post.portfolioLinks,
+          description: post.description,
+          size: post.size,
+          skillsPossessed: post.skillsPossessed,
+          skillsSought: post.skillsSought,
+          preferredTools: post.preferredTools,
+          availability: post.availability,
+          timezoneOffsets: post.timezoneOffsets.map((offset) => offset.toString()),
+          languages: post.languages,
+        }
+      : {
+          ...getDefaultFormValues(jamId),
+          author: userInfo.data?.username ?? "",
+          authorId: userInfo.data?.id ?? "",
+        };
 
-        // Validate portfolioLinks for malicious URLs
-        if (values.portfolioLinks) {
-            for (const url of values.portfolioLinks) {
-                if (typeof url !== "string") continue;
-                // Disallow query params, fragments, and other suspicious characters
-                if (
-                  url.includes("?") ||
-                  url.includes("#") ||
-                  url.includes("&") ||
-                  url.includes("%") ||
-                  url.match(/\s/)
-                ) {
-                    toast.error("Portfolio links should not contain a query string. " +
-                      "Remove all query parameters, fragments, or suspicious characters.");
-                    setSubmitting(false);
-                    return;
-                }
-            }
+    const onValidateForm = (values: PostFormValues): FormikErrors<PostFormValues> => {
+        const errors: PostFormValidationErrors = {};
+        const descriptionError = validateRequiredDescription(values.description);
+        const skillsError = validateSkillsSelection(values.skillsSought, values.skillsPossessed);
+
+        if (descriptionError) {
+          errors.description = descriptionError;
+        }
+        if (skillsError) {
+          errors.skills = skillsError;
         }
 
-        // if (values.itchAccountIds === undefined) {
-        //     values.itchAccountIds = ""
-        // }
+        if (Object.keys(errors).length > 0) {
+            Object.values(errors).forEach((errorMessage) => {
+              if (errorMessage) {
+                toast.error(errorMessage);
+              }
+            });
+        }
+
+        return errors as FormikErrors<PostFormValues>
+    }
+
+    const onSubmitForm = (values: PostFormValues, setSubmitting: FormikHelpers<PostFormValues>["setSubmitting"]) => {
+        toast.dismiss()
+
+        const portfolioError = validatePortfolioLinks(values.portfolioLinks || []);
+        if (portfolioError) {
+          toast.error(portfolioError);
+          setSubmitting(false);
+          return;
+        }
+
         save(values)
-        setTimeout(() => {
-            setSubmitting(false)
-        }, 800)
+        setSubmitting(false)
     }
 
     const onSubmitSuccess = () => {
@@ -124,10 +126,20 @@ const MyPostPage: React.FC = () => {
     const deletePostMutation = useDeleteMyPostMutation({onSuccess: onDeleteSuccess});
 
     /** Ensure user is logged in to view the page; give them enough information to see what's happening */
-    if (userInfo?.isLoading || !userInfo.data) {return (<main><div className="c-form bg-transparent"><h1 className="text-3xl my-4">Please wait...</h1></div></main>)}
+    if (userInfo?.isLoading || !userInfo.data) {
+      return (
+        <main>
+          <div className="c-form bg-transparent">
+            <LoadingSpinner label="Please wait..." />
+          </div>
+        </main>
+      );
+    }
 
     /** Ensure we have active form data before rendering form  */
-    if (myPostQuery?.isLoading) {return (<></>)}
+    if (myPostQuery?.isLoading) {
+      return <LoadingSpinner label="Loading your post..." />;
+    }
 
     return (
         <main>
@@ -139,13 +151,10 @@ const MyPostPage: React.FC = () => {
                     validateOnBlur={false}
                     onSubmit={ (values, { setSubmitting }) => onSubmitForm(values, setSubmitting) }
                 >
-                    {(params: FormikProps<Post>) => (
+                    {(params: FormikProps<PostFormValues>) => (
                         <>
                             <h1 className="text-3xl my-4">Create New Post</h1>
                             <MyPost params={params}
-                                    jamId={jamId!!}
-                                    author={userInfo.data!.username as string}
-                                    authorId={userInfo.data!.id as string}
                                     hasPost={Boolean(post)}
                             />
                         </>
@@ -157,7 +166,7 @@ const MyPostPage: React.FC = () => {
     )
 }
 
-const DeletePostButton: React.FC<{onClickHandler: any}> = ({onClickHandler}) => {
+const DeletePostButton: React.FC<{onClickHandler: () => void}> = ({onClickHandler}) => {
     return (
         <Button
             className="mt-4 bg-red-600 text-white rounded-xl w-full sm:w-full md:w-auto md:float-right"

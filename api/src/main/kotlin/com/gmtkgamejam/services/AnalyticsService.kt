@@ -8,8 +8,10 @@ import org.koin.core.component.KoinComponent
 interface AnalyticsService {
     fun trackQueryView(post: PostItem)
     fun trackFullPageView(post: PostItem)
-    fun trackQuery(queryParams: Map<String, Any>)
-    fun trackLogin()
+    fun trackQuery(jamId: String, queryParams: Map<String, List<String>>)
+    fun trackLogin(jamId: String)
+    fun trackHomepageView(jamId: String, viewerKey: String)
+    fun trackPostMutation(jamId: String, action: String)
 }
 
 @Single(createdAtStart = true)
@@ -23,11 +25,19 @@ class AnalyticsServiceImpl(private val repository: AnalyticsRepository, private 
         postService.addFullPageView(post)
     }
 
-    override fun trackQuery(queryParams: Map<String, Any>) {
-        repository.trackQuery(queryParams)
+    override fun trackQuery(jamId: String, queryParams: Map<String, List<String>>) {
+        repository.trackQuery(jamId, queryParams)
     }
 
-    override fun trackLogin() {
-        repository.trackLogin()
+    override fun trackLogin(jamId: String) {
+        repository.trackLogin(jamId)
+    }
+
+    override fun trackHomepageView(jamId: String, viewerKey: String) {
+        repository.trackHomepageView(jamId, viewerKey)
+    }
+
+    override fun trackPostMutation(jamId: String, action: String) {
+        repository.trackPostMutation(jamId, action)
     }
 }

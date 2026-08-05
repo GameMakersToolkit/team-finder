@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Post as PostModel } from "../../common/models/post.ts"
+import React, { useContext } from "react";
+import { Post as PostModel, PostDTO, postFromApiResult } from "../../common/models/post.ts"
 import { useNavigate, useParams } from "react-router-dom";
 import {TeamSizeIcon} from "../../common/components/TeamSizeIcon.tsx";
 import {OptionsListDisplay} from "../../common/components/OptionsListDisplay.tsx";
@@ -19,32 +19,43 @@ import {iiicon} from "../../common/utils/iiicon.tsx";
 import {JoinDiscordButton} from "./components/JoinDiscordButton.tsx";
 import { JamSpecificContext, JamSpecificStyling } from "../../common/components/JamSpecificStyling.tsx";
 import { OptionalPortfolioLinks } from "../../common/components/OptionalPortfolioLinks.tsx";
-import { CustomSelectOption } from "../jamhome/components/common/CustomSelect.tsx";
+import { useApiRequest } from "../../api/apiRequest.ts";
+import { useQuery } from "@tanstack/react-query";
+import { LoadingSpinner } from "../../common/components/LoadingSpinner.tsx";
+import { ErrorDisplay } from "../../common/components/ErrorDisplay.tsx";
+import { sanitizeHtmlToPlainText } from "../../common/utils/sanitizeHtml.ts";
+import { ListSection } from "../../common/components/ListSection.tsx";
 
 export const Post: React.FC<{initialPost?: PostModel}> = ({initialPost}) => {
 
     const { jamId, postId } = useParams()
     const navigate = useNavigate();
-    const [post, setPost] = useState<PostModel>()
+    const apiRequest = useApiRequest();
 
-    useEffect(() => {
+    const postQuery = useQuery({
+      queryKey: ["post", jamId, postId],
+      enabled: Boolean(jamId && postId && !initialPost),
+      queryFn: async () => {
         if (!jamId || !postId) {
-            return;
+          throw new Error("Missing jamId or postId");
         }
+        const dto = await apiRequest<PostDTO>(`/posts/${postId}?jamId=${jamId}`);
+        return postFromApiResult(dto);
+      },
+    });
 
-        // Workaround for previewing a post
-        if (initialPost) {
-            setPost(initialPost);
-            return;
-        }
+    const post = initialPost ?? postQuery.data;
 
-        fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}?jamId=${jamId}`)
-            .then(res => res.json())
-            .then(setPost)
-    }, [initialPost, jamId, postId])
+    if (postQuery.isLoading && !initialPost) {
+      return <LoadingSpinner label="Loading post..." />;
+    }
+
+    if (postQuery.isError) {
+      return <ErrorDisplay title="Post Not Available" message={postQuery.error.message} actionLabel="Go back" onAction={() => navigate(-1)} />;
+    }
 
     if (!post) {
-        return (<></>)
+      return <ErrorDisplay message="No post was found for this URL." actionLabel="Go back" onAction={() => navigate(-1)} />;
     }
 
     return (
@@ -93,6 +104,8 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
         },
     ];
 
+    const safeDescription = sanitizeHtmlToPlainText(post.description);
+
     return (
       <main>
         <section className="c-post">
@@ -121,12 +134,12 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
                 <div className="flex flex-col sm:flex-row">
                     <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
                         {listSections.slice(0, 2).map(section => (
-                            <PostOptionListSection key={section.label} {...section} />
+                            <ListSection key={section.label} {...section} />
                         ))}
                     </div>
                     <div className="sm:inline-block sm:w-[50%] lg:w-[33%]">
                         {listSections.slice(2, 4).map(section => (
-                            <PostOptionListSection key={section.label} {...section} />
+                            <ListSection key={section.label} {...section} />
                         ))}
                     </div>
 
@@ -145,7 +158,7 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
                       className={"[--skill-color:var(--skill-color-timezones)] [--skill-text-color:var(--skill-color-timezones-text)]"} />
                 </div>
                 <div className="post__body--description mt-6">
-                    {post.description.split("\n").map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
+                    {safeDescription.split("\n").map((line, idx) => <p dir="auto" key={idx} className="mb-1">{line}</p>)}
                 </div>
             </div>
 
@@ -168,25 +181,6 @@ export const PostBody: React.FC<{post: PostModel}> = ({post}) => {
         </section>
     </main>
     );
-}
-
-const PostOptionListSection: React.FC<{
-    optionsToDisplay: string[],
-    totalOptions: CustomSelectOption[],
-    label: string,
-    className: string,
-    wrapperClassName?: string,
-}> = ({ optionsToDisplay, totalOptions, label, className, wrapperClassName }) => {
-    const list = (
-      <OptionsListDisplay
-        optionsToDisplay={optionsToDisplay}
-        totalOptions={totalOptions}
-        label={label}
-        className={className}
-      />
-    );
-
-    return wrapperClassName ? <div className={wrapperClassName}>{list}</div> : list;
 }
 
 

@@ -35,9 +35,9 @@ export function useCreateBotDmMutation(
       return postFromApiResult(result);
     },
     mutationKey: [theme.jamId, "bot", "dm"],
-    onSuccess(data, variables, context) {
-      queryClient.invalidateQueries([theme.jamId, "bot", "dm"]);
-      opts?.onSuccess?.(data, variables, context);
+    onSuccess(data, variables, onMutateResult, context) {
+      queryClient.invalidateQueries({ queryKey: [theme.jamId, "bot", "dm"] });
+      opts?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 }

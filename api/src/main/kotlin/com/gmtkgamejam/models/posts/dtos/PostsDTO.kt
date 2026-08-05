@@ -10,4 +10,9 @@ data class PostsDTO(
 )
 
 @Serializable
-data class Pagination(val current: Int, val total: Int)
+data class Pagination(
+    val current: Int,
+    val total: Int,
+    val filteredCount: Int,
+    val totalCount: Int,
+)

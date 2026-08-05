@@ -1,14 +1,14 @@
 package com.gmtkgamejam.services
 
-import com.gmtkgamejam.models.admin.BannedUser
 import com.gmtkgamejam.models.posts.PostItem
+import com.gmtkgamejam.models.posts.dtos.PostItemCreateDto
+import com.gmtkgamejam.models.posts.dtos.PostItemUpdateDto
 import com.gmtkgamejam.repositories.PostRepository
-import com.mongodb.client.MongoClient
-import com.mongodb.client.MongoCollection
 import org.bson.conversions.Bson
 import org.koin.core.annotation.Single
-import org.koin.core.component.KoinComponent
-import org.litote.kmongo.getCollectionOfName
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.math.min
 
 interface PostService {
     fun createPost(postItem: PostItem)
@@ -20,19 +20,12 @@ interface PostService {
     fun deletePost(postItem: PostItem)
     fun addQueryView(postItem: PostItem)
     fun addFullPageView(postItem: PostItem)
+    fun createPostFromDto(dto: PostItemCreateDto, authorId: String): PostItem
+    fun applyUpdate(post: PostItem, dto: PostItemUpdateDto): PostItem
 }
 
 @Single(createdAtStart = true)
-class PostServiceImpl(private val repository: PostRepository, client: MongoClient) : PostService,
-    KoinComponent {
-    private val col: MongoCollection<PostItem>
-    private val bannedUsersCol: MongoCollection<BannedUser>
-
-    init {
-        val database = client.getDatabase("team-finder")
-        col = database.getCollectionOfName("posts")
-        bannedUsersCol = database.getCollectionOfName("banned-users")
-    }
+class PostServiceImpl(private val repository: PostRepository) : PostService {
 
     override fun createPost(postItem: PostItem) {
         repository.createPost(postItem)
@@ -69,5 +62,28 @@ class PostServiceImpl(private val repository: PostRepository, client: MongoClien
 
     override fun addFullPageView(postItem: PostItem) {
         repository.addFullPageView(postItem)
+    }
+
+    override fun createPostFromDto(dto: PostItemCreateDto, authorId: String): PostItem {
+        dto.authorId = authorId
+        dto.timezoneOffsets = dto.timezoneOffsets.filter { tz -> tz >= -12 && tz <= 12 }.toSet()
+        dto.size = min(dto.size, 100)
+        return PostItem.fromCreateDto(dto)
+    }
+
+    override fun applyUpdate(post: PostItem, dto: PostItemUpdateDto): PostItem {
+        dto.author?.also { post.author = it }
+        dto.portfolioLinks?.also { post.portfolioLinks = it }
+        dto.description?.also { post.description = it }
+        dto.size?.also { post.size = min(it, 100) }
+        dto.skillsPossessed?.also { post.skillsPossessed = it }
+        dto.skillsSought?.also { post.skillsSought = it }
+        dto.preferredTools?.also { post.preferredTools = it }
+        dto.languages?.also { post.languages = it }
+        dto.availability?.also { post.availability = it }
+        dto.timezoneOffsets?.also { post.timezoneOffsets = it.filter { tz -> tz >= -12 && tz <= 12 }.toSet() }
+
+        post.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        return post
     }
 }

@@ -11,6 +11,9 @@ services:
       - "8080:8080"
     env_file:
       - ./.env
+    environment:
+      # Optional runtime flags override; default keeps only telemetry agent wiring.
+      JAVA_OPTS: "${API_JAVA_OPTS:--javaagent:/app/otel-agent.jar}"
 
   ui:
     container_name: team-finder-ui

@@ -96,6 +96,29 @@ If you prefer to run the apps natively, you'll need to run the **UI**, **API** a
   * **Mac/Linux** `DATABASE_URL="..." ADMIN_DISCORD_IDS="..." DISCORD_CLIENT_ID="..." DISCORD_CLIENT_SECRET="..." DISCORD_BOT_TOKEN="..." API_URL="..." UI_URL="..." ./gradlew run`
   * **Windows (PowerShell)**  `$env:DISCORD_CLIENT_ID = "..."; $env:DISCORD_CLIENT_SECRET = "..."; $env:DISCORD_BOT_TOKEN = "..."; $env:DATABASE_URL="..."; $env:API_URL = "..."; $env:UI_URL = "..."; $env:ADMIN_DISCORD_IDS="..." ./gradlew.bat run`
 
+##### API response envelopes
+
+Most API endpoints now return one of these response shapes:
+
+```text
+{ "data": <payload> }
+```
+
+```text
+{ "error": { "code": "...", "message": "...", "details": { "field": "reason" } } }
+```
+
+The `/health` endpoint intentionally keeps its plain operational payload for monitoring compatibility.
+
+##### API security/runtime settings
+
+These backend settings are now configurable:
+
+- `CORS_ALLOWED_ORIGINS` — comma-separated allowlist, defaulting to `http://localhost:3000,https://findyourjam.team`
+- `APP_JWT_SESSION_LIFESPAN_MS` — app JWT session duration in milliseconds
+- `POST_MUTATIONS_PER_MINUTE` — per user+IP rate limit for post mutation/report endpoints
+- `API_JAVA_OPTS` — JVM flags passed to the API process (for example to add/remove agents or diagnostics)
+
 If you're using the remote database (or a local DB with authentication), you'll likely need to import the certificate
 locally. See https://docs.oracle.com/javase/tutorial/security/toolfilex/rstep1.html (or something newer) to import
 the certificate into your keytool.

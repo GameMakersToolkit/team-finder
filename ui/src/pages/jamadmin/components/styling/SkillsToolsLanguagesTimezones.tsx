@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Jam, JamSpecificContext } from "../../../../common/components/JamSpecificStyling.tsx";
+import { useContext, useEffect, useState } from "react";
+import { JamSpecificContext } from "../../../../common/components/JamSpecificStyling.tsx";
+import { Jam } from "../../../../common/models/jam.ts";
 import {BaseFieldLabel} from './BaseFieldLabel.tsx';
 import {BaseFieldColourInput} from './BaseFieldColourInput.tsx';
 import {CustomSelectOption} from '../../../jamhome/components/common/CustomSelect.tsx';
@@ -11,15 +12,21 @@ import {Post as PostModel} from '../../../../common/models/post.ts';
 import {PostTile} from '../../../../common/components/PostTile.tsx';
 import { PostBody as FullPagePost } from "../../../post/Post.tsx";
 import { getPreviewCacheKey, JamPreviewStyling } from "../../../../common/components/JamPreviewStyling.tsx";
+import { ThemeField } from "./CommonFields.tsx";
 
-export const SkillsToolsLanguagesTimezones = ({themeFields, setThemeFields}) => {
+interface SkillsToolsLanguagesTimezonesProps {
+  themeFields: ThemeField[];
+  setThemeFields: (fields: ThemeField[]) => void;
+}
+
+export const SkillsToolsLanguagesTimezones = ({themeFields, setThemeFields}: SkillsToolsLanguagesTimezonesProps) => {
 
     const theme = useContext(JamSpecificContext)
     const [renderState, setRenderState] = useState(0);
 
     useEffect(() => {
       const previewThemeCacheKey = getPreviewCacheKey(theme.jamId);
-      const styles = {}
+      const styles: Record<string, string> = {}
       themeFields.forEach(field => styles[field.name] = field.currentValue)
       const previewTheme: Jam = {...theme, styles: styles} as Jam
       localStorage.setItem(previewThemeCacheKey, JSON.stringify(previewTheme))
@@ -82,7 +89,7 @@ export const SkillsToolsLanguagesTimezones = ({themeFields, setThemeFields}) => 
     )
 }
 
-const FieldPair = ({field, themeFields, setThemeFields}) => {
+const FieldPair = ({field, themeFields, setThemeFields}: {field: ThemeField, themeFields: ThemeField[], setThemeFields: (fields: ThemeField[]) => void}) => {
     return (
         <div className="flex flex-row justify-items-center gap-4 items-center mb-2">
             <BaseFieldLabel field={field}/>
