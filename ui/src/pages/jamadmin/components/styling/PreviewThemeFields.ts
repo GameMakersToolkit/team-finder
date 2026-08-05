@@ -1,6 +1,7 @@
-import { Jam } from "../../../../common/components/JamSpecificStyling.tsx";
+import { Jam } from "../../../../common/models/jam.ts";
+import { ThemeField } from "./CommonFields.tsx";
 
-export const getPreviewThemeFields = (theme: Jam) => [
+export const getPreviewThemeFields = (theme: Jam): ThemeField[] => [
   {
     name: "--theme-background",
     description: "Default background colour",

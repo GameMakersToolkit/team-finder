@@ -1,6 +1,7 @@
 package com.gmtkgamejam.repositories
 
 import com.gmtkgamejam.models.admin.BannedUser
+import com.gmtkgamejam.errors.BannedUserException
 import com.gmtkgamejam.models.posts.PostItem
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
@@ -8,6 +9,7 @@ import org.bson.conversions.Bson
 import org.koin.core.annotation.Single
 import org.koin.core.component.KoinComponent
 import org.litote.kmongo.*
+import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -29,20 +31,24 @@ interface PostRepository {
 
 @Single(createdAtStart = true)
 open class PostRepositoryImpl(val client: MongoClient) : PostRepository, KoinComponent {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     private val col: MongoCollection<PostItem> = client
         .getDatabase("team-finder")
         .getCollectionOfName("posts")
 
-    private val bannedUsersCol: MongoCollection<PostItem> = client
+    private val bannedUsersCol: MongoCollection<BannedUser> = client
         .getDatabase("team-finder")
         .getCollectionOfName("banned-users")
 
 
     override fun createPost(postItem: PostItem) {
         if (bannedUsersCol.findOne(BannedUser::discordId eq postItem.authorId) != null) {
-            throw Exception("User is banned, cannot perform action!")
+            logger.warn("Blocked createPost for banned user {}", postItem.authorId)
+            throw BannedUserException(postItem.authorId)
         }
 
+        logger.info("Inserting post {} for user {} in jam {}", postItem.id, postItem.authorId, postItem.jamId)
         col.insertOne(postItem)
     }
 
@@ -70,14 +76,17 @@ open class PostRepositoryImpl(val client: MongoClient) : PostRepository, KoinCom
 
     override fun updatePost(postItem: PostItem) {
         if (bannedUsersCol.findOne(BannedUser::discordId eq postItem.authorId) != null) {
-            throw Exception("User is banned, cannot perform action!")
+            logger.warn("Blocked updatePost for banned user {}", postItem.authorId)
+            throw BannedUserException(postItem.authorId)
         }
 
+        logger.info("Updating post {} for user {}", postItem.id, postItem.authorId)
         col.updateOne(PostItem::id eq postItem.id, postItem)
     }
 
     override fun deletePost(postItem: PostItem) {
         postItem.deletedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        logger.info("Soft deleting post {} for user {}", postItem.id, postItem.authorId)
         col.updateOne(PostItem::id eq postItem.id, postItem)
     }
 

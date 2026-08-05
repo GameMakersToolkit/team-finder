@@ -17,10 +17,10 @@ const AfterJamBody = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-    if (new Date() < new Date(theme.end)) {
-        return navigate("/", {replace: true})
-    }
-    }, [])
+      if (new Date() < new Date(theme.end)) {
+        navigate("/", {replace: true})
+      }
+    }, [navigate, theme.end])
 
     return (
         <div className="container max-w-screen-xxl h-[100vh]">

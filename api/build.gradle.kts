@@ -16,6 +16,20 @@ plugins {
     id("com.google.devtools.ksp") version "2.3.6"
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+        vendor.set(JvmVendorSpec.GRAAL_VM)
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+        vendor.set(JvmVendorSpec.GRAAL_VM)
+    }
+}
+
 group = "com.gmtkgamejam"
 version = "1.1.0"
 
@@ -31,6 +45,21 @@ repositories {
 }
 
 dependencies {
+    constraints {
+        implementation("org.asynchttpclient:async-http-client:3.0.10") {
+            because("avoid known credential and cookie leakage issues in older async-http-client versions")
+        }
+        implementation("io.netty:netty-codec-http:4.2.16.Final") {
+            because("avoid known Netty HTTP/1.x security issues in older transitive versions")
+        }
+        implementation("io.netty:netty-codec-http2:4.2.16.Final") {
+            because("avoid known Netty HTTP/2 security issues in older transitive versions")
+        }
+        implementation("com.fasterxml.jackson.core:jackson-core:2.21.1") {
+            because("avoid known jackson-core async parser DoS issues in older transitive versions")
+        }
+    }
+
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     // Logging support for Javacord
@@ -58,6 +87,7 @@ dependencies {
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-cors:$ktorVersion")
+    implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
 
     // Ktor core for making web requests
     implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")

@@ -1,5 +1,10 @@
 import { useAuth, useAuthActions } from "./AuthContext";
 import { toast } from "react-hot-toast";
+import {
+  ApiErrorPayload,
+  isApiErrorEnvelope,
+  isApiSuccessEnvelope,
+} from "./types";
 
 interface ApiRequestOptions {
   method?: "GET" | "PUT" | "POST" | "DELETE";
@@ -7,6 +12,8 @@ interface ApiRequestOptions {
   body?: unknown;
   isFileUpload?: boolean;
 }
+
+type ApiRequestBody = BodyInit | null;
 
 interface ApiRequestDependencies {
   logout: () => void;
@@ -31,6 +38,62 @@ export class NotFoundError extends Error {
     super("Not Found");
     this.name = "NotFoundError";
   }
+}
+
+export class ApiRequestError extends Error {
+  code: string;
+  details?: Record<string, string>;
+
+  constructor(payload: ApiErrorPayload, fallbackCode = "request_error") {
+    super(payload.message || "Sorry, something went wrong.");
+    this.name = "ApiRequestError";
+    this.code = payload.code || fallbackCode;
+    this.details = payload.details;
+  }
+}
+
+function toRequestBody(body: unknown, isFileUpload?: boolean): ApiRequestBody {
+  if (body == null) {
+    return null;
+  }
+
+  if (isFileUpload && body instanceof FormData) {
+    return body;
+  }
+
+  return JSON.stringify(body);
+}
+
+async function parseJsonSafely(response: Response): Promise<unknown> {
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+function unwrapApiSuccess<T>(raw: unknown): T {
+  if (isApiSuccessEnvelope<T>(raw)) {
+    return raw.data;
+  }
+
+  throw new Error("Malformed API success payload. Expected { data: ... } envelope.");
+}
+
+function parseApiErrorPayload(raw: unknown): ApiErrorPayload {
+  if (isApiErrorEnvelope(raw)) {
+    return raw.error;
+  }
+
+  const fallbackMessage =
+    typeof raw === "object" && raw && "message" in raw
+      ? String((raw as { message?: unknown }).message ?? "")
+      : "Sorry, something went wrong.\nAn unknown error occurred.";
+
+  return {
+    code: "request_error",
+    message: fallbackMessage,
+  };
 }
 
 /**
@@ -58,13 +121,12 @@ export async function apiRequest<T>(
   };
 
   if (apiRequestOptions?.body) {
-    // @ts-ignore
-    options["body"] = apiRequestOptions.isFileUpload
-      ? apiRequestOptions.body
-      : JSON.stringify(apiRequestOptions.body);
+    options.body = toRequestBody(apiRequestOptions.body, apiRequestOptions.isFileUpload);
   }
 
   const res = await fetch(`${import.meta.env.VITE_API_URL}${path}`, options);
+  const rawBody = await parseJsonSafely(res);
+
   if (!res.ok) {
     if (res.status === 401) {
       dependencies.logout();
@@ -77,14 +139,14 @@ export async function apiRequest<T>(
       throw new NotFoundError();
     }
 
-    const body = await res.json()
-    const errorMessage = body?.message || "Sorry, something went wrong.\nAn unknown error occurred."
+    const parsedError = parseApiErrorPayload(rawBody);
 
-    toast.error(`${errorMessage}`)
+    toast.error(parsedError.message);
 
-    throw new Error(`${res.status} ${res.statusText}: ${errorMessage}`);
+    throw new ApiRequestError(parsedError, String(res.status));
   }
-  return res.json();
+
+  return unwrapApiSuccess<T>(rawBody);
 }
 
 // /**
@@ -107,12 +169,18 @@ export async function apiRequest<T>(
  */
 export function useApiRequest() {
   const { token } = useAuth() ?? {};
+  const auth = useAuth();
   const { logout } = useAuthActions();
+  const jamToken = auth?.token;
   return <T>(path: string, apiRequestOptions: ApiRequestOptions = {}) => {
     return apiRequest<T>(
       path,
       {
-        logout,
+        logout: () => {
+          if (jamToken) {
+            logout("*");
+          }
+        },
       },
       { authToken: token, ...apiRequestOptions }
     );

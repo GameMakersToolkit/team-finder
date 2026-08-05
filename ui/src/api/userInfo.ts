@@ -1,13 +1,11 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
+import { useEffect } from "react";
 import { useApiRequest } from "./apiRequest";
 import { useAuth, useAuthActions } from "./AuthContext";
 import { getJamId } from "../common/utils/getJamId.ts";
+import { UserInfo } from "../common/models/userInfo.ts";
 
 const USER_INFO_QUERY_KEY = ["userInfo"] as const;
-
-export interface UserInfo {
-  [key: string]: unknown;
-}
 
 export function useUserInfo(
   opts?: UseQueryOptions<UserInfo, Error, UserInfo, typeof USER_INFO_QUERY_KEY>
@@ -27,10 +25,12 @@ export function useUserInfo(
       }
   });
 
-  if (queryResult.status == "error") {
-    logout(jamId)
-    window.location.reload()
-  }
+  useEffect(() => {
+    if (queryResult.status === "error") {
+      logout(jamId);
+      window.location.reload();
+    }
+  }, [jamId, logout, queryResult.status]);
 
   return queryResult;
 }

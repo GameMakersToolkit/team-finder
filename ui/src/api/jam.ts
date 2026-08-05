@@ -4,10 +4,10 @@ import { Jam } from "../common/models/jam.ts";
 
 export function useJams(): UseQueryResult<Jam[], Error> {
   const apiRequest = useApiRequest()
-  return useQuery<Jam, Error>({
+  return useQuery<Jam[], Error>({
     queryKey: ["jams"],
     queryFn: async () => {
-      return await apiRequest<Jam>(`/jams`)
+      return await apiRequest<Jam[]>(`/jams`)
     },
   })
 }
@@ -20,6 +20,7 @@ export function useJam(jamId?: string): UseQueryResult<Jam, Error> {
             if (!jamId) throw new Error("No jamId provided")
             return await apiRequest<Jam>(`/jams/${jamId}`)
         },
-        enabled: !!jamId
+        enabled: !!jamId,
+        retry: false,
     })
 }

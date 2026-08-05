@@ -28,12 +28,27 @@ export type PostDTO = Omit<Post, "createdAt" | "updatedAt" | "deletedAt"> & {
 
 export type PostResponseDTO = {
   posts: PostDTO[];
-  pagination: {current: number, total: number};
+  pagination: {current: number, total: number, filteredCount: number, totalCount: number};
 }
 
 export type PostResponse = {
   posts: Post[];
-  pagination: {current: number, total: number};
+  pagination: {current: number, total: number, filteredCount: number, totalCount: number};
+}
+
+export interface PostFormValues {
+  jamId: string;
+  author: string;
+  authorId: string;
+  portfolioLinks: string[];
+  description: string;
+  size: number;
+  skillsPossessed: string[];
+  skillsSought: string[];
+  preferredTools: string[];
+  availability: string;
+  timezoneOffsets: string[];
+  languages: string[];
 }
 
 export function postFromApiResult(input: PostDTO): Post {

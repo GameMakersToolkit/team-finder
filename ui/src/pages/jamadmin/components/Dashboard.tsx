@@ -1,4 +1,4 @@
-import { Field, Form, Formik, FormikProps } from "formik";
+import { Field, FieldProps, Form, Formik, FormikProps } from "formik";
 import React, { useContext, useState } from "react";
 import { JamSpecificContext } from "../../../common/components/JamSpecificStyling.tsx";
 import { toast } from "react-hot-toast";
@@ -92,7 +92,7 @@ export const Dashboard = () => {
 
     const mutation = useUpdateJamMutation({onSuccess: onSubmitSuccess})
 
-    const SetDateByOffset = (params: any, fieldName: string, offsetDays: number) => {
+    const setDateByOffset = (params: FormikProps<FormikFormParameters>, fieldName: string, offsetDays: number) => {
       const date = new Date(params.values.startDateTime)
       date.setDate(date.getDate() + offsetDays)
       params.setFieldValue(fieldName, formatDateTimeLocal(new Date(date).toISOString()))
@@ -162,10 +162,10 @@ export const Dashboard = () => {
                         className="form-block__field text-black py-1 px-2"
                       />
                       <div className="flex flex-row gap-2 justify-between">
-                        <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 7)}>Start + 7 days</span>
-                        <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 10)}>Start + 10 days</span>
-                        <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 14)}>Start + 14 days</span>
-                        <span className="text-sm cursor-pointer bold" onClick={() => SetDateByOffset(params, "endDateTime", 28)}>Start + 28 days</span>
+                        <span className="text-sm cursor-pointer bold" onClick={() => setDateByOffset(params, "endDateTime", 7)}>Start + 7 days</span>
+                        <span className="text-sm cursor-pointer bold" onClick={() => setDateByOffset(params, "endDateTime", 10)}>Start + 10 days</span>
+                        <span className="text-sm cursor-pointer bold" onClick={() => setDateByOffset(params, "endDateTime", 14)}>Start + 14 days</span>
+                        <span className="text-sm cursor-pointer bold" onClick={() => setDateByOffset(params, "endDateTime", 28)}>Start + 28 days</span>
                       </div>
                     </div>
                   </div>
@@ -260,14 +260,14 @@ const DiscordIntegrationSettings: React.FC = () => {
             <p className="text-xs">Only users in your server will be able to post. Right-click your Discord server icon and select 'Copy Server ID'.</p>
           </div>
           <Field name="guildId">
-            {({ field, form }: any) => (
+            {({ field, form }: FieldProps<string>) => (
               <input
                 {...field}
                 type="text"
                 className="form-block__field px-2 py-2"
                 placeholder="1470708876998344861"
                 value={field.value ?? ""}
-                onChange={e => form.setFieldValue("guildId", e.target.value ?? "")}
+                onChange={(e) => form.setFieldValue("guildId", e.target.value ?? "")}
               />
             )}
           </Field>
@@ -276,14 +276,14 @@ const DiscordIntegrationSettings: React.FC = () => {
             <p className="text-xs">This will be displayed to users who aren't in your community</p>
           </div>
           <Field name="guildInviteLink">
-            {({ field, form }: any) => (
+            {({ field, form }: FieldProps<string>) => (
               <input
                 {...field}
                 type="text"
                 className="form-block__field px-2 py-2"
                 placeholder="https://discord.gg/abcdef"
                 value={field.value ?? ""}
-                onChange={e => form.setFieldValue("guildInviteLink", e.target.value ?? "")}
+                onChange={(e) => form.setFieldValue("guildInviteLink", e.target.value ?? "")}
               />
             )}
           </Field>
@@ -292,14 +292,14 @@ const DiscordIntegrationSettings: React.FC = () => {
             <p className="text-xs">When users try to get in touch, a fallback message which pings both users with an @name mention tag will be sent here.</p>
           </div>
           <Field name="channelId">
-            {({ field, form }: any) => (
+            {({ field, form }: FieldProps<string>) => (
               <input
                 {...field}
                 type="text"
                 className="form-block__field px-2 py-2"
                 placeholder="1470709052504932456"
                 value={field.value ?? ""}
-                onChange={e => form.setFieldValue("channelId", e.target.value ?? "")}
+                onChange={(e) => form.setFieldValue("channelId", e.target.value ?? "")}
               />
             )}
           </Field>

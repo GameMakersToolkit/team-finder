@@ -4,6 +4,7 @@ import com.gmtkgamejam.Config
 import com.gmtkgamejam.bot.DiscordBot
 import com.gmtkgamejam.getImageUrlOrDefault
 import com.gmtkgamejam.models.jams.JamUpdateDto
+import com.gmtkgamejam.respondData
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.JamService
@@ -14,11 +15,11 @@ import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import org.koin.ktor.ext.inject
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.time.LocalDateTime
 
@@ -48,6 +49,7 @@ private object UploaderFileCache {
 }
 
 fun Application.configureJamRouting() {
+    val logger = LoggerFactory.getLogger("JamRoutes")
     val config: Config by inject()
     val authService: AuthService by inject()
     val jamService: JamService by inject()
@@ -73,7 +75,7 @@ fun Application.configureJamRouting() {
                     .getImageUrlOrDefault("favicon.webp")
                 }
 
-                return@get call.respond(jams)
+                return@get call.respondData(jams)
             }
         }
 
@@ -97,7 +99,7 @@ fun Application.configureJamRouting() {
                 jam.faviconUrl = UploaderFileCache.findJamFile(uploader, jam.jamId, "favicon")
                     .getImageUrlOrDefault("favicon.webp")
 
-                return@get call.respond(jam)
+                return@get call.respondData(jam)
             }
 
             authenticate("auth-jwt-admin") {
@@ -126,7 +128,7 @@ fun Application.configureJamRouting() {
                     jam.channelId = update.channelId ?: jam.channelId
 
                     val updatedJam = jamService.updateJam(jam)
-                    return@put call.respond(updatedJam)
+                    return@put call.respondData(updatedJam)
                 }
 
                 post("/image") {
@@ -162,23 +164,23 @@ fun Application.configureJamRouting() {
                                 // Delete file if present; filenames are not unique
                                 try {
                                     uploader.deleteFile(filename).get()
-                                    println("Deleting existing file $filename (if I can find it)")
+                                    logger.info("Deleting existing file {} (if present)", filename)
                                 } catch (e: Exception) {
                                     // Log but ignore, as file may not exist
-                                    println("Delete file warning: ${e.message}")
+                                    logger.warn("Delete file warning: {}", e.message)
                                 }
 
                                 // Upload the new file
                                 val uploadedFile = uploader.uploadFile(file).get()
-                                println("FILE UPLOADED: $uploadedFile")
+                                logger.info("File uploaded: {}", uploadedFile)
 
                                 // Clean up file reference on disk
                                 file.delete()
 
                                 UploaderFileCache.refresh(uploader)
-                                call.respondJSON(text = "File uploaded at ${LocalDateTime.now()}", HttpStatusCode.OK)
+                                call.respondData(mapOf("message" to "File uploaded at ${LocalDateTime.now()}"), HttpStatusCode.OK)
                             } catch (e: Exception) {
-                                println("Error uploading file: ${e.message}")
+                                logger.error("Error uploading file: {}", e.message)
                                 file.delete()
                                 call.respondJSON("Error uploading file: ${e.message}", HttpStatusCode.InternalServerError)
                             }

@@ -21,7 +21,11 @@ export const getPreviewTheme = (jamId: string): Jam => {
   return { ...baseJam, ...previewJam }
 }
 
-export const JamPreviewStyling: React.FC<{slim: boolean, renderState: number, children: any}> = ({slim, renderState, children}) => {
+export const JamPreviewStyling: React.FC<{slim?: boolean, renderState?: number, children: React.ReactNode}> = ({
+  slim = false,
+  renderState = 0,
+  children,
+}) => {
     const { jamId } = useParams()
     const [activeJam, setActiveJam] = useState<Jam>()
 

@@ -46,13 +46,15 @@ export function useMyPostQuery(
 }
 
 export interface MyPostMutationVariables {
+  jamId: string;
+  portfolioLinks: string[];
   description: string;
   size: number;
   skillsPossessed: string[];
   skillsSought: string[];
   preferredTools: string[];
   availability: string;
-  timezoneOffsets: number[];
+  timezoneOffsets: string[];
   languages: string[];
 }
 
@@ -66,14 +68,20 @@ export function useMyPostMutation(
   return useMutation({
     ...opts,
     mutationFn: async (variables) => {
-      const existing = await queryClient.fetchQuery<PostDTO>({queryKey: MY_POST_QUERY_KEY});
+      const existing = queryClient.getQueryData<Post | null>(MY_POST_QUERY_KEY);
+      const payload = {
+        ...variables,
+        timezoneOffsets: variables.timezoneOffsets.map((offset) => Number(offset)),
+      };
+      const updatePayload = { ...payload };
+      delete (updatePayload as { jamId?: string }).jamId;
       let result;
 
       if (existing) {
         result = await apiRequest<PostDTO>(`/posts/mine?jamId=${theme.jamId}`, {
           method: "PUT",
           body: {
-            ...variables,
+            ...updatePayload,
             author: userInfo.data?.username,
           },
         });
@@ -81,7 +89,7 @@ export function useMyPostMutation(
         result = await apiRequest<PostDTO>("/posts", {
           method: "POST",
           body: {
-            ...variables,
+            ...payload,
             authorId: userInfo.data?.id,
             author: userInfo.data?.username,
           },

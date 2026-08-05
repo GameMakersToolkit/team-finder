@@ -4,8 +4,7 @@ import com.gmtkgamejam.models.posts.dtos.PostItemCreateDto
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.concurrent.ThreadLocalRandom
-import kotlin.math.abs
+import java.util.UUID
 
 @Serializable
 data class PostItem (
@@ -48,7 +47,7 @@ data class PostItem (
             // TODO: Standardise datetime format
             val currentDatetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             return PostItem(
-                abs(ThreadLocalRandom.current().nextLong()).toString(), // We need to handle as string, otherwise we lose precision in JS
+                UUID.randomUUID().toString(),
                 dto.jamId,
                 dto.author,
                 dto.authorId,

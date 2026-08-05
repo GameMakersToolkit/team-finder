@@ -4,6 +4,7 @@ import {useAuth} from "../../../api/AuthContext.tsx";
 import {useReportPostMutation} from "../../../api/post.ts";
 import {toast} from "react-hot-toast";
 import {login} from "../../../api/login.ts";
+import { safeGetString, safeParseJsonArray, safeSetString } from "../../../common/utils/storageUtils.ts";
 
 export const ReportButton: React.FC<{ post: Post }> = ({
     post
@@ -19,18 +20,15 @@ export const ReportButton: React.FC<{ post: Post }> = ({
         }, {
             onSuccess: () => {
                 toast("Thanks for reporting");
-                let d = [post.id];
-                const value = localStorage.getItem("reported");
-                if (value != null && value != "") d = d.concat(JSON.parse(value))
-                localStorage.setItem("reported", JSON.stringify(d));
+                const existing = safeParseJsonArray(safeGetString("reported"));
+                const deduplicated = Array.from(new Set([post.id, ...existing]));
+                safeSetString("reported", JSON.stringify(deduplicated));
             }
         });
     };
 
     const isReported: () => boolean = () => {
-        const value = localStorage.getItem("reported");
-        if (value == null || value == "") return false;
-        const data: Array<string> = JSON.parse(value);
+        const data = safeParseJsonArray(safeGetString("reported"));
         return data.includes(post.id)
     }
 

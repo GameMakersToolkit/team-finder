@@ -5,7 +5,7 @@
  */
 
 import {FieldProps} from "formik";
-import Select from "react-select";
+import Select, { OnChangeValue, StylesConfig } from "react-select";
 import {ReactNode} from "react";
 
 export type OptionsType<OptionType> = OptionType[];
@@ -18,23 +18,22 @@ export interface CustomSelectOption {
 }
 
 interface CustomSelectProps extends FieldProps {
+    id?: string;
     options: OptionsType<CustomSelectOption>;
     isMulti?: boolean;
     className?: string;
     placeholder?: string;
 }
 
-const styles = {
-    // @ts-ignore
-    control: styles => ({
-        ...styles,
+const styles: StylesConfig<CustomSelectOption, boolean> = {
+    control: (baseStyles) => ({
+        ...baseStyles,
         borderRadius: '0.75rem',
         borderColor: '#ffffff'
     }),
-    // @ts-ignore
-    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    option: (baseStyles) => {
         return {
-            ...styles,
+            ...baseStyles,
             color: '#DD0',
         };
     },
@@ -49,12 +48,12 @@ export const CustomSelect = ({
      options,
      isMulti = false
  }: CustomSelectProps) => {
-    const onChange = (option: ValueType<CustomSelectOption | CustomSelectOption[]>) => {
+    const onChange = (option: OnChangeValue<CustomSelectOption, boolean>) => {
         form.setFieldValue(
             field.name,
             isMulti
-                ? (option as CustomSelectOption[]).map((item: CustomSelectOption) => item.value)
-                : (option as CustomSelectOption).value
+                ? (option as readonly CustomSelectOption[]).map((item: CustomSelectOption) => item.value)
+                : (option as CustomSelectOption | null)?.value
         );
     };
 
@@ -64,7 +63,7 @@ export const CustomSelect = ({
                 ? options.filter(option => field?.value?.indexOf(option.value) >= 0)
                 : options.find(option => option.value === field.value);
         } else {
-            return isMulti ? [] : ("" as any);
+            return isMulti ? [] : null;
         }
     };
 

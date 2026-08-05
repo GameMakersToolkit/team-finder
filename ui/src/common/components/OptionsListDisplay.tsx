@@ -11,17 +11,17 @@ export const OptionsListDisplay: React.FC<{
         return null;
     }
 
-    // Ensure consistency in display order
-    optionsToDisplay.sort()
+    // Ensure consistency in display order without mutating parent state.
+    const sortedOptions = [...optionsToDisplay].sort()
 
     return (
         <dl className={"c-options-list-display " + className}>
             <dt className="c-options-list-display__label">{label}</dt>
-            {optionsToDisplay.map((option) => {
+            {sortedOptions.map((option) => {
                 const info = totalOptions.filter(s => s.value == option)[0];
                 return (
                     <dd key={option} className="c-options-list-display__pill border-[color:var(--skill-color)] bg-[color:var(--skill-color)] text-[color:var(--skill-text-color)] __fill-[--has-to-be-set-above-here]">
-                        <span className="flex text-xs gap-[4px]">{info?.label || "?"}</span>
+                        <span className="c-options-list-display__pill-text flex text-xs gap-[4px]">{info?.label || "?"}</span>
                     </dd>
                 );
             })}

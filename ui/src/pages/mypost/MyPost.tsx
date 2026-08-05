@@ -6,7 +6,7 @@ import CustomSelect, { CustomSelectOption } from "../jamhome/components/common/C
 import { languages } from "../../common/models/languages.ts";
 import { tools } from "../../common/models/engines.tsx";
 import { timezones } from "../../common/models/timezones.ts";
-import { Post } from "../../common/models/post.ts";
+import { PostFormValues } from "../../common/models/post.ts";
 import { ReactSelectFormik } from "./components/ReactSelectFormik.tsx";
 import { availability } from "../../common/models/availability.ts";
 import { iiicon } from "../../common/utils/iiicon.tsx";
@@ -19,16 +19,10 @@ const teamSizes: CustomSelectOption[] = Array.from({ length: 15 }, (_, idx) => (
 }));
 
 export const MyPost: React.FC<{
-    params: FormikProps<Post>,
-    jamId: string,
-    author: string,
-    authorId: string,
+    params: FormikProps<PostFormValues>,
     hasPost: boolean
 }> = ({
     params,
-    jamId,
-    author,
-    authorId,
     hasPost
 }) => {
 
@@ -43,9 +37,9 @@ export const MyPost: React.FC<{
             <FieldPortfolioLinks />
 
             {/* This is jank, improve this later with a look up on submit */}
-            <Field name="jamId" value={jamId} type="hidden" />
-            <Field name="author" value={author} type="hidden" />
-            <Field name="authorId" value={authorId} type="hidden" />
+            <Field name="jamId" value={values.jamId} type="hidden" />
+            <Field name="author" value={values.author} type="hidden" />
+            <Field name="authorId" value={values.authorId} type="hidden" />
 
             <div className="c-form-block bg-transparent">
                 <FieldSkillsPossessed />
@@ -79,7 +73,7 @@ export const MyPost: React.FC<{
     )
 }
 
-const AdvancedOptions: React.FC<{values: Post}> = ({values}) => {
+const AdvancedOptions: React.FC<{values: PostFormValues}> = ({values}) => {
   return (
     <>
         <div className="c-form-block bg-transparent">

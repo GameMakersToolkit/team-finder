@@ -1,11 +1,21 @@
 import React from "react";
 import {toast} from "react-hot-toast";
 import { DiscordActionPill } from "./DiscordActionPill.tsx";
+import { MutateOptions } from "@tanstack/react-query";
+import { CreateBotDmMutationVariables } from "../../../api/bot.ts";
+import { Post } from "../../../common/models/post.ts";
+
+interface DiscordPingMutation {
+  mutate: (
+    variables: CreateBotDmMutationVariables,
+    options?: MutateOptions<Post, Error, CreateBotDmMutationVariables>
+  ) => void;
+}
 
 export const DiscordPingButton: React.FC<{
     authorId: string,
     authorName: string,
-    createBotDmMutation: any,
+    createBotDmMutation: DiscordPingMutation,
     message: string
 }> = ({
     authorId,

@@ -1,6 +1,5 @@
 package com.gmtkgamejam.routing
 
-import com.auth0.jwt.JWT
 import com.gmtkgamejam.enumFromStringSafe
 import com.gmtkgamejam.models.posts.Availability
 import com.gmtkgamejam.models.posts.PostItem
@@ -8,11 +7,14 @@ import com.gmtkgamejam.models.posts.Skills
 import com.gmtkgamejam.models.posts.Tools
 import com.gmtkgamejam.models.posts.dtos.*
 import com.gmtkgamejam.repositories.PostRepository
+import com.gmtkgamejam.respondData
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AnalyticsService
 import com.gmtkgamejam.services.AuthService
 import com.gmtkgamejam.services.FavouritesService
+import com.gmtkgamejam.services.InMemoryRateLimiter
 import com.gmtkgamejam.services.PostService
+import com.gmtkgamejam.validation.PostDtoValidator
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -24,19 +26,34 @@ import kotlinx.coroutines.launch
 import org.bson.conversions.Bson
 import org.koin.ktor.ext.inject
 import org.litote.kmongo.*
+import org.slf4j.LoggerFactory
+import java.net.URI
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
-import kotlin.math.min
 import kotlin.reflect.full.memberProperties
 import kotlin.text.Regex.Companion.escape
 
 fun Application.configurePostRouting() {
+    val logger = LoggerFactory.getLogger("PostRoutes")
 
     val analyticsService: AnalyticsService by inject()
+    val config: com.gmtkgamejam.Config by inject()
     val authService: AuthService by inject()
     val service: PostService by inject()
     val favouritesService: FavouritesService by inject()
+
+    val mutationRateLimiter = InMemoryRateLimiter(
+        maxRequests = config.getString("rateLimit.postMutationsPerMinute").toIntOrNull() ?: 30,
+        windowSeconds = 60,
+    )
+
+    fun mutationRateLimitKey(discordId: String, remoteHost: String): String = "$discordId:$remoteHost"
+    fun requestRemoteHost(call: ApplicationCall): String =
+        call.request.headers[HttpHeaders.XForwardedFor]
+            ?.substringBefore(',')
+            ?.trim()
+            ?.takeIf(String::isNotBlank)
+            ?: call.request.local.remoteHost
 
     routing {
         route("/posts") {
@@ -45,18 +62,28 @@ fun Application.configurePostRouting() {
                 val params = call.parameters
                 val page = params["page"]?.toInt() ?: 1
                 val filter = and(getFilterFromParameters(params))
+                val jamId = params["jamId"] ?: "unknown"
 
                 val posts = service.getPosts(
                     filter,
                     getSortFromParameters(params),
                     page
                 )
+                val filteredCount = service.getPostCount(filter)
+                val totalCount = service.getPostCount(
+                    and(
+                        listOfNotNull(
+                            PostItem::deletedAt eq null,
+                            params["jamId"]?.let { PostItem::jamId eq it },
+                        )
+                    )
+                )
                 val queryEnd = LocalDateTime.now()
 
+                val tokenSet = authService.getTokenSet(call)
+
                 // Set isFavourite on posts for this user if they're logged in
-                call.request.header("Authorization")?.substring(7)
-                    ?.let { JWT.decode(it) }?.getClaim("id")?.asString()
-                    ?.let { authService.getTokenSet(it) }
+                tokenSet
                     ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
                     ?.let { favouritesList ->
                         posts.map { it.isFavourite = favouritesList.postIds.contains(it.id) }
@@ -64,11 +91,13 @@ fun Application.configurePostRouting() {
 
                 val pagination = Pagination(
                     page,
-                    ceil(service.getPostCount(filter) / PostRepository.PAGE_SIZE.toDouble()).toInt()
+                    ceil(filteredCount / PostRepository.PAGE_SIZE.toDouble()).toInt(),
+                    filteredCount,
+                    totalCount,
                 )
 
                 val startResponse = LocalDateTime.now()
-                call.respond(
+                call.respondData(
                     PostsDTO(
                         posts,
                         pagination
@@ -80,7 +109,11 @@ fun Application.configurePostRouting() {
                 }
 
                 launch {
-                    analyticsService.trackQuery(params.toMap().toSortedMap())
+                    analyticsService.trackQuery(jamId, params.toMap().toSortedMap())
+                    analyticsService.trackHomepageView(
+                        jamId = jamId,
+                        viewerKey = tokenSet?.discordId ?: requestRemoteHost(call),
+                    )
                     posts.forEach { analyticsService.trackQueryView(it) }
                 }
             }
@@ -97,9 +130,7 @@ fun Application.configurePostRouting() {
                 }
 
                 // Set isFavourite on posts for this user if they're logged in
-                call.request.header("Authorization")?.substring(7)
-                    ?.let { JWT.decode(it) }?.getClaim("id")?.asString()
-                    ?.let { authService.getTokenSet(it) }
+                authService.getTokenSet(call)
                     ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
                     ?.let { favouritesList ->
                         post?.isFavourite = favouritesList.postIds.contains(post.id)
@@ -107,7 +138,7 @@ fun Application.configurePostRouting() {
 
                 post
                     ?.also { launch { analyticsService.trackFullPageView(it) } }
-                    ?.let { return@get call.respond(it) }
+                    ?.let { return@get call.respondData(it) }
 
                 call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
             }
@@ -117,34 +148,50 @@ fun Application.configurePostRouting() {
                 post {
                     val data = call.receive<PostItemCreateDto>()
                     val jamId = data.jamId
-                    if (jamId == null) {
-                        return@post call.respondJSON("Missing required query parameter: jamId", status = HttpStatusCode.BadRequest)
-                    }
 
-                    // Sanitize portfolioLinks
-                    if (data.portfolioLinks.any { !isSafePortfolioUrl(it) }) {
-                        return@post call.respondJSON("Portfolio links must only contain protocol, domain, and path. Remove query parameters, fragments, or suspicious characters.", status = HttpStatusCode.BadRequest)
+                    val validationErrors = PostDtoValidator.validateCreate(data)
+                    if (validationErrors.isNotEmpty()) {
+                        logger.info("Rejected post create payload for jam {} due to validation errors: {}", jamId, validationErrors.keys)
+                        return@post call.respondJSON(
+                            text = "Invalid create payload",
+                            status = HttpStatusCode.BadRequest,
+                            code = "validation_error",
+                            details = validationErrors,
+                        )
                     }
 
                     authService.getTokenSet(call)
                         ?.let {
+                            val remoteHost = requestRemoteHost(call)
+                            val limiterKey = mutationRateLimitKey(it.discordId, remoteHost)
+                            if (!mutationRateLimiter.isAllowed(limiterKey)) {
+                                logger.warn("Rate limit exceeded for post create by user {} from {}", it.discordId, remoteHost)
+                                return@post call.respondJSON(
+                                    text = "Rate limit exceeded",
+                                    status = HttpStatusCode.TooManyRequests,
+                                    code = "rate_limit_exceeded",
+                                )
+                            }
+
                             if (service.getPostByAuthorId(it.discordId, jamId) != null) {
+                                logger.info("Rejected duplicate post create for user {} in jam {}", it.discordId, jamId)
                                 return@post call.respondJSON(
                                     "Cannot have duplicate posts",
-                                    status = HttpStatusCode.BadRequest
+                                    status = HttpStatusCode.BadRequest,
+                                    code = "duplicate_post",
                                 )
                             }
                             it
                         }
+                        ?.let { service.createPostFromDto(data, it.discordId) }
                         ?.let {
-                            data.authorId = it.discordId  // TODO: What about author name?
-                            data.timezoneOffsets = data.timezoneOffsets.filter { tz -> tz >= -12 && tz <= 12 }.toSet()
+                            logger.info("Creating post {} for user {} in jam {}", it.id, it.authorId, it.jamId)
+                            service.createPost(it)
+                            launch { analyticsService.trackPostMutation(it.jamId, "created") }
                         }
-                        ?.let { PostItem.fromCreateDto(data) }
-                        ?.let { service.createPost(it) }
-                        ?.let { return@post call.respond(it) }
+                        ?.let { return@post call.respondData(it, HttpStatusCode.Created) }
 
-                    call.respondJSON("Post could not be created", status = HttpStatusCode.NotFound)
+                    call.respondJSON("Post could not be created", status = HttpStatusCode.NotFound, code = "create_failed")
                 }
 
                 get("favourites") {
@@ -154,12 +201,11 @@ fun Application.configurePostRouting() {
                     val favourites = authService.getTokenSet(call)
                         ?.let { favouritesService.getFavouritesByUserId(it.discordId) }
 
-                    // Exit early if the user don't have any favourites set
-                    if (favourites!!.postIds.isEmpty()) {
-                        return@get call.respond(
+                    if (favourites == null || favourites.postIds.isEmpty()) {
+                        return@get call.respondData(
                             PostsDTO(
                                 emptyList(),
-                                Pagination(1, 1)
+                                Pagination(1, 1, 0, 0)
                             )
                         )
                     }
@@ -179,13 +225,23 @@ fun Application.configurePostRouting() {
                     )
                     posts.map { post -> post.isFavourite = true }
 
+                    val filteredCount = service.getPostCount(
+                        and(
+                            or(favouritesFilters),
+                            and(getFilterFromParameters(params))
+                        )
+                    )
+                    val totalCount = service.getPostCount(and(or(favouritesFilters)))
+
 
                     val pagination = Pagination(
                         page,
-                        ceil(favourites.postIds.size / PostRepository.PAGE_SIZE.toDouble()).toInt()
+                        ceil(filteredCount / PostRepository.PAGE_SIZE.toDouble()).toInt(),
+                        filteredCount,
+                        totalCount,
                     )
 
-                    call.respond(PostsDTO(posts, pagination))
+                    call.respondData(PostsDTO(posts, pagination))
                 }
 
                 route("/mine") {
@@ -196,7 +252,7 @@ fun Application.configurePostRouting() {
                         }
                         authService.getTokenSet(call)
                             ?.let { service.getPostByAuthorId(it.discordId, jamId) }
-                            ?.let { return@get call.respond(it) }
+                            ?.let { return@get call.respondData(it) }
 
                         call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
                     }
@@ -208,31 +264,38 @@ fun Application.configurePostRouting() {
                         }
                         val data = call.receive<PostItemUpdateDto>()
 
-                        // Sanitize portfolioLinks
-                        val links = data.portfolioLinks
-                        if (links != null && links.any { !isSafePortfolioUrl(it) }) {
-                            return@put call.respondJSON("Portfolio links must only contain protocol, domain, and path. Remove query parameters, fragments, or suspicious characters.", status = HttpStatusCode.BadRequest)
+                        val validationErrors = PostDtoValidator.validateUpdate(data)
+                        if (validationErrors.isNotEmpty()) {
+                            logger.info("Rejected post update payload for jam {} due to validation errors: {}", jamId, validationErrors.keys)
+                            return@put call.respondJSON(
+                                text = "Invalid update payload",
+                                status = HttpStatusCode.BadRequest,
+                                code = "validation_error",
+                                details = validationErrors,
+                            )
                         }
 
                         authService.getTokenSet(call)
-                            ?.let { service.getPostByAuthorId(it.discordId, jamId) }
+                            ?.let {
+                                val remoteHost = requestRemoteHost(call)
+                                val limiterKey = mutationRateLimitKey(it.discordId, remoteHost)
+                                if (!mutationRateLimiter.isAllowed(limiterKey)) {
+                                    logger.warn("Rate limit exceeded for post update by user {} from {}", it.discordId, remoteHost)
+                                    return@put call.respondJSON(
+                                        text = "Rate limit exceeded",
+                                        status = HttpStatusCode.TooManyRequests,
+                                        code = "rate_limit_exceeded",
+                                    )
+                                }
+
+                                service.getPostByAuthorId(it.discordId, jamId)
+                            }
                             ?.let { post ->
-                                // Ugly-but-functional way to update all of the fields in the DTO
-                                data.author?.also { post.author = it }
-                                data.portfolioLinks?.also { post.portfolioLinks = it }
-                                data.description?.also { post.description = it }
-                                data.size?.also { post.size = min(it, 100) }
-                                data.skillsPossessed?.also { post.skillsPossessed = it }
-                                data.skillsSought?.also { post.skillsSought = it }
-                                data.preferredTools?.also { post.preferredTools = it }
-                                data.languages?.also { post.languages = it }
-                                data.availability?.also { post.availability = it }
-                                data.timezoneOffsets?.also { post.timezoneOffsets = it.filter { tz -> tz >= -12 && tz <= 12 }.toSet() }
-
-                                post.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-
-                                service.updatePost(post)
-                                return@put call.respond(post)
+                                val updated = service.applyUpdate(post, data)
+                                logger.info("Updating post {} for user {} in jam {}", updated.id, updated.authorId, jamId)
+                                service.updatePost(updated)
+                                launch { analyticsService.trackPostMutation(jamId, "updated") }
+                                return@put call.respondData(updated)
                             }
 
                         // TODO: Replace BadRequest with contextual response
@@ -245,10 +308,25 @@ fun Application.configurePostRouting() {
                             return@delete call.respondJSON("Missing required query parameter: jamId", status = HttpStatusCode.BadRequest)
                         }
                         authService.getTokenSet(call)
-                            ?.let { service.getPostByAuthorId(it.discordId, jamId) }
                             ?.let {
+                                val remoteHost = requestRemoteHost(call)
+                                val limiterKey = mutationRateLimitKey(it.discordId, remoteHost)
+                                if (!mutationRateLimiter.isAllowed(limiterKey)) {
+                                    logger.warn("Rate limit exceeded for post delete by user {} from {}", it.discordId, remoteHost)
+                                    return@delete call.respondJSON(
+                                        text = "Rate limit exceeded",
+                                        status = HttpStatusCode.TooManyRequests,
+                                        code = "rate_limit_exceeded",
+                                    )
+                                }
+
+                                service.getPostByAuthorId(it.discordId, jamId)
+                            }
+                            ?.let {
+                                logger.info("Soft deleting post {} for user {} in jam {}", it.id, it.authorId, jamId)
                                 service.deletePost(it)
-                                return@delete call.respondJSON("Post deleted", status = HttpStatusCode.OK)
+                                launch { analyticsService.trackPostMutation(jamId, "deleted") }
+                                return@delete call.respondData(mapOf("message" to "Post deleted"), HttpStatusCode.OK)
                             }
 
                         // TODO: Replace BadRequest with contextual response
@@ -261,10 +339,24 @@ fun Application.configurePostRouting() {
                     post {
                         val data = call.receive<PostItemReportDto>()
 
+                        val tokenSet = authService.getTokenSet(call)
+                            ?: return@post call.respondJSON("Unauthorized", HttpStatusCode.Unauthorized, "unauthorized")
+                        val remoteHost = requestRemoteHost(call)
+                        val limiterKey = mutationRateLimitKey(tokenSet.discordId, remoteHost)
+                        if (!mutationRateLimiter.isAllowed(limiterKey)) {
+                            logger.warn("Rate limit exceeded for report endpoint by user {} from {}", tokenSet.discordId, remoteHost)
+                            return@post call.respondJSON(
+                                text = "Rate limit exceeded",
+                                status = HttpStatusCode.TooManyRequests,
+                                code = "rate_limit_exceeded",
+                            )
+                        }
+
                         service.getPost(data.id)?.let {
                             it.reportCount++
+                            logger.info("Incrementing report count for post {} by reporter {}", it.id, tokenSet.discordId)
                             service.updatePost(it)
-                            return@post call.respond(it)
+                            return@post call.respondData(it)
                         }
 
                         call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
@@ -276,10 +368,24 @@ fun Application.configurePostRouting() {
                     post {
                         val data = call.receive<PostItemUnableToContactReportDto>()
 
+                        val tokenSet = authService.getTokenSet(call)
+                            ?: return@post call.respondJSON("Unauthorized", HttpStatusCode.Unauthorized, "unauthorized")
+                        val remoteHost = requestRemoteHost(call)
+                        val limiterKey = mutationRateLimitKey(tokenSet.discordId, remoteHost)
+                        if (!mutationRateLimiter.isAllowed(limiterKey)) {
+                            logger.warn("Rate limit exceeded for unable-to-contact report by user {} from {}", tokenSet.discordId, remoteHost)
+                            return@post call.respondJSON(
+                                text = "Rate limit exceeded",
+                                status = HttpStatusCode.TooManyRequests,
+                                code = "rate_limit_exceeded",
+                            )
+                        }
+
                         service.getPost(data.id)?.let {
                             it.unableToContactCount++
+                            logger.info("Incrementing unable-to-contact count for post {} by reporter {}", it.id, tokenSet.discordId)
                             service.updatePost(it)
-                            return@post call.respond(it)
+                            return@post call.respondData(it)
                         }
 
                         call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
@@ -337,8 +443,12 @@ fun getFilterFromParameters(params: Parameters): List<Bson> {
 
     // If no timezones sent, lack of filters will search all timezones
     if (params["timezoneStart"] != null && params["timezoneEnd"] != null) {
-        val timezoneStart: Int = params["timezoneStart"]!!.toInt()
-        val timezoneEnd: Int = params["timezoneEnd"]!!.toInt()
+        val timezoneStart = params["timezoneStart"]?.toIntOrNull()
+        val timezoneEnd = params["timezoneEnd"]?.toIntOrNull()
+
+        if (timezoneStart == null || timezoneEnd == null) {
+            return filters
+        }
 
         val timezones: MutableList<Int> = mutableListOf()
         if (timezoneStart == timezoneEnd) {
@@ -372,11 +482,26 @@ fun getSortFromParameters(params: Parameters): Bson {
     }
 }
 
-// TODO: Naive check, add better validation!
 fun isSafePortfolioUrl(url: String): Boolean {
-    // Only allow protocol+domain+path, disallow query params, fragments, whitespace, and suspicious characters
-    return  !url.contains("?") && !url.contains("#") &&
-            !url.contains("&") && !url.contains("%") &&
-            !url.contains(" ") && !url.contains("\t") &&
-            !url.contains("\n")
+    if (url.length > 512 || url.any { it.isWhitespace() }) {
+        return false
+    }
+
+    val parsed = try {
+        URI(url)
+    } catch (_: Exception) {
+        return false
+    }
+
+    val scheme = parsed.scheme?.lowercase()
+    if (scheme !in setOf("http", "https")) {
+        return false
+    }
+
+    if (parsed.host.isNullOrBlank() || parsed.userInfo != null) {
+        return false
+    }
+
+    // Intentionally strict for now: only protocol + host + optional path.
+    return parsed.query == null && parsed.fragment == null
 }

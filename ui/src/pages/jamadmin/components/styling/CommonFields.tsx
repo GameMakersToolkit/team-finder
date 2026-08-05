@@ -8,7 +8,8 @@ import { getPreviewCacheKey } from "../../../../common/components/JamPreviewStyl
 export type ThemeField = {
     name: string,
     description: string,
-    currentValue: string
+    currentValue: string,
+    ctx: string,
 }
 
 type CommonFieldsProps = {
