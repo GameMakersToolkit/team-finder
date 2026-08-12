@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.gmtkgamejam.Config
 import com.gmtkgamejam.extractJamIdFromOAuthState
+import com.gmtkgamejam.respondData
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.discord.getUserInfoAsync
 import com.gmtkgamejam.models.auth.AuthTokenSet
@@ -11,6 +12,7 @@ import com.gmtkgamejam.services.AuthService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
@@ -67,6 +69,16 @@ fun Application.configureAuthRouting() {
                     val redirectTarget = config.getString("ui.host")
                     call.respondRedirect("$redirectTarget/$jamId/login/authorized?token=$token")
                 }
+            }
+        }
+
+        authenticate("auth-jwt") {
+            post("/logout") {
+                val id = call.principal<JWTPrincipal>()?.payload?.getClaim("id")?.asString()
+                    ?: return@post call.respondJSON("Invalid token", HttpStatusCode.Unauthorized, "invalid_token")
+
+                service.deleteTokenSet(id)
+                call.respondData(mapOf("message" to "Logged out"))
             }
         }
     }

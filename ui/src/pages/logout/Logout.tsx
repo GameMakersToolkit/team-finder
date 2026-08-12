@@ -9,11 +9,22 @@ export function Logout(): null {
     const { logout } = useAuthActions();
 
     React.useEffect(() => {
-        if (auth) {
+        if (!auth) {
+            return;
+        }
+
+        const token = auth.token;
+        void fetch(`${import.meta.env.VITE_API_URL}/logout`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).finally(() => {
             logout(jamId);
             window.location.replace(`/${jamId}`); // Do a browser movement to refresh page and reload userInfo
-        }
-    }, [auth, logout]);
+        });
+    }, [auth, jamId, logout]);
 
     return null;
 }

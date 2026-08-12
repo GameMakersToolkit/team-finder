@@ -10,6 +10,7 @@ data class AuthTokenSet(
     val tokenType: String,
     var expiry: Date,
     var refreshToken: String?,
+    val createdAt: Date = Date(),
 ) {
     fun refresh(refreshedTokenSet: DiscordRefreshTokenResponse) {
         this.accessToken = refreshedTokenSet.access_token

@@ -85,8 +85,8 @@ fun Application.authModule() {
                 val id = it.payload.getClaim("id").asString()
                 val tokenSet = authService.getTokenSet(id)
 
-                // We deliberately aren't checking `expiry` here (which is for the accessToken only),
-                // just the that record exists; the collection's TTL will clear out expired auth sessions
+                // We deliberately aren't checking `expiry` here (which is for the Discord access token only),
+                // just that the auth record exists; storage TTL removes auth records after seven days.
                 return@validate if (tokenSet != null) JWTPrincipal(it.payload) else null
             }
         }
