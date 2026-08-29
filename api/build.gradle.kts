@@ -46,7 +46,7 @@ repositories {
 
 dependencies {
     constraints {
-        implementation("org.asynchttpclient:async-http-client:3.0.10") {
+        implementation("org.asynchttpclient:async-http-client:3.0.11") {
             because("avoid known credential and cookie leakage issues in older async-http-client versions")
         }
         implementation("io.netty:netty-codec-http:4.2.16.Final") {
