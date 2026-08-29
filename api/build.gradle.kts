@@ -55,7 +55,7 @@ dependencies {
         implementation("io.netty:netty-codec-http2:4.2.16.Final") {
             because("avoid known Netty HTTP/2 security issues in older transitive versions")
         }
-        implementation("com.fasterxml.jackson.core:jackson-core:2.21.1") {
+        implementation("com.fasterxml.jackson.core:jackson-core:2.22.1") {
             because("avoid known jackson-core async parser DoS issues in older transitive versions")
         }
     }
