@@ -49,10 +49,10 @@ dependencies {
         implementation("org.asynchttpclient:async-http-client:3.0.10") {
             because("avoid known credential and cookie leakage issues in older async-http-client versions")
         }
-        implementation("io.netty:netty-codec-http:4.2.16.Final") {
+        implementation("io.netty:netty-codec-http:4.2.17.Final") {
             because("avoid known Netty HTTP/1.x security issues in older transitive versions")
         }
-        implementation("io.netty:netty-codec-http2:4.2.16.Final") {
+        implementation("io.netty:netty-codec-http2:4.2.17.Final") {
             because("avoid known Netty HTTP/2 security issues in older transitive versions")
         }
         implementation("com.fasterxml.jackson.core:jackson-core:2.21.1") {
