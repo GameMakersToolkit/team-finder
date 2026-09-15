@@ -1,0 +1,27 @@
+@layer components {
+    .c-maintenance-page {
+        @apply min-h-[calc(100vh-96px)] flex items-center justify-center py-6 md:py-8;
+    }
+
+    .c-maintenance-card {
+        @apply w-full max-w-2xl mx-auto rounded-xl border-2 p-6 md:p-8 text-center;
+        border-color: var(--theme-tile-border);
+        background-color: rgba(17, 17, 27, 0.72);
+        backdrop-filter: blur(3px);
+    }
+
+    .c-maintenance-eyebrow {
+        @apply text-xs sm:text-sm uppercase tracking-[0.18em] mb-2;
+        color: var(--theme-accent-light);
+    }
+
+    .c-maintenance-title {
+        @apply text-4xl sm:text-5xl leading-[1.05] mb-4 py-2;
+        color: var(--theme-text);
+    }
+
+    .c-maintenance-copy {
+        @apply max-w-2xl mx-auto;
+        color: var(--theme-text);
+    }
+}
