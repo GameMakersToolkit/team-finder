@@ -1,16 +1,13 @@
 package com.gmtkgamejam.repositories
 
-import com.gmtkgamejam.models.auth.AuthTokenSet
 import com.gmtkgamejam.models.posts.FavouritesList
-import com.mongodb.client.MongoClient
-import com.mongodb.client.MongoCollection
-import com.mongodb.client.model.UpdateOptions
+import com.gmtkgamejam.db.DatabaseManager
+import com.gmtkgamejam.db.Favourites
+import com.gmtkgamejam.db.JsonSerializationHelper
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.annotation.Single
 import org.koin.core.component.KoinComponent
-import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
-import org.litote.kmongo.getCollectionOfName
-import org.litote.kmongo.updateOne
 
 
 interface FavouritesRepository {
@@ -19,16 +16,40 @@ interface FavouritesRepository {
 }
 
 @Single(createdAtStart = true)
-open class FavouritesRepositoryImpl(val client: MongoClient) : FavouritesRepository, KoinComponent {
-    protected val col: MongoCollection<FavouritesList> = client
-        .getDatabase("team-finder")
-        .getCollectionOfName("favourites")
+open class FavouritesRepositoryImpl(private val dbManager: DatabaseManager) : FavouritesRepository, KoinComponent {
 
     override fun getFavouritesByUserId(discordId: String): FavouritesList? {
-        return col.findOne(FavouritesList::discordId eq discordId)
+        return transaction(dbManager.database) {
+            Favourites.selectAll()
+                .where { Favourites.discordId eq discordId }
+                .singleOrNull()
+                ?.let { rowToFavouritesList(it) }
+        }
     }
 
     override fun saveFavourites(favouritesToSave: FavouritesList) {
-        col.updateOne(AuthTokenSet::discordId eq favouritesToSave.discordId, favouritesToSave, UpdateOptions().upsert(true))
+        transaction(dbManager.database) {
+            val existing = Favourites.selectAll()
+                .where { Favourites.discordId eq favouritesToSave.discordId }
+                .singleOrNull()
+
+            if (existing != null) {
+                Favourites.update({ Favourites.discordId eq favouritesToSave.discordId }) {
+                    it[Favourites.postIds] = JsonSerializationHelper.encodeToJson(favouritesToSave.postIds)
+                }
+            } else {
+                Favourites.insert {
+                    it[Favourites.discordId] = favouritesToSave.discordId
+                    it[Favourites.postIds] = JsonSerializationHelper.encodeToJson(favouritesToSave.postIds)
+                }
+            }
+        }
+    }
+
+    private fun rowToFavouritesList(row: ResultRow): FavouritesList {
+        return FavouritesList(
+            discordId = row[Favourites.discordId],
+            postIds = (JsonSerializationHelper.decodeFromJson<List<String>>(row[Favourites.postIds]) ?: emptyList()).toMutableList()
+        )
     }
 }

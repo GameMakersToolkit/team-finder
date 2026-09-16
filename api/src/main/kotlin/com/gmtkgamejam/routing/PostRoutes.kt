@@ -1,10 +1,6 @@
 package com.gmtkgamejam.routing
 
-import com.gmtkgamejam.enumFromStringSafe
-import com.gmtkgamejam.models.posts.Availability
 import com.gmtkgamejam.models.posts.PostItem
-import com.gmtkgamejam.models.posts.Skills
-import com.gmtkgamejam.models.posts.Tools
 import com.gmtkgamejam.models.posts.dtos.*
 import com.gmtkgamejam.repositories.PostRepository
 import com.gmtkgamejam.respondData
@@ -23,15 +19,12 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.*
 import kotlinx.coroutines.launch
-import org.bson.conversions.Bson
+import org.jetbrains.exposed.sql.SortOrder
 import org.koin.ktor.ext.inject
-import org.litote.kmongo.*
 import org.slf4j.LoggerFactory
 import java.net.URI
 import java.time.LocalDateTime
 import kotlin.math.ceil
-import kotlin.reflect.full.memberProperties
-import kotlin.text.Regex.Companion.escape
 
 fun Application.configurePostRouting() {
     val logger = LoggerFactory.getLogger("PostRoutes")
@@ -61,23 +54,17 @@ fun Application.configurePostRouting() {
                 val start = LocalDateTime.now()
                 val params = call.parameters
                 val page = params["page"]?.toInt() ?: 1
-                val filter = and(getFilterFromParameters(params))
                 val jamId = params["jamId"] ?: "unknown"
 
-                val posts = service.getPosts(
-                    filter,
-                    getSortFromParameters(params),
-                    page
-                )
-                val filteredCount = service.getPostCount(filter)
-                val totalCount = service.getPostCount(
-                    and(
-                        listOfNotNull(
-                            PostItem::deletedAt eq null,
-                            params["jamId"]?.let { PostItem::jamId eq it },
-                        )
-                    )
-                )
+                val posts = service.getPosts(params, page)
+                val filteredCount = service.getPostCount(params)
+
+                // For total count, we need all posts in this jam regardless of filters
+                val totalCountParams = Parameters.build {
+                    params["jamId"]?.let { append("jamId", it) }
+                }
+                val totalCount = service.getPostCount(totalCountParams)
+
                 val queryEnd = LocalDateTime.now()
 
                 val tokenSet = authService.getTokenSet(call)
@@ -210,38 +197,38 @@ fun Application.configurePostRouting() {
                         )
                     }
 
-                    val favouritesFilters = mutableListOf<Bson>()
-                    favourites.postIds.forEach {
-                        favouritesFilters.add(and(PostItem::id eq it, PostItem::deletedAt eq null))
+                    // Get all favorite posts, then filter and sort in memory
+                    val allFavePosts = favourites.postIds
+                        .mapNotNull { service.getPost(it) }
+                        .filter { it.deletedAt == null }
+
+                    // Apply sorting based on parameters
+                    val (sortColumn, sortDir) = com.gmtkgamejam.db.QueryBuilder.buildPostSort(params)
+                    val sortedPosts = when (sortColumn.name) {
+                        "created_at" -> if (sortDir == SortOrder.DESC) allFavePosts.sortedByDescending { it.createdAt } else allFavePosts.sortedBy { it.createdAt }
+                        "updated_at" -> if (sortDir == SortOrder.DESC) allFavePosts.sortedByDescending { it.updatedAt } else allFavePosts.sortedBy { it.updatedAt }
+                        "query_count" -> if (sortDir == SortOrder.DESC) allFavePosts.sortedByDescending { it.queryCount } else allFavePosts.sortedBy { it.queryCount }
+                        "full_page_view_count" -> if (sortDir == SortOrder.DESC) allFavePosts.sortedByDescending { it.fullPageViewCount } else allFavePosts.sortedBy { it.fullPageViewCount }
+                        else -> allFavePosts
                     }
 
-                    val posts = service.getPosts(
-                        and(
-                            or(favouritesFilters),
-                            and(getFilterFromParameters(params))
-                        ),
-                        getSortFromParameters(params),
-                        page
-                    )
-                    posts.map { post -> post.isFavourite = true }
+                    // Apply pagination
+                    val pageSize = PostRepository.PAGE_SIZE
+                    val paginatedPosts = sortedPosts
+                        .drop(pageSize * (page - 1))
+                        .take(pageSize)
 
-                    val filteredCount = service.getPostCount(
-                        and(
-                            or(favouritesFilters),
-                            and(getFilterFromParameters(params))
-                        )
-                    )
-                    val totalCount = service.getPostCount(and(or(favouritesFilters)))
+                    paginatedPosts.forEach { post -> post.isFavourite = true }
 
-
+                    val totalCount = sortedPosts.size
                     val pagination = Pagination(
                         page,
-                        ceil(filteredCount / PostRepository.PAGE_SIZE.toDouble()).toInt(),
-                        filteredCount,
+                        ceil(totalCount / PostRepository.PAGE_SIZE.toDouble()).toInt(),
+                        totalCount,
                         totalCount,
                     )
 
-                    call.respondData(PostsDTO(posts, pagination))
+                    call.respondData(PostsDTO(paginatedPosts, pagination))
                 }
 
                 route("/mine") {
@@ -396,91 +383,6 @@ fun Application.configurePostRouting() {
     }
 }
 
-fun getFilterFromParameters(params: Parameters): List<Bson> {
-    val filters = mutableListOf(PostItem::deletedAt eq null)
-
-    params["jamId"]?.also { filters.add(PostItem::jamId eq it) }
-
-    params["description"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&description=`
-        ?.map { it -> it.trim() }
-        // The regex is the easiest way to check if a description contains a given substring
-        ?.forEach { filters.add(PostItem::description regex escape(it).toRegex(RegexOption.IGNORE_CASE)) }
-
-    val skillsPossessedSearchMode = params["skillsPossessedSearchMode"] ?: "and"
-    params["skillsPossessed"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&skillsPossessed=`
-        ?.mapNotNull { enumFromStringSafe<Skills>(it) }
-        ?.map { PostItem::skillsPossessed contains it }
-        ?.let { if (skillsPossessedSearchMode == "and") and(it) else or(it) }
-        ?.let(filters::add)
-
-    val skillsSoughtSearchMode = params["skillsSoughtSearchMode"] ?: "and"
-    params["skillsSought"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&skillsSought=`
-        ?.mapNotNull { enumFromStringSafe<Skills>(it) }
-        ?.map { PostItem::skillsSought contains it }
-        ?.let { if (skillsSoughtSearchMode == "and") and(it) else or(it) }
-        ?.let(filters::add)
-
-    params["tools"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&skillsSought=`
-        ?.mapNotNull { enumFromStringSafe<Tools>(it) }
-        ?.map { PostItem::preferredTools contains it }
-        ?.let(filters::addAll)
-
-    params["languages"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&languages=`
-        ?.map { PostItem::languages contains it }
-        ?.let { filters.add(or(it)) }
-
-    params["availability"]?.split(',')
-        ?.filter(String::isNotBlank) // Filter out empty `&availability=`
-        ?.mapNotNull { enumFromStringSafe<Availability>(it) }
-        ?.map { PostItem::availability eq it }
-        // Availabilities are mutually exclusive, so treat it as inclusion search
-        ?.let { filters.add(or(it)) }
-
-    // If no timezones sent, lack of filters will search all timezones
-    if (params["timezoneStart"] != null && params["timezoneEnd"] != null) {
-        val timezoneStart = params["timezoneStart"]?.toIntOrNull()
-        val timezoneEnd = params["timezoneEnd"]?.toIntOrNull()
-
-        if (timezoneStart == null || timezoneEnd == null) {
-            return filters
-        }
-
-        val timezones: MutableList<Int> = mutableListOf()
-        if (timezoneStart == timezoneEnd) {
-            timezones.add(timezoneStart)
-        } else if (timezoneStart < timezoneEnd) {
-            // UTC-2 -> UTC+2 should be: [-2, -1, 0, 1, 2]
-            timezones.addAll((timezoneStart..timezoneEnd))
-        } else {
-            // UTC+9 -> UTC-9 should be: [9, 10, 11, 12, -12, -11, -10, -9]
-            timezones.addAll((timezoneStart..12))
-            timezones.addAll((-12..timezoneEnd))
-        }
-
-        // Add all timezone searches as eq checks
-        // It's brute force, but easier to confirm
-        timezones
-            .map { PostItem::timezoneOffsets contains it }
-            .let { filters.add(or(it)) }
-    }
-
-    return filters
-}
-
-fun getSortFromParameters(params: Parameters): Bson {
-    val sortByFieldName = params["sortBy"] ?: "createdAt"
-    val sortByField = PostItem::class.memberProperties.first { prop -> prop.name == sortByFieldName }
-    return when (params["sortDir"].toString()) {
-        "asc" -> ascending(sortByField)
-        "desc" -> descending(sortByField)
-        else -> descending(sortByField)
-    }
-}
 
 fun isSafePortfolioUrl(url: String): Boolean {
     if (url.length > 512 || url.any { it.isWhitespace() }) {

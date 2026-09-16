@@ -3,24 +3,17 @@ package com.gmtkgamejam.services
 import com.auth0.jwt.JWT
 import com.gmtkgamejam.models.auth.AuthTokenSet
 import com.gmtkgamejam.models.auth.StoredAuthTokenSet
-import com.mongodb.client.MongoClient
-import com.mongodb.client.MongoCollection
-import com.mongodb.client.model.IndexOptions
-import com.mongodb.client.model.Indexes
-import com.mongodb.client.model.UpdateOptions
+import com.gmtkgamejam.db.DatabaseManager
+import com.gmtkgamejam.db.StoredAuthTokens
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.annotation.Single
 import org.koin.core.component.KoinComponent
-import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
-import org.litote.kmongo.getCollectionOfName
-import org.litote.kmongo.updateOne
-import org.bson.Document
 import java.util.Date
-import java.util.concurrent.TimeUnit
 
 interface AuthService {
     fun storeTokenSet(tokenSet: AuthTokenSet)
@@ -32,42 +25,56 @@ interface AuthService {
 
 @Single(createdAtStart = true)
 class AuthServiceImpl(
-    client: MongoClient,
+    private val dbManager: DatabaseManager,
     private val authTokenEncryptionService: AuthTokenEncryptionService,
 ) : AuthService, KoinComponent {
-    private val col: MongoCollection<StoredAuthTokenSet>
-    private val rawCollection: MongoCollection<Document>
-
-    init {
-        val database = client.getDatabase("team-finder")
-        col = database.getCollectionOfName("auth")
-        rawCollection = database.getCollection("auth")
-
-        // Ensure lookups and expiry are consistent even if seed scripts were skipped.
-        runCatching { col.dropIndex("expiry_1") }
-        col.createIndex(Indexes.ascending(StoredAuthTokenSet::idHash.name), IndexOptions().unique(true))
-        col.createIndex(Indexes.ascending(StoredAuthTokenSet::discordIdHash.name), IndexOptions().unique(true))
-        col.createIndex(
-            Indexes.ascending(StoredAuthTokenSet::createdAt.name),
-            IndexOptions().expireAfter(7L, TimeUnit.DAYS)
-        )
-
-        migrateLegacyAuthDocuments()
-    }
 
     override fun storeTokenSet(tokenSet: AuthTokenSet) {
         val encrypted = authTokenEncryptionService.encrypt(tokenSet)
-        col.updateOne(
-            StoredAuthTokenSet::discordIdHash eq encrypted.discordIdHash,
-            encrypted,
-            UpdateOptions().upsert(true)
-        )
+        transaction(dbManager.database) {
+            val existing = StoredAuthTokens.selectAll()
+                .where { StoredAuthTokens.discordIdHash eq encrypted.discordIdHash }
+                .singleOrNull()
+
+            if (existing != null) {
+                StoredAuthTokens.update({ StoredAuthTokens.discordIdHash eq encrypted.discordIdHash }) {
+                    it[StoredAuthTokens.id] = encrypted.id
+                    it[StoredAuthTokens.idHash] = encrypted.idHash
+                    it[StoredAuthTokens.jamId] = encrypted.jamId
+                    it[StoredAuthTokens.discordId] = encrypted.discordId
+                    it[StoredAuthTokens.discordIdHash] = encrypted.discordIdHash
+                    it[StoredAuthTokens.accessToken] = encrypted.accessToken
+                    it[StoredAuthTokens.tokenType] = encrypted.tokenType
+                    it[StoredAuthTokens.expiry] = encrypted.expiry.time
+                    it[StoredAuthTokens.refreshToken] = encrypted.refreshToken
+                    it[StoredAuthTokens.createdAt] = encrypted.createdAt.time
+                }
+            } else {
+                StoredAuthTokens.insert {
+                    it[StoredAuthTokens.id] = encrypted.id
+                    it[StoredAuthTokens.idHash] = encrypted.idHash
+                    it[StoredAuthTokens.jamId] = encrypted.jamId
+                    it[StoredAuthTokens.discordId] = encrypted.discordId
+                    it[StoredAuthTokens.discordIdHash] = encrypted.discordIdHash
+                    it[StoredAuthTokens.accessToken] = encrypted.accessToken
+                    it[StoredAuthTokens.tokenType] = encrypted.tokenType
+                    it[StoredAuthTokens.expiry] = encrypted.expiry.time
+                    it[StoredAuthTokens.refreshToken] = encrypted.refreshToken
+                    it[StoredAuthTokens.createdAt] = encrypted.createdAt.time
+                }
+            }
+        }
     }
 
     override fun getTokenSet(id: String): AuthTokenSet? {
         val idHash = authTokenEncryptionService.hashIdentifier(id)
-        return col.findOne(StoredAuthTokenSet::idHash eq idHash)
-            ?.let { runCatching { authTokenEncryptionService.decrypt(it) }.getOrNull() }
+        return transaction(dbManager.database) {
+            StoredAuthTokens.selectAll()
+                .where { StoredAuthTokens.idHash eq idHash }
+                .singleOrNull()
+                ?.let { rowToStoredAuthTokenSet(it) }
+                ?.let { runCatching { authTokenEncryptionService.decrypt(it) }.getOrNull() }
+        }
     }
 
     override fun getTokenSet(call: ApplicationCall): AuthTokenSet? {
@@ -89,41 +96,35 @@ class AuthServiceImpl(
 
     override fun updateTokenSet(tokenSet: AuthTokenSet) {
         val encrypted = authTokenEncryptionService.encrypt(tokenSet)
-        col.updateOne(StoredAuthTokenSet::idHash eq encrypted.idHash, encrypted)
+        transaction(dbManager.database) {
+            StoredAuthTokens.update({ StoredAuthTokens.idHash eq encrypted.idHash }) {
+                it[StoredAuthTokens.accessToken] = encrypted.accessToken
+                it[StoredAuthTokens.tokenType] = encrypted.tokenType
+                it[StoredAuthTokens.expiry] = encrypted.expiry.time
+                it[StoredAuthTokens.refreshToken] = encrypted.refreshToken
+            }
+        }
     }
 
     override fun deleteTokenSet(id: String) {
         val idHash = authTokenEncryptionService.hashIdentifier(id)
-        col.deleteOne(StoredAuthTokenSet::idHash eq idHash)
-    }
-
-    private fun migrateLegacyAuthDocuments() {
-        val legacyFilter = Document("accessToken", Document("\$exists", true))
-        rawCollection.find(legacyFilter).forEach { doc ->
-            val legacyTokenSet = legacyDocumentToTokenSet(doc) ?: return@forEach
-            storeTokenSet(legacyTokenSet)
-            doc["_id"]?.let { rawCollection.deleteOne(Document("_id", it)) }
+        transaction(dbManager.database) {
+            StoredAuthTokens.deleteWhere { StoredAuthTokens.idHash eq idHash }
         }
     }
 
-    private fun legacyDocumentToTokenSet(doc: Document): AuthTokenSet? {
-        val id = doc.getString("id") ?: return null
-        val jamId = doc.getString("jamId") ?: return null
-        val discordId = doc.getString("discordId") ?: return null
-        val accessToken = doc.getString("accessToken") ?: return null
-        val tokenType = doc.getString("tokenType") ?: return null
-        val expiry = doc.getDate("expiry") ?: return null
-        val refreshToken = doc.getString("refreshToken")
-
-        return AuthTokenSet(
-            id = id,
-            jamId = jamId,
-            discordId = discordId,
-            accessToken = accessToken,
-            tokenType = tokenType,
-            expiry = expiry,
-            refreshToken = refreshToken,
-            createdAt = doc.getDate("createdAt") ?: Date(),
+    private fun rowToStoredAuthTokenSet(row: ResultRow): StoredAuthTokenSet {
+        return StoredAuthTokenSet(
+            id = row[StoredAuthTokens.id],
+            idHash = row[StoredAuthTokens.idHash],
+            jamId = row[StoredAuthTokens.jamId],
+            discordId = row[StoredAuthTokens.discordId],
+            discordIdHash = row[StoredAuthTokens.discordIdHash],
+            accessToken = row[StoredAuthTokens.accessToken],
+            tokenType = row[StoredAuthTokens.tokenType],
+            expiry = Date(row[StoredAuthTokens.expiry]),
+            refreshToken = row[StoredAuthTokens.refreshToken],
+            createdAt = Date(row[StoredAuthTokens.createdAt])
         )
     }
 

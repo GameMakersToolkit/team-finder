@@ -4,7 +4,9 @@ import com.gmtkgamejam.models.posts.PostItem
 import com.gmtkgamejam.models.posts.dtos.PostItemCreateDto
 import com.gmtkgamejam.models.posts.dtos.PostItemUpdateDto
 import com.gmtkgamejam.repositories.PostRepository
-import org.bson.conversions.Bson
+import com.gmtkgamejam.db.QueryBuilder
+import io.ktor.http.*
+import org.jetbrains.exposed.sql.*
 import org.koin.core.annotation.Single
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -12,10 +14,10 @@ import kotlin.math.min
 
 interface PostService {
     fun createPost(postItem: PostItem)
-    fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem>
+    fun getPosts(params: Parameters, page: Int): List<PostItem>
     fun getPost(id: String) : PostItem?
     fun getPostByAuthorId(authorId: String, jamId: String, ignoreDeletion: Boolean = false) : PostItem?
-    fun getPostCount(filter: Bson): Int
+    fun getPostCount(params: Parameters): Int
     fun updatePost(postItem: PostItem)
     fun deletePost(postItem: PostItem)
     fun addQueryView(postItem: PostItem)
@@ -31,9 +33,10 @@ class PostServiceImpl(private val repository: PostRepository) : PostService {
         repository.createPost(postItem)
     }
 
-    // Un-paginated version should be used for Admin endpoints
-    override fun getPosts(filter: Bson, sort: Bson, page: Int): List<PostItem> {
-        return repository.getPosts(filter, sort, page)
+    override fun getPosts(params: Parameters, page: Int): List<PostItem> {
+        val whereClause = QueryBuilder.buildPostFilter(params)
+        val (sortColumn, sortDir) = QueryBuilder.buildPostSort(params)
+        return repository.getPosts(whereClause, sortColumn, sortDir, page)
     }
 
     override fun getPost(id: String) : PostItem? {
@@ -44,8 +47,9 @@ class PostServiceImpl(private val repository: PostRepository) : PostService {
         return repository.getPostByAuthorId(authorId, jamId, ignoreDeletion)
     }
 
-    override fun getPostCount(filter: Bson): Int {
-        return repository.getPostCount(filter)
+    override fun getPostCount(params: Parameters): Int {
+        val whereClause = QueryBuilder.buildPostFilter(params)
+        return repository.getPostCount(whereClause)
     }
 
     override fun updatePost(postItem: PostItem) {

@@ -75,8 +75,11 @@ dependencies {
     // Koin Annotations KSP Compiler
     ksp("io.insert-koin:koin-ksp-compiler:$koinAnnotationsVersion")
 
-    // DB
-    implementation("org.litote.kmongo:kmongo:5.5.1")
+    // DB - Exposed ORM for PostgreSQL
+    implementation("org.jetbrains.exposed:exposed-core:0.41.1")
+    implementation("org.jetbrains.exposed:exposed-dao:0.41.1")
+    implementation("org.postgresql:postgresql:42.7.2")
+    implementation("com.zaxxer:HikariCP:5.1.0")
 
     // Discord bot
     implementation("org.javacord:javacord:3.8.0")
@@ -103,7 +106,6 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
 
     testImplementation("io.insert-koin:koin-test:4.1.1")
-    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.24.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("io.ktor:ktor-server-tests-jvm:2.3.13")

@@ -1,21 +1,22 @@
 package com.gmtkgamejam.routing
 
-import com.mongodb.client.MongoClient
+import com.gmtkgamejam.db.DatabaseManager
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
-import org.bson.Document
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.ktor.ext.inject
 
 fun Application.configureHealthcheckRouting() {
-    val client: MongoClient by inject()
+    val dbManager: DatabaseManager by inject()
 
     routing {
         get("/health") {
-            val health = evaluateMongoHealth(client)
+            val health = evaluatePostgresHealth(dbManager)
             val statusCode = if (health.isUp) HttpStatusCode.OK else HttpStatusCode.ServiceUnavailable
             call.respond(
                 statusCode,
@@ -29,7 +30,7 @@ fun Application.configureHealthcheckRouting() {
 
         // DigitalOcean can target this route for startup and liveness probes.
         get("/health/ready") {
-            val health = evaluateMongoHealth(client)
+            val health = evaluatePostgresHealth(dbManager)
             if (health.isUp) {
                 call.respond(HttpStatusCode.OK, mapOf("status" to "ready"))
             } else {
@@ -45,13 +46,16 @@ fun Application.configureHealthcheckRouting() {
 
 private data class HealthStatus(val isUp: Boolean, val reason: String? = null)
 
-private suspend fun evaluateMongoHealth(client: MongoClient): HealthStatus {
+private suspend fun evaluatePostgresHealth(dbManager: DatabaseManager): HealthStatus {
     return try {
         var isDbAvailable = false
         withTimeout(300L) {
-            val db = client.getDatabase("team-finder")
-            val pingResult = db.runCommand(Document("ping", 1)).append("maxTimeMS", 200)
-            isDbAvailable = pingResult["ok"].toString() == "1" || pingResult["ok"].toString() == "1.0"
+            // Try a simple query to check database connectivity
+            transaction(dbManager.database) {
+                // Create a simple test table access - just select from it
+                val result = org.jetbrains.exposed.sql.select { org.jetbrains.exposed.sql.castTo<Int>(org.jetbrains.exposed.sql.literalString("1"), org.jetbrains.exposed.sql.IntegerColumnType()) }.limit(1).toList()
+                isDbAvailable = true
+            }
         }
         if (isDbAvailable) HealthStatus(isUp = true) else HealthStatus(isUp = false, reason = "unavailable")
     } catch (_: TimeoutCancellationException) {
