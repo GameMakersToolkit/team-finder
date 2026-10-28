@@ -14,7 +14,8 @@ data class Jam(
     var guildId: String,
     var channelId: String,
     var guildInviteLink: String?,
-    var discordEnabled: Boolean = true
+    var discordEnabled: Boolean = true,
+    var deletedAt: String? = null
 ) {
     lateinit var adminInfo: Map<String, AdminInfo>
     lateinit var bgImageUrl: String

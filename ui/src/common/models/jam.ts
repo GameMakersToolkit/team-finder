@@ -5,6 +5,7 @@ export type Jam = {
   start: string | number,
   end: string | number,
   duration: string,
+  deletedAt?: string | null,
   styles: {
     [key: string]: string
   },

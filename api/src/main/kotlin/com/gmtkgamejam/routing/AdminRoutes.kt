@@ -9,6 +9,7 @@ import com.gmtkgamejam.models.posts.PostItem
 import com.gmtkgamejam.respondData
 import com.gmtkgamejam.respondJSON
 import com.gmtkgamejam.services.AdminService
+import com.gmtkgamejam.services.JamService
 import com.gmtkgamejam.services.PostService
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -27,6 +28,7 @@ fun Application.configureAdminRouting() {
     val bot: DiscordBot by inject()
     val service: PostService by inject()
     val adminService: AdminService by inject()
+    val jamService: JamService by inject()
 
     routing {
         authenticate("auth-jwt-admin") {
@@ -70,6 +72,18 @@ fun Application.configureAdminRouting() {
                         }
 
                         call.respondJSON("Post not found", status = HttpStatusCode.NotFound)
+                    }
+                }
+                route("/jam") {
+                    delete {
+                        val jamId = call.parameters["jamId"]
+                            ?: return@delete call.respondJSON("Missing jamId", HttpStatusCode.BadRequest, "missing_jam_id")
+
+                        jamService.softDeleteJam(jamId)?.let {
+                            return@delete call.respondData(it)
+                        }
+
+                        call.respondJSON("Jam not found", status = HttpStatusCode.NotFound)
                     }
                 }
                 route("/user") {
